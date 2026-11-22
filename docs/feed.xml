@@ -5,7 +5,7 @@
     <link>https://jakephobia.github.io/notiziario/</link>
     <description>Le notizie del giorno scelte da Jacopo, lette in italiano. Un riassunto quotidiano delle notizie italiane e internazionali.</description>
     <language>it-it</language>
-    <lastBuildDate>Sun, 22 Nov 2026 16:15:55 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 22 Nov 2026 16:34:50 +0000</lastBuildDate>
     <itunes:author>Notiziario</itunes:author>
     <itunes:explicit>false</itunes:explicit>
     <itunes:summary>Le notizie del giorno scelte da Jacopo, lette in italiano. Un riassunto quotidiano delle notizie italiane e internazionali.</itunes:summary>
@@ -15,20 +15,20 @@
       <link>https://jakephobia.github.io/notiziario/</link>
     </image>
     <itunes:image href="https://jakephobia.github.io/notiziario/copertina.png" />
-    <notiziario:categorie>Italia, Mondo, Economia, Tecnologia, Scienza e salute, Cultura, Sport, Ambiente, Buone notizie</notiziario:categorie>
+    <notiziario:categorie>Italia, Mondo, Economia, Tecnologia, Scienza e salute, Cultura, Ambiente, Buone notizie</notiziario:categorie>
     <notiziario:modalita>llm</notiziario:modalita>
     <notiziario:voce>it-IT-IsabellaNeural</notiziario:voce>
     <notiziario:voce_label>it-IT-IsabellaNeural (edge-tts)</notiziario:voce_label>
     <notiziario:velocita>1.1</notiziario:velocita>
     <notiziario:tts_motore>edge</notiziario:tts_motore>
     <item>
-      <title>Notiziario del 22 novembre 2026</title>
-      <description>22 novembre 2026 - Nave russa colpita in Libia, Schettino ai servizi sociali. Fallita la Cop31, IA scopre falla in Java.</description>
-      <pubDate>Sun, 22 Nov 2026 16:15:55 +0000</pubDate>
+      <title>Notiziario del 22 Novembre 2026</title>
+      <description>22 novembre 2026 - Le principali notizie del 22 novembre 2026: attacco a nave russa in Libia, Schettino ai servizi sociali, e molto altro.</description>
+      <pubDate>Sun, 22 Nov 2026 16:34:50 +0000</pubDate>
       <guid isPermaLink="false">notiziario-2026-11-22</guid>
-      <enclosure url="https://github.com/jakephobia/notiziario/releases/download/episodio-2026-11-22/notiziario-2026-11-22.mp3" length="5589827" type="audio/mpeg" />
-      <itunes:duration>00:07:46</itunes:duration>
-      <itunes:summary>22 novembre 2026 - Nave russa colpita in Libia, Schettino ai servizi sociali. Fallita la Cop31, IA scopre falla in Java.</itunes:summary>
+      <enclosure url="https://github.com/jakephobia/notiziario/releases/download/episodio-2026-11-22/notiziario-2026-11-22.mp3" length="6321467" type="audio/mpeg" />
+      <itunes:duration>00:08:47</itunes:duration>
+      <itunes:summary>22 novembre 2026 - Le principali notizie del 22 novembre 2026: attacco a nave russa in Libia, Schettino ai servizi sociali, e molto altro.</itunes:summary>
       <itunes:explicit>false</itunes:explicit>
       <itunes:image href="https://jakephobia.github.io/notiziario/copertina.png" />
       <notiziario:modalita>llm</notiziario:modalita>

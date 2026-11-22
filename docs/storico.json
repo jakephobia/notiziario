@@ -2,12 +2,12 @@
   "episodi": [
     {
       "data": "2026-11-22",
-      "titolo": "Notiziario del 22 novembre 2026",
-      "descrizione": "Le notizie principali di oggi: una nave russa è stata colpita in Libia in un attacco a lungo raggio ucraino, mentre la guerra in Ucraina continua con nuovi raid. Francesco Schettino ha lasciato il carcere per i servizi sociali.",
+      "titolo": "Notiziario del 22 Novembre 2026",
+      "descrizione": "Un riepilogo completo delle notizie del 22 novembre 2026. In primo piano l'attacco a una nave russa in Libia e la scarcerazione di Francesco Schettino. Seguono aggiornamenti da Italia, Mondo, Economia, Tecnologia, Scienza e Salute, Cultura. Chiudiamo con le buone notizie.",
       "filename": "notiziario-2026-11-22.mp3",
-      "descrizione_breve": "22 novembre 2026 - Nave russa colpita in Libia, Schettino ai servizi sociali. Fallita la Cop31, IA scopre falla in Java.",
-      "durata_secondi": 465.76102,
-      "dimensione": 5589827,
+      "descrizione_breve": "22 novembre 2026 - Le principali notizie del 22 novembre 2026: attacco a nave russa in Libia, Schettino ai servizi sociali, e molto altro.",
+      "durata_secondi": 526.722132,
+      "dimensione": 6321467,
       "modalita": "llm",
       "categorie": [
         "italia",
@@ -16,7 +16,6 @@
         "tecnologia",
         "scienza-salute",
         "cultura",
-        "sport",
         "ambiente",
         "buone-notizie"
       ],
@@ -24,7 +23,7 @@
       "voce_label": "it-IT-IsabellaNeural (edge-tts)",
       "velocita": 1.1,
       "tts_motore": "edge",
-      "pubblicato": "2026-11-22T16:15:55.745014+00:00",
+      "pubblicato": "2026-11-22T16:34:50.617996+00:00",
       "guid": "notiziario-2026-11-22"
     }
   ]

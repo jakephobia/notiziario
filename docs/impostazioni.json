@@ -6,7 +6,6 @@
     "tecnologia",
     "scienza-salute",
     "cultura",
-    "sport",
     "ambiente",
     "buone-notizie"
   ],
@@ -17,7 +16,6 @@
     "Tecnologia",
     "Scienza e salute",
     "Cultura",
-    "Sport",
     "Ambiente",
     "Buone notizie"
   ],
@@ -27,6 +25,7 @@
   "voce_label": "it-IT-IsabellaNeural (edge-tts)",
   "velocita": 1.1,
   "motore": "edge",
+  "motore_richiesto": "",
   "data": "2026-11-22",
   "nome_utente": "Jacopo",
   "suono": "ding",
@@ -34,6 +33,5 @@
   "fonti_totali": 31,
   "fonti_attive": 31,
   "issue_url": "https://github.com/jakephobia/notiziario/issues/1",
-  "repo_url": "https://github.com/jakephobia/notiziario",
-  "motore_richiesto": "gemini"
+  "repo_url": "https://github.com/jakephobia/notiziario"
 }
