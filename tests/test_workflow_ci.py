@@ -19,8 +19,10 @@ def test_release_bloccante_e_ordine():
     indice_release = nomi.index("Pubblica release con mp3")
     indice_verifica = nomi.index("Verifica asset release")
     indice_feed = nomi.index("Aggiorna feed, sito e stato nel repository")
-    indice_deploy = nomi.index("Deploy Pages")
-    assert indice_release < indice_verifica < indice_feed < indice_deploy
+    assert indice_release < indice_verifica < indice_feed
+    # Pages legacy pubblica docs/ da main: niente step di deploy nel workflow.
+    assert "Deploy Pages" not in nomi
+    assert "Carica artefatto Pages" not in nomi
 
 
 def test_workflow_tests_senza_segreti():

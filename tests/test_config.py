@@ -59,14 +59,15 @@ def test_workflow_yaml_valido_con_safe_load():
     assert "episodio" in dati["jobs"]
     permessi = dati["permissions"]
     assert permessi["contents"] == "write"
-    assert permessi["pages"] == "write"
-    assert permessi["id-token"] == "write"
     assert permessi["issues"] == "read"
+    assert "pages" not in permessi
+    assert "id-token" not in permessi
     passi = dati["jobs"]["episodio"]["steps"]
     usi = [p.get("uses", "") for p in passi]
     assert any("setup-python" in u for u in usi)
-    assert any("upload-pages-artifact" in u for u in usi)
-    assert any("deploy-pages" in u for u in usi)
+    # Pages legacy: pubblica docs/ da main, nessun artifact/deploy action.
+    assert not any("upload-pages-artifact" in u for u in usi)
+    assert not any("deploy-pages" in u for u in usi)
     testo = percorso.read_text(encoding="utf-8")
     assert "state/visti.json" in testo
     assert "--feed-site-url" in testo
