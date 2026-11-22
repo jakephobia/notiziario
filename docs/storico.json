@@ -2,12 +2,12 @@
   "episodi": [
     {
       "data": "2026-11-22",
-      "titolo": "Notiziario del 22 Novembre 2026",
-      "descrizione": "Un riepilogo completo delle notizie del 22 novembre 2026. In primo piano l'attacco a una nave russa in Libia e la scarcerazione di Francesco Schettino. Seguono aggiornamenti da Italia, Mondo, Economia, Tecnologia, Scienza e Salute, Cultura. Chiudiamo con le buone notizie.",
+      "titolo": "Le notizie del 22 novembre 2026",
+      "descrizione": "Le principali notizie di oggi: una nave russa colpita in Libia da un presunto attacco ucraino, Francesco Schettino ai servizi sociali dopo la scarcerazione, l'inchiesta sulla morte di Gianni De Gennaro.",
       "filename": "notiziario-2026-11-22.mp3",
-      "descrizione_breve": "22 novembre 2026 - Le principali notizie del 22 novembre 2026: attacco a nave russa in Libia, Schettino ai servizi sociali, e molto altro.",
-      "durata_secondi": 526.722132,
-      "dimensione": 6321467,
+      "descrizione_breve": "22 novembre 2026 - Nave russa colpita, Schettino fuori dal carcere, Casa di De Gennaro, Fallita la Cop31 accordo, Rendimenti dei Treasury al, GTA 6 record, Rischio cardiometabolico legato, Ovazioni.",
+      "durata_secondi": 412.518073,
+      "dimensione": 4950977,
       "modalita": "llm",
       "categorie": [
         "italia",
@@ -23,7 +23,7 @@
       "voce_label": "it-IT-IsabellaNeural (edge-tts)",
       "velocita": 1.1,
       "tts_motore": "edge",
-      "pubblicato": "2026-11-22T16:34:50.617996+00:00",
+      "pubblicato": "2026-11-22T16:52:22.886965+00:00",
       "guid": "notiziario-2026-11-22"
     }
   ]
