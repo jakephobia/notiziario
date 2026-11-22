@@ -1,4 +1,4 @@
-﻿"""Scelta delle notizie per copertina, secondarie e blocco Buone notizie."""
+"""Scelta delle notizie per copertina, secondarie e blocco Buone notizie."""
 
 from __future__ import annotations
 
@@ -17,10 +17,12 @@ class NotiziaSelezionata:
     ordine: int
     parole_target: int
     blocco: str = "secondaria"
+    titolo_tradotto: str = ""
+    testo_tradotto: str = ""
 
     @property
     def titolo(self) -> str:
-        return self.cluster.titolo
+        return self.titolo_tradotto or self.cluster.titolo
 
     @property
     def categoria(self) -> str:

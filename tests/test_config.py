@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 from pathlib import Path
 
@@ -15,6 +15,7 @@ def test_impostazioni_reali_valide():
     impostazioni = carica_impostazioni()
     assert set(impostazioni["preset"]) == {"svelto", "standard", "completo"}
     assert impostazioni["durata_default"] == "standard"
+    assert impostazioni["orario_generazione"] == "07:00"
     assert impostazioni["tts_motore"] == "gemini"
     assert impostazioni["voce"]["nome"] == "Kore"
     assert impostazioni["voce"]["velocita"] == 1.1

@@ -28,6 +28,7 @@ from notiziario.config import (
     repository_github,
 )
 from notiziario.arricchisci import arricchisci_selezioni
+from notiziario.traduzione import TraduzioneError, prepara_selezioni_italiane
 from notiziario.audio import AudioError, info_audio as leggi_info_audio, inserisci_suoni
 from notiziario.copione import (
     blocchi_per_tts,
@@ -742,6 +743,14 @@ def esegui(
         logger=logger,
         adesso=data_riferimento,
     )
+    try:
+        selezioni, avvisi_traduzione = prepara_selezioni_italiane(
+            selezioni, impostazioni, logger=logger
+        )
+    except TraduzioneError as exc:
+        raise ErroreBloccante(str(exc)) from exc
+    for avviso in avvisi_traduzione:
+        logger.warning(avviso)
 
     copione = genera_copione(
         selezioni,
@@ -912,6 +921,7 @@ def esegui(
         "voce_label": voce_label_pub,
         "voce_configurata": str(impostazioni.get("voce", {}).get("nome", "")),
         "durata_default": str(impostazioni.get("durata_default", "standard")),
+        "orario_generazione": str(impostazioni.get("orario_generazione", "07:00")),
         "velocita": velocita_pub,
         "motore": motore_pub,
         "motore_richiesto": voce_scelta.motore,

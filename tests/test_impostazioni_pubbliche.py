@@ -45,6 +45,7 @@ def test_struttura_impostazioni_pubbliche(tmp_path):
         "voce_label",
         "voce_configurata",
         "durata_default",
+        "orario_generazione",
         "velocita",
         "motore",
         "motore_richiesto",
@@ -123,6 +124,7 @@ def test_impostazioni_iniziali_esistono_e_sono_valide():
     assert dati["motore_richiesto"] == "gemini"
     assert dati["voce_configurata"] == "Kore"
     assert dati["durata_default"] == "standard"
+    assert dati["orario_generazione"] == "07:00"
     assert len(dati["fonti"]) == len(carica_fonti())
     assert dati["fonti"][0].keys() == {"nome", "url", "categoria", "attivo"}
     assert dati["incipit_risolto"].startswith("Ciao Jacopo")

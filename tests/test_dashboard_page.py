@@ -17,6 +17,7 @@ def test_form_completo_e_campi_accessibili():
         'id="nome"', 'id="incipit"', 'id="outro"', 'id="voce"',
         'id="velocita"', 'id="tts-motore"', 'id="suono"', 'id="categorie"',
         'id="fonti-lista"', 'id="nuova-fonte-nome"', 'id="importa-feed"',
+        'id="orario"',
         'id="token"', 'id="salva-impostazioni"', 'id="salva-genera"',
     ):
         assert identificatore in PAGINA
@@ -89,3 +90,9 @@ def test_banner_polling_della_generazione():
     assert "https://jakephobia.github.io/notiziario/feed.xml" in PAGINA
     assert "Aggiorna pagina" in PAGINA
     assert "innerHTML" not in PAGINA
+
+def test_orario_configurabile_nella_pagina():
+    assert 'id="orario"' in PAGINA
+    assert "<option value=\"07:00\">07:00</option>" in PAGINA
+    assert "orario_generazione" in PAGINA
+    assert "orario:orarioEl.value" in PAGINA

@@ -282,16 +282,21 @@ selezionato.
 ## Descrizione breve dell'episodio
 
 Formato: `22 novembre 2026 - Manovra approvata, Schettino libero, ...`.
-L'AI riceve l'istruzione di produrre `descrizione_breve` con data e 3-8
-micro-riassunti di 2-5 parole, massimo 200 caratteri, senza HTML. La
+L'AI riceve l'istruzione di produrre `descrizione_breve` interamente in
+italiano, con data e 3-5 micro-riassunti di 2-5 parole, massimo 200 caratteri,
+senza HTML e senza titoli inglesi: i titoli stranieri vanno tradotti. La
 descrizione viene validata: se non inizia con `22 novembre 2026 - `, ripete la
 data, contiene "le principali notizie", "e molto altro", "ecc.", supera 200
-caratteri o ha meno di 2 micro-riassunti, si usa il fallback deterministico.
-Il fallback prende i titoli selezionati in ordine (copertine prima), taglia
-alla prima frase e a 6 parole, rimuove articoli/preposizioni/congiunzioni
-finali e le code sospese (`legato`, `previsto`, `atteso`, ...), scarta i
-frammenti con meno di 2 parole e usa al massimo 5 micro-riassunti, entro 200
-caratteri. La descrizione breve è usata
+caratteri, ha meno di 2 micro-riassunti o contiene marcatori inglesi
+(`the`, `and`, `of`, `was`, `reported`, `politics`, `live`, `fire`, ...), si
+usa il fallback deterministico. Il fallback prende i titoli selezionati in
+ordine (copertine prima), scarta quelli non italiani, taglia alla prima frase
+e a 6 parole, rimuove articoli/preposizioni/congiunzioni finali e le code
+sospese (`legato`, `previsto`, `atteso`, ...), scarta i frammenti con meno di
+2 parole e usa al massimo 5 micro-riassunti, entro 200 caratteri. Se restano
+meno di 2 micro-riassunti italiani prova una traduzione LLM dedicata, solo se
+la chiave è disponibile; altrimenti usa una descrizione generica italiana con
+la data e gli eventuali titoli italiani, senza inventare fatti. La descrizione breve è usata
 nell'item del feed (`description` e `itunes:summary`), nel copione `.md` e
 nel player, non la descrizione lunga del canale. Titolo e descrizione usano il
 mese minuscolo (`22 novembre 2026`), anche quando l'AI lo restituisce
@@ -656,10 +661,15 @@ lo stato riporta `target_parole` e `divario_parole`.
    rotazione, blocco Buone notizie in chiusura. Evita notizie quasi identiche.
 6. **Arricchimento**: testo completo dei massimo 20 articoli scelti, con robots,
    cache, SSRF e fallback al summary.
-7. **Copione**: Gemini con JSON strutturato; se manca la chiave, la quota o la
-   risposta non è valida, fallback locale con frasi pulite dai summary. Il
-   corpo non contiene saluto: l'incipit viene aggiunto dopo. Le Buone notizie
-   vengono riordinate prima dell'outro anche se il modello le mette all'inizio.
+7. **Copione**: prima una pre-traduzione batch delle notizie non italiane
+   (titolo e testo, fino a circa 18.000 caratteri); poi Gemini con JSON
+   strutturato. Se la pre-traduzione non è disponibile, le notizie non italiane
+   vengono escluse e servono almeno 3 notizie italiane; altrimenti la run
+   fallisce con un errore chiaro. Il copione viene controllato a frasi: se
+   contiene inglese evidente, viene rigenerato una volta con un prompt più
+   forte; se ne contiene ancora, si usa il fallback italiano. Il corpo non
+   contiene saluto: l'incipit viene aggiunto dopo. Le Buone notizie vengono
+   riordinate prima dell'outro anche se il modello le mette all'inizio.
 8. **Controllo stile**: espressioni fatte, frasi oltre 35 parole, parentesi,
    markdown, ripetizioni. Sono avvisi, non blocchi.
 9. **TTS**: Gemini TTS a chunk, `atempo`, pause, concatenazione e mastering
@@ -727,7 +737,7 @@ del progetto, così `/output/` è raggiungibile. In cloud il workflow sostituisc
 
 `docs/index.html` unisce player, elenco episodi e una dashboard **Impostazioni**
 editabile: nome, incipit, outro, voce, velocità, motore, suono, durata,
-categorie e fonti. Il form legge `docs/impostazioni.json`; se manca o è
+orario, categorie e fonti. Il form legge `docs/impostazioni.json`; se manca o è
 invalido usa i dati del feed e resta leggibile. Le fonti sono modificabili una
 per una, si possono aggiungere e importare da OPML, TXT, CSV o JSON. Le nuove
 fonti importate restano spente con categoria `da-assegnare` finché non le
@@ -735,9 +745,20 @@ controlli.
 
 `docs/impostazioni.json` è generato a ogni run con i valori effettivi
 dell'episodio (categorie, incipit template/risolto, voce configurata, durata,
-velocità, motore, outro, suono, nome, fonti totali/attive, elenco delle fonti,
-data, URL issue/repo). Se Gemini TTS fallisce e si usa edge, il JSON riporta
-`motore: edge` e `motore_richiesto: gemini`; la pagina mostra entrambi.
+orario di generazione, velocità, motore, outro, suono, nome, fonti
+totali/attive, elenco delle fonti, data, URL issue/repo). Se Gemini TTS
+fallisce e si usa edge, il JSON riporta `motore: edge` e
+`motore_richiesto: gemini`; la pagina mostra entrambi.
+
+## Orario di generazione
+
+`config/impostazioni.json` contiene `orario_generazione: "07:00"` (ora intera,
+fuso `Europe/Rome`). Il workflow non ha più un cron giornaliero fisso: parte
+ogni ora (`0 * * * *`), esegue `python -m notiziario.orario --controlla` e
+prosegue solo se l'ora di Roma coincide. Il dispatch manuale, incluso **Salva
+e genera ora**, salta il controllo e parte subito. La dashboard espone
+`orario_generazione` nel form e nel payload `orario`; lo script lo valida come
+`HH:00` e lo salva in configurazione. L'ora legale è gestita da `zoneinfo`.
 
 ## Dashboard web (consigliata)
 
@@ -778,7 +799,7 @@ arriva a uno stato finale. Per leggere lo stato serve un token con
 run, senza bloccare il form.
 
 Il payload completo è un oggetto JSON con `nome`, `categorie`, `incipit`,
-`outro`, `voce`, `velocita`, `motore`, `suono`, `fonti` e `durata`. Si può
+`outro`, `voce`, `velocita`, `motore`, `suono`, `fonti`, `durata` e `orario`. Si può
 provare in locale:
 
 ```powershell
@@ -943,7 +964,7 @@ Controllo stile manuale di un copione:
 
 ## Risultato della verifica locale (22 novembre 2026)
 
-- `pytest`: **240 test passati**.
+- `pytest`: **261 test passati**.
 - `--test-llm`: Gemini 2.5 Flash ha risposto con la chiave letta dal registro
   utente (nessuna chiave scritta su file).
 - Run standard finale: 31 fonti attive, 22 feed OK e 9 KO solo per assenza di

@@ -11,6 +11,8 @@ from notiziario import copione as modulo_copione
 from notiziario.config import carica_impostazioni
 from notiziario.copione import (
     _accorcia_titolo_breve,
+    _contiene_stopword_inglese,
+    _frasi_con_inglese,
     _descrizione_breve,
     _finalizza_llm,
     _prompt_utente,
@@ -565,7 +567,9 @@ def test_prompt_descrizione_breve_contiene_regole():
         {},
     )
     assert "22 novembre 2026 - " in prompt
-    assert "3-8 micro-riassunti" in prompt
+    assert "3-5 micro-riassunti" in prompt
+    assert "interamente in italiano" in prompt
+    assert "titoli stranieri" in prompt
     assert "e molto altro" in prompt
     assert "le\n  principali notizie" in prompt
 
@@ -678,3 +682,154 @@ def test_llm_con_paragrafi_espliciti_ricostruisce_il_corpo():
     assert "Terzo paragrafo A." in risultato["testo"]
     assert "Secondo paragrafo B." in risultato["testo"]
     assert risultato["testo"].rstrip().endswith("Per oggi è tutto.")
+
+def test_descrizione_ai_con_titoli_inglesi_viene_scartata():
+    descrizione = (
+        "22 novembre 2026 - Nave russa colpita a Bengasi, Australian politics live, "
+        "Grillo se il giudice dice, Fire breaks out at popular tourist, "
+        "Jensen Huang's reported affair was most."
+    )
+    assert _pulisci_descrizione_breve(descrizione, datetime(2026, 11, 22, 7, 0, tzinfo=ROMA)) == ""
+
+
+def test_fallback_misto_filtra_i_titoli_inglesi():
+    titoli = [
+        "Nave russa colpita a Bengasi",
+        "Australian politics live",
+        "Grillo se il giudice dice",
+        "Fire breaks out at popular tourist",
+        "Jensen Huang's reported affair was most",
+    ]
+    breve = _descrizione_breve(titoli, datetime(2026, 11, 22, 7, 0, tzinfo=ROMA))
+    assert breve.startswith("22 novembre 2026 - ")
+    assert "Nave russa colpita" in breve
+    assert "Grillo se il giudice" in breve
+    for inglese in ("politics", "live", "fire", "tourist", "reported", "affair"):
+        assert inglese not in breve.casefold()
+
+
+def test_fallback_solo_inglese_usa_descrizione_generica_italiana():
+    breve = _descrizione_breve(
+        ["Australian politics live", "Fire breaks out at popular tourist"],
+        datetime(2026, 11, 22, 7, 0, tzinfo=ROMA),
+    )
+    assert breve == "22 novembre 2026 - Notizie del giorno, aggiornamenti e approfondimenti."
+    assert not _contiene_stopword_inglese(breve)
+
+
+def test_traduzione_dedicata_aggiunge_solo_micro_italiani(monkeypatch):
+    monkeypatch.setenv("GEMINI_API_KEY", "chiave-di-prova")
+    monkeypatch.setattr(
+        modulo_copione,
+        "_chiama_gemini",
+        lambda *a, **k: '{"titoli": ["Nave russa colpita", "Incendio turisti", "Politica australiana"]}',
+    )
+    breve = _descrizione_breve(
+        ["Australian politics live", "Fire breaks out at popular tourist"],
+        datetime(2026, 11, 22, 7, 0, tzinfo=ROMA),
+        impostazioni=carica_impostazioni(),
+    )
+    assert "Nave russa colpita" in breve
+    assert "Incendio turisti" in breve
+    assert "Politica australiana" in breve
+    assert not _contiene_stopword_inglese(breve)
+
+
+def test_traduzione_che_resta_inglese_viene_scartata(monkeypatch):
+    monkeypatch.setenv("GEMINI_API_KEY", "chiave-di-prova")
+    monkeypatch.setattr(
+        modulo_copione,
+        "_chiama_gemini",
+        lambda *a, **k: '{"titoli": ["Australian politics live", "Fire breaks out at popular tourist"]}',
+    )
+    breve = _descrizione_breve(
+        ["Australian politics live", "Fire breaks out at popular tourist"],
+        datetime(2026, 11, 22, 7, 0, tzinfo=ROMA),
+        impostazioni=carica_impostazioni(),
+    )
+    assert breve == "22 novembre 2026 - Notizie del giorno, aggiornamenti e approfondimenti."
+    assert not _contiene_stopword_inglese(breve)
+
+def test_copione_ai_con_descrizione_inglese_resta_italiano():
+    dati = {
+        "titolo_episodio": "Notiziario di 22 novembre 2026",
+        "descrizione": "Le notizie del giorno.",
+        "descrizione_breve": (
+            "22 novembre 2026 - Nave russa colpita a Bengasi, Australian politics live, "
+            "Grillo se il giudice dice, Fire breaks out at popular tourist, "
+            "Jensen Huang's reported affair was most."
+        ),
+        "testo": "Buongiorno. Questa è una notizia italiana. Per oggi è tutto.",
+        "notizie": [],
+    }
+    risultato = _finalizza_llm(
+        dati, selezioni_finte(), datetime(2026, 11, 22, 7, 0, tzinfo=ROMA)
+    )
+    assert risultato["descrizione_breve"].startswith("22 novembre 2026 - ")
+    assert not _contiene_stopword_inglese(risultato["descrizione_breve"])
+    assert "Australian" not in risultato["descrizione_breve"]
+
+def _risposta_copione(testo: str) -> str:
+    return __import__("json").dumps(
+        {
+            "titolo_episodio": "Notiziario di prova",
+            "descrizione": "Le notizie di prova.",
+            "descrizione_breve": "22 novembre 2026 - Manovra approvata, Cop31 fallita",
+            "testo": testo,
+            "notizie": [
+                {"titolo": "Prima", "categoria": "Italia", "fonti": ["ANSA"], "testo": "Prima notizia."},
+                {"titolo": "Seconda", "categoria": "Mondo", "fonti": ["ANSA"], "testo": "Seconda notizia."},
+                {"titolo": "Terza", "categoria": "Economia", "fonti": ["ANSA"], "testo": "Terza notizia."},
+            ],
+        }
+    )
+
+
+def test_frasi_con_inglese_rileva_titoli_e_frasi():
+    assert _frasi_con_inglese("Australian politics live. Tutto il resto è in italiano.")
+    assert _frasi_con_inglese("Fire breaks out at popular tourist. La notizia continua.")
+    assert not _frasi_con_inglese("Il governo ha presentato la manovra in Parlamento.")
+
+
+def test_copione_ai_inglese_rigenera_una_volta(monkeypatch):
+    monkeypatch.setenv("GEMINI_API_KEY", "chiave-di-prova")
+    italiano = " ".join(["Il governo ha presentato il piano alla Camera."] * 20)
+    inglese = "Australian politics live. Fire breaks out at popular tourist. " + italiano
+    risposte = [_risposta_copione(inglese), _risposta_copione(italiano)]
+    chiamate = {"n": 0}
+
+    def finta(*args, **kwargs):
+        chiamate["n"] += 1
+        return risposte[min(chiamate["n"] - 1, 1)]
+
+    monkeypatch.setattr(modulo_copione, "_chiama_gemini", finta)
+    copione = genera_copione(
+        selezioni_finte(),
+        carica_impostazioni(),
+        datetime(2026, 11, 22, 7, 0, tzinfo=ROMA),
+        logger=LOGGER,
+    )
+    assert chiamate["n"] >= 2
+    assert not _contiene_stopword_inglese(copione["testo"])
+
+
+def test_copione_ai_sempre_inglese_usa_fallback_italiano(monkeypatch):
+    monkeypatch.setenv("GEMINI_API_KEY", "chiave-di-prova")
+    inglese = "Australian politics live. Fire breaks out at popular tourist. " + " ".join(
+        ["Italian words are still English here."] * 20
+    )
+    chiamate = {"n": 0}
+    monkeypatch.setattr(
+        modulo_copione,
+        "_chiama_gemini",
+        lambda *a, **k: chiamate.__setitem__("n", chiamate["n"] + 1) or _risposta_copione(inglese),
+    )
+    copione = genera_copione(
+        selezioni_finte(),
+        carica_impostazioni(),
+        datetime(2026, 11, 22, 7, 0, tzinfo=ROMA),
+        logger=LOGGER,
+    )
+    assert copione["modalita"] == "fallback"
+    assert chiamate["n"] >= 2
+    assert not _contiene_stopword_inglese(copione["testo"])

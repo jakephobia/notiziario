@@ -1,9 +1,9 @@
-﻿name: Notiziario quotidiano
+name: Notiziario quotidiano
 
 on:
   schedule:
-    # Ogni giorno alle 05:30 UTC (06:30/07:30 in Italia secondo l'ora legale).
-    - cron: "30 5 * * *"
+    # Ogni ora: il controllo orario in Europe/Rome decide se generare.
+    - cron: "0 * * * *"
   workflow_dispatch:
     inputs:
       durata:
@@ -49,7 +49,12 @@ jobs:
       - name: Installa dipendenze
         run: python -m pip install -r requirements.txt
 
+      - name: Controlla orario
+        id: orario
+        run: echo "run=$(python -m notiziario.orario --controlla)" >> "$GITHUB_OUTPUT"
+
       - name: Applica dashboard
+        if: ${{ github.event_name == 'workflow_dispatch' || steps.orario.outputs.run == 'true' }}
         continue-on-error: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -58,6 +63,7 @@ jobs:
         run: python -m notiziario.dashboard --applica
 
       - name: Genera episodio
+        if: ${{ github.event_name == 'workflow_dispatch' || steps.orario.outputs.run == 'true' }}
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -70,6 +76,7 @@ jobs:
             --feed-site-url "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/"
 
       - name: Pubblica release con mp3
+        if: ${{ github.event_name == 'workflow_dispatch' || steps.orario.outputs.run == 'true' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -81,12 +88,14 @@ jobs:
             --title "Notiziario del $DATA"
 
       - name: Verifica asset release
+        if: ${{ github.event_name == 'workflow_dispatch' || steps.orario.outputs.run == 'true' }}
         run: |
           DATA=$(TZ=Europe/Rome date +%F)
           python -m notiziario.pubblica \
             --verifica-url "https://github.com/${{ github.repository }}/releases/download/episodio-$DATA/notiziario-$DATA.mp3"
 
       - name: Aggiorna feed, sito e stato nel repository
+        if: ${{ github.event_name == 'workflow_dispatch' || steps.orario.outputs.run == 'true' }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"

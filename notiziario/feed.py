@@ -293,6 +293,7 @@ def scrivi_impostazioni_pubbliche(
     repo_url: str | None = None,
     voce_configurata: str = "",
     durata_default: str = "standard",
+    orario_generazione: str = "07:00",
     fonti: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
     path = Path(percorso)
@@ -306,6 +307,7 @@ def scrivi_impostazioni_pubbliche(
         "voce_label": voce_label,
         "voce_configurata": voce_configurata,
         "durata_default": durata_default,
+        "orario_generazione": orario_generazione,
         "velocita": float(velocita),
         "motore": motore,
         "motore_richiesto": motore_richiesto or motore_configurato or "",
@@ -476,6 +478,9 @@ _TEMPLATE_INDEX = r"""<!DOCTYPE html>
             <option value="svelto">Svelto</option><option value="standard">Standard</option><option value="completo">Completo</option>
           </select>
         </label>
+        <label>Orario di generazione (Europe/Rome)
+          <select id="orario" name="orario"><option value="00:00">00:00</option><option value="01:00">01:00</option><option value="02:00">02:00</option><option value="03:00">03:00</option><option value="04:00">04:00</option><option value="05:00">05:00</option><option value="06:00">06:00</option><option value="07:00">07:00</option><option value="08:00">08:00</option><option value="09:00">09:00</option><option value="10:00">10:00</option><option value="11:00">11:00</option><option value="12:00">12:00</option><option value="13:00">13:00</option><option value="14:00">14:00</option><option value="15:00">15:00</option><option value="16:00">16:00</option><option value="17:00">17:00</option><option value="18:00">18:00</option><option value="19:00">19:00</option><option value="20:00">20:00</option><option value="21:00">21:00</option><option value="22:00">22:00</option><option value="23:00">23:00</option></select>
+        </label>
         <label class="largo">Incipit <textarea id="incipit" name="incipit" maxlength="500" required></textarea></label>
         <label class="largo">Outro <textarea id="outro" name="outro" maxlength="500"></textarea></label>
       </div>
@@ -608,6 +613,7 @@ _TEMPLATE_INDEX = r"""<!DOCTYPE html>
   const motoreNotaEl = document.getElementById("tts-motore-nota");
   const suonoEl = document.getElementById("suono");
   const durataEl = document.getElementById("durata");
+  const orarioEl = document.getElementById("orario");
   const fontiLista = document.getElementById("fonti-lista");
   const nuovaNomeEl = document.getElementById("nuova-fonte-nome");
   const nuovaUrlEl = document.getElementById("nuova-fonte-url");
@@ -706,6 +712,7 @@ _TEMPLATE_INDEX = r"""<!DOCTYPE html>
     const motore=d.motore_richiesto||d.motore||"gemini"; motoreEl.value=motore==="edge"?"edge":"gemini";
     const suono=d.suono||"ding"; suonoEl.value=["ding","chime","whoosh","nessuno"].indexOf(suono)>=0?suono:"ding";
     const durata=d.durata_default||"standard"; durataEl.value=["svelto","standard","completo"].indexOf(durata)>=0?durata:"standard";
+    const orario=d.orario_generazione||"07:00"; orarioEl.value=/^\d{2}:00$/.test(orario)?orario:"07:00";
     renderCategorie(attive); renderFonti(d.fonti); aggiornaSuoni();
     const eff=d.motore||"non disponibile"; const rich=d.motore_richiesto||""; motoreNotaEl.textContent="Ultimo episodio: "+eff+(rich && rich!==eff?" (richiesto "+rich+")":"")+".";
     const fontiAttive=Array.isArray(d.fonti)?d.fonti.filter(function (f) { return f.attivo; }).length:0;
@@ -722,7 +729,7 @@ _TEMPLATE_INDEX = r"""<!DOCTYPE html>
     if (descrizione) { const desc=document.createElement("p"); desc.className="descrizione"; desc.textContent=descrizione; li.appendChild(desc); } return li;
   }
   async function caricaImpostazioni(canale, episodi) {
-    const fallback={categorie_attive:[],voce:"",voce_configurata:"",velocita:1.1,motore:"",motore_richiesto:"",incipit_template:"",outro:"",suono:"ding",durata_default:"standard",data:episodi.length?testoDi(episodi[0].querySelector("pubDate")):"",nome_utente:"",fonti:[],issue_url:ISSUE_URL,repo_url:"https://github.com/jakephobia/notiziario"};
+    const fallback={categorie_attive:[],voce:"",voce_configurata:"",velocita:1.1,motore:"",motore_richiesto:"",incipit_template:"",outro:"",suono:"ding",durata_default:"standard",orario_generazione:"07:00",data:episodi.length?testoDi(episodi[0].querySelector("pubDate")):"",nome_utente:"",fonti:[],issue_url:ISSUE_URL,repo_url:"https://github.com/jakephobia/notiziario"};
     if (canale) {
       const categorie=primoNS(canale,NS_NOTIZIARIO,"categorie"); const labels=(testoDi(categorie)||"").split(",").map(function (x) { return x.trim(); }).filter(Boolean);
       fallback.categorie_attive=labels.map(function (label) { const c=CATEGORIE.find(function (x) { return normalizzaTesto(x.label)===normalizzaTesto(label); }); return c?c.id:""; }).filter(Boolean);
@@ -738,13 +745,13 @@ _TEMPLATE_INDEX = r"""<!DOCTYPE html>
   function costruisciPayload() {
     const categorie=Array.from(categorieEl.querySelectorAll("input[type=checkbox]:checked")).map(function (e) { return e.value; });
     const fonti=Array.from(fontiLista.querySelectorAll(".fonte")).map(function (r) { return {nome:r.querySelector(".fonte-nome").value.trim(),url:r.querySelector(".fonte-url").value.trim(),categoria:r.querySelector(".fonte-categoria").value,attivo:r.querySelector(".fonte-attivo").checked}; });
-    return {nome:nomeEl.value.trim(),categorie:categorie,incipit:incipitEl.value.trim(),outro:outroEl.value.trim(),voce:voceEl.value,velocita:Number(velocitaEl.value),motore:motoreEl.value,suono:suonoEl.value,fonti:fonti,durata:durataEl.value};
+    return {nome:nomeEl.value.trim(),categorie:categorie,incipit:incipitEl.value.trim(),outro:outroEl.value.trim(),voce:voceEl.value,velocita:Number(velocitaEl.value),motore:motoreEl.value,suono:suonoEl.value,fonti:fonti,durata:durataEl.value,orario:orarioEl.value};
   }
   function validaPayload(p) {
     if (!p.nome) throw new Error("Il nome non può essere vuoto."); if (!p.categorie.length) throw new Error("Seleziona almeno una categoria.");
     if (!p.incipit) throw new Error("L'incipit non può essere vuoto."); if (p.incipit.length>500) throw new Error("L'incipit supera 500 caratteri."); if (p.outro.length>500) throw new Error("L'outro supera 500 caratteri.");
     if (!Number.isFinite(p.velocita)||p.velocita<.75||p.velocita>1.25) throw new Error("La velocità deve essere tra 0.75 e 1.25.");
-    if (p.fonti.length>200) throw new Error("Massimo 200 fonti.");
+    if (p.fonti.length>200) throw new Error("Massimo 200 fonti."); if (!/^\d{2}:00$/.test(p.orario)) throw new Error("Orario non valido.");
     p.fonti.forEach(function (f,i) { if (!f.nome) throw new Error("La fonte "+(i+1)+" non ha un nome."); if (!normalizzaUrl(f.url)) throw new Error("La fonte "+(i+1)+" non ha un URL valido."); });
   }
   function erroreHttp(status) { if (status===401||status===403) return "Token non valido o senza permesso Actions. Creane uno fine-grained con Actions read/write sul repository."; if (status===404) return "Workflow dashboard.yml non trovato o token senza accesso al repository."; if (status===422) return "Payload troppo grande o input non valido. Riduci fonti o testi e riprova."; return "GitHub ha rifiutato la richiesta (HTTP "+status+"). Riprova più tardi."; }

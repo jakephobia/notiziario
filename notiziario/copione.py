@@ -46,19 +46,35 @@ def prepara_materiale(selezioni: list[NotiziaSelezionata]) -> list[dict[str, Any
     materiale = []
     for selezione in selezioni:
         articoli = []
-        for articolo in selezione.cluster.ordina_articoli():
+        if selezione.testo_tradotto:
+            originale = selezione.cluster.ordina_articoli()
+            primo = originale[0] if originale else None
             articoli.append(
                 {
-                    "fonte": articolo.fonte,
-                    "titolo": articolo.titolo,
-                    "sommario": articolo.sommario,
-                    "testo": articolo.contenuto or articolo.sommario,
-                    "arricchito": bool(articolo.contenuto),
-                    "contenuto_parziale": articolo.contenuto_parziale,
-                    "pubblicato": articolo.pubblicato.isoformat(),
-                    "link": articolo.link,
+                    "fonte": selezione.fonti[0] if selezione.fonti else "",
+                    "titolo": selezione.titolo,
+                    "sommario": selezione.testo_tradotto[:300],
+                    "testo": selezione.testo_tradotto,
+                    "arricchito": True,
+                    "contenuto_parziale": False,
+                    "pubblicato": primo.pubblicato.isoformat() if primo else "",
+                    "link": primo.link if primo else "",
                 }
             )
+        else:
+            for articolo in selezione.cluster.ordina_articoli():
+                articoli.append(
+                    {
+                        "fonte": articolo.fonte,
+                        "titolo": articolo.titolo,
+                        "sommario": articolo.sommario,
+                        "testo": articolo.contenuto or articolo.sommario,
+                        "arricchito": bool(articolo.contenuto),
+                        "contenuto_parziale": articolo.contenuto_parziale,
+                        "pubblicato": articolo.pubblicato.isoformat(),
+                        "link": articolo.link,
+                    }
+                )
         materiale.append(
             {
                 "posizione": selezione.ordine,
@@ -140,6 +156,8 @@ Struttura richiesta:
   "paragrafi".
 
 Regole di scrittura:
+- Scrivi tutto in italiano: titoli, descrizione breve e testo. Traduci i
+  titoli stranieri, non copiarli in inglese.
 - Usa solo i fatti del materiale. Se un dettaglio non c'è, non aggiungerlo.
 - Non esprimere opinioni, previsioni o giudizi.
 - Per le copertine scrivi "Secondo ANSA e Repubblica..." citando le testate.
@@ -152,11 +170,13 @@ Regole di scrittura:
 - Non usare: in un mondo in cui, non solo, ma anche, è importante sottolineare,
   in conclusione, ecco cosa, nel panorama, un mix di, questo evidenzia,
   in questo contesto, al giorno d'oggi, senza dubbio, in sostanza.
-- Il campo "descrizione_breve" deve iniziare ESATTAMENTE con "{data} - " e poi
-  contenere 3-8 micro-riassunti di 2-5 parole, separati da virgola, massimo 200
-  caratteri, senza HTML. Esempio: "{data} - Manovra approvata, Schettino libero,
+- Il campo "descrizione_breve" deve essere interamente in italiano e iniziare
+  ESATTAMENTE con "{data} - " e poi contenere 3-5 micro-riassunti di 2-5 parole,
+  separati da virgola, massimo 200 caratteri, senza HTML. Traduci i titoli
+  stranieri in italiano. Esempio: "{data} - Manovra approvata, Schettino libero,
   Cop31 fallita". Non ripetere la data dopo il trattino. Non usare "le
-  principali notizie", "e molto altro", "e altro ancora", "ecc." o frasi lunghe.
+  principali notizie", "e molto altro", "e altro ancora", "ecc.", frasi lunghe
+  o parole inglesi.
 
 Rispondi SOLO con un oggetto JSON conforme a questo schema:
 {json.dumps(schema, ensure_ascii=False)}
@@ -507,13 +527,122 @@ def _accorcia_titolo_breve(titolo: str, massimo: int = 6) -> str:
     return " ".join(parole).strip(" ,.;:—–-")
 
 
-def _descrizione_breve(titoli: list[str], data_riferimento: datetime) -> str:
-    """Fallback deterministico: data + fino a 5 titoli puliti, max 200 caratteri."""
+_STOPWORD_INGLESI = {
+    "the", "and", "of", "to", "was", "were", "is", "are", "with", "at", "by",
+    "from", "for", "on", "after", "before", "over", "under", "this", "that",
+    "these", "those", "his", "her", "its", "our", "your", "their", "into",
+    "about", "against", "between", "during", "without", "could", "would",
+    "should", "may", "might", "must", "has", "have", "had", "will", "can",
+    "not", "but", "or", "if", "as", "than", "then", "there", "here", "also",
+    "just", "only", "very", "more", "most", "less", "first", "last", "new",
+    "news", "update", "latest", "breaking", "says", "said", "reported",
+    "affair", "politics", "political", "live", "fire", "breaks", "out",
+    "popular", "tourist", "election", "wins", "won", "government", "police",
+    "killed", "dead", "video", "photo", "watch", "read", "top", "why", "how",
+    "what", "who", "when", "where", "world", "national", "international",
+}
+
+
+def _contiene_stopword_inglese(testo: str) -> bool:
+    parole = re.findall(r"[a-z]+(?:'[a-z]+)?", (testo or "").casefold())
+    return any(parola in _STOPWORD_INGLESI for parola in parole)
+
+
+def _micro_italiano(testo: str) -> bool:
+    """Un micro-riassunto è accettabile solo se non contiene marcatori inglesi."""
+    pulito = (testo or "").strip()
+    return bool(pulito) and not _contiene_stopword_inglese(pulito)
+
+
+def _frasi_con_inglese(testo: str) -> list[str]:
+    """Frasi con almeno due marcatori inglesi: segnale sufficiente per il copione."""
+    trovate: list[str] = []
+    for frase in estrai_frasi(testo or ""):
+        parole = re.findall(r"[a-z]+(?:'[a-z]+)?", frase.casefold())
+        if len(parole) < 2:
+            continue
+        marcatori = sum(1 for parola in parole if parola in _STOPWORD_INGLESI)
+        if marcatori >= 2:
+            trovate.append(frase.strip())
+    return trovate
+
+
+def _copione_ha_inglese(testo: str) -> bool:
+    return bool(_frasi_con_inglese(testo))
+
+
+def _traduci_titoli_breve(
+    titoli: list[str],
+    impostazioni: dict[str, Any] | None,
+    logger: logging.Logger | None,
+) -> list[str]:
+    """Traduzione dedicata e opzionale dei titoli esteri; nessun titolo inglese in uscita."""
+    chiave = os.environ.get("GEMINI_API_KEY", "").strip()
+    if not chiave or not impostazioni:
+        return []
+    logger = logger or logging.getLogger("notiziario")
+    elenco = [str(t).strip() for t in titoli if str(t).strip()]
+    if not elenco:
+        return []
+    prompt = (
+        'Traduci in italiano questi titoli giornalistici. Rispondi SOLO con '
+        'un oggetto JSON {"titoli": ["...", "..."]}, senza testo fuori dal '
+        "JSON. Ogni voce deve essere un micro-riassunto italiano di 2-5 parole, "
+        "senza nomi di testate, senza virgolette, senza 'e molto altro'. "
+        "Titoli:\n"
+        + json.dumps(elenco, ensure_ascii=False)
+    )
+    try:
+        risposta = _chiama_gemini(
+            prompt,
+            "Sei un traduttore editoriale italiano. Rispondi solo con JSON valido.",
+            impostazioni,
+            chiave,
+            logger,
+        )
+        pulita = risposta.strip().removeprefix("```json").removeprefix("```").removesuffix("```").strip()
+        if pulita.startswith("["):
+            dati = json.loads(pulita)
+        else:
+            dati = _estrai_json(risposta)
+        if isinstance(dati, dict):
+            dati = dati.get("titoli") or dati.get("traduzioni") or []
+        if not isinstance(dati, list):
+            return []
+        tradotti: list[str] = []
+        for voce in dati:
+            breve = _accorcia_titolo_breve(str(voce))
+            if len(breve.split()) < 2 or not _micro_italiano(breve):
+                continue
+            if breve.casefold() not in {t.casefold() for t in tradotti}:
+                tradotti.append(breve)
+            if len(tradotti) >= 5:
+                break
+        return tradotti
+    except Exception as exc:
+        logger.warning("Traduzione titoli non disponibile: %s.", type(exc).__name__)
+        return []
+
+
+def _descrizione_breve(
+    titoli: list[str],
+    data_riferimento: datetime,
+    impostazioni: dict[str, Any] | None = None,
+    logger: logging.Logger | None = None,
+) -> str:
+    """Fallback deterministico: data + fino a 5 titoli italiani, max 200 caratteri.
+
+    I titoli esteri vengono esclusi. Se restano meno di due micro-riassunti,
+    si tenta una traduzione LLM dedicata, solo con chiave disponibile; in
+    mancanza si usa una descrizione generica italiana senza inventare fatti.
+    """
     data = data_in_italiano(data_riferimento, con_giorno=False)
     parti: list[str] = []
     for titolo in titoli:
+        if not _micro_italiano(titolo):
+            continue
         breve = _accorcia_titolo_breve(titolo)
-        if len(breve.split()) < 2:
+        if len(breve.split()) < 2 or not _micro_italiano(breve):
             continue
         if breve.casefold() in {p.casefold() for p in parti}:
             continue
@@ -523,8 +652,28 @@ def _descrizione_breve(titoli: list[str], data_riferimento: datetime) -> str:
         parti.append(breve)
         if len(parti) >= 5:
             break
+    stranieri = [
+        titolo
+        for titolo in titoli
+        if not _micro_italiano(titolo)
+    ]
+    if len(parti) < 2 and stranieri:
+        tradotti = _traduci_titoli_breve(stranieri, impostazioni, logger)
+        for breve in tradotti:
+            if breve.casefold() in {p.casefold() for p in parti}:
+                continue
+            candidate = f"{data} - " + ", ".join(parti + [breve]) + "."
+            if len(candidate) > 200:
+                break
+            parti.append(breve)
+            if len(parti) >= 5:
+                break
     if not parti:
-        return data
+        return f"{data} - Notizie del giorno, aggiornamenti e approfondimenti."
+    if len(parti) == 1:
+        candidate = f"{data} - Notizie del giorno, {parti[0]}."
+        if len(candidate) <= 200:
+            return candidate
     return f"{data} - " + ", ".join(parti) + "."
 
 
@@ -551,9 +700,11 @@ def _pulisci_descrizione_breve(valore: str, data_riferimento: datetime) -> str:
     if any(vietato in resto.casefold() for vietato in vietati):
         return ""
     micro = [parte.strip() for parte in resto.split(",") if parte.strip()]
-    if not 2 <= len(micro) <= 8:
+    if not 2 <= len(micro) <= 5:
         return ""
     if any(len(parte.split()) < 2 for parte in micro):
+        return ""
+    if any(not _micro_italiano(parte) for parte in micro):
         return ""
     return testo
 
@@ -565,6 +716,7 @@ def _finalizza_llm(
     target_parole: int = 0,
     modello_usato: str | None = None,
     motivo_modello: str | None = None,
+    impostazioni: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     titolo = normalizza_mesi(pulisci_titolo(str(dati["titolo_episodio"])))
     if not titolo:
@@ -652,7 +804,9 @@ def _finalizza_llm(
         ]
         if not titoli_fallback:
             titoli_fallback = [v["titolo"] for v in notizie]
-        breve = _descrizione_breve(titoli_fallback, data_riferimento)
+        breve = _descrizione_breve(
+            titoli_fallback, data_riferimento, impostazioni=impostazioni
+        )
     parole = conta_parole(testo)
     return {
         "titolo_episodio": titolo,
@@ -828,13 +982,25 @@ def _minuscola_dopo_secondo(testo: str) -> str:
     return testo
 
 
-def _frasi_cluster(cluster, visti: set[str] | None = None):
+def _frasi_cluster(
+    cluster,
+    visti: set[str] | None = None,
+    testo_tradotto: str = "",
+    fonte_tradotta: str = "",
+):
     """Frasi dei summary del cluster, con la fonte di provenienza."""
     visti = visti if visti is not None else set()
     titolo_norm = normalizza_titolo(cluster.titolo)
     risultati: list[tuple[str, str]] = []
-    for articolo in cluster.ordina_articoli():
-        testo_fonte = articolo.contenuto or articolo.sommario
+    sorgenti = (
+        [(testo_tradotto, fonte_tradotta)]
+        if testo_tradotto
+        else [
+            (articolo.contenuto or articolo.sommario, articolo.fonte)
+            for articolo in cluster.ordina_articoli()
+        ]
+    )
+    for testo_fonte, fonte_fonte in sorgenti:
         for frase in estrai_frasi(testo_fonte):
             frase = re.sub(r"\s+", " ", frase).strip().strip('"“”')
             if len(frase.split()) < 5:
@@ -865,7 +1031,7 @@ def _frasi_cluster(cluster, visti: set[str] | None = None):
             visti.add(chiave)
             if frase[0].islower():
                 frase = frase[0].upper() + frase[1:]
-            risultati.append((_come_frase(frase), articolo.fonte))
+            risultati.append((_come_frase(frase), fonte_fonte))
     return risultati
 
 
@@ -957,7 +1123,11 @@ def _paragrafo_notizia(
     if transizione:
         titolo = _minuscola_dopo_secondo(titolo)
     parti.append(titolo)
-    frasi = _frasi_cluster(selezione.cluster)
+    frasi = _frasi_cluster(
+        selezione.cluster,
+        testo_tradotto=selezione.testo_tradotto,
+        fonte_tradotta=selezione.fonti[0] if selezione.fonti else "",
+    )
     if frasi:
         prima = _minuscola_dopo_secondo(frasi[0][0])
         parti.append(f"{_attribuzione(selezione.fonti, selezione.ordine)} {prima}")
@@ -998,6 +1168,7 @@ def _genera_fallback(
     selezioni: list[NotiziaSelezionata],
     data_riferimento: datetime,
     motivo: str,
+    impostazioni: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     copertine = [s for s in selezioni if s.copertina]
     secondarie = _raggruppa_secondarie(selezioni)
@@ -1050,7 +1221,11 @@ def _genera_fallback(
         (voce, semplifica_slop(_normalizza_blocco(blocco)))
         for voce, blocco in zip(voci, blocchi)
     ]
-    coppie = [(voce, normale) for voce, normale in coppie if normale]
+    coppie = [
+        (voce, normale)
+        for voce, normale in coppie
+        if normale and not _copione_ha_inglese(normale)
+    ]
     voci = [voce for voce, _ in coppie]
     blocchi_norm = [normale for _, normale in coppie]
     for voce, normale in coppie:
@@ -1075,7 +1250,9 @@ def _genera_fallback(
         ),
         "descrizione": descrizione,
         "descrizione_breve": _descrizione_breve(
-            [v["titolo"] for v in voci], data_riferimento
+            [v["titolo"] for v in voci],
+            data_riferimento,
+            impostazioni=impostazioni,
         ),
         "testo": corpo,
         "notizie": voci,
@@ -1136,7 +1313,19 @@ def genera_copione(
                     target_parole=target,
                     modello_usato=modello_primario,
                     motivo_modello="primario",
+                    impostazioni=impostazioni,
                 )
+                frasi_inglesi = _frasi_con_inglese(copione["testo"])
+                if frasi_inglesi:
+                    if tentativo == 1:
+                        prompt = (
+                            prompt
+                            + "\n\nRISCRIVI TUTTO IN ITALIANO. La risposta precedente "
+                            "contiene frasi inglesi: traduci titoli e citazioni e non "
+                            "lasciare parole inglesi nel copione."
+                        )
+                        raise LlmError("copione con frasi inglesi evidenti")
+                    raise LlmError("copione ancora con frasi inglesi evidenti")
                 if not _lunghezza_ai_adeguata(copione, selezioni, target):
                     raise LlmError(
                         "copione AI troppo corto rispetto al materiale arricchito"
@@ -1186,7 +1375,19 @@ def genera_copione(
                     target_parole=target,
                     modello_usato=modello_riserva,
                     motivo_modello="riserva dopo errore primario",
+                    impostazioni=impostazioni,
                 )
+                frasi_inglesi = _frasi_con_inglese(copione["testo"])
+                if frasi_inglesi:
+                    if tentativo == 1:
+                        prompt = (
+                            prompt
+                            + "\n\nRISCRIVI TUTTO IN ITALIANO. La risposta precedente "
+                            "contiene frasi inglesi: traduci titoli e citazioni e non "
+                            "lasciare parole inglesi nel copione."
+                        )
+                        raise LlmError("copione con frasi inglesi evidenti")
+                    raise LlmError("copione ancora con frasi inglesi evidenti")
                 if not _lunghezza_ai_adeguata(copione, selezioni, target):
                     raise LlmError(
                         "copione AI troppo corto rispetto al materiale arricchito"
@@ -1205,7 +1406,9 @@ def genera_copione(
                 motivo = f"{motivo}; riserva: {type(exc).__name__}"
         logger.warning("Passo al copione di fallback deterministico.")
 
-    copione = _genera_fallback(selezioni, data_riferimento, motivo)
+    copione = _genera_fallback(
+        selezioni, data_riferimento, motivo, impostazioni=impostazioni
+    )
     logger.info(
         "Copione di fallback: %d parole (target %d, divario %d; %s).",
         conta_parole(copione["testo"]),

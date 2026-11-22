@@ -1,9 +1,10 @@
-﻿"""Caricamento e validazione della configurazione e delle fonti RSS."""
+"""Caricamento e validazione della configurazione e delle fonti RSS."""
 
 from __future__ import annotations
 
 import copy
 import json
+import re
 import os
 from dataclasses import dataclass
 from pathlib import Path
@@ -35,6 +36,7 @@ class Fonte:
 
 DEFAULT_SETTINGS: dict[str, Any] = {
     "versione": 2,
+    "orario_generazione": "07:00",
     "durata_default": "standard",
     "nome_utente": "Jacopo",
     "tts_motore": "gemini",
@@ -224,6 +226,9 @@ def valida_impostazioni(impostazioni: dict[str, Any]) -> None:
             f"durata_default '{durata_default}' non è tra i preset: "
             f"{', '.join(preset)}"
         )
+    orario = impostazioni.get("orario_generazione", "07:00")
+    if not isinstance(orario, str) or not re.fullmatch(r"(?:[01]\d|2[0-3]):00", orario):
+        raise ConfigError("orario_generazione deve essere un'ora intera HH:00 tra 00:00 e 23:00.")
 
     for nome, valori in preset.items():
         if not isinstance(valori, dict):

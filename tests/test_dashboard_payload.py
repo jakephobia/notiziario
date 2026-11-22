@@ -59,6 +59,7 @@ def payload_completo():
             },
         ],
         "durata": "completo",
+        "orario": "08:00",
     }
 
 
@@ -72,6 +73,7 @@ def test_payload_completo_applica(base):
     assert config["tts_motore"] == "edge"
     assert config["suono_transizione"] == "chime"
     assert config["durata_default"] == "completo"
+    assert config["orario_generazione"] == "08:00"
     assert (base / "config" / "incipit.txt").read_text(encoding="utf-8").strip().startswith("Ciao [NOME UTENTE]")
     assert (base / "config" / "outro.txt").read_text(encoding="utf-8").strip() == "Fine delle notizie. A domani!"
     fonti = {f.url: f for f in carica_fonti_tutte(base / "config" / "fonti.yaml")}
@@ -171,3 +173,11 @@ def test_payload_vuoto_e_json_invalido():
 def test_apply_payload_senza_payload_e_errore(monkeypatch, base):
     monkeypatch.setattr(dashboard, "ROOT", base)
     assert dashboard.main(["--applica-payload"]) == 1
+
+def test_orario_invalido_mantiene_il_precedente(base):
+    payload = payload_completo()
+    payload["orario"] = "07:30"
+    risultato = dashboard.applica_payload(payload, base=base)
+    config = json.loads((base / "config" / "impostazioni.json").read_text(encoding="utf-8"))
+    assert config["orario_generazione"] == "07:00"
+    assert any("Orario non valido" in a for a in risultato["avvisi"])

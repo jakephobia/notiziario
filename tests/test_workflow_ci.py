@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 from pathlib import Path
 
@@ -39,3 +39,30 @@ def test_workflow_anteprima_velocita_110():
     testo = percorso.read_text(encoding="utf-8")
     assert "0.75-1.25" in testo
     assert 'default: "1.1"' in testo
+
+
+def test_workflow_orario_e_dispatch_manuale():
+    percorso = ROOT / ".github" / "workflows" / "notiziario.yml"
+    dati = yaml.safe_load(percorso.read_text(encoding="utf-8"))
+    eventi = dati.get("on") or dati.get(True)
+    assert eventi["schedule"][0]["cron"] == "0 * * * *"
+    passi = dati["jobs"]["episodio"]["steps"]
+    nomi = [p.get("name", "") for p in passi]
+    controllo = next(p for p in passi if p.get("name") == "Controlla orario")
+    assert controllo["id"] == "orario"
+    assert "python -m notiziario.orario --controlla" in controllo["run"]
+    condizione = (
+        "${{ github.event_name == 'workflow_dispatch' || "
+        "steps.orario.outputs.run == 'true' }}"
+    )
+    for nome in (
+        "Applica dashboard",
+        "Genera episodio",
+        "Pubblica release con mp3",
+        "Verifica asset release",
+        "Aggiorna feed, sito e stato nel repository",
+    ):
+        passo = next(p for p in passi if p.get("name") == nome)
+        assert passo.get("if") == condizione
+    assert nomi.index("Controlla orario") < nomi.index("Genera episodio")
+

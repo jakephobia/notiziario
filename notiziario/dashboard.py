@@ -38,6 +38,7 @@ from .controllo_feed import controlla_tutte
 from .fetch import normalizza_url
 from .fonti_io import merge_fonti, scrivi_fonti_yaml, sostituisci_fonte
 from .incipit import INCIPIT_DEFAULT
+from .orario import orario_valido
 from .voce import normalizza_velocita
 from .importa_feed import ImportError_, _nome_fonte, _parse_opml
 from .outro import OUTRO_DEFAULT, estrai_outro_issue
@@ -61,6 +62,7 @@ CAMPI_PAYLOAD = {
     "suono",
     "fonti",
     "durata",
+    "orario",
 }
 _HEADING = re.compile(r"(?ims)^##\s*([^\n]+)\n(.*?)(?=^##\s|\Z)")
 
@@ -578,6 +580,22 @@ def _piano_payload(
             candidato["durata_default"] = durata
             modifiche_impostazioni = True
 
+    if "orario" in payload:
+        valore = payload["orario"]
+        if not isinstance(valore, str):
+            raise DashboardError("Payload: 'orario' deve essere una stringa HH:00.")
+        orario = valore.strip()
+        if not orario_valido(orario):
+            avvisi.append(
+                f"Orario non valido scartato: {valore!r}; mantengo {candidato.get('orario_generazione')}."
+            )
+        elif orario != candidato.get("orario_generazione"):
+            modifiche.append(
+                f"orario_generazione: {candidato.get('orario_generazione')} -> {orario}"
+            )
+            candidato["orario_generazione"] = orario
+            modifiche_impostazioni = True
+
     fonti = list(caricare_fonti_per_payload(base))
     aggiunte = 0
     aggiornate = 0
@@ -721,6 +739,7 @@ def applica_payload(
             grezze["tts_motore"] = candidate["tts_motore"]
             grezze["suono_transizione"] = candidate["suono_transizione"]
             grezze["durata_default"] = candidate["durata_default"]
+            grezze["orario_generazione"] = candidate["orario_generazione"]
             grezze.setdefault("voce", {})
             if isinstance(grezze["voce"], dict):
                 grezze["voce"]["nome"] = candidate["voce"]["nome"]
