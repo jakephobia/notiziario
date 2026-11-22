@@ -2,13 +2,13 @@
   "episodi": [
     {
       "data": "2026-11-22",
-      "titolo": "Notiziario Radiofonico - Domenica 22 novembre 2026",
-      "descrizione": "Le principali notizie di domenica 22 novembre 2026. Apriamo con l'attacco alla corvetta russa Merkury a Bengasi e le reazioni libiche. In Italia, Francesco Schettino lascia il carcere per i servizi sociali.",
+      "titolo": "Notiziario di domenica 22 novembre 2026",
+      "descrizione": "Le notizie del 22 novembre 2026: Nave russa colpita a Bengasi, sospetto attacco con droni. L’ira della Libia: «Violata la sovranità nazionale» – La diretta; Australian politics live: small business carveout in digital duty of care; countdown to pass key legislation begins; Grillo, se il giudice...",
       "filename": "notiziario-2026-11-22.mp3",
-      "descrizione_breve": "22 novembre 2026 - Nave russa colpita a Bengasi, Schettino fuori dal carcere, Vento a 100 km orari spazza, Dalla Finlandia alla Libia, Australian politics live.",
-      "durata_secondi": 573.805465,
-      "dimensione": 6886337,
-      "modalita": "llm",
+      "descrizione_breve": "22 novembre 2026 - Nave russa colpita a Bengasi, Australian politics live, Grillo se il giudice dice, Fire breaks out at popular tourist, Jensen Huang's reported affair was most.",
+      "durata_secondi": 531.946077,
+      "dimensione": 6384156,
+      "modalita": "fallback",
       "categorie": [
         "italia",
         "mondo",
@@ -23,7 +23,7 @@
       "voce_label": "it-IT-IsabellaNeural (edge-tts)",
       "velocita": 1.1,
       "tts_motore": "edge",
-      "pubblicato": "2026-11-22T20:43:53.730462+00:00",
+      "pubblicato": "2026-11-22T20:54:21.597253+00:00",
       "guid": "notiziario-2026-11-22"
     }
   ]
