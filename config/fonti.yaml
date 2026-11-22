@@ -1,0 +1,168 @@
+# Fonti RSS del Notiziario.
+#
+# Come modificare:
+#   - nome: la testata come deve essere pronunciata nel copione (es. "ANSA");
+#   - url: l'indirizzo del feed RSS, non della pagina del sito;
+#   - categoria: una tra
+#       italia, mondo, economia, tecnologia, scienza-salute, cultura, sport, ambiente.
+#
+# Per aggiungere una fonte copia un blocco "- nome: ..." e cambia i valori.
+# Per togliere una fonte cancella il suo blocco.
+# Dopo una modifica puoi controllare i feed con:  python -m notiziario.verifica_fonti
+#
+# URL verificati con richieste reali il 22 novembre 2026.
+# Restano solo feed che rispondono e hanno date valide. Alcune sezioni possono
+# essere ferme da più di 24 ore: vengono saltate senza errore e si useranno
+# quando si aggiorneranno. Le testate con feed davvero fermi sono in fondo.
+
+fonti:
+  # --- ANSA ---
+  - nome: ANSA
+    url: https://www.ansa.it/sito/notizie/topnews/topnews_rss.xml
+    categoria: italia
+
+  - nome: ANSA
+    url: https://www.ansa.it/sito/notizie/cronaca/cronaca_rss.xml
+    categoria: italia
+
+  - nome: ANSA
+    url: https://www.ansa.it/sito/notizie/mondo/mondo_rss.xml
+    categoria: mondo
+
+  - nome: ANSA
+    url: https://www.ansa.it/sito/notizie/economia/economia_rss.xml
+    categoria: economia
+
+  - nome: ANSA
+    url: https://www.ansa.it/sito/notizie/sport/sport_rss.xml
+    categoria: sport
+
+  - nome: ANSA
+    url: https://www.ansa.it/sito/notizie/cultura/cultura_rss.xml
+    categoria: cultura
+
+  # --- la Repubblica ---
+  - nome: Repubblica
+    url: https://www.repubblica.it/rss/homepage/rss2.0.xml
+    categoria: italia
+
+  - nome: Repubblica
+    url: https://www.repubblica.it/rss/politica/rss2.0.xml
+    categoria: italia
+
+  - nome: Repubblica
+    url: https://www.repubblica.it/rss/cronaca/rss2.0.xml
+    categoria: italia
+
+  - nome: Repubblica
+    url: https://www.repubblica.it/rss/esteri/rss2.0.xml
+    categoria: mondo
+
+  - nome: Repubblica
+    url: https://www.repubblica.it/rss/economia/rss2.0.xml
+    categoria: economia
+
+  - nome: Repubblica
+    url: https://www.repubblica.it/rss/cultura/rss2.0.xml
+    categoria: cultura
+
+  - nome: Repubblica
+    url: https://www.repubblica.it/rss/tecnologia/rss2.0.xml
+    categoria: tecnologia
+
+  - nome: Repubblica
+    url: https://www.repubblica.it/rss/ambiente/rss2.0.xml
+    categoria: ambiente
+
+  - nome: Repubblica
+    url: https://www.repubblica.it/rss/salute/rss2.0.xml
+    categoria: scienza-salute
+
+  # --- Il Post ---
+  - nome: Il Post
+    url: https://www.ilpost.it/italia/feed/
+    categoria: italia
+
+  - nome: Il Post
+    url: https://www.ilpost.it/mondo/feed/
+    categoria: mondo
+
+  - nome: Il Post
+    url: https://www.ilpost.it/economia/feed/
+    categoria: economia
+
+  - nome: Il Post
+    url: https://www.ilpost.it/tecnologia/feed/
+    categoria: tecnologia
+
+  - nome: Il Post
+    url: https://www.ilpost.it/scienza/feed/
+    categoria: scienza-salute
+
+  - nome: Il Post
+    url: https://www.ilpost.it/cultura/feed/
+    categoria: cultura
+
+  - nome: Il Post
+    url: https://www.ilpost.it/sport/feed/
+    categoria: sport
+
+  # --- Il Sole 24 Ore ---
+  - nome: Il Sole 24 Ore
+    url: https://www.ilsole24ore.com/rss/italia.xml
+    categoria: italia
+
+  - nome: Il Sole 24 Ore
+    url: https://www.ilsole24ore.com/rss/mondo.xml
+    categoria: mondo
+
+  - nome: Il Sole 24 Ore
+    url: https://www.ilsole24ore.com/rss/economia.xml
+    categoria: economia
+
+  - nome: Il Sole 24 Ore
+    url: https://www.ilsole24ore.com/rss/tecnologia.xml
+    categoria: tecnologia
+
+  - nome: Il Sole 24 Ore
+    url: https://www.ilsole24ore.com/rss/cultura.xml
+    categoria: cultura
+
+  - nome: Il Sole 24 Ore
+    url: https://www.ilsole24ore.com/rss/salute.xml
+    categoria: scienza-salute
+
+  # --- HDblog ---
+  - nome: HDblog
+    url: https://www.hdblog.it/rss/
+    categoria: tecnologia
+
+  # --- Buone notizie (feed dedicati, verificati il 22 novembre 2026) ---
+  # Usati dal blocco finale anche senza AI. Con AI, il filtro di positività
+  # può aggiungere notizie positive dai feed generalisti.
+  - nome: Buone Notizie
+    url: https://www.buonenotizie.it/feed/
+    categoria: buone-notizie
+    attivo: true
+
+  - nome: Italia Che Cambia
+    url: https://www.italiachecambia.org/feed/
+    categoria: buone-notizie
+    attivo: true
+
+# Campi opzionali delle fonti:
+#   attivo: true/false (default true se manca)
+#   controllo: ultimo esito del controllo feed
+#   ultimo_controllo: data ISO dell'ultimo controllo
+#   note: annotazioni libere
+#
+# Feed testati e scartati il 22 novembre 2026 (non aggiungerli senza riprovare):
+# - Corriere della Sera (homepage, esteri, economia, sport, cultura, tecnologia,
+#   scienze, ambiente): rispondono ma le date più recenti sono del 2024/2025.
+# - Wired Italia: https://www.wired.it/feed/rss/ risponde ma l'ultima data era
+#   luglio 2026, quindi non entra mai nelle ultime 24 ore.
+# - ANSA Tecnologia e ANSA Ambiente (URL /sito/notizie/...): date ferme al 2023.
+# - Il Post homepage: risponde 403; le sezioni singole funzionano.
+# - Repubblica Sport, Il Sole 24 Ore Sport, ANSA Italia, Corriere Italia:
+#   URL 404 o non aggiornati.
+# - HDblog /feed/ con HTTPS dà errore SSL; funziona /rss/.

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Il notiziario di Jacopo</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --sfondo: #f6f7f4;
+      --testo: #17211b;
+      --tenue: #5a675f;
+      --card: #ffffff;
+      --bordo: #dde3dc;
+      --accento: #146b4b;
+      --accento-scuro: #0d4f37;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --sfondo: #111713;
+        --testo: #eef4ef;
+        --tenue: #a7b4aa;
+        --card: #19221c;
+        --bordo: #2a382f;
+        --accento: #5cc79a;
+        --accento-scuro: #3da77c;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--sfondo);
+      color: var(--testo);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.55;
+    }
+    main { max-width: 760px; margin: 0 auto; padding: 28px 18px 64px; }
+    header { padding: 18px 0 10px; }
+    .copertina { width: 148px; height: 148px; border-radius: 18px; display: block; margin: 0 0 16px; border: 1px solid var(--bordo); }
+    h1 { font-size: clamp(2rem, 7vw, 2.8rem); letter-spacing: -0.03em; margin: 0 0 6px; }
+    .sottotitolo { color: var(--tenue); margin: 0; font-size: 1.02rem; }
+    .player-card {
+      background: var(--card);
+      border: 1px solid var(--bordo);
+      border-radius: 18px;
+      padding: 18px;
+      margin: 22px 0;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+      position: sticky;
+      top: 10px;
+      z-index: 2;
+    }
+    .in-riproduzione { font-weight: 600; margin: 0 0 10px; min-height: 1.5em; }
+    audio { width: 100%; margin-top: 6px; }
+    .stato {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      background: var(--card);
+      border: 1px solid var(--bordo);
+      border-radius: 14px;
+      padding: 14px 16px;
+      margin: 0 0 24px;
+      font-size: 0.94rem;
+    }
+    .stato div { color: var(--tenue); }
+    .stato strong { color: var(--testo); font-weight: 600; }
+    h2 { font-size: 1.15rem; margin: 26px 0 12px; }
+    ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+    li {
+      background: var(--card);
+      border: 1px solid var(--bordo);
+      border-radius: 14px;
+      padding: 14px 16px;
+    }
+    .episodio-titolo {
+      display: block;
+      width: 100%;
+      text-align: left;
+      border: 0;
+      background: transparent;
+      color: var(--testo);
+      font: inherit;
+      font-weight: 650;
+      cursor: pointer;
+      padding: 0;
+    }
+    .episodio-titolo:hover, .episodio-titolo:focus-visible { color: var(--accento); }
+    .meta { color: var(--tenue); font-size: 0.88rem; margin: 4px 0 0; }
+    .descrizione { color: var(--tenue); font-size: 0.94rem; margin: 8px 0 0; }
+    .avviso {
+      background: var(--card);
+      border: 1px solid var(--bordo);
+      border-left: 4px solid var(--accento);
+      border-radius: 12px;
+      padding: 14px 16px;
+      color: var(--tenue);
+    }
+    footer { color: var(--tenue); font-size: 0.82rem; margin-top: 36px; border-top: 1px solid var(--bordo); padding-top: 16px; }
+    a { color: var(--accento); }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <img class="copertina" src="copertina.png" alt="Copertina del podcast">
+    <h1>Il notiziario di Jacopo</h1>
+    <p class="sottotitolo">Le notizie del giorno scelte da Jacopo, lette in italiano. Un riassunto quotidiano delle notizie italiane e internazionali.</p>
+  </header>
+
+  <section class="player-card" aria-label="Player del podcast">
+    <p class="in-riproduzione" id="in-riproduzione">Scegli un episodio dalla lista.</p>
+    <audio id="player" controls preload="metadata"></audio>
+  </section>
+
+  <section class="stato" aria-label="Stato del notiziario">
+    <div>Categorie attive: <strong id="categorie">caricamento...</strong></div>
+    <div>Modalità AI: <strong id="modalita">caricamento...</strong></div>
+    <div>Voce: <strong id="voce">caricamento...</strong></div>
+    <div>Velocità: <strong id="velocita">caricamento...</strong></div>
+    <div>Motore TTS: <strong id="tts-motore">caricamento...</strong></div>
+    <div>Episodi disponibili: <strong id="conteggio">caricamento...</strong></div>
+  </section>
+
+  <h2>Episodi</h2>
+  <div id="messaggio" class="avviso" hidden></div>
+  <ul id="episodi"></ul>
+
+  <footer>
+    Notiziario personale. Le notizie appartengono alle testate citate nel copione.
+    Il player legge il feed RSS statico di questa pagina.
+  </footer>
+</main>
+
+<script>
+(function () {
+  "use strict";
+  const NS_NOTIZIARIO = "https://notiziario.local/ns/1.0";
+  const NS_ITUNES = "http://www.itunes.com/dtds/podcast-1.0.dtd";
+  const player = document.getElementById("player");
+  const inRiproduzione = document.getElementById("in-riproduzione");
+  const lista = document.getElementById("episodi");
+  const messaggio = document.getElementById("messaggio");
+  const categorieEl = document.getElementById("categorie");
+  const modalitaEl = document.getElementById("modalita");
+  const voceEl = document.getElementById("voce");
+  const velocitaEl = document.getElementById("velocita");
+  const motoreTtsEl = document.getElementById("tts-motore");
+  const conteggioEl = document.getElementById("conteggio");
+
+  function testoDi(elemento) {
+    return elemento && elemento.textContent ? elemento.textContent.trim() : "";
+  }
+
+  function primoPerNamespace(radice, namespace, nome) {
+    const trovati = radice.getElementsByTagNameNS(namespace, nome);
+    return trovati.length ? trovati[0] : null;
+  }
+
+  function mostraErrore(testo) {
+    messaggio.textContent = testo;
+    messaggio.hidden = false;
+    categorieEl.textContent = "non disponibili";
+    modalitaEl.textContent = "non disponibile";
+    voceEl.textContent = "non disponibile";
+    velocitaEl.textContent = "non disponibile";
+    motoreTtsEl.textContent = "non disponibile";
+    conteggioEl.textContent = "0";
+  }
+
+  function formattaData(grezza) {
+    const data = new Date(grezza);
+    if (isNaN(data.getTime())) return grezza || "";
+    return data.toLocaleDateString("it-IT", {
+      weekday: "long", day: "numeric", month: "long", year: "numeric"
+    });
+  }
+
+  function creaEpisodio(item, indice) {
+    const titolo = testoDi(item.querySelector("title")) || "Episodio " + (indice + 1);
+    const descrizione = testoDi(item.querySelector("description"));
+    const pubDate = testoDi(item.querySelector("pubDate"));
+    const enclosure = item.querySelector("enclosure");
+    const url = enclosure ? enclosure.getAttribute("url") : "";
+    const durataEl = primoPerNamespace(item, NS_ITUNES, "duration");
+    const durata = testoDi(durataEl);
+
+    const li = document.createElement("li");
+    const bottone = document.createElement("button");
+    bottone.type = "button";
+    bottone.className = "episodio-titolo";
+    bottone.textContent = titolo;
+    bottone.addEventListener("click", function () {
+      if (!url) {
+        mostraErrore("Questo episodio non ha un file audio nel feed.");
+        return;
+      }
+      player.src = url;
+      inRiproduzione.textContent = "In ascolto: " + titolo;
+      player.play().catch(function () {
+        mostraErrore("Premi play sul player per ascoltare l'episodio.");
+      });
+    });
+    li.appendChild(bottone);
+
+    const meta = document.createElement("p");
+    meta.className = "meta";
+    const pezzi = [];
+    if (pubDate) pezzi.push(formattaData(pubDate));
+    if (durata) pezzi.push(durata);
+    meta.textContent = pezzi.join(" · ");
+    if (pezzi.length) li.appendChild(meta);
+
+    if (descrizione) {
+      const desc = document.createElement("p");
+      desc.className = "descrizione";
+      desc.textContent = descrizione;
+      li.appendChild(desc);
+    }
+    return li;
+  }
+
+  async function carica() {
+    try {
+      const risposta = await fetch("feed.xml", { cache: "no-store" });
+      if (!risposta.ok) throw new Error("HTTP " + risposta.status);
+      const xml = await risposta.text();
+      const doc = new DOMParser().parseFromString(xml, "application/xml");
+      if (doc.querySelector("parsererror")) throw new Error("XML non valido");
+      const canale = doc.querySelector("channel");
+      if (!canale) throw new Error("canale RSS assente");
+
+      const categorie = primoPerNamespace(canale, NS_NOTIZIARIO, "categorie");
+      const modalita = primoPerNamespace(canale, NS_NOTIZIARIO, "modalita");
+      categorieEl.textContent = testoDi(categorie) || "non disponibili";
+      const modo = testoDi(modalita);
+      modalitaEl.textContent = modo === "llm" ? "Gemini" : (modo === "fallback" ? "Fallback locale (senza AI)" : "non disponibile");
+      const voce = primoPerNamespace(canale, NS_NOTIZIARIO, "voce");
+      const voceLabel = primoPerNamespace(canale, NS_NOTIZIARIO, "voce_label");
+      const velocita = primoPerNamespace(canale, NS_NOTIZIARIO, "velocita");
+      const motoreTts = primoPerNamespace(canale, NS_NOTIZIARIO, "tts_motore");
+      voceEl.textContent = testoDi(voceLabel) || testoDi(voce) || "non disponibile";
+      velocitaEl.textContent = testoDi(velocita) ? testoDi(velocita) + "×" : "non disponibile";
+      const motore = testoDi(motoreTts);
+      motoreTtsEl.textContent = motore === "gemini" ? "Gemini TTS" : (motore === "edge" ? "edge-tts" : "non disponibile");
+
+      const episodi = Array.from(doc.querySelectorAll("item"));
+      conteggioEl.textContent = String(episodi.length);
+      if (!episodi.length) {
+        mostraErrore("Non ci sono ancora episodi nel feed.");
+        return;
+      }
+      episodi.forEach(function (item, indice) {
+        lista.appendChild(creaEpisodio(item, indice));
+      });
+    } catch (errore) {
+      mostraErrore(
+        "Non riesco a leggere feed.xml. Apri questa pagina con GitHub Pages " +
+        "oppure avvia un server dalla cartella del progetto con " +
+        "python -m http.server 8000 e vai su http://localhost:8000/docs/"
+      );
+    }
+  }
+
+  carica();
+})();
+</script>
+</body>
+</html>

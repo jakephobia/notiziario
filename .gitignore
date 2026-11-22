@@ -1,0 +1,21 @@
+﻿# Ambiente locale
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.env
+.env.*
+
+# Artefatti locali: non servono nel repository
+output/*
+!output/.gitkeep
+logs/*
+!logs/.gitkeep
+cache/
+output/qa*
+docs-qa*
+
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini

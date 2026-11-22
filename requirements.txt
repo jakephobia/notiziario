@@ -1,0 +1,11 @@
+﻿# Dipendenze del Notiziario. Tutte hanno wheel per Python 3.12 e 3.14.
+feedparser==6.0.14
+requests==2.34.2
+beautifulsoup4==4.15.0
+PyYAML==6.0.4
+edge-tts==7.3.1
+tzdata==2026.6
+trafilatura==2.3.1
+defusedxml==0.7.1
+pillow==13.0.0
+pytest==9.2.0

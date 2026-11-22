@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:notiziario="https://notiziario.local/ns/1.0" version="2.0">
+  <channel>
+    <title>Il notiziario di Jacopo</title>
+    <link>https://jakephobia.github.io/notiziario/</link>
+    <description>Le notizie del giorno scelte da Jacopo, lette in italiano. Un riassunto quotidiano delle notizie italiane e internazionali.</description>
+    <language>it-it</language>
+    <lastBuildDate>Sun, 22 Nov 2026 14:14:14 +0000</lastBuildDate>
+    <itunes:author>Notiziario</itunes:author>
+    <itunes:explicit>false</itunes:explicit>
+    <itunes:summary>Le notizie del giorno scelte da Jacopo, lette in italiano. Un riassunto quotidiano delle notizie italiane e internazionali.</itunes:summary>
+    <image>
+      <url>https://jakephobia.github.io/notiziario/copertina.png</url>
+      <title>Il notiziario di Jacopo</title>
+      <link>https://jakephobia.github.io/notiziario/</link>
+    </image>
+    <itunes:image href="https://jakephobia.github.io/notiziario/copertina.png" />
+    <notiziario:categorie>non disponibili</notiziario:categorie>
+    <notiziario:modalita>fallback</notiziario:modalita>
+    <notiziario:voce />
+    <notiziario:voce_label />
+    <notiziario:velocita>1.1</notiziario:velocita>
+    <notiziario:tts_motore />
+  </channel>
+</rss>

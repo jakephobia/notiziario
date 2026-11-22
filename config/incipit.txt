@@ -1,0 +1,1 @@
+Ciao [NOME UTENTE], ecco le tue notizie del giorno. Oggi è il [DATA].

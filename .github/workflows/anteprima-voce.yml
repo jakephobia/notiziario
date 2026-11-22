@@ -1,0 +1,74 @@
+name: Anteprima voce
+
+on:
+  workflow_dispatch:
+    inputs:
+      voce:
+        description: "Voce: Kore, Leda, Charon, Puck, Orus"
+        required: true
+        default: Kore
+        type: choice
+        options:
+          - Kore
+          - Leda
+          - Charon
+          - Puck
+          - Orus
+      velocita:
+        description: "Velocità 0.75-1.25 (step 0.05)"
+        required: true
+        default: "1.1"
+        type: string
+      frase:
+        description: "Frase opzionale (vuota = frase predefinita)"
+        required: false
+        default: ""
+        type: string
+
+permissions:
+  contents: read
+
+env:
+  PYTHONUNBUFFERED: "1"
+  PYTHONUTF8: "1"
+
+jobs:
+  anteprima:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Installa ffmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      - name: Installa dipendenze
+        run: python -m pip install -r requirements.txt
+
+      - name: Genera anteprima
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          FRASE: ${{ github.event.inputs.frase }}
+          VOCE: ${{ github.event.inputs.voce }}
+          VELOCITA: ${{ github.event.inputs.velocita }}
+        run: |
+          if [ -n "$FRASE" ]; then
+            python main.py --anteprima-voce "$FRASE" --voce "$VOCE" --velocita "$VELOCITA"
+          else
+            python main.py --anteprima-voce --voce "$VOCE" --velocita "$VELOCITA"
+          fi
+
+      - name: Carica mp3
+        uses: actions/upload-artifact@v4
+        with:
+          name: anteprima-voce-${{ github.event.inputs.voce }}-${{ github.event.inputs.velocita }}
+          path: output/anteprima/*.mp3
+          if-no-files-found: error

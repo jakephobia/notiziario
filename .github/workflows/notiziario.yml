@@ -1,0 +1,108 @@
+﻿name: Notiziario quotidiano
+
+on:
+  schedule:
+    # Ogni giorno alle 05:30 UTC (06:30/07:30 in Italia secondo l'ora legale).
+    - cron: "30 5 * * *"
+  workflow_dispatch:
+    inputs:
+      durata:
+        description: "Durata dell'episodio"
+        required: true
+        default: standard
+        type: choice
+        options:
+          - svelto
+          - standard
+          - completo
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+  issues: read
+
+concurrency:
+  group: notiziario
+  cancel-in-progress: false
+
+env:
+  PYTHONUNBUFFERED: "1"
+  PYTHONUTF8: "1"
+
+jobs:
+  episodio:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Installa ffmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      - name: Installa dipendenze
+        run: python -m pip install -r requirements.txt
+
+      - name: Genera episodio
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_ISSUE_CATEGORIE: ${{ vars.GITHUB_ISSUE_CATEGORIE }}
+        run: |
+          DURATA="${{ github.event.inputs.durata || 'standard' }}"
+          python main.py \
+            --durata "$DURATA" \
+            --feed-base-url "https://github.com/${{ github.repository }}/releases/download" \
+            --feed-site-url "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/"
+
+      - name: Pubblica release con mp3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          DATA=$(TZ=Europe/Rome date +%F)
+          python -m notiziario.pubblica \
+            --tag "episodio-$DATA" \
+            --file "output/notiziario-$DATA.mp3" \
+            --body-file "output/copione-$DATA.md" \
+            --title "Notiziario del $DATA"
+
+      - name: Verifica asset release
+        run: |
+          DATA=$(TZ=Europe/Rome date +%F)
+          python -m notiziario.pubblica \
+            --verifica-url "https://github.com/${{ github.repository }}/releases/download/episodio-$DATA/notiziario-$DATA.mp3"
+
+      - name: Aggiorna feed, sito e stato nel repository
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs state/visti.json
+          if git diff --cached --quiet; then
+            echo "Nessuna modifica a docs/ o state/visti.json."
+          else
+            git commit -m "Aggiorna feed notiziario $(TZ=Europe/Rome date +%F)"
+            git push
+          fi
+
+      - name: Configura Pages
+        uses: actions/configure-pages@v5
+
+      - name: Carica artefatto Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+
+      - name: Deploy Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
