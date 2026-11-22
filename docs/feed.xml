@@ -23,12 +23,12 @@
     <notiziario:tts_motore>edge</notiziario:tts_motore>
     <item>
       <title>Le notizie del 22 novembre 2026</title>
-      <description>22 novembre 2026 - Nave russa colpita, Schettino fuori dal carcere, Casa di De Gennaro, Fallita la Cop31 accordo, Rendimenti dei Treasury al, GTA 6 record, Rischio cardiometabolico legato, Ovazioni.</description>
+      <description>22 novembre 2026 - Schettino fuori dal carcere, La villa blindata di De Gennaro, Trump rilascia i file su Bigfoot, La settimana finanziaria, Crisi dell'auto.</description>
       <pubDate>Sun, 22 Nov 2026 16:52:22 +0000</pubDate>
       <guid isPermaLink="false">notiziario-2026-11-22</guid>
       <enclosure url="https://github.com/jakephobia/notiziario/releases/download/episodio-2026-11-22/notiziario-2026-11-22.mp3" length="4950977" type="audio/mpeg" />
       <itunes:duration>00:06:53</itunes:duration>
-      <itunes:summary>22 novembre 2026 - Nave russa colpita, Schettino fuori dal carcere, Casa di De Gennaro, Fallita la Cop31 accordo, Rendimenti dei Treasury al, GTA 6 record, Rischio cardiometabolico legato, Ovazioni.</itunes:summary>
+      <itunes:summary>22 novembre 2026 - Schettino fuori dal carcere, La villa blindata di De Gennaro, Trump rilascia i file su Bigfoot, La settimana finanziaria, Crisi dell'auto.</itunes:summary>
       <itunes:explicit>false</itunes:explicit>
       <itunes:image href="https://jakephobia.github.io/notiziario/copertina.png" />
       <notiziario:modalita>llm</notiziario:modalita>

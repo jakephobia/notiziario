@@ -468,29 +468,58 @@ def _riordina_buone_notizie(
     return "\n\n".join(risultato), bool(positive)
 
 
-def _accorcia_titolo_breve(titolo: str, massimo: int = 4) -> str:
-    titolo = re.split(r"[.!?]", titolo or "", maxsplit=1)[0]
-    parole = re.findall(r"[\wÀ-ÖØ-öø-ÿ']+", titolo)[:massimo]
-    finali = {
-        "di", "del", "della", "dei", "delle", "il", "lo", "la", "i", "gli", "le",
-        "un", "una", "e", "ed", "a", "ad", "da", "in", "con", "su", "per", "tra", "fra",
-    }
+_FINALI_STOPWORD = {
+    "di", "a", "da", "in", "con", "su", "per", "tra", "fra",
+    "il", "lo", "la", "i", "gli", "le",
+    "un", "uno", "una",
+    "del", "dello", "della", "dei", "degli", "delle",
+    "al", "allo", "alla", "ai", "agli", "alle",
+    "dal", "dallo", "dalla", "dai", "dagli", "dalle",
+    "nel", "nello", "nella", "nei", "negli", "nelle",
+    "sul", "sullo", "sulla", "sui", "sugli", "sulle",
+    "e", "ed", "o", "od", "ma", "che", "come", "anche", "più", "meno", "non",
+}
+
+_FINALI_SOSPESI = {
+    "legato", "previsto", "atteso", "annunciato", "confermato",
+}
+_FINALI_DEBOLI = {"accordo"}
+
+
+def _accorcia_titolo_breve(titolo: str, massimo: int = 6) -> str:
+    """Prima clausola utile del titolo, max 6 parole, senza code sospese."""
+    testo = (titolo or "").replace("’", "'").strip()
+    testo = re.split(r"[.!?;:—–]", testo, maxsplit=1)[0]
+    if "," in testo:
+        prefisso = testo.split(",", 1)[0].strip()
+        if len(re.findall(r"[\wÀ-ÖØ-öø-ÿ']+", prefisso)) >= 2:
+            testo = prefisso
+    parole = re.findall(r"[\wÀ-ÖØ-öø-ÿ']+", testo)[:massimo]
+    finali = _FINALI_STOPWORD | _FINALI_SOSPESI | _FINALI_DEBOLI
     while parole and parole[-1].casefold() in finali:
         parole.pop()
-    return " ".join(parole).strip(" ,.;:-")
+    return " ".join(parole).strip(" ,.;:—–-")
 
 
 def _descrizione_breve(titoli: list[str], data_riferimento: datetime) -> str:
+    """Fallback deterministico: data + fino a 5 titoli puliti, max 200 caratteri."""
     data = data_in_italiano(data_riferimento, con_giorno=False)
-    parti = []
+    parti: list[str] = []
     for titolo in titoli:
         breve = _accorcia_titolo_breve(titolo)
-        if breve and breve.casefold() not in {p.casefold() for p in parti}:
-            parti.append(breve)
-        if len(parti) >= 8:
+        if len(breve.split()) < 2:
+            continue
+        if breve.casefold() in {p.casefold() for p in parti}:
+            continue
+        candidate = f"{data} - " + ", ".join(parti + [breve]) + "."
+        if len(candidate) > 200:
             break
-    testo = f"{data} - " + ", ".join(parti) if parti else data
-    return tronca_a_frase(testo, 200)
+        parti.append(breve)
+        if len(parti) >= 5:
+            break
+    if not parti:
+        return data
+    return f"{data} - " + ", ".join(parti) + "."
 
 
 def _pulisci_descrizione_breve(valore: str, data_riferimento: datetime) -> str:
@@ -581,9 +610,15 @@ def _finalizza_llm(
         str(dati.get("descrizione_breve", "")), data_riferimento
     )
     if not breve:
-        breve = _descrizione_breve(
-            [v["titolo"] for v in notizie], data_riferimento
-        )
+        titoli_fallback = [
+            s.titolo
+            for s in sorted(
+                selezioni, key=lambda s: (not s.copertina, s.ordine)
+            )
+        ]
+        if not titoli_fallback:
+            titoli_fallback = [v["titolo"] for v in notizie]
+        breve = _descrizione_breve(titoli_fallback, data_riferimento)
     parole = conta_parole(testo)
     return {
         "titolo_episodio": titolo,

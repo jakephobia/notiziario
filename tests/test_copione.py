@@ -10,6 +10,8 @@ from helpers import crea_articolo, crea_cluster
 from notiziario import copione as modulo_copione
 from notiziario.config import carica_impostazioni
 from notiziario.copione import (
+    _accorcia_titolo_breve,
+    _descrizione_breve,
     _finalizza_llm,
     _prompt_utente,
     _pulisci_descrizione_breve,
@@ -519,7 +521,8 @@ def test_descrizione_breve_fallback():
     assert breve.startswith("22 novembre 2026 - ")
     assert len(breve) <= 200
     assert "<" not in breve and ">" not in breve
-    assert breve.count(",") <= 7
+    assert breve.count(",") <= 4
+    assert breve.endswith(".")
 
 def test_descrizione_breve_generica_reale_viene_rifiutata():
     from datetime import datetime
@@ -563,3 +566,74 @@ def test_prompt_descrizione_breve_contiene_regole():
     assert "3-8 micro-riassunti" in prompt
     assert "e molto altro" in prompt
     assert "le\n  principali notizie" in prompt
+
+def test_fallback_descrizione_pulisce_titoli_problematici():
+    from notiziario.tempo import ROMA
+
+    titoli = [
+        "Nave russa colpita in Libia, attacco nel porto",
+        "Schettino fuori dal carcere, ai servizi sociali",
+        "La villa di De Gennaro, il corpo a Firenze",
+        "Fallita la Cop31, l'accordo sul clima non è stato approvato",
+        "Rendimenti dei Treasury al",
+        "Le prime ore di GTA 6, il gioco che mi ha fatto affezionare",
+        "Rischio cardiometabolico legato",
+        "Ovazioni",
+    ]
+    breve = _descrizione_breve(titoli, datetime(2026, 11, 22, 7, 0, tzinfo=ROMA))
+    assert breve.startswith("22 novembre 2026 - ")
+    assert breve.endswith(".")
+    assert len(breve) <= 200
+    assert breve.count(",") == 4
+    assert " al," not in breve and " al." not in breve
+    assert "legato" not in breve.casefold()
+    assert "accordo" not in breve.casefold()
+    assert "Ovazioni" not in breve
+    assert "Rendimenti dei Treasury" in breve
+    assert _accorcia_titolo_breve("Rischio cardiometabolico legato") == "Rischio cardiometabolico"
+    assert _accorcia_titolo_breve("Fallita la Cop31 accordo") == "Fallita la Cop31"
+
+
+def test_fallback_descrizione_rispetta_200_caratteri():
+    from notiziario.tempo import ROMA
+
+    lunghi = [
+        f"{parola} numero due tre quattro cinque"
+        for parola in (
+            "PrimaMoltoLunga",
+            "SecondaMoltoLunga",
+            "TerzaMoltoLunga",
+            "QuartaMoltoLunga",
+            "QuintaMoltoLunga",
+        )
+    ]
+    breve = _descrizione_breve(lunghi, datetime(2026, 11, 22, 7, 0, tzinfo=ROMA))
+    assert len(breve) <= 200
+    assert breve.startswith("22 novembre 2026 - ")
+    assert breve.endswith(".")
+    assert "QuartaMoltoLunga" not in breve
+    assert breve.count(",") <= 2
+
+
+def test_descrizione_ai_invalida_usa_fallback_pulito():
+    from notiziario.tempo import ROMA
+
+    dati = {
+        "titolo_episodio": "Notiziario di 22 novembre 2026",
+        "descrizione": "Le notizie del giorno.",
+        "descrizione_breve": (
+            "22 novembre 2026 - Le principali notizie del 22 novembre 2026: "
+            "attacco a nave russa in Libia, Schettino ai servizi sociali, e molto altro."
+        ),
+        "testo": "Buongiorno, ecco le notizie.",
+        "notizie": [],
+    }
+    risultato = _finalizza_llm(
+        dati, selezioni_finte(), datetime(2026, 11, 22, 7, 0, tzinfo=ROMA)
+    )
+    breve = risultato["descrizione_breve"]
+    assert breve.startswith("22 novembre 2026 - ")
+    assert "principali notizie" not in breve.casefold()
+    assert "molto altro" not in breve.casefold()
+    assert "22 novembre 2026" not in breve[len("22 novembre 2026 - ") :]
+    assert breve.endswith(".")

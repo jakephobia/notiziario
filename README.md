@@ -281,9 +281,12 @@ L'AI riceve l'istruzione di produrre `descrizione_breve` con data e 3-8
 micro-riassunti di 2-5 parole, massimo 200 caratteri, senza HTML. La
 descrizione viene validata: se non inizia con `22 novembre 2026 - `, ripete la
 data, contiene "le principali notizie", "e molto altro", "ecc.", supera 200
-caratteri o ha meno di 2 micro-riassunti, si usa il fallback deterministico
-(data + titoli accorciati). Il fallback usa data + fino a 8 titoli accorciati a
-4 parole. La descrizione breve è usata
+caratteri o ha meno di 2 micro-riassunti, si usa il fallback deterministico.
+Il fallback prende i titoli selezionati in ordine (copertine prima), taglia
+alla prima frase e a 6 parole, rimuove articoli/preposizioni/congiunzioni
+finali e le code sospese (`legato`, `previsto`, `atteso`, ...), scarta i
+frammenti con meno di 2 parole e usa al massimo 5 micro-riassunti, entro 200
+caratteri. La descrizione breve è usata
 nell'item del feed (`description` e `itunes:summary`), nel copione `.md` e
 nel player, non la descrizione lunga del canale. Titolo e descrizione usano il
 mese minuscolo (`22 novembre 2026`), anche quando l'AI lo restituisce
@@ -849,7 +852,7 @@ Controllo stile manuale di un copione:
 
 ## Risultato della verifica locale (22 novembre 2026)
 
-- `pytest`: **211 test passati**.
+- `pytest`: **214 test passati**.
 - `--test-llm`: Gemini 2.5 Flash ha risposto con la chiave letta dal registro
   utente (nessuna chiave scritta su file).
 - Run standard finale: 31 fonti attive, 22 feed OK e 9 KO solo per assenza di
