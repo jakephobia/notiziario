@@ -32,7 +32,7 @@ def _volume(path: Path) -> tuple[float, float]:
 
 
 def test_suoni_generati_validi():
-    attesi = {"ding": 0.5, "chime": 0.8, "whoosh": 0.6}
+    attesi = {"ding": 2.2, "chime": 0.8, "whoosh": 0.6}
     for nome, durata in attesi.items():
         percorso = Path("docs/suoni") / f"{nome}.mp3"
         info = audio.info_audio(percorso)
@@ -63,4 +63,6 @@ def test_inserimento_suoni_conta_e_aumenta_durata(tmp_path):
     )
     assert risultato["transizioni"] == 2
     durata = audio.info_audio(uscita)["durata"]
-    assert 5.9 <= durata <= 6.6
+    durata_suono = audio.info_audio(Path("docs/suoni/ding.mp3"))["durata"]
+    atteso = 4.0 + 2 * (0.3 + durata_suono + 0.3)
+    assert abs(durata - atteso) < 0.6
