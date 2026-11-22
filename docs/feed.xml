@@ -5,7 +5,7 @@
     <link>https://jakephobia.github.io/notiziario/</link>
     <description>Le notizie del giorno scelte da Jacopo, lette in italiano. Un riassunto quotidiano delle notizie italiane e internazionali.</description>
     <language>it-it</language>
-    <lastBuildDate>Sun, 22 Nov 2026 20:33:58 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 22 Nov 2026 20:43:53 +0000</lastBuildDate>
     <itunes:author>Notiziario</itunes:author>
     <itunes:explicit>false</itunes:explicit>
     <itunes:summary>Le notizie del giorno scelte da Jacopo, lette in italiano. Un riassunto quotidiano delle notizie italiane e internazionali.</itunes:summary>
@@ -22,13 +22,13 @@
     <notiziario:velocita>1.1</notiziario:velocita>
     <notiziario:tts_motore>edge</notiziario:tts_motore>
     <item>
-      <title>Notiziario Radiofonico del 22 novembre 2026</title>
-      <description>22 novembre 2026 - Nave russa colpita a Bengasi, Schettino fuori dal carcere, I telefoni e gli appunti, Fallimento della Cop 31 sui combustibili, Australian politics live.</description>
-      <pubDate>Sun, 22 Nov 2026 20:33:58 +0000</pubDate>
+      <title>Notiziario Radiofonico - Domenica 22 novembre 2026</title>
+      <description>22 novembre 2026 - Nave russa colpita a Bengasi, Schettino fuori dal carcere, Vento a 100 km orari spazza, Dalla Finlandia alla Libia, Australian politics live.</description>
+      <pubDate>Sun, 22 Nov 2026 20:43:53 +0000</pubDate>
       <guid isPermaLink="false">notiziario-2026-11-22</guid>
-      <enclosure url="https://github.com/jakephobia/notiziario/releases/download/episodio-2026-11-22/notiziario-2026-11-22.mp3" length="7330211" type="audio/mpeg" />
-      <itunes:duration>00:10:11</itunes:duration>
-      <itunes:summary>22 novembre 2026 - Nave russa colpita a Bengasi, Schettino fuori dal carcere, I telefoni e gli appunti, Fallimento della Cop 31 sui combustibili, Australian politics live.</itunes:summary>
+      <enclosure url="https://github.com/jakephobia/notiziario/releases/download/episodio-2026-11-22/notiziario-2026-11-22.mp3" length="6886337" type="audio/mpeg" />
+      <itunes:duration>00:09:34</itunes:duration>
+      <itunes:summary>22 novembre 2026 - Nave russa colpita a Bengasi, Schettino fuori dal carcere, Vento a 100 km orari spazza, Dalla Finlandia alla Libia, Australian politics live.</itunes:summary>
       <itunes:explicit>false</itunes:explicit>
       <itunes:image href="https://jakephobia.github.io/notiziario/copertina.png" />
       <notiziario:modalita>llm</notiziario:modalita>
