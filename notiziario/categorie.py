@@ -104,9 +104,19 @@ def parse_issue_body(
         )
         return default, avvisi
 
+    sezione = re.search(
+        r"(?ims)^##\s*Categorie\b[^\n]*\n(.*?)(?=^##\s|\Z)", corpo
+    )
+    if sezione is None:
+        avvisi.append(
+            "Sezione '## Categorie' assente: uso le categorie predefinite."
+        )
+        return default, avvisi
+    contenuto = sezione.group(1)
+
     menzioni: dict[str, list[bool]] = {c.id: [] for c in CATEGORIE}
     righe_trovate = 0
-    for match in _RIGA_CHECKBOX.finditer(corpo):
+    for match in _RIGA_CHECKBOX.finditer(contenuto):
         righe_trovate += 1
         selezionata = match.group(1).lower() == "x"
         testo = _pulisci_riga(match.group(2))

@@ -125,6 +125,8 @@ def test_genera_corpo_e_riparsabile():
         "Ciao [NOME UTENTE], oggi è [DATA].",
     )
     assert "## Nome" in corpo
+    assert "- [x] Italia" in corpo
+    assert "- [ ] Sport" in corpo
     assert "## Fonti" in corpo
     assert corpo.count("— https://") == len(carica_fonti_tutte())
     assert dashboard.parse_nome(corpo)[0] == "Jacopo"

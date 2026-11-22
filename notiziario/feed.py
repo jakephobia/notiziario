@@ -264,6 +264,7 @@ def scrivi_impostazioni_pubbliche(
     voce_label: str,
     velocita: float,
     motore: str,
+    motore_richiesto: str = "",
     data: str,
     nome_utente: str = "",
     suono: str = "ding",
@@ -284,6 +285,7 @@ def scrivi_impostazioni_pubbliche(
         "voce_label": voce_label,
         "velocita": float(velocita),
         "motore": motore,
+        "motore_richiesto": motore_richiesto,
         "data": data,
         "nome_utente": nome_utente,
         "suono": suono,
@@ -669,7 +671,12 @@ _TEMPLATE_INDEX = """<!DOCTYPE html>
     voceEl.textContent = dati.voce_label || dati.voce || fallback.voce_label || fallback.voce || "non disponibile";
     velocitaEl.textContent = (dati.velocita !== undefined ? dati.velocita : fallback.velocita) ? (dati.velocita !== undefined ? dati.velocita : fallback.velocita) + "×" : "non disponibile";
     const motore = dati.motore || fallback.motore;
-    motoreTtsEl.textContent = motore === "gemini" ? "Gemini TTS" : (motore === "edge" ? "edge-tts" : (motore || "non disponibile"));
+    const motoreRichiesto = dati.motore_richiesto || "";
+    let etichettaMotore = motore === "gemini" ? "Gemini TTS" : (motore === "edge" ? "edge-tts" : (motore || "non disponibile"));
+    if (motoreRichiesto && motoreRichiesto !== motore) {
+      etichettaMotore += " (richiesto " + (motoreRichiesto === "gemini" ? "Gemini" : motoreRichiesto) + ")";
+    }
+    motoreTtsEl.textContent = etichettaMotore;
     dataAggiornamentoEl.textContent = dati.data ? formattaData(dati.data) : (fallback.data ? formattaData(fallback.data) : "non disponibile");
     const nome = dati.nome_utente || "";
     const attive = Number.isFinite(Number(dati.fonti_attive)) ? Number(dati.fonti_attive) : (fallback.categorie_label.length || 0);

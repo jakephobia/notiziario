@@ -17,7 +17,8 @@ def test_struttura_impostazioni_pubbliche(tmp_path):
         voce="Kore",
         voce_label="Kore — femminile, calda",
         velocita=1.1,
-        motore="gemini",
+        motore="edge",
+        motore_richiesto="gemini",
         data="2026-11-22",
         nome_utente="Jacopo",
         fonti_totali=31,
@@ -36,6 +37,7 @@ def test_struttura_impostazioni_pubbliche(tmp_path):
         "voce_label",
         "velocita",
         "motore",
+        "motore_richiesto",
         "data",
         "nome_utente",
         "fonti_totali",
@@ -47,6 +49,8 @@ def test_struttura_impostazioni_pubbliche(tmp_path):
     }
     letto = json.loads(percorso.read_text(encoding="utf-8"))
     assert letto["categorie_label"] == ["Italia", "Buone notizie"]
+    assert letto["motore"] == "edge"
+    assert letto["motore_richiesto"] == "gemini"
     assert letto["velocita"] == 1.1
     assert letto["nome_utente"] == "Jacopo"
     assert letto["fonti_totali"] == 31
@@ -101,9 +105,10 @@ def test_impostazioni_iniziali_esistono_e_sono_valide():
     percorso = Path("docs/impostazioni.json")
     assert percorso.exists()
     dati = json.loads(percorso.read_text(encoding="utf-8"))
-    assert dati["voce"] == "Kore"
+    assert dati["voce"] == "it-IT-IsabellaNeural"
     assert dati["velocita"] == 1.1
-    assert dati["motore"] == "gemini"
+    assert dati["motore"] == "edge"
+    assert dati["motore_richiesto"] == "gemini"
     assert dati["incipit_risolto"].startswith("Ciao Jacopo")
     assert dati["repo_url"] == "https://github.com/jakephobia/notiziario"
 

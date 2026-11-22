@@ -256,6 +256,9 @@ Tre suoni royalty-free generati con ffmpeg sono in `docs/suoni/`:
 Sono mono 44,1 kHz, mp3 ~96 kbps, con volume medio intorno a -20 dBFS.
 Config: `suono_transizione` = `ding|chime|whoosh|nessuno`, `suono_gain_db` per
 il gain controllato. La issue può avere `## Suono` con `suono: ding`.
+Il parser delle categorie legge solo `## Categorie`: le checkbox presenti in
+`## Fonti` non attivano o disattivano categorie. Se `## Categorie` manca si
+usano i default con un avviso.
 Il suono viene inserito dopo il mastering della voce, tra le sezioni, con
 0,3 s di silenzio prima e dopo; non passa da loudnorm e non viene messo dopo
 l'ultima notizia. Con `nessuno` non viene inserito nulla.
@@ -677,7 +680,10 @@ issue mostra un link discreto al repository.
 
 `docs/impostazioni.json` è generato a ogni run con i valori effettivi
 dell'episodio (categorie, incipit template/risolto, voce, velocità, motore,
-outro, suono, nome, numero fonti totali/attive, data, URL issue/repo). Inizialmente è già
+outro, suono, nome, motore usato, motore richiesto, numero fonti totali/attive, data, URL
+issue/repo). Se Gemini TTS fallisce e si usa edge, il JSON riporta
+`motore: edge` e `motore_richiesto: gemini`; la pagina mostra entrambi.
+Inizialmente è già
 presente con i default, così la pagina funziona subito. Le modifiche si salvano
 dalla dashboard GitHub e vengono applicate al run successivo.
 
@@ -832,7 +838,7 @@ Controllo stile manuale di un copione:
 
 ## Risultato della verifica locale (22 novembre 2026)
 
-- `pytest`: **198 test passati**.
+- `pytest`: **200 test passati**.
 - `--test-llm`: Gemini 2.5 Flash ha risposto con la chiave letta dal registro
   utente (nessuna chiave scritta su file).
 - Run standard finale: 31 fonti attive, 22 feed OK e 9 KO solo per assenza di

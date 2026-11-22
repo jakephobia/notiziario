@@ -190,6 +190,7 @@ def test_index_contiene_sezione_impostazioni_e_fetch(tmp_path):
     assert "Le modifiche si salvano dalla dashboard GitHub" in html
     assert "innerHTML" not in html
     assert "nome-fonti" in html
+    assert "motore_richiesto" in html
     assert "suoni/ding.mp3" in html
     assert "suoni/chime.mp3" in html
     assert "suoni/whoosh.mp3" in html

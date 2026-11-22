@@ -62,7 +62,7 @@ def test_parse_issue_con_checkbox_miste():
 
 
 def test_parse_issue_case_insensitive_e_markdown():
-    corpo = """
+    corpo = """## Categorie
 - [X] `MONDO`
 - [x] **Scienza e Salute**
 - [ ] *SPORT*
@@ -79,7 +79,7 @@ def test_parse_issue_case_insensitive_e_markdown():
 
 
 def test_categoria_non_citata_mantiene_default():
-    attive, avvisi = parse_issue_body("- [x] Sport", DEFAULT)
+    attive, avvisi = parse_issue_body("## Categorie\n- [x] Sport", DEFAULT)
     assert set(attive) == set(CATEGORIE_IDS)
     assert avvisi == []
 
@@ -92,7 +92,7 @@ def test_issue_vuota_usa_default():
 
 def test_riga_non_riconosciuta_avvisa_solo_se_selezionata():
     attive, avvisi = parse_issue_body(
-        "- [x] Categoria inventata\n- [ ] Altra cosa", DEFAULT
+        "## Categorie\n- [x] Categoria inventata\n- [ ] Altra cosa", DEFAULT
     )
     assert attive == DEFAULT
     assert len(avvisi) == 1
@@ -101,7 +101,7 @@ def test_riga_non_riconosciuta_avvisa_solo_se_selezionata():
 
 def test_checked_e_unchecked_stessa_categoria():
     attive, avvisi = parse_issue_body(
-        "- [x] Italia\n- [ ] italia", DEFAULT
+        "## Categorie\n- [x] Italia\n- [ ] italia", DEFAULT
     )
     assert "italia" in attive
     assert any("sia selezionata sia no" in a for a in avvisi)
@@ -124,3 +124,24 @@ def test_checked_e_unchecked_stessa_categoria():
 )
 def test_trova_categoria(testo, atteso):
     assert trova_categoria(testo) == atteso
+
+def test_fonti_non_attivano_categoria_sport():
+    corpo = """## Categorie
+- [ ] Sport
+- [x] Italia
+
+## Fonti
+- [x] ANSA Sport (sport) — https://www.ansa.it/sport.xml
+"""
+    attive, avvisi = parse_issue_body(corpo, DEFAULT)
+    assert "sport" not in attive
+    assert "italia" in attive
+    assert avvisi == []
+
+
+def test_sezione_categorie_assente_usa_default():
+    corpo = "## Fonti\n- [x] ANSA Sport (sport) — https://www.ansa.it/sport.xml"
+    attive, avvisi = parse_issue_body(corpo, DEFAULT)
+    assert attive == DEFAULT
+    assert "sport" not in attive
+    assert any("assente" in a for a in avvisi)

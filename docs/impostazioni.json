@@ -34,5 +34,6 @@
   "fonti_totali": 31,
   "fonti_attive": 31,
   "issue_url": "https://github.com/jakephobia/notiziario/issues/1",
-  "repo_url": "https://github.com/jakephobia/notiziario"
+  "repo_url": "https://github.com/jakephobia/notiziario",
+  "motore_richiesto": "gemini"
 }
