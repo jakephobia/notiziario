@@ -186,3 +186,4 @@ def test_index_contiene_sezione_impostazioni_e_fetch(tmp_path):
     assert "id=\"modifica-impostazioni\"" in html
     assert "Le modifiche si salvano dalla dashboard GitHub" in html
     assert "innerHTML" not in html
+    assert "nome-fonti" in html

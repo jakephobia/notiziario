@@ -295,7 +295,7 @@ fornito da Actions). In locale puoi creare un token fine-grained con permesso
 ```powershell
 $env:GITHUB_TOKEN = "il-tuo-token"
 $env:GITHUB_REPOSITORY = "tuonome/tuorepo"
-$env:GITHUB_ISSUE_CATEGORIE = "12"
+$env:GITHUB_ISSUE_CATEGORIE = "1"
 ```
 
 Regole di lettura: `- [x]` attiva, `- [ ]` disattiva, il match non distingue
@@ -629,9 +629,66 @@ issue mostra un link discreto al repository.
 
 `docs/impostazioni.json` è generato a ogni run con i valori effettivi
 dell'episodio (categorie, incipit template/risolto, voce, velocità, motore,
-data, URL issue/repo). Inizialmente è già presente con i default, così la
-pagina funziona subito. Le modifiche si salvano dalla dashboard GitHub e
-vengono applicate al run successivo.
+nome, numero fonti totali/attive, data, URL issue/repo). Inizialmente è già
+presente con i default, così la pagina funziona subito. Le modifiche si salvano
+dalla dashboard GitHub e vengono applicate al run successivo.
+
+## Dashboard GitHub
+
+La issue **#1** del repository è il punto unico di configurazione. Formato:
+
+```markdown
+## Nome
+nome: Jacopo
+
+## Categorie
+- [x] Italia
+...
+- [ ] Sport
+
+## Incipit
+Ciao [NOME UTENTE], ecco le tue notizie del giorno. Oggi è il [DATA].
+
+## Voce
+voce: Kore
+velocita: 1.1
+motore: gemini
+
+## Fonti
+- [x] ANSA (italia) — https://www.ansa.it/sito/notizie/topnews/topnews_rss.xml
+- [ ] Corriere (italia) — https://...
+
+## Import feed
+Incolla qui un OPML o una URL per riga. Le nuove fonti vengono importate spente.
+```
+
+Comandi:
+
+```powershell
+# Applica Nome/Fonti/Import dalla issue e aggiorna la issue
+.\.venv\Scripts\python.exe -m notiziario.dashboard --applica
+
+# Mostra le modifiche senza scrivere né aggiornare la issue
+.\.venv\Scripts\python.exe -m notiziario.dashboard --applica --dry-run
+
+# Genera il markdown completo dalla config attuale
+.\.venv\Scripts\python.exe -m notiziario.dashboard --genera-corpo
+```
+
+`--applica` richiede `GITHUB_TOKEN`, `GITHUB_REPOSITORY` e
+`GITHUB_ISSUE_CATEGORIE`; il workflow lo esegue prima di generare l'episodio,
+con `issues: write`, e non blocca la run se la issue non è raggiungibile.
+Nome e Fonti sono conservativi: le sezioni malformate non vengono toccate.
+L'import crea solo fonti nuove, le verifica per un massimo di 20 feed (timeout
+10 s, 8 worker), scarta i podcast e sostituisce la sezione con
+`Import completato: N aggiunte, M duplicate, K scartate.` per evitare
+reimportazioni. Le nuove fonti restano spente e vengono aggiunte in fondo a
+`## Fonti`. La sezione Import non viene riscritta se è vuota o solo un
+segnaposto.
+
+`--genera-corpo` è utile per preparare il corpo della issue con
+`gh issue edit --body-file`; il file `output/issue-dashboard.md` è un esempio
+generato dalla config locale.
 
 ## Copertina, feed e robots
 
@@ -655,9 +712,8 @@ ambiente; per attivarlo servono:
    (il workflow dichiara già `contents: write`, ma il repository deve permettere
    il push del bot);
 4. il secret **`GEMINI_API_KEY`** (facoltativo: senza, si usa il fallback);
-5. se vuoi categorie, incipit e voce da issue: la variabile
-   **`GITHUB_ISSUE_CATEGORIE`** con il numero della issue. La stessa issue può
-   contenere `## Incipit` e `## Voce`.
+5. la variabile **`GITHUB_ISSUE_CATEGORIE`** con il numero della issue #1.
+   La stessa issue contiene Nome, Categorie, Incipit, Voce, Fonti e Import.
 
 Il workflow:
 
@@ -665,6 +721,9 @@ Il workflow:
   07:30 con l'ora legale) e si può lanciare a mano con `workflow_dispatch`,
   scegliendo `svelto`, `standard` o `completo`;
 - installa Python 3.12 e ffmpeg su Ubuntu;
+- applica la dashboard (`python -m notiziario.dashboard --applica`) prima di
+  generare: se la issue non è raggiungibile, avvisa e prosegue con la config
+  esistente;
 - esegue `python main.py`;
 - crea o aggiorna la release `episodio-AAAA-MM-GG` (data Europe/Rome) e allega
   l'mp3 tramite `notiziario/pubblica.py`; il passo è **bloccante**;
@@ -673,7 +732,7 @@ Il workflow:
 - aggiorna `docs/feed.xml` (storico massimo 60 episodi), `docs/storico.json` e
   `docs/index.html`, con `sito_url` reale derivato da `GITHUB_REPOSITORY`
   (`https://owner.github.io/repo/`, con caso speciale `owner.github.io`), poi
-  committa e pusha **`docs/` e `state/visti.json`**;
+  committa e pusha **`docs/`, `state/visti.json` e `config/`**;
 - pubblica `docs/` su GitHub Pages solo dopo release, verifica HEAD e commit.
 
 C'è anche un workflow manuale separato `.github/workflows/anteprima-voce.yml`:
@@ -682,7 +741,7 @@ scegli voce, velocità e frase, scarica l'mp3 come artifact, senza episodio.
 senza segreti.
 
 Permessi usati: `contents: write`, `pages: write`, `id-token: write`,
-`issues: read`. La concurrency evita due run sovrapposte. Le action sono
+`issues: write`. La concurrency evita due run sovrapposte. Le action sono
 pinnate ai tag major (`@v4`, `@v5`, `@v3`): rischio basso di supply chain,
 documentato; non sono stati inventati SHA.
 
@@ -718,7 +777,7 @@ Controllo stile manuale di un copione:
 
 ## Risultato della verifica locale (22 novembre 2026)
 
-- `pytest`: **181 test passati**.
+- `pytest`: **190 test passati**.
 - `--test-llm`: Gemini 2.5 Flash ha risposto con la chiave letta dal registro
   utente (nessuna chiave scritta su file).
 - Run standard finale: 31 fonti attive, 22 feed OK e 9 KO solo per assenza di

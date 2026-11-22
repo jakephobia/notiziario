@@ -264,6 +264,9 @@ def scrivi_impostazioni_pubbliche(
     velocita: float,
     motore: str,
     data: str,
+    nome_utente: str = "",
+    fonti_totali: int = 0,
+    fonti_attive: int = 0,
     issue_url: str | None = None,
     repo_url: str | None = None,
 ) -> dict[str, Any]:
@@ -279,6 +282,9 @@ def scrivi_impostazioni_pubbliche(
         "velocita": float(velocita),
         "motore": motore,
         "data": data,
+        "nome_utente": nome_utente,
+        "fonti_totali": int(fonti_totali),
+        "fonti_attive": int(fonti_attive),
         "issue_url": issue_url,
         "repo_url": repo_url,
     }
@@ -390,6 +396,7 @@ _TEMPLATE_INDEX = """<!DOCTYPE html>
     }
     .intestazione-impostazioni { display: flex; gap: 12px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
     .intestazione-impostazioni h2 { margin: 0; font-size: 1.2rem; }
+    .riepilogo { margin: 3px 0 0; color: var(--tenue); font-size: 0.9rem; }
     .bottone {
       display: inline-block; background: var(--accento); color: #fff; text-decoration: none;
       padding: 10px 14px; border-radius: 10px; font-weight: 650; font-size: 0.92rem;
@@ -456,7 +463,10 @@ _TEMPLATE_INDEX = """<!DOCTYPE html>
 
   <section class="impostazioni" aria-labelledby="titolo-impostazioni">
     <div class="intestazione-impostazioni">
-      <h2 id="titolo-impostazioni">Impostazioni</h2>
+      <div>
+        <h2 id="titolo-impostazioni">Impostazioni</h2>
+        <p id="nome-fonti" class="riepilogo">...</p>
+      </div>
       <a id="modifica-impostazioni" class="bottone" href="#" target="_blank" rel="noopener noreferrer" hidden>Modifica impostazioni</a>
     </div>
     <p class="nota">Le modifiche si salvano dalla dashboard GitHub e vengono applicate al run successivo.</p>
@@ -509,6 +519,7 @@ _TEMPLATE_INDEX = """<!DOCTYPE html>
   const conteggioEl = document.getElementById("conteggio");
   const incipitEl = document.getElementById("incipit-risolto");
   const dataAggiornamentoEl = document.getElementById("data-aggiornamento");
+  const nomeFontiEl = document.getElementById("nome-fonti");
   const modificaLink = document.getElementById("modifica-impostazioni");
   const repoLink = document.getElementById("repo-link");
 
@@ -628,6 +639,9 @@ _TEMPLATE_INDEX = """<!DOCTYPE html>
     const motore = dati.motore || fallback.motore;
     motoreTtsEl.textContent = motore === "gemini" ? "Gemini TTS" : (motore === "edge" ? "edge-tts" : (motore || "non disponibile"));
     dataAggiornamentoEl.textContent = dati.data ? formattaData(dati.data) : (fallback.data ? formattaData(fallback.data) : "non disponibile");
+    const nome = dati.nome_utente || "";
+    const attive = Number.isFinite(Number(dati.fonti_attive)) ? Number(dati.fonti_attive) : (fallback.categorie_label.length || 0);
+    nomeFontiEl.textContent = (nome ? nome + " · " : "") + attive + " fonti attive";
     const repo = dati.repo_url || fallback.repo_url;
     if (repo) repoLink.href = repo;
     const modifica = dati.issue_url || null;

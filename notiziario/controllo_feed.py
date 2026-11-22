@@ -134,6 +134,7 @@ def controlla_feed(
     adesso: datetime | None = None,
     visti=None,
     logger: logging.Logger | None = None,
+    timeout: int = 15,
 ) -> EsitoControllo:
     logger = logger or logging.getLogger("notiziario")
     adesso = (adesso or adesso_roma()).astimezone(adesso_roma().tzinfo)
@@ -155,7 +156,7 @@ def controlla_feed(
     try:
         contenuto, _, status = fetch_con_limite(
             fonte.url,
-            timeout=15,
+            timeout=timeout,
             max_bytes=MAX_FEED_BYTES,
             max_redirect=3,
             headers=HEADERS,
@@ -299,12 +300,15 @@ def controlla_tutte(
     visti=None,
     logger: logging.Logger | None = None,
     max_workers: int = 8,
+    timeout: int = 15,
 ) -> list[EsitoControllo]:
     logger = logger or logging.getLogger("notiziario")
     adesso = adesso or adesso_roma()
 
     def uno(fonte: Fonte) -> EsitoControllo:
-        esito = controlla_feed(fonte, impostazioni, adesso, visti, logger)
+        esito = controlla_feed(
+            fonte, impostazioni, adesso, visti, logger, timeout=timeout
+        )
         logger.info(
             "Controllo feed: %-22s %-24s %s",
             fonte.nome,

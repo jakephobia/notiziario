@@ -801,6 +801,13 @@ def esegui(
     )
     motore_pub = str(info_audio.get("motore", voce_scelta.motore)) if info_audio else voce_scelta.motore
     velocita_pub = float(info_audio.get("velocita", voce_scelta.velocita)) if info_audio else voce_scelta.velocita
+    try:
+        tutte_fonti = carica_fonti_tutte(_percorso_fonti(args))
+        fonti_totali = len(tutte_fonti)
+        fonti_attive = sum(1 for f in tutte_fonti if f.attivo)
+    except Exception:
+        fonti_totali = len(fonti)
+        fonti_attive = len(fonti)
     impostazioni_pubbliche = {
         "categorie_attive": categorie_attive,
         "incipit_template": modello_incipit,
@@ -810,6 +817,9 @@ def esegui(
         "velocita": velocita_pub,
         "motore": motore_pub,
         "data": data_iso,
+        "nome_utente": str(impostazioni.get("nome_utente", "")),
+        "fonti_totali": fonti_totali,
+        "fonti_attive": fonti_attive,
         "issue_url": _issue_url(impostazioni),
         "repo_url": _repo_url(impostazioni),
     }

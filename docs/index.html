@@ -74,6 +74,7 @@
     }
     .intestazione-impostazioni { display: flex; gap: 12px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
     .intestazione-impostazioni h2 { margin: 0; font-size: 1.2rem; }
+    .riepilogo { margin: 3px 0 0; color: var(--tenue); font-size: 0.9rem; }
     .bottone {
       display: inline-block; background: var(--accento); color: #fff; text-decoration: none;
       padding: 10px 14px; border-radius: 10px; font-weight: 650; font-size: 0.92rem;
@@ -140,7 +141,10 @@
 
   <section class="impostazioni" aria-labelledby="titolo-impostazioni">
     <div class="intestazione-impostazioni">
-      <h2 id="titolo-impostazioni">Impostazioni</h2>
+      <div>
+        <h2 id="titolo-impostazioni">Impostazioni</h2>
+        <p id="nome-fonti" class="riepilogo">...</p>
+      </div>
       <a id="modifica-impostazioni" class="bottone" href="#" target="_blank" rel="noopener noreferrer" hidden>Modifica impostazioni</a>
     </div>
     <p class="nota">Le modifiche si salvano dalla dashboard GitHub e vengono applicate al run successivo.</p>
@@ -193,6 +197,7 @@
   const conteggioEl = document.getElementById("conteggio");
   const incipitEl = document.getElementById("incipit-risolto");
   const dataAggiornamentoEl = document.getElementById("data-aggiornamento");
+  const nomeFontiEl = document.getElementById("nome-fonti");
   const modificaLink = document.getElementById("modifica-impostazioni");
   const repoLink = document.getElementById("repo-link");
 
@@ -312,6 +317,9 @@
     const motore = dati.motore || fallback.motore;
     motoreTtsEl.textContent = motore === "gemini" ? "Gemini TTS" : (motore === "edge" ? "edge-tts" : (motore || "non disponibile"));
     dataAggiornamentoEl.textContent = dati.data ? formattaData(dati.data) : (fallback.data ? formattaData(fallback.data) : "non disponibile");
+    const nome = dati.nome_utente || "";
+    const attive = Number.isFinite(Number(dati.fonti_attive)) ? Number(dati.fonti_attive) : (fallback.categorie_label.length || 0);
+    nomeFontiEl.textContent = (nome ? nome + " · " : "") + attive + " fonti attive";
     const repo = dati.repo_url || fallback.repo_url;
     if (repo) repoLink.href = repo;
     const modifica = dati.issue_url || null;

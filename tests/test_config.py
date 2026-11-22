@@ -59,7 +59,7 @@ def test_workflow_yaml_valido_con_safe_load():
     assert "episodio" in dati["jobs"]
     permessi = dati["permissions"]
     assert permessi["contents"] == "write"
-    assert permessi["issues"] == "read"
+    assert permessi["issues"] == "write"
     assert "pages" not in permessi
     assert "id-token" not in permessi
     passi = dati["jobs"]["episodio"]["steps"]

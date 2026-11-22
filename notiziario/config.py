@@ -88,7 +88,7 @@ DEFAULT_SETTINGS: dict[str, Any] = {
         "buone-notizie",
     ],
     "incipit": {"file": "config/incipit.txt"},
-    "github": {"issue_categorie": None, "repo_url": "https://github.com/jakephobia/notiziario"},
+    "github": {"issue_categorie": 1, "repo_url": "https://github.com/jakephobia/notiziario"},
     "voce": {
         "nome": "Kore",
         "velocita": 1.1,

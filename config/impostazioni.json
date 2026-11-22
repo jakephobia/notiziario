@@ -62,7 +62,7 @@
     "file": "config/incipit.txt"
   },
   "github": {
-    "issue_categorie": null,
+    "issue_categorie": 1,
     "repo_url": "https://github.com/jakephobia/notiziario"
   },
   "voce": {

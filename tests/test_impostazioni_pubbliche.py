@@ -19,6 +19,9 @@ def test_struttura_impostazioni_pubbliche(tmp_path):
         velocita=1.1,
         motore="gemini",
         data="2026-11-22",
+        nome_utente="Jacopo",
+        fonti_totali=31,
+        fonti_attive=31,
         issue_url="https://github.com/o/r/issues/1",
         repo_url="https://github.com/o/r",
     )
@@ -32,12 +35,18 @@ def test_struttura_impostazioni_pubbliche(tmp_path):
         "velocita",
         "motore",
         "data",
+        "nome_utente",
+        "fonti_totali",
+        "fonti_attive",
         "issue_url",
         "repo_url",
     }
     letto = json.loads(percorso.read_text(encoding="utf-8"))
     assert letto["categorie_label"] == ["Italia", "Buone notizie"]
     assert letto["velocita"] == 1.1
+    assert letto["nome_utente"] == "Jacopo"
+    assert letto["fonti_totali"] == 31
+    assert letto["fonti_attive"] == 31
     assert "GEMINI_API_KEY" not in percorso.read_text(encoding="utf-8").upper()
     assert "AIza" not in percorso.read_text(encoding="utf-8")
 
