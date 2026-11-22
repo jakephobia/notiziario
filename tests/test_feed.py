@@ -175,3 +175,14 @@ def test_robots_docs_disallow_all():
     robots = Path("docs/robots.txt").read_text(encoding="utf-8")
     assert "User-agent: *" in robots
     assert "Disallow: /" in robots
+
+def test_index_contiene_sezione_impostazioni_e_fetch(tmp_path):
+    impostazioni = carica_impostazioni()
+    percorso = tmp_path / "index.html"
+    scrivi_index(percorso, impostazioni)
+    html = percorso.read_text(encoding="utf-8")
+    assert "Impostazioni" in html
+    assert "fetch(\"impostazioni.json\"" in html
+    assert "id=\"modifica-impostazioni\"" in html
+    assert "Le modifiche si salvano dalla dashboard GitHub" in html
+    assert "innerHTML" not in html

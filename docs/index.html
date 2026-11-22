@@ -65,6 +65,31 @@
     }
     .stato div { color: var(--tenue); }
     .stato strong { color: var(--testo); font-weight: 600; }
+    .impostazioni {
+      background: var(--card);
+      border: 1px solid var(--bordo);
+      border-radius: 18px;
+      padding: 18px;
+      margin: 0 0 26px;
+    }
+    .intestazione-impostazioni { display: flex; gap: 12px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+    .intestazione-impostazioni h2 { margin: 0; font-size: 1.2rem; }
+    .bottone {
+      display: inline-block; background: var(--accento); color: #fff; text-decoration: none;
+      padding: 10px 14px; border-radius: 10px; font-weight: 650; font-size: 0.92rem;
+    }
+    .bottone:hover, .bottone:focus-visible { background: var(--accento-scuro); }
+    .nota { color: var(--tenue); font-size: 0.88rem; margin: 10px 0 16px; }
+    .riga { margin: 14px 0; }
+    .etichetta { display: block; color: var(--tenue); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 7px; }
+    .chip { background: var(--sfondo); border: 1px solid var(--bordo); color: var(--testo); border-radius: 999px; padding: 5px 10px; font-size: 0.88rem; }
+    .incipit-riquadro { background: var(--sfondo); border-left: 4px solid var(--accento); border-radius: 10px; padding: 12px 14px; margin: 14px 0; }
+    .incipit-riquadro p { margin: 0; font-size: 0.98rem; }
+    .griglia-dettagli { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 18px; margin-top: 14px; }
+    .griglia-dettagli strong { font-size: 0.96rem; }
+    .link-repo { margin: 16px 0 0; font-size: 0.84rem; }
+    @media (max-width: 520px) { .griglia-dettagli { grid-template-columns: 1fr; } }
     h2 { font-size: 1.15rem; margin: 26px 0 12px; }
     ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
     li {
@@ -113,12 +138,31 @@
     <audio id="player" controls preload="metadata"></audio>
   </section>
 
+  <section class="impostazioni" aria-labelledby="titolo-impostazioni">
+    <div class="intestazione-impostazioni">
+      <h2 id="titolo-impostazioni">Impostazioni</h2>
+      <a id="modifica-impostazioni" class="bottone" href="#" target="_blank" rel="noopener noreferrer" hidden>Modifica impostazioni</a>
+    </div>
+    <p class="nota">Le modifiche si salvano dalla dashboard GitHub e vengono applicate al run successivo.</p>
+    <div class="riga">
+      <span class="etichetta">Categorie attive</span>
+      <div id="categorie" class="chips" aria-label="Categorie attive"></div>
+    </div>
+    <div class="incipit-riquadro">
+      <span class="etichetta">Incipit</span>
+      <p id="incipit-risolto">caricamento...</p>
+    </div>
+    <div class="griglia-dettagli">
+      <div><span class="etichetta">Voce</span><strong id="voce">caricamento...</strong></div>
+      <div><span class="etichetta">Velocità</span><strong id="velocita">caricamento...</strong></div>
+      <div><span class="etichetta">Motore TTS</span><strong id="tts-motore">caricamento...</strong></div>
+      <div><span class="etichetta">Ultimo aggiornamento</span><strong id="data-aggiornamento">caricamento...</strong></div>
+    </div>
+    <p class="link-repo"><a id="repo-link" href="https://github.com/jakephobia/notiziario" target="_blank" rel="noopener noreferrer">Repository del progetto</a></p>
+  </section>
+
   <section class="stato" aria-label="Stato del notiziario">
-    <div>Categorie attive: <strong id="categorie">caricamento...</strong></div>
     <div>Modalità AI: <strong id="modalita">caricamento...</strong></div>
-    <div>Voce: <strong id="voce">caricamento...</strong></div>
-    <div>Velocità: <strong id="velocita">caricamento...</strong></div>
-    <div>Motore TTS: <strong id="tts-motore">caricamento...</strong></div>
     <div>Episodi disponibili: <strong id="conteggio">caricamento...</strong></div>
   </section>
 
@@ -147,6 +191,10 @@
   const velocitaEl = document.getElementById("velocita");
   const motoreTtsEl = document.getElementById("tts-motore");
   const conteggioEl = document.getElementById("conteggio");
+  const incipitEl = document.getElementById("incipit-risolto");
+  const dataAggiornamentoEl = document.getElementById("data-aggiornamento");
+  const modificaLink = document.getElementById("modifica-impostazioni");
+  const repoLink = document.getElementById("repo-link");
 
   function testoDi(elemento) {
     return elemento && elemento.textContent ? elemento.textContent.trim() : "";
@@ -166,6 +214,17 @@
     velocitaEl.textContent = "non disponibile";
     motoreTtsEl.textContent = "non disponibile";
     conteggioEl.textContent = "0";
+  }
+
+  function renderChips(contenitore, etichette) {
+    contenitore.replaceChildren();
+    etichette.filter(Boolean).forEach(function (etichetta) {
+      const chip = document.createElement("span");
+      chip.className = "chip";
+      chip.textContent = etichetta;
+      contenitore.appendChild(chip);
+    });
+    if (!etichette.length) contenitore.textContent = "non disponibili";
   }
 
   function formattaData(grezza) {
@@ -220,6 +279,53 @@
     return li;
   }
 
+  async function caricaImpostazioni(canale, episodi) {
+    const categorie = primoPerNamespace(canale, NS_NOTIZIARIO, "categorie");
+    const modalita = primoPerNamespace(canale, NS_NOTIZIARIO, "modalita");
+    const voce = primoPerNamespace(canale, NS_NOTIZIARIO, "voce");
+    const voceLabel = primoPerNamespace(canale, NS_NOTIZIARIO, "voce_label");
+    const velocita = primoPerNamespace(canale, NS_NOTIZIARIO, "velocita");
+    const motoreTts = primoPerNamespace(canale, NS_NOTIZIARIO, "tts_motore");
+    const fallback = {
+      categorie_label: (testoDi(categorie) || "").split(",").map(function (x) { return x.trim(); }).filter(Boolean),
+      voce: testoDi(voce),
+      voce_label: testoDi(voceLabel),
+      velocita: testoDi(velocita),
+      motore: testoDi(motoreTts),
+      incipit_risolto: "",
+      data: episodi.length ? testoDi(episodi[0].querySelector("pubDate")) : "",
+      issue_url: null,
+      repo_url: "https://github.com/jakephobia/notiziario",
+    };
+    let dati = null;
+    try {
+      const risposta = await fetch("impostazioni.json", { cache: "no-store" });
+      if (risposta.ok) dati = await risposta.json();
+    } catch (errore) { dati = null; }
+    if (!dati || typeof dati !== "object") dati = fallback;
+    const etichette = Array.isArray(dati.categorie_label) && dati.categorie_label.length
+      ? dati.categorie_label : fallback.categorie_label;
+    renderChips(categorieEl, etichette);
+    incipitEl.textContent = dati.incipit_risolto || "Non disponibile";
+    voceEl.textContent = dati.voce_label || dati.voce || fallback.voce_label || fallback.voce || "non disponibile";
+    velocitaEl.textContent = (dati.velocita !== undefined ? dati.velocita : fallback.velocita) ? (dati.velocita !== undefined ? dati.velocita : fallback.velocita) + "×" : "non disponibile";
+    const motore = dati.motore || fallback.motore;
+    motoreTtsEl.textContent = motore === "gemini" ? "Gemini TTS" : (motore === "edge" ? "edge-tts" : (motore || "non disponibile"));
+    dataAggiornamentoEl.textContent = dati.data ? formattaData(dati.data) : (fallback.data ? formattaData(fallback.data) : "non disponibile");
+    const repo = dati.repo_url || fallback.repo_url;
+    if (repo) repoLink.href = repo;
+    const modifica = dati.issue_url || null;
+    if (modifica) {
+      modificaLink.href = modifica;
+      modificaLink.textContent = "Modifica impostazioni";
+      modificaLink.hidden = false;
+    } else if (repo) {
+      modificaLink.href = repo;
+      modificaLink.textContent = "Apri il repository";
+      modificaLink.hidden = false;
+    }
+  }
+
   async function carica() {
     try {
       const risposta = await fetch("feed.xml", { cache: "no-store" });
@@ -246,13 +352,14 @@
 
       const episodi = Array.from(doc.querySelectorAll("item"));
       conteggioEl.textContent = String(episodi.length);
-      if (!episodi.length) {
-        mostraErrore("Non ci sono ancora episodi nel feed.");
-        return;
-      }
       episodi.forEach(function (item, indice) {
         lista.appendChild(creaEpisodio(item, indice));
       });
+      await caricaImpostazioni(canale, episodi);
+      if (!episodi.length) {
+        messaggio.textContent = "Non ci sono ancora episodi nel feed.";
+        messaggio.hidden = false;
+      }
     } catch (errore) {
       mostraErrore(
         "Non riesco a leggere feed.xml. Apri questa pagina con GitHub Pages " +

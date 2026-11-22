@@ -35,7 +35,12 @@ from notiziario.controllo_feed import (
     salva_report,
     stampa_tabella,
 )
-from notiziario.feed import Episodio, aggiorna_docs, normalizza_sito_url
+from notiziario.feed import (
+    Episodio,
+    aggiorna_docs,
+    normalizza_sito_url,
+    scrivi_impostazioni_pubbliche,
+)
 from notiziario.fetch import fetch_all
 from notiziario.fonti_io import scrivi_fonti_yaml
 from notiziario.importa_feed import elenco_fonti, importa_feed, stampa_report
@@ -788,6 +793,27 @@ def esegui(
         visti.salva()
         logger.info("Rubrica first_seen salvata: %s", percorso_visti)
 
+    voce_pub = str(info_audio.get("voce", voce_scelta.nome)) if info_audio else voce_scelta.nome
+    voce_label_pub = (
+        voce_scelta.etichetta
+        if info_audio and info_audio.get("motore") == "gemini"
+        else (f"{voce_pub} (edge-tts)" if info_audio else voce_scelta.etichetta)
+    )
+    motore_pub = str(info_audio.get("motore", voce_scelta.motore)) if info_audio else voce_scelta.motore
+    velocita_pub = float(info_audio.get("velocita", voce_scelta.velocita)) if info_audio else voce_scelta.velocita
+    impostazioni_pubbliche = {
+        "categorie_attive": categorie_attive,
+        "incipit_template": modello_incipit,
+        "incipit_risolto": incipit,
+        "voce": voce_pub,
+        "voce_label": voce_label_pub,
+        "velocita": velocita_pub,
+        "motore": motore_pub,
+        "data": data_iso,
+        "issue_url": _issue_url(impostazioni),
+        "repo_url": _repo_url(impostazioni),
+    }
+
     docs_info = None
     if info_audio and not args.dry_run and not args.no_feed:
         episodio = Episodio(
@@ -816,6 +842,7 @@ def esegui(
                 args.docs,
                 base_url=args.feed_base_url,
                 sito_url=_sito_url(args, impostazioni),
+                impostazioni_pubbliche=impostazioni_pubbliche,
                 logger=logger,
             )
         except Exception as exc:
@@ -1016,6 +1043,22 @@ def comando_anteprima(
         print(f"Fallback: {info['motivo_fallback']}")
     return 0
 
+
+def _repo_url(impostazioni: dict[str, Any]) -> str:
+    repo = os.environ.get("GITHUB_REPOSITORY", "").strip()
+    if repo:
+        return f"https://github.com/{repo}"
+    return str(impostazioni.get("github", {}).get("repo_url", "")).rstrip("/")
+
+def _issue_url(impostazioni: dict[str, Any]) -> str | None:
+    try:
+        numero = numero_issue_categorie(impostazioni)
+    except ConfigError:
+        return None
+    repo = _repo_url(impostazioni)
+    if numero and repo:
+        return f"{repo}/issues/{numero}"
+    return None
 
 def comando_elenco_fonti(args: argparse.Namespace) -> int:
     fonti = carica_fonti_tutte(_percorso_fonti(args))

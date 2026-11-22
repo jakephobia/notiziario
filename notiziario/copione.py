@@ -406,22 +406,42 @@ def _lunghezza_ai_adeguata(
     return conta_parole(copione["testo"]) >= max(150, int(target * 0.5))
 
 
+_CHIUSURA_RE = re.compile(
+    r"^(queste|per oggi|per il momento|è tutto|e tutto|grazie|a domani|"
+    r"buona giornata|il prossimo appuntamento)",
+    re.IGNORECASE,
+)
+_CHIUSURA_DEFAULT = "Per oggi è tutto. A domani."
+
+
+def _separa_chiusura(paragrafi: list[str]) -> tuple[list[str], str]:
+    """Estrae l'ultimo paragrafo di chiusura, anche se non è in fondo."""
+    for indice in range(len(paragrafi) - 1, -1, -1):
+        paragrafo = paragrafi[indice]
+        if len(paragrafo.split()) <= 45 and _CHIUSURA_RE.match(paragrafo):
+            return paragrafi[:indice] + paragrafi[indice + 1 :], paragrafo
+    return paragrafi, ""
+
+
+def _garantisci_chiusura_finale(testo: str) -> str:
+    paragrafi = [p.strip() for p in re.split(r"\n\s*\n", testo) if p.strip()]
+    paragrafi, chiusura = _separa_chiusura(paragrafi)
+    if not chiusura:
+        chiusura = _CHIUSURA_DEFAULT
+    return "\n\n".join(paragrafi + [chiusura])
+
+
 def _riordina_buone_notizie(
     testo: str, selezioni: list[NotiziaSelezionata]
 ) -> tuple[str, bool]:
-    """Sposta i paragrafi delle Buone notizie prima dell'outro."""
+    """Sposta le Buone notizie prima dell'outro e l'outro in fondo."""
     titoli = [s.titolo for s in selezioni if s.blocco == "buone-notizie"]
-    if not titoli:
-        return testo, False
     paragrafi = [p.strip() for p in re.split(r"\n\s*\n", testo) if p.strip()]
     if len(paragrafi) < 2:
         return testo, False
-    chiusura = ""
-    if len(paragrafi[-1].split()) <= 40 and re.match(
-        r"^(queste|per oggi|è tutto|e tutto|grazie|a domani|buona)",
-        paragrafi[-1].casefold(),
-    ):
-        chiusura = paragrafi.pop()
+    paragrafi, chiusura = _separa_chiusura(paragrafi)
+    if not titoli:
+        return "\n\n".join(paragrafi + ([chiusura] if chiusura else [])), False
 
     def pertinente(paragrafo: str) -> bool:
         token_paragrafo = set(normalizza_titolo(paragrafo).split())
@@ -434,13 +454,9 @@ def _riordina_buone_notizie(
         return False
 
     positive = [p for p in paragrafi if pertinente(p)]
-    if not positive:
-        return "\n\n".join(paragrafi + ([chiusura] if chiusura else [])), False
     altre = [p for p in paragrafi if p not in positive]
-    return (
-        "\n\n".join(altre + positive + ([chiusura] if chiusura else [])),
-        True,
-    )
+    risultato = altre + positive + ([chiusura] if chiusura else [])
+    return "\n\n".join(risultato), bool(positive)
 
 
 def _finalizza_llm(
@@ -494,6 +510,7 @@ def _finalizza_llm(
                 testo = "\n\n".join(paragrafi + positive_texts + [chiusura])
             else:
                 testo = "\n\n".join(paragrafi + positive_texts)
+    testo = _garantisci_chiusura_finale(testo)
     if not descrizione:
         descrizione = "Le notizie del giorno lette in italiano."
     parole = conta_parole(testo)

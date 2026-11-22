@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import logging
 import os
@@ -416,3 +416,57 @@ def test_blocchi_per_tts_testo_unico():
     blocchi = blocchi_per_tts(testo)
     assert len(blocchi) >= 2
     assert all(conta_parole(b) <= 100 for b in blocchi)
+
+def test_outro_prima_delle_buone_notizie_viene_spostato_in_fondo(monkeypatch):
+    positiva = crea_cluster(
+        [
+            crea_articolo(
+                "Ragazzi ripuliscono il parco",
+                fonte="Buone Notizie",
+                categoria="buone-notizie",
+                sommario="Hanno raccolto rifiuti e piantato alberi.",
+            )
+        ]
+    )
+    selezioni = selezioni_finte() + [
+        NotiziaSelezionata(
+            positiva,
+            copertina=False,
+            ordine=4,
+            parole_target=100,
+            blocco="buone-notizie",
+        )
+    ]
+    monkeypatch.setenv("GEMINI_API_KEY", "chiave-di-prova")
+    testo = (
+        ("Il governo approva il piano. " * 10)
+        + "\n\nPer il momento è tutto. A domani."
+        + "\n\n"
+        + ("Ragazzi ripuliscono il parco. " * 10)
+    )
+    risposta = {
+        "titolo_episodio": "Notiziario di prova",
+        "descrizione": "Notizie.",
+        "testo": testo,
+        "notizie": [
+            {"titolo": "Il governo approva", "categoria": "Italia", "fonti": ["ANSA"], "testo": "Il governo approva."},
+            {"titolo": "Ragazzi ripuliscono il parco", "categoria": "Buone notizie", "fonti": ["Buone Notizie"], "testo": "Ragazzi ripuliscono il parco."},
+            {"titolo": "Economia", "categoria": "Economia", "fonti": ["ANSA"], "testo": "Economia."},
+            {"titolo": "Mondo", "categoria": "Mondo", "fonti": ["ANSA"], "testo": "Mondo."},
+        ],
+    }
+    monkeypatch.setattr(
+        modulo_copione,
+        "_chiama_gemini",
+        lambda *a, **k: __import__("json").dumps(risposta),
+    )
+    copione = genera_copione(
+        selezioni,
+        carica_impostazioni(),
+        datetime(2026, 11, 22, 7, 0),
+        logger=LOGGER,
+    )
+    finale = copione["testo"]
+    paragrafi = [p.strip() for p in finale.split("\n\n") if p.strip()]
+    assert paragrafi[-1].startswith("Per il momento è tutto")
+    assert finale.index("Ragazzi") < finale.index("Per il momento è tutto")

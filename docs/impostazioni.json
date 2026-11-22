@@ -1,0 +1,31 @@
+{
+  "categorie_attive": [
+    "italia",
+    "mondo",
+    "economia",
+    "tecnologia",
+    "scienza-salute",
+    "cultura",
+    "ambiente",
+    "buone-notizie"
+  ],
+  "categorie_label": [
+    "Italia",
+    "Mondo",
+    "Economia",
+    "Tecnologia",
+    "Scienza e salute",
+    "Cultura",
+    "Ambiente",
+    "Buone notizie"
+  ],
+  "incipit_template": "Ciao [NOME UTENTE], ecco le tue notizie del giorno. Oggi è il [DATA].",
+  "incipit_risolto": "Ciao Jacopo, ecco le tue notizie del giorno. Oggi è il 22 novembre.",
+  "voce": "Kore",
+  "voce_label": "Kore — femminile, calda",
+  "velocita": 1.1,
+  "motore": "gemini",
+  "data": "2026-11-22",
+  "issue_url": "https://github.com/jakephobia/notiziario/issues/1",
+  "repo_url": "https://github.com/jakephobia/notiziario"
+}

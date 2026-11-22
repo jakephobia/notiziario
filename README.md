@@ -20,6 +20,7 @@ completo di massimo 20 articoli rispettando robots.txt. Cita sempre le testate.
 - `logs/run-AAAA-MM-GG.log`: log dell'esecuzione.
 - `docs/feed.xml`, `docs/index.html`, `docs/storico.json`: feed RSS e player statico.
 - `docs/copertina.png`: copertina 1400x1400 per Apple Podcasts.
+- `docs/impostazioni.json`: impostazioni effettive lette dalla pagina.
 - `docs/robots.txt`: sito non indicizzato (Disallow /).
 - `output/provini/provino-isabella.mp3` e `provino-elsa.mp3`: due provini vocali.
 - `output/controllo-feed-AAAA-MM-GG.json`: report del controllo anti-block.
@@ -617,6 +618,21 @@ Poi apri `http://localhost:8000/docs/`. Il server deve partire dalla cartella
 del progetto, così `/output/` è raggiungibile. In cloud il workflow sostituisce
 `base_url` con gli allegati della release GitHub.
 
+## Interfaccia unica e impostazioni
+
+`docs/index.html` unisce player, elenco episodi e una sezione **Impostazioni**:
+categorie attive come chip, incipit, voce, velocità, motore TTS e data
+dell'ultimo aggiornamento. La sezione legge `docs/impostazioni.json`; se
+manca o è invalido usa i dati del feed e non rompe la pagina. Il pulsante
+“Modifica impostazioni” apre la issue configurata in una nuova scheda; senza
+issue mostra un link discreto al repository.
+
+`docs/impostazioni.json` è generato a ogni run con i valori effettivi
+dell'episodio (categorie, incipit template/risolto, voce, velocità, motore,
+data, URL issue/repo). Inizialmente è già presente con i default, così la
+pagina funziona subito. Le modifiche si salvano dalla dashboard GitHub e
+vengono applicate al run successivo.
+
 ## Copertina, feed e robots
 
 `docs/copertina.png` è una PNG quadrata 1400x1400 RGB, con titolo
@@ -702,7 +718,7 @@ Controllo stile manuale di un copione:
 
 ## Risultato della verifica locale (22 novembre 2026)
 
-- `pytest`: **175 test passati**.
+- `pytest`: **181 test passati**.
 - `--test-llm`: Gemini 2.5 Flash ha risposto con la chiave letta dal registro
   utente (nessuna chiave scritta su file).
 - Run standard finale: 31 fonti attive, 22 feed OK e 9 KO solo per assenza di
