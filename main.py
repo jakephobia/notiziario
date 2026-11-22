@@ -1,4 +1,4 @@
-﻿"""Entrypoint CLI del Notiziario."""
+"""Entrypoint CLI del Notiziario."""
 
 from __future__ import annotations
 
@@ -887,6 +887,8 @@ def esegui(
         "voce_label": voce_label_pub,
         "velocita": velocita_pub,
         "motore": motore_pub,
+        "motore_richiesto": voce_scelta.motore,
+        "motore_configurato": str(impostazioni.get("tts_motore", voce_scelta.motore)),
         "outro": outro,
         "data": data_iso,
         "nome_utente": str(impostazioni.get("nome_utente", "")),

@@ -1,4 +1,4 @@
-﻿"""Raggruppamento degli articoli che raccontano lo stesso evento."""
+"""Raggruppamento degli articoli che raccontano lo stesso evento."""
 
 from __future__ import annotations
 
@@ -153,6 +153,8 @@ def clusterizza(
     confronti = 0
     for (i, j), token_comuni in coppie.items():
         if token_comuni < 2:
+            continue
+        if articoli[i].categoria != articoli[j].categoria:
             continue
         confronti += 1
         if similarita_normalizzate(normalizzati[i], normalizzati[j]) >= soglia:

@@ -1,4 +1,4 @@
-﻿"""Generazione del feed RSS 2.0 con iTunes e della pagina player statica."""
+"""Generazione del feed RSS 2.0 con iTunes e della pagina player statica."""
 
 from __future__ import annotations
 
@@ -13,7 +13,7 @@ from typing import Any
 from urllib.parse import urljoin, urlsplit, urlunsplit
 
 from .categorie import label_categoria
-from .testi import formatta_durata
+from .testi import formatta_durata, normalizza_mesi
 
 
 NS_ITUNES = "http://www.itunes.com/dtds/podcast-1.0.dtd"
@@ -83,6 +83,7 @@ def aggiungi_episodio(
         and e.get("guid") != f"notiziario-{episodio.data}"
     ]
     voce = asdict(episodio)
+    voce["titolo"] = normalizza_mesi(str(voce.get("titolo", "")))
     voce["guid"] = f"notiziario-{episodio.data}"
     episodi.append(voce)
     episodi.sort(key=lambda e: str(e.get("data", "")), reverse=True)
@@ -208,7 +209,9 @@ def scrivi_feed(
 
     for episodio in episodi:
         item = ET.SubElement(canale, "item")
-        ET.SubElement(item, "title").text = str(episodio.get("titolo", "Notiziario"))
+        ET.SubElement(item, "title").text = normalizza_mesi(
+            str(episodio.get("titolo", "Notiziario"))
+        )
         descrizione = str(episodio.get("descrizione_breve") or episodio.get("descrizione", ""))
         ET.SubElement(item, "description").text = descrizione
         ET.SubElement(item, "pubDate").text = format_datetime(
@@ -265,6 +268,7 @@ def scrivi_impostazioni_pubbliche(
     velocita: float,
     motore: str,
     motore_richiesto: str = "",
+    motore_configurato: str = "",
     data: str,
     nome_utente: str = "",
     suono: str = "ding",
@@ -285,7 +289,7 @@ def scrivi_impostazioni_pubbliche(
         "voce_label": voce_label,
         "velocita": float(velocita),
         "motore": motore,
-        "motore_richiesto": motore_richiesto,
+        "motore_richiesto": motore_richiesto or motore_configurato or "",
         "data": data,
         "nome_utente": nome_utente,
         "suono": suono,

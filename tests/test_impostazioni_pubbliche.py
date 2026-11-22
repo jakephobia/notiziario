@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import json
 from pathlib import Path
@@ -82,6 +82,7 @@ def test_aggiorna_docs_scrive_impostazioni(tmp_path):
         "voce_label": "Kore — femminile, calda",
         "velocita": 1.1,
         "motore": "gemini",
+        "motore_richiesto": "gemini",
         "data": "2026-11-22",
         "issue_url": None,
         "repo_url": "https://github.com/o/r",
@@ -121,3 +122,19 @@ def test_link_issue_corretto(monkeypatch):
     impostazioni["github"]["issue_categorie"] = 12
     monkeypatch.setenv("GITHUB_REPOSITORY", "jakephobia/notiziario")
     assert _issue_url(impostazioni) == "https://github.com/jakephobia/notiziario/issues/12"
+
+def test_motore_richiesto_deriva_da_configurazione(tmp_path):
+    dati = scrivi_impostazioni_pubbliche(
+        tmp_path / "impostazioni.json",
+        categorie_attive=["italia"],
+        incipit_template="Ciao [NOME].",
+        incipit_risolto="Ciao Jacopo.",
+        voce="it-IT-IsabellaNeural",
+        voce_label="Isabella (edge-tts)",
+        velocita=1.1,
+        motore="edge",
+        motore_configurato="gemini",
+        data="2026-11-22",
+    )
+    assert dati["motore"] == "edge"
+    assert dati["motore_richiesto"] == "gemini"

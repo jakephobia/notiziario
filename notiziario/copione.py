@@ -1,4 +1,4 @@
-﻿"""Generazione del copione italiano: Gemini con fallback deterministico."""
+"""Generazione del copione italiano: Gemini con fallback deterministico."""
 
 from __future__ import annotations
 
@@ -23,6 +23,7 @@ from .testi import (
     normalizza_per_tts,
     pulisci_html,
     pulisci_testo,
+    normalizza_mesi,
     normalizza_titolo,
     pulisci_titolo,
     spezza_frasi_lunghe,
@@ -145,6 +146,11 @@ Regole di scrittura:
 - Non usare: in un mondo in cui, non solo, ma anche, è importante sottolineare,
   in conclusione, ecco cosa, nel panorama, un mix di, questo evidenzia,
   in questo contesto, al giorno d'oggi, senza dubbio, in sostanza.
+- Il campo "descrizione_breve" deve iniziare ESATTAMENTE con "{data} - " e poi
+  contenere 3-8 micro-riassunti di 2-5 parole, separati da virgola, massimo 200
+  caratteri, senza HTML. Esempio: "{data} - Manovra approvata, Schettino libero,
+  Cop31 fallita". Non ripetere la data dopo il trattino. Non usare "le
+  principali notizie", "e molto altro", "e altro ancora", "ecc." o frasi lunghe.
 
 Rispondi SOLO con un oggetto JSON conforme a questo schema:
 {json.dumps(schema, ensure_ascii=False)}
@@ -491,13 +497,29 @@ def _pulisci_descrizione_breve(valore: str, data_riferimento: datetime) -> str:
     data = data_in_italiano(data_riferimento, con_giorno=False)
     testo = pulisci_testo(valore)
     testo = re.sub(r"\s+", " ", testo).strip()
-    if not testo:
+    prefisso = f"{data} - "
+    if not testo.startswith(prefisso):
         return ""
-    if not testo.casefold().startswith(data.casefold()):
-        testo = f"{data} - {testo}"
-    if len(testo) > 200:
-        taglio = testo[:197].rsplit(" ", 1)[0].rstrip(" ,;:-")
-        testo = taglio + "..."
+    resto = testo[len(prefisso) :].strip()
+    if not resto or len(testo) > 200:
+        return ""
+    if data.casefold() in resto.casefold():
+        return ""
+    vietati = (
+        "le principali notizie",
+        "e molto altro",
+        "e altro ancora",
+        "ecc.",
+        "eccetera",
+        "e altro",
+    )
+    if any(vietato in resto.casefold() for vietato in vietati):
+        return ""
+    micro = [parte.strip() for parte in resto.split(",") if parte.strip()]
+    if not 2 <= len(micro) <= 8:
+        return ""
+    if any(len(parte.split()) < 2 for parte in micro):
+        return ""
     return testo
 
 
@@ -509,7 +531,7 @@ def _finalizza_llm(
     modello_usato: str | None = None,
     motivo_modello: str | None = None,
 ) -> dict[str, Any]:
-    titolo = pulisci_titolo(str(dati["titolo_episodio"]))
+    titolo = normalizza_mesi(pulisci_titolo(str(dati["titolo_episodio"])))
     if not titolo:
         titolo = f"Notiziario di {data_in_italiano(data_riferimento)}"
     descrizione = pulisci_testo(str(dati["descrizione"]))
@@ -978,7 +1000,9 @@ def _genera_fallback(
     if len(descrizione) > 300:
         descrizione = descrizione[:297].rsplit(" ", 1)[0].rstrip(" ,;:") + "..."
     return {
-        "titolo_episodio": f"Notiziario di {data_in_italiano(data_riferimento)}",
+        "titolo_episodio": normalizza_mesi(
+            f"Notiziario di {data_in_italiano(data_riferimento)}"
+        ),
         "descrizione": descrizione,
         "descrizione_breve": _descrizione_breve(
             [v["titolo"] for v in voci], data_riferimento

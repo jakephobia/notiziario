@@ -1,4 +1,4 @@
-﻿# Notiziario
+# Notiziario
 
 Ogni mattina scarica le ultime notizie dai feed RSS, raggruppa gli articoli che
 raccontano lo stesso evento, sceglie una scaletta bilanciata e genera un podcast
@@ -278,10 +278,16 @@ selezionato.
 
 Formato: `22 novembre 2026 - Manovra approvata, Schettino libero, ...`.
 L'AI riceve l'istruzione di produrre `descrizione_breve` con data e 3-8
-micro-riassunti di 2-5 parole, massimo 200 caratteri, senza HTML. Il fallback
-usa data + primi 5 titoli accorciati a 4 parole. La descrizione breve è usata
+micro-riassunti di 2-5 parole, massimo 200 caratteri, senza HTML. La
+descrizione viene validata: se non inizia con `22 novembre 2026 - `, ripete la
+data, contiene "le principali notizie", "e molto altro", "ecc.", supera 200
+caratteri o ha meno di 2 micro-riassunti, si usa il fallback deterministico
+(data + titoli accorciati). Il fallback usa data + fino a 8 titoli accorciati a
+4 parole. La descrizione breve è usata
 nell'item del feed (`description` e `itunes:summary`), nel copione `.md` e
-nel player, non la descrizione lunga del canale.
+nel player, non la descrizione lunga del canale. Titolo e descrizione usano il
+mese minuscolo (`22 novembre 2026`), anche quando l'AI lo restituisce
+maiuscolo.
 
 ## Outro configurabile
 
@@ -310,10 +316,15 @@ Le categorie sono fisse:
 | `ambiente` | Ambiente |
 | `buone-notizie` | Buone notizie |
 
-Di default sono attive tutte tranne `sport`, compresa `buone-notizie`. Le
-copertine rispettano le categorie attive: con `sport` spento una notizia
-sportiva non entra, nemmeno in apertura. Le secondarie entrano solo dalle
-categorie attive. Il blocco Buone notizie è fisso in chiusura.
+Di default sono attive tutte tranne `sport`, compresa `buone-notizie`. La
+categoria è decisa **per articolo**: prima i tag RSS riconducibili alle
+categorie note, poi il path dell'URL (`/sport/`, `/economia/`, `/tecnologia/`,
+`/cultura/`, `/esteri/` o `/mondo/`, `/politica/`, `/cronaca/`, `/salute/`,
+`/ambiente/`, `/scienze/`), infine la categoria della fonte. Non si usano le
+parole del titolo. Le copertine e le secondarie rispettano le categorie attive:
+con `sport` spento un articolo `/sport/` di un feed generalista viene escluso,
+anche se la fonte è categorizzata Italia. Il blocco Buone notizie è fisso in
+chiusura.
 
 ### Con una issue GitHub (consigliato per il cloud)
 
@@ -838,7 +849,7 @@ Controllo stile manuale di un copione:
 
 ## Risultato della verifica locale (22 novembre 2026)
 
-- `pytest`: **200 test passati**.
+- `pytest`: **211 test passati**.
 - `--test-llm`: Gemini 2.5 Flash ha risposto con la chiave letta dal registro
   utente (nessuna chiave scritta su file).
 - Run standard finale: 31 fonti attive, 22 feed OK e 9 KO solo per assenza di

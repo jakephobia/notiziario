@@ -1,4 +1,4 @@
-﻿"""Download parallelo dei feed RSS e costruzione degli articoli."""
+"""Download parallelo dei feed RSS e costruzione degli articoli."""
 
 from __future__ import annotations
 
@@ -15,6 +15,7 @@ from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 import feedparser
 import requests
 
+from .categorie import normalizza_testo, trova_categoria
 from .config import Fonte
 from .sicurezza import FetchHttpError, UrlRifiutato, fetch_con_limite
 from .testi import pulisci_testo, pulisci_titolo, tronca_a_frase
@@ -32,6 +33,91 @@ HEADERS = {
     "Accept-Language": "it-IT,it;q=0.9,en;q=0.5",
     "Cache-Control": "no-cache",
 }
+
+_ALIAS_TAG: dict[str, str] = {
+    "calcio": "sport",
+    "serie a": "sport",
+    "motori": "sport",
+    "formula 1": "sport",
+    "f1": "sport",
+    "motogp": "sport",
+    "tennis": "sport",
+    "basket": "sport",
+    "volley": "sport",
+    "ciclismo": "sport",
+    "olimpiadi": "sport",
+    "finanza": "economia",
+    "mercati": "economia",
+    "borsa": "economia",
+    "lavoro": "economia",
+    "imprese": "economia",
+    "business": "economia",
+    "tech": "tecnologia",
+    "digitale": "tecnologia",
+    "internet": "tecnologia",
+    "intelligenza artificiale": "tecnologia",
+    "spettacoli": "cultura",
+    "cinema": "cultura",
+    "musica": "cultura",
+    "libri": "cultura",
+    "arte": "cultura",
+    "teatro": "cultura",
+    "esteri": "mondo",
+    "internazionale": "mondo",
+    "geopolitica": "mondo",
+    "politica": "italia",
+    "cronaca": "italia",
+    "salute": "scienza-salute",
+    "scienza": "scienza-salute",
+    "scienze": "scienza-salute",
+    "medicina": "scienza-salute",
+    "ricerca": "scienza-salute",
+    "clima": "ambiente",
+    "green": "ambiente",
+    "ecologia": "ambiente",
+    "sostenibilita": "ambiente",
+    "buone notizie": "buone-notizie",
+}
+
+_SEGMENTI_CATEGORIA: tuple[tuple[str, tuple[str, ...]], ...] = (
+    ("sport", ("sport", "calcio", "motori", "formula-1", "motogp", "tennis", "basket", "volley", "ciclismo")),
+    ("economia", ("economia", "finanza", "mercati", "borsa", "business", "lavoro")),
+    ("tecnologia", ("tecnologia", "tech", "digitale", "innovazione")),
+    ("cultura", ("cultura", "spettacoli", "cinema", "musica", "libri", "arte", "teatro")),
+    ("scienza-salute", ("scienza", "scienze", "salute", "medicina", "sanita", "ricerca")),
+    ("ambiente", ("ambiente", "green", "clima", "ecologia", "sostenibilita")),
+    ("mondo", ("esteri", "mondo", "internazionale")),
+    ("italia", ("politica", "cronaca", "italia")),
+)
+
+
+def categoria_da_tag(entry) -> str | None:
+    for tag in entry.get("tags") or []:
+        valore = str(tag.get("term") or tag.get("label") or "").strip()
+        if not valore:
+            continue
+        trovata = trova_categoria(valore)
+        if trovata:
+            return trovata
+        alias = _ALIAS_TAG.get(normalizza_testo(valore))
+        if alias:
+            return alias
+    return None
+
+
+def categoria_da_url(link: str) -> str | None:
+    path = urlsplit(link or "").path.casefold()
+    segmenti = {segmento for segmento in path.split("/") if segmento}
+    for categoria, marcatori in _SEGMENTI_CATEGORIA:
+        if segmenti.intersection(marcatori):
+            return categoria
+    return None
+
+
+def inferisci_categoria(entry, link: str, categoria_fonte: str) -> str:
+    """Tag RSS, poi path URL, infine categoria della fonte. Mai il titolo."""
+    return categoria_da_tag(entry) or categoria_da_url(link) or categoria_fonte
+
 
 _PARAMETRI_TRACCIANTI = re.compile(
     r"^(utm_|fbclid$|gclid$|mc_cid$|mc_eid$|ref$|source$|rss$|output$|"
@@ -292,7 +378,7 @@ def _parse_feed(
                 sommario=sommario,
                 pubblicato=data,
                 fonte=fonte.nome,
-                categoria=fonte.categoria,
+                categoria=inferisci_categoria(entry, link, fonte.categoria),
                 feed_url=fonte.url,
                 data_stimata=data_stimata,
                 prima_vista=prima_vista,

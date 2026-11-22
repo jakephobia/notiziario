@@ -7,6 +7,7 @@ from notiziario.testi import (
     data_in_italiano,
     elenco_naturale,
     formatta_durata,
+    normalizza_mesi,
     normalizza_per_tts,
     normalizza_titolo,
     pulisci_html,
@@ -122,3 +123,8 @@ def test_elenco_naturale():
         elenco_naturale(["ANSA", "Repubblica", "Il Post"])
         == "ANSA, Repubblica e Il Post"
     )
+
+def test_normalizza_mesi_minuscolo():
+    assert normalizza_mesi("22 Novembre 2026") == "22 novembre 2026"
+    assert normalizza_mesi("Notiziario di 22 NOVEMBRE 2026") == "Notiziario di 22 novembre 2026"
+    assert normalizza_mesi("Marzo e Maggio") == "marzo e maggio"

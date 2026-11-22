@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import logging
 from datetime import timedelta
@@ -6,7 +6,7 @@ from email.utils import format_datetime
 
 from notiziario import fetch
 from notiziario.config import Fonte
-from notiziario.fetch import FetchError, fetch_all, fetch_fonte, normalizza_url
+from notiziario.fetch import FetchError, fetch_all, fetch_fonte, inferisci_categoria, normalizza_url
 
 
 LOGGER = logging.getLogger("test-notiziario")
@@ -398,3 +398,32 @@ def test_risultato_fetch_conta_senza_novita_come_ok():
     assert risultato.ok == 1
     assert risultato.ko == 0
     assert risultato.senza_novita == 1
+
+def test_categoria_articolo_da_url_non_da_titolo():
+    assert inferisci_categoria({}, "https://www.repubblica.it/sport/2026/11/22/ducati/", "italia") == "sport"
+    assert inferisci_categoria({}, "https://www.repubblica.it/economia/2026/11/22/manovra/", "italia") == "economia"
+    assert inferisci_categoria({}, "https://www.repubblica.it/economia/2026/11/22/sport-e-business/", "italia") == "economia"
+    assert inferisci_categoria({}, "https://www.repubblica.it/2026/11/22/notizia/", "italia") == "italia"
+
+
+def test_tag_rss_ha_priorita_sul_path():
+    entry = {"tags": [{"term": "Sport"}]}
+    assert inferisci_categoria(entry, "https://www.repubblica.it/economia/x/", "italia") == "sport"
+
+
+def test_parse_feed_categorizza_articolo_sport_da_url(adesso):
+    xml = f"""<?xml version="1.0"?><rss version="2.0"><channel>
+    <title>Generalista</title><link>https://www.repubblica.it/</link><description>x</description>
+    <item><title>Festa a Borgo Panigale per Marquez e Ducati</title>
+    <link>https://www.repubblica.it/sport/2026/11/22/ducati/</link>
+    <description>La festa della Ducati.</description>
+    <pubDate>{format_datetime(adesso - timedelta(hours=1))}</pubDate></item>
+    </channel></rss>"""
+    articoli, _, _, _ = fetch._parse_feed(
+        xml.encode("utf-8"),
+        Fonte("Repubblica home", "https://www.repubblica.it/rss/homepage/rss2.0.xml", "italia"),
+        adesso,
+        24,
+        LOGGER,
+    )
+    assert articoli[0].categoria == "sport"

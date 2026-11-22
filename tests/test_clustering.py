@@ -94,3 +94,22 @@ def test_titoli_vuoti_non_si_fondono():
 
 def test_nessun_articolo():
     assert clusterizza([]) == []
+
+def test_non_unisce_articoli_di_categorie_diverse():
+    articoli = [
+        crea_articolo(
+            "Festa a Borgo Panigale per Marquez e Ducati",
+            fonte="ANSA",
+            categoria="sport",
+            ore_fa=1,
+        ),
+        crea_articolo(
+            "Festa a Borgo Panigale per Marquez e Ducati",
+            fonte="Repubblica",
+            categoria="italia",
+            ore_fa=2,
+        ),
+    ]
+    clusters = clusterizza(articoli, soglia=0.5)
+    assert len(clusters) == 2
+    assert {c.categoria for c in clusters} == {"sport", "italia"}

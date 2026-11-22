@@ -428,6 +428,18 @@ def spezza_frasi_lunghe(testo: str, max_parole: int = 35) -> str:
     return "\n".join(paragrafi)
 
 
+def normalizza_mesi(testo: str) -> str:
+    """Scrive i nomi dei mesi in minuscolo (22 Novembre -> 22 novembre)."""
+    risultato = testo or ""
+    for mese in MESI:
+        risultato = re.sub(
+            rf"\b{re.escape(mese)}\b",
+            mese,
+            risultato,
+            flags=re.IGNORECASE,
+        )
+    return risultato
+
 def data_in_italiano(data: datetime, con_giorno: bool = True) -> str:
     base = f"{data.day} {MESI[data.month - 1]} {data.year}"
     if con_giorno:

@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import json
 import xml.etree.ElementTree as ET
@@ -195,3 +195,14 @@ def test_index_contiene_sezione_impostazioni_e_fetch(tmp_path):
     assert "suoni/chime.mp3" in html
     assert "suoni/whoosh.mp3" in html
     assert "Outro" in html
+
+def test_titolo_feed_mese_minuscolo(tmp_path):
+    impostazioni = carica_impostazioni()
+    ep = episodio("2026-11-22")
+    ep.titolo = "Notiziario di 22 Novembre 2026"
+    storico = aggiungi_episodio({"episodi": []}, ep, 60)
+    percorso = tmp_path / "feed.xml"
+    scrivi_feed(storico, percorso, impostazioni, sito_url="https://owner.github.io/repo/")
+    radice = ET.parse(percorso).getroot()
+    titolo = radice.find("./channel/item/title").text
+    assert titolo == "Notiziario di 22 novembre 2026"

@@ -229,3 +229,13 @@ def test_solo_categorie_attive_per_le_secondarie():
     scelte = seleziona(clusters, preset, ["cultura"], max_notizie=6)
     secondarie = [s for s in scelte if not s.copertina]
     assert all(s.categoria == "cultura" for s in secondarie)
+
+def test_sport_da_feed_generalista_escluso_se_categoria_spenta():
+    preset = carica_impostazioni()["preset"]["standard"]
+    clusters = [
+        multi("Festa a Borgo Panigale per Marquez e Ducati", ["ANSA", "Repubblica"], "sport", 1)
+    ]
+    assert seleziona(clusters, preset, ["italia", "economia"]) == []
+    attive = seleziona(clusters, preset, ["sport"])
+    assert len(attive) == 1
+    assert attive[0].categoria == "sport"

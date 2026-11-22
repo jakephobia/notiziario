@@ -25,7 +25,7 @@
   "voce_label": "it-IT-IsabellaNeural (edge-tts)",
   "velocita": 1.1,
   "motore": "edge",
-  "motore_richiesto": "",
+  "motore_richiesto": "gemini",
   "data": "2026-11-22",
   "nome_utente": "Jacopo",
   "suono": "ding",

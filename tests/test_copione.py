@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import logging
 import os
@@ -10,6 +10,9 @@ from helpers import crea_articolo, crea_cluster
 from notiziario import copione as modulo_copione
 from notiziario.config import carica_impostazioni
 from notiziario.copione import (
+    _finalizza_llm,
+    _prompt_utente,
+    _pulisci_descrizione_breve,
     _minuscola_dopo_secondo,
     _rimuovi_apertura,
     blocchi_per_tts,
@@ -517,3 +520,46 @@ def test_descrizione_breve_fallback():
     assert len(breve) <= 200
     assert "<" not in breve and ">" not in breve
     assert breve.count(",") <= 7
+
+def test_descrizione_breve_generica_reale_viene_rifiutata():
+    from datetime import datetime
+    from notiziario.tempo import ROMA
+
+    generica = (
+        "22 novembre 2026 - Le principali notizie del 22 novembre 2026: "
+        "attacco a nave russa in Libia, Schettino ai servizi sociali, e molto altro."
+    )
+    assert _pulisci_descrizione_breve(
+        generica, datetime(2026, 11, 22, 7, 0, tzinfo=ROMA)
+    ) == ""
+    valida = "22 novembre 2026 - Manovra approvata, Schettino libero, Cop31 fallita"
+    assert _pulisci_descrizione_breve(
+        valida, datetime(2026, 11, 22, 7, 0, tzinfo=ROMA)
+    ) == valida
+
+def test_titolo_llm_mese_minuscolo():
+    from datetime import datetime
+    from notiziario.tempo import ROMA
+
+    dati = {
+        "titolo_episodio": "Notiziario di 22 Novembre 2026",
+        "descrizione": "Le notizie del giorno.",
+        "descrizione_breve": "22 novembre 2026 - Manovra approvata, Cop31 fallita",
+        "testo": "Buongiorno, ecco le notizie.",
+        "notizie": [],
+    }
+    risultato = _finalizza_llm(dati, [], datetime(2026, 11, 22, 7, 0, tzinfo=ROMA))
+    assert risultato["titolo_episodio"] == "Notiziario di 22 novembre 2026"
+
+def test_prompt_descrizione_breve_contiene_regole():
+    from notiziario.tempo import ROMA
+
+    prompt, _ = _prompt_utente(
+        [{"parole_target": 100}],
+        datetime(2026, 11, 22, 7, 0, tzinfo=ROMA),
+        {},
+    )
+    assert "22 novembre 2026 - " in prompt
+    assert "3-8 micro-riassunti" in prompt
+    assert "e molto altro" in prompt
+    assert "le\n  principali notizie" in prompt
