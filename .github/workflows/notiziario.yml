@@ -58,7 +58,7 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_ISSUE_CATEGORIE: ${{ vars.GITHUB_ISSUE_CATEGORIE }}
+          GITHUB_ISSUE_CATEGORIE: ${{ vars.ISSUE_CATEGORIE }}
         run: |
           DURATA="${{ github.event.inputs.durata || 'standard' }}"
           python main.py \
