@@ -2,12 +2,12 @@
   "episodi": [
     {
       "data": "2026-11-22",
-      "titolo": "Notiziario radiofonico del 22 novembre 2026",
-      "descrizione": "Le principali notizie dal mondo e dall'Italia, con approfondimenti su economia, tecnologia, scienza, salute e cultura, e un focus sulle buone notizie della settimana.",
+      "titolo": "Notiziario Radiofonico del 22 novembre 2026",
+      "descrizione": "Le principali notizie di oggi, domenica 22 novembre 2026. Apriamo con gli eventi internazionali: una nave russa è stata colpita nel porto di Bengasi, mentre a Krasnodar si registrano attacchi di droni. In Italia, Francesco Schettino ha lasciato il carcere per i servizi sociali.",
       "filename": "notiziario-2026-11-22.mp3",
-      "descrizione_breve": "22 novembre 2026 - Nave russa colpita a Bengasi, Schettino fuori dal carcere, De Gennaro, Fallimento della Cop 31 sui combustibili, Australian politics live.",
-      "durata_secondi": 553.288481,
-      "dimensione": 6640265,
+      "descrizione_breve": "22 novembre 2026 - Nave russa colpita a Bengasi, Schettino fuori dal carcere, I telefoni e gli appunti, Fallimento della Cop 31 sui combustibili, Australian politics live.",
+      "durata_secondi": 610.784059,
+      "dimensione": 7330211,
       "modalita": "llm",
       "categorie": [
         "italia",
@@ -23,7 +23,7 @@
       "voce_label": "it-IT-IsabellaNeural (edge-tts)",
       "velocita": 1.1,
       "tts_motore": "edge",
-      "pubblicato": "2026-11-22T20:15:25.379220+00:00",
+      "pubblicato": "2026-11-22T20:33:58.189521+00:00",
       "guid": "notiziario-2026-11-22"
     }
   ]
