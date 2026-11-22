@@ -99,6 +99,7 @@ def _prompt_utente(
     data = data_in_italiano(data_riferimento)
     schema = {
         "titolo_episodio": "string",
+        "descrizione_breve": "string",
         "descrizione": "string",
         "testo": "string",
         "notizie": [
@@ -408,7 +409,9 @@ def _lunghezza_ai_adeguata(
 
 _CHIUSURA_RE = re.compile(
     r"^(queste|per oggi|per il momento|è tutto|e tutto|grazie|a domani|"
-    r"buona giornata|il prossimo appuntamento)",
+    r"buona giornata|il prossimo appuntamento|questa è la fine|"
+    r"fine del notiziario|il notiziario termina|arrivederci|alla prossima|"
+    r"con questo è tutto)",
     re.IGNORECASE,
 )
 _CHIUSURA_DEFAULT = "Per oggi è tutto. A domani."
@@ -457,6 +460,45 @@ def _riordina_buone_notizie(
     altre = [p for p in paragrafi if p not in positive]
     risultato = altre + positive + ([chiusura] if chiusura else [])
     return "\n\n".join(risultato), bool(positive)
+
+
+def _accorcia_titolo_breve(titolo: str, massimo: int = 4) -> str:
+    titolo = re.split(r"[.!?]", titolo or "", maxsplit=1)[0]
+    parole = re.findall(r"[\wÀ-ÖØ-öø-ÿ']+", titolo)[:massimo]
+    finali = {
+        "di", "del", "della", "dei", "delle", "il", "lo", "la", "i", "gli", "le",
+        "un", "una", "e", "ed", "a", "ad", "da", "in", "con", "su", "per", "tra", "fra",
+    }
+    while parole and parole[-1].casefold() in finali:
+        parole.pop()
+    return " ".join(parole).strip(" ,.;:-")
+
+
+def _descrizione_breve(titoli: list[str], data_riferimento: datetime) -> str:
+    data = data_in_italiano(data_riferimento, con_giorno=False)
+    parti = []
+    for titolo in titoli:
+        breve = _accorcia_titolo_breve(titolo)
+        if breve and breve.casefold() not in {p.casefold() for p in parti}:
+            parti.append(breve)
+        if len(parti) >= 8:
+            break
+    testo = f"{data} - " + ", ".join(parti) if parti else data
+    return tronca_a_frase(testo, 200)
+
+
+def _pulisci_descrizione_breve(valore: str, data_riferimento: datetime) -> str:
+    data = data_in_italiano(data_riferimento, con_giorno=False)
+    testo = pulisci_testo(valore)
+    testo = re.sub(r"\s+", " ", testo).strip()
+    if not testo:
+        return ""
+    if not testo.casefold().startswith(data.casefold()):
+        testo = f"{data} - {testo}"
+    if len(testo) > 200:
+        taglio = testo[:197].rsplit(" ", 1)[0].rstrip(" ,;:-")
+        testo = taglio + "..."
+    return testo
 
 
 def _finalizza_llm(
@@ -513,10 +555,18 @@ def _finalizza_llm(
     testo = _garantisci_chiusura_finale(testo)
     if not descrizione:
         descrizione = "Le notizie del giorno lette in italiano."
+    breve = _pulisci_descrizione_breve(
+        str(dati.get("descrizione_breve", "")), data_riferimento
+    )
+    if not breve:
+        breve = _descrizione_breve(
+            [v["titolo"] for v in notizie], data_riferimento
+        )
     parole = conta_parole(testo)
     return {
         "titolo_episodio": titolo,
         "descrizione": descrizione,
+        "descrizione_breve": breve,
         "testo": testo,
         "notizie": notizie,
         "modalita": "llm",
@@ -930,6 +980,9 @@ def _genera_fallback(
     return {
         "titolo_episodio": f"Notiziario di {data_in_italiano(data_riferimento)}",
         "descrizione": descrizione,
+        "descrizione_breve": _descrizione_breve(
+            [v["titolo"] for v in voci], data_riferimento
+        ),
         "testo": corpo,
         "notizie": voci,
         "modalita": "fallback",

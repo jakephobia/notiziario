@@ -29,6 +29,7 @@ class Episodio:
     titolo: str
     descrizione: str
     filename: str
+    descrizione_breve: str = ""
     durata_secondi: float | None = None
     dimensione: int | None = None
     modalita: str = "fallback"
@@ -208,7 +209,7 @@ def scrivi_feed(
     for episodio in episodi:
         item = ET.SubElement(canale, "item")
         ET.SubElement(item, "title").text = str(episodio.get("titolo", "Notiziario"))
-        descrizione = str(episodio.get("descrizione", ""))
+        descrizione = str(episodio.get("descrizione_breve") or episodio.get("descrizione", ""))
         ET.SubElement(item, "description").text = descrizione
         ET.SubElement(item, "pubDate").text = format_datetime(
             _data_pubblicazione(episodio)
@@ -265,6 +266,8 @@ def scrivi_impostazioni_pubbliche(
     motore: str,
     data: str,
     nome_utente: str = "",
+    suono: str = "ding",
+    outro: str = "",
     fonti_totali: int = 0,
     fonti_attive: int = 0,
     issue_url: str | None = None,
@@ -283,6 +286,8 @@ def scrivi_impostazioni_pubbliche(
         "motore": motore,
         "data": data,
         "nome_utente": nome_utente,
+        "suono": suono,
+        "outro": outro,
         "fonti_totali": int(fonti_totali),
         "fonti_attive": int(fonti_attive),
         "issue_url": issue_url,
@@ -409,6 +414,12 @@ _TEMPLATE_INDEX = """<!DOCTYPE html>
     .chip { background: var(--sfondo); border: 1px solid var(--bordo); color: var(--testo); border-radius: 999px; padding: 5px 10px; font-size: 0.88rem; }
     .incipit-riquadro { background: var(--sfondo); border-left: 4px solid var(--accento); border-radius: 10px; padding: 12px 14px; margin: 14px 0; }
     .incipit-riquadro p { margin: 0; font-size: 0.98rem; }
+    .suoni { display: grid; gap: 8px; }
+    .suono { border: 1px solid var(--bordo); border-radius: 10px; padding: 8px 10px; }
+    .suono.selezionato { border-color: var(--accento); box-shadow: 0 0 0 1px var(--accento); }
+    .suono audio { width: 100%; height: 32px; margin-top: 4px; }
+    .suono-nome { font-size: 0.86rem; font-weight: 650; }
+    .suono-stato { color: var(--accento); font-size: 0.8rem; margin: 10px 0 0; }
     .griglia-dettagli { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 18px; margin-top: 14px; }
     .griglia-dettagli strong { font-size: 0.96rem; }
     .link-repo { margin: 16px 0 0; font-size: 0.84rem; }
@@ -478,6 +489,19 @@ _TEMPLATE_INDEX = """<!DOCTYPE html>
       <span class="etichetta">Incipit</span>
       <p id="incipit-risolto">caricamento...</p>
     </div>
+    <div class="incipit-riquadro">
+      <span class="etichetta">Outro</span>
+      <p id="outro">caricamento...</p>
+    </div>
+    <div class="riga">
+      <span class="etichetta">Suono di transizione</span>
+      <div class="suoni" id="suoni">
+        <div class="suono" data-suono="ding"><div class="suono-nome">Ding</div><audio controls preload="none" src="suoni/ding.mp3"></audio></div>
+        <div class="suono" data-suono="chime"><div class="suono-nome">Chime</div><audio controls preload="none" src="suoni/chime.mp3"></audio></div>
+        <div class="suono" data-suono="whoosh"><div class="suono-nome">Whoosh</div><audio controls preload="none" src="suoni/whoosh.mp3"></audio></div>
+      </div>
+      <p class="suono-stato" id="suono-selezionato">...</p>
+    </div>
     <div class="griglia-dettagli">
       <div><span class="etichetta">Voce</span><strong id="voce">caricamento...</strong></div>
       <div><span class="etichetta">Velocità</span><strong id="velocita">caricamento...</strong></div>
@@ -520,6 +544,8 @@ _TEMPLATE_INDEX = """<!DOCTYPE html>
   const incipitEl = document.getElementById("incipit-risolto");
   const dataAggiornamentoEl = document.getElementById("data-aggiornamento");
   const nomeFontiEl = document.getElementById("nome-fonti");
+  const outroEl = document.getElementById("outro");
+  const suonoSelezionatoEl = document.getElementById("suono-selezionato");
   const modificaLink = document.getElementById("modifica-impostazioni");
   const repoLink = document.getElementById("repo-link");
 
@@ -634,6 +660,12 @@ _TEMPLATE_INDEX = """<!DOCTYPE html>
       ? dati.categorie_label : fallback.categorie_label;
     renderChips(categorieEl, etichette);
     incipitEl.textContent = dati.incipit_risolto || "Non disponibile";
+    outroEl.textContent = dati.outro || "Non disponibile";
+    const suono = dati.suono || "nessuno";
+    document.querySelectorAll(".suono").forEach(function (card) {
+      card.classList.toggle("selezionato", card.getAttribute("data-suono") === suono);
+    });
+    suonoSelezionatoEl.textContent = suono === "nessuno" ? "Nessun suono selezionato." : "Selezionato: " + suono;
     voceEl.textContent = dati.voce_label || dati.voce || fallback.voce_label || fallback.voce || "non disponibile";
     velocitaEl.textContent = (dati.velocita !== undefined ? dati.velocita : fallback.velocita) ? (dati.velocita !== undefined ? dati.velocita : fallback.velocita) + "×" : "non disponibile";
     const motore = dati.motore || fallback.motore;

@@ -23,7 +23,7 @@ def leggi_modello_incipit(percorso: str | Path | None) -> tuple[str, list[str]]:
         path = Path(percorso)
         if path.exists():
             try:
-                testo = path.read_text(encoding="utf-8").strip()
+                testo = path.read_text(encoding="utf-8-sig").strip()
                 if testo:
                     return testo, avvisi
             except OSError:
@@ -76,6 +76,34 @@ def scegli_modello(
         return modello_issue, "issue"
     return modello_file, "file"
 
+
+def estrai_sezione_issue(corpo: str | None, nome: str) -> str | None:
+    """Estrae una sezione testuale/codice fino al prossimo heading ##."""
+    if not corpo:
+        return None
+    match = re.search(
+        rf"(?ims)^##\s*{re.escape(nome)}\b[^\n]*\n(.*?)(?=^##\s|\Z)",
+        corpo,
+    )
+    if not match:
+        return None
+    blocco = match.group(1).strip()
+    if not blocco:
+        return None
+    fence = re.search(r"```(?:[A-Za-z0-9_-]+)?\s*\n(.*?)```", blocco, re.DOTALL)
+    if fence:
+        blocco = fence.group(1)
+    else:
+        blocco = re.sub(r"^\s*```.*$", "", blocco, flags=re.MULTILINE)
+        blocco = re.sub(r"^\s*```\s*$", "", blocco, flags=re.MULTILINE)
+    righe = [
+        riga.strip() for riga in blocco.splitlines()
+        if riga.strip() and not riga.strip().startswith(">")
+    ]
+    testo = " ".join(righe)
+    testo = re.sub(r"[*_`]+", "", testo)
+    testo = re.sub(r"\s+", " ", testo).strip()
+    return testo or None
 
 def _data_marker(data: datetime) -> tuple[str, str, str]:
     data = data.astimezone(ROMA)

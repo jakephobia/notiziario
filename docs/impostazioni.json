@@ -30,5 +30,7 @@
   "repo_url": "https://github.com/jakephobia/notiziario",
   "nome_utente": "Jacopo",
   "fonti_totali": 31,
-  "fonti_attive": 31
+  "fonti_attive": 31,
+  "suono": "ding",
+  "outro": "Queste erano le notizie di oggi. A domani con i principali eventi della giornata!"
 }

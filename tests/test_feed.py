@@ -23,6 +23,7 @@ def episodio(data="2026-11-22", modalita="fallback"):
         data=data,
         titolo=f"Notiziario del {data}",
         descrizione="Le notizie del giorno.",
+        descrizione_breve="22 novembre 2026 - Manovra, Schettino libero, Cop31 fallita.",
         filename=f"notiziario-{data}.mp3",
         durata_secondi=420.0,
         dimensione=123456,
@@ -100,6 +101,8 @@ def test_feed_xml_ben_formato_e_campi_itunes(tmp_path):
     assert primo.find("title").text.startswith("Notiziario del 2026-11-22")
     assert primo.find("guid").attrib["isPermaLink"] == "false"
     assert primo.find("guid").text == "notiziario-2026-11-22"
+    assert primo.find("description").text.startswith("22 novembre 2026 -")
+    assert primo.find(f"{{{NS_ITUNES}}}summary").text.startswith("22 novembre 2026 -")
     assert primo.find("pubDate") is not None
     assert parsedate_to_datetime(primo.find("pubDate").text) is not None
     enclosure = primo.find("enclosure")
@@ -187,3 +190,7 @@ def test_index_contiene_sezione_impostazioni_e_fetch(tmp_path):
     assert "Le modifiche si salvano dalla dashboard GitHub" in html
     assert "innerHTML" not in html
     assert "nome-fonti" in html
+    assert "suoni/ding.mp3" in html
+    assert "suoni/chime.mp3" in html
+    assert "suoni/whoosh.mp3" in html
+    assert "Outro" in html

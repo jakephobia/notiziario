@@ -36,6 +36,7 @@ from .controllo_feed import controlla_tutte
 from .fetch import normalizza_url
 from .fonti_io import merge_fonti, scrivi_fonti_yaml, sostituisci_fonte
 from .importa_feed import ImportError_, _nome_fonte, _parse_opml
+from .outro import OUTRO_DEFAULT, estrai_outro_issue
 from .tempo import adesso_roma, iso_roma
 from .visti import Visti
 
@@ -67,6 +68,32 @@ def _sostituisci_sezione(corpo: str, nome: str, contenuto: str) -> str:
         return corpo.rstrip() + f"\n\n## {nome}\n\n{corpo_nuovo}\n"
     return corpo[: match.start(2)] + corpo_nuovo + "\n" + corpo[match.end(2) :]
 
+
+SUONI_VALIDI = {"ding", "chime", "whoosh", "nessuno"}
+
+def parse_suono(corpo: str) -> tuple[str | None, list[str]]:
+    contenuto = _contenuto(corpo, "Suono")
+    if contenuto is None:
+        return None, []
+    for riga in contenuto.splitlines():
+        trovato = re.match(r"^\s*suono\s*:\s*(.*?)\s*$", riga, re.I)
+        if trovato:
+            valore = trovato.group(1).strip().casefold()
+            if valore in SUONI_VALIDI:
+                return valore, []
+            return "ding", [
+                f"Suono issue non valido ({valore}): uso ding."
+            ]
+    return "ding", ["Sezione Suono senza valore: uso ding."]
+
+def parse_outro(corpo: str) -> tuple[str | None, list[str]]:
+    if _sezione(corpo, "Outro") is None:
+        return None, []
+    contenuto = estrai_outro_issue(corpo) or ""
+    testo = contenuto.strip()
+    if not testo:
+        return OUTRO_DEFAULT, ["Outro issue vuoto: uso il default."]
+    return testo, []
 
 def _righe_fonti(fonti: list[Fonte]) -> str:
     righe = []
@@ -288,7 +315,10 @@ def parse_import(
 
 
 def genera_corpo(
-    impostazioni: dict[str, Any], fonti: list[Fonte], modello_incipit: str
+    impostazioni: dict[str, Any],
+    fonti: list[Fonte],
+    modello_incipit: str,
+    modello_outro: str = "",
 ) -> str:
     categorie_attive = set(impostazioni.get("categorie_default", []))
     righe = ["## Nome", f"nome: {impostazioni.get('nome_utente', '')}", "", "## Categorie"]
@@ -300,6 +330,12 @@ def genera_corpo(
         f"voce: {voce.get('nome', 'Kore')}",
         f"velocita: {float(voce.get('velocita', 1.1)):g}",
         f"motore: {impostazioni.get('tts_motore', 'gemini')}",
+        "",
+        "## Suono",
+        f"suono: {impostazioni.get('suono_transizione', 'ding')}",
+        "",
+        "## Outro",
+        modello_outro.strip() or OUTRO_DEFAULT,
         "",
         "## Fonti",
         _righe_fonti(fonti),
@@ -355,11 +391,13 @@ def applica(
 
     fonti = carica_fonti_tutte()
     nome, avvisi_nome = parse_nome(corpo)
+    suono, avvisi_suono = parse_suono(corpo)
+    outro_modello, avvisi_outro = parse_outro(corpo)
     fonti2, avvisi_fonti = parse_fonti(corpo, fonti)
     fonti3, aggiunte, duplicate, scartate, avvisi_import, blocco = parse_import(
         corpo, impostazioni, fonti2, logger=logger
     )
-    avvisi = avvisi_nome + avvisi_fonti + avvisi_import
+    avvisi = avvisi_nome + avvisi_fonti + avvisi_import + avvisi_suono + avvisi_outro
     fonti_sezione_valida = not any(
         "malformata" in a or "ambigua" in a or "duplicata" in a
         for a in avvisi_fonti
@@ -368,16 +406,24 @@ def applica(
         logger.warning("Dashboard: %s", avviso)
 
     modifiche = []
+    config_modificato = False
     if nome is not None and nome != impostazioni.get("nome_utente"):
         modifiche.append(f"nome_utente: {impostazioni.get('nome_utente')} -> {nome}")
         impostazioni["nome_utente"] = nome
+        config_modificato = True
+    if suono is not None and suono != impostazioni.get("suono_transizione"):
+        modifiche.append(f"suono_transizione: {impostazioni.get('suono_transizione')} -> {suono}")
+        impostazioni["suono_transizione"] = suono
+        config_modificato = True
+    if outro_modello is not None:
+        modifiche.append("outro aggiornato")
     if fonti3 != fonti:
         modifiche.append(f"fonti aggiornate: {len(fonti3)} totali")
     if blocco is not None:
         modifiche.append(blocco)
 
     if not dry_run:
-        if nome is not None:
+        if config_modificato:
             (ROOT / "config" / "impostazioni.json").write_text(
                 json.dumps(impostazioni, ensure_ascii=False, indent=2) + "\n",
                 encoding="utf-8",
@@ -385,6 +431,10 @@ def applica(
             )
         if fonti3 != fonti:
             scrivi_fonti_yaml(ROOT / "config" / "fonti.yaml", fonti3)
+        if outro_modello is not None:
+            (ROOT / "config" / "outro.txt").write_text(
+                outro_modello.strip() + "\n", encoding="utf-8", newline="\n"
+            )
         nuovo_corpo = corpo
         if nome is not None and _contenuto(corpo, "Nome") is not None:
             nuovo_corpo = _sostituisci_sezione(nuovo_corpo, "Nome", f"nome: {nome}")
@@ -428,6 +478,7 @@ def main(argv: list[str] | None = None) -> int:
         help="Stampa il markdown della issue dalla config.",
     )
     parser.add_argument("--dry-run", action="store_true", help="Mostra senza scrivere.")
+    parser.add_argument("--out", help="Scrive il corpo generato in un file UTF-8.")
     args = parser.parse_args(argv)
     logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
     logger = logging.getLogger("notiziario")
@@ -440,7 +491,15 @@ def main(argv: list[str] | None = None) -> int:
         modello, _ = leggi_modello_incipit(
             impostazioni.get("incipit", {}).get("file", "config/incipit.txt")
         )
-        print(genera_corpo(impostazioni, fonti, modello), end="")
+        from .outro import leggi_modello_outro
+        modello_outro, _ = leggi_modello_outro(
+            impostazioni.get("outro", {}).get("file", "config/outro.txt")
+        )
+        corpo = genera_corpo(impostazioni, fonti, modello, modello_outro)
+        if args.out:
+            Path(args.out).write_text(corpo, encoding="utf-8", newline="\n")
+        else:
+            print(corpo, end="")
         return 0
     if not args.applica:
         parser.print_help()

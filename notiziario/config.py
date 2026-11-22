@@ -38,6 +38,9 @@ DEFAULT_SETTINGS: dict[str, Any] = {
     "durata_default": "standard",
     "nome_utente": "Jacopo",
     "tts_motore": "gemini",
+    "suono_transizione": "ding",
+    "suono_gain_db": 0,
+    "outro": {"file": "config/outro.txt"},
     "silenzio_iniziale_ms": 1000,
     "tts_chunk_max_caratteri": 4500,
     "llm_modello_riserva": "gemini-3.1-flash-lite",
@@ -270,6 +273,14 @@ def valida_impostazioni(impostazioni: dict[str, Any]) -> None:
     if motore not in {"gemini", "edge"}:
         raise ConfigError("tts_motore deve essere 'gemini' oppure 'edge'.")
 
+    suono = impostazioni.get("suono_transizione", "ding")
+    if suono not in {"ding", "chime", "whoosh", "nessuno"}:
+        raise ConfigError("suono_transizione deve essere ding, chime, whoosh o nessuno.")
+    gain = impostazioni.get("suono_gain_db", 0)
+    if not isinstance(gain, (int, float)) or not -30 <= float(gain) <= 12:
+        raise ConfigError("suono_gain_db deve essere tra -30 e 12 dB.")
+    if not isinstance(impostazioni.get("outro", {}), dict) or not impostazioni["outro"].get("file"):
+        raise ConfigError("outro.file è mancante.")
     silenzio = impostazioni.get("silenzio_iniziale_ms")
     if not isinstance(silenzio, int) or not 0 <= silenzio <= 5000:
         raise ConfigError("silenzio_iniziale_ms deve essere un intero tra 0 e 5000.")

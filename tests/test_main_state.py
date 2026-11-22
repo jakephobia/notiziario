@@ -1,6 +1,6 @@
 ﻿from __future__ import annotations
 
-from main import _deve_salvare_visti, _solo_senza_novita
+from main import _deve_salvare_visti, _indici_transizioni, _solo_senza_novita
 
 
 def test_state_salvato_con_audio_e_senza_audio():
@@ -34,3 +34,9 @@ def test_no_news_gestisce_anche_feed_ko():
         ],
     )
     assert _solo_senza_novita(risultato) is True
+
+def test_transizioni_non_dopo_ultima_notizia():
+    assert _indici_transizioni(4) == [0, 1]
+    assert _indici_transizioni(3) == [0]
+    assert _indici_transizioni(2) == []
+    assert _indici_transizioni(1) == []

@@ -6,6 +6,7 @@ import json
 import re
 import shutil
 import subprocess
+import tempfile
 from pathlib import Path
 from typing import Any
 
@@ -186,7 +187,12 @@ def concatena_wav(percorsi: list[Path], uscita: str | Path) -> None:
         lista.unlink(missing_ok=True)
 
 
-def genera_silenzio(secondi: float, percorso: str | Path) -> None:
+def genera_silenzio(
+    secondi: float,
+    percorso: str | Path,
+    sample_rate: int = 24000,
+    bitrate: str = "48k",
+) -> None:
     if secondi <= 0:
         return
     ffmpeg = _strumento("ffmpeg")
@@ -200,13 +206,13 @@ def genera_silenzio(secondi: float, percorso: str | Path) -> None:
             "-f",
             "lavfi",
             "-i",
-            "anullsrc=r=24000:cl=mono",
+            f"anullsrc=r={sample_rate}:cl=mono",
             "-t",
             f"{secondi:.3f}",
             "-c:a",
             "libmp3lame",
             "-b:a",
-            "48k",
+            bitrate,
             str(percorso),
         ]
     )
@@ -372,6 +378,127 @@ def verifica_silenzio_iniziale(
         return False, None, "max_volume non trovato"
     massimo = float(match.group(1))
     return massimo <= soglia_db, massimo, risultato.stderr[-500:]
+
+
+def inserisci_suoni(
+    voce: str | Path,
+    suono: str | Path,
+    uscita: str | Path,
+    durate_sezioni: list[float],
+    impostazioni: dict[str, Any],
+    indici_transizioni: list[int] | None = None,
+) -> dict[str, Any]:
+    """Inserisce 0.3s + suono + 0.3s tra le sezioni, dopo il mastering.
+
+    Il suono non passa da loudnorm: viene solo applicato il gain configurato.
+    """
+    voce_path = Path(voce)
+    suono_path = Path(suono)
+    uscita_path = Path(uscita)
+    if not voce_path.exists() or not suono_path.exists():
+        raise AudioError("Voce o suono mancante per le transizioni.")
+    durate = [max(0.0, float(x)) for x in durate_sezioni]
+    if not durate:
+        uscita_path.write_bytes(voce_path.read_bytes())
+        return {"transizioni": 0, "durata": info_audio(voce_path)["durata"]}
+    iniziale = int(impostazioni.get("silenzio_iniziale_ms", 1000)) / 1000
+    confini: list[float] = []
+    cumulato = iniziale
+    for durata in durate:
+        cumulato += durata
+        confini.append(cumulato)
+    if indici_transizioni is None:
+        indici_transizioni = list(range(max(0, len(durate) - 1)))
+    durata_voce = info_audio(voce_path)["durata"]
+    punti = sorted(
+        {
+            confini[indice]
+            for indice in indici_transizioni
+            if 0 <= indice < len(confini) - 1
+            and 0.05 < confini[indice] < durata_voce - 0.05
+        }
+    )
+    if not punti:
+        uscita_path.write_bytes(voce_path.read_bytes())
+        return {"transizioni": 0, "durata": durata_voce}
+
+    ffmpeg = _strumento("ffmpeg")
+    cartella = Path(tempfile.mkdtemp(prefix="notiziario-suoni-", dir=str(uscita_path.parent)))
+    try:
+        gain = float(impostazioni.get("suono_gain_db", 0))
+        suono_gain = cartella / "suono.mp3"
+        _esegui(
+            [
+                ffmpeg,
+                "-y",
+                "-hide_banner",
+                "-loglevel",
+                "error",
+                "-i",
+                str(suono_path),
+                "-af",
+                f"volume={gain:.2f}dB",
+                "-ar",
+                "44100",
+                "-ac",
+                "1",
+                "-c:a",
+                "libmp3lame",
+                "-b:a",
+                "96k",
+                str(suono_gain),
+            ]
+        )
+        silenzio = cartella / "pausa.mp3"
+        genera_silenzio(0.3, silenzio, sample_rate=44100, bitrate="96k")
+
+        inizi = [0.0] + punti
+        fini = punti + [durata_voce]
+        segmenti = []
+        for indice, (inizio, fine) in enumerate(zip(inizi, fini)):
+            if fine <= inizio:
+                continue
+            segmento = cartella / f"voce-{indice:02d}.mp3"
+            _esegui(
+                [
+                    ffmpeg,
+                    "-y",
+                    "-hide_banner",
+                    "-loglevel",
+                    "error",
+                    "-ss",
+                    f"{inizio:.3f}",
+                    "-to",
+                    f"{fine:.3f}",
+                    "-i",
+                    str(voce_path),
+                    "-ar",
+                    "44100",
+                    "-ac",
+                    "1",
+                    "-c:a",
+                    "libmp3lame",
+                    "-b:a",
+                    "96k",
+                    str(segmento),
+                ]
+            )
+            segmenti.append(segmento)
+
+        pezzi: list[Path] = []
+        for indice, segmento in enumerate(segmenti):
+            pezzi.append(segmento)
+            if indice < len(segmenti) - 1:
+                pezzi.extend([silenzio, suono_gain, silenzio])
+        concatena_mp3(pezzi, uscita_path)
+        info = info_audio(uscita_path)
+        return {"transizioni": len(punti), "durata": info["durata"]}
+    except AudioError:
+        raise
+    except Exception as exc:
+        raise AudioError(f"Inserimento suoni fallito: {exc}") from exc
+    finally:
+        shutil.rmtree(cartella, ignore_errors=True)
 
 
 def ffmpeg_disponibile() -> bool:

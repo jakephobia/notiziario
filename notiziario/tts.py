@@ -17,6 +17,7 @@ from .audio import (
     applica_atempo,
     concatena_mp3,
     genera_silenzio,
+    info_audio,
     masterizza,
     verifica_mp3,
 )
@@ -109,6 +110,7 @@ def _sintetizza_edge(
     )
     try:
         pezzi: list[Path] = []
+        durate_sezioni: list[float] = []
         pause: dict[float, Path] = {}
         for pausa in sorted({p for _, p in sezioni if p > 0}):
             percorso_pausa = cartella / f"pausa-{pausa:.2f}.mp3"
@@ -117,6 +119,7 @@ def _sintetizza_edge(
 
         async def lavora() -> None:
             for indice, (testo, pausa) in enumerate(sezioni, start=1):
+                durata_sezione = 0.0
                 grezzo = cartella / f"blocco-{indice:02d}.mp3"
                 await _salva_blocco(
                     testo,
@@ -130,9 +133,12 @@ def _sintetizza_edge(
                 )
                 parlato = cartella / f"parlato-{indice:02d}.mp3"
                 applica_atempo(grezzo, parlato, velocita, bitrate="48k")
+                durata_sezione += float(info_audio(parlato)["durata"])
                 pezzi.append(parlato)
                 if pausa > 0:
                     pezzi.append(pause[pausa])
+                    durata_sezione += pausa
+                durate_sezioni.append(durata_sezione)
 
         try:
             asyncio.run(lavora())
@@ -153,6 +159,7 @@ def _sintetizza_edge(
                 "voce": voce_edge,
                 "velocita": float(velocita),
                 "motivo_fallback": None,
+                "durate_sezioni": durate_sezioni,
             }
         )
         logger.info(

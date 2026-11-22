@@ -18,6 +18,7 @@ from notiziario.copione import (
     prova_llm,
 )
 from notiziario.incipit import aggiungi_incipit
+from notiziario.outro import applica_outro, risolvi_outro
 from notiziario.selezione import NotiziaSelezionata
 from notiziario.stile import analizza
 from notiziario.testi import conta_parole
@@ -470,3 +471,49 @@ def test_outro_prima_delle_buone_notizie_viene_spostato_in_fondo(monkeypatch):
     paragrafi = [p.strip() for p in finale.split("\n\n") if p.strip()]
     assert paragrafi[-1].startswith("Per il momento è tutto")
     assert finale.index("Ragazzi") < finale.index("Per il momento è tutto")
+
+def test_outro_configurato_vince_e_resta_ultimo():
+    copione = {
+        "testo": (
+            "Notizia uno.\n\n"
+            "Ragazzi ripuliscono il parco.\n\n"
+            "Questa è la fine del notiziario.\n\n"
+            "Per oggi è tutto. A domani."
+        ),
+        "target_parole": 100,
+    }
+    applica_outro(copione, "Queste erano le notizie di oggi. A domani!")
+    paragrafi = [p.strip() for p in copione["testo"].split("\n\n") if p.strip()]
+    assert paragrafi[-1] == "Queste erano le notizie di oggi. A domani!"
+    assert copione["testo"].count("Queste erano le notizie di oggi") == 1
+    assert copione["testo"].index("Ragazzi") < copione["testo"].index("Queste erano")
+
+
+def test_outro_marker_e_default():
+    from datetime import datetime
+    from notiziario.tempo import ROMA
+
+    testo, _ = risolvi_outro(
+        "Ciao [NOME UTENTE], a domani. Oggi è [DATA].",
+        "Jacopo",
+        datetime(2026, 11, 22, 7, 0, tzinfo=ROMA),
+    )
+    assert "Ciao Jacopo" in testo
+    assert "22 novembre" in testo
+    default, avvisi = risolvi_outro("", "Jacopo", datetime(2026, 11, 22, 7, 0, tzinfo=ROMA))
+    assert default.startswith("Queste erano")
+    assert avvisi
+
+def test_descrizione_breve_fallback():
+    copione = genera_copione(
+        selezioni_finte(),
+        carica_impostazioni(),
+        datetime(2026, 11, 22, 7, 0),
+        logger=LOGGER,
+        usa_llm=False,
+    )
+    breve = copione["descrizione_breve"]
+    assert breve.startswith("22 novembre 2026 - ")
+    assert len(breve) <= 200
+    assert "<" not in breve and ">" not in breve
+    assert breve.count(",") <= 7

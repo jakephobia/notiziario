@@ -28,6 +28,7 @@ from notiziario.config import (
     repository_github,
 )
 from notiziario.arricchisci import arricchisci_selezioni
+from notiziario.audio import AudioError, info_audio as leggi_info_audio, inserisci_suoni
 from notiziario.copione import blocchi_per_tts, genera_copione, prova_llm
 from notiziario.controllo_feed import (
     aggiorna_fonti_con_controllo,
@@ -45,6 +46,12 @@ from notiziario.fetch import fetch_all
 from notiziario.fonti_io import scrivi_fonti_yaml
 from notiziario.importa_feed import elenco_fonti, importa_feed, stampa_report
 from notiziario.modelli import test_modelli
+from notiziario.outro import (
+    applica_outro,
+    leggi_modello_outro,
+    risolvi_outro,
+    scegli_modello as scegli_modello_outro,
+)
 from notiziario.incipit import (
     aggiungi_incipit,
     leggi_modello_incipit,
@@ -158,6 +165,13 @@ def costruisci_parser() -> argparse.ArgumentParser:
         ),
     )
     parser.add_argument("--voce", help="Voce Gemini (Kore, Leda, Charon, Puck, Orus).")
+    parser.add_argument(
+        "--anteprima-suono",
+        nargs="?",
+        const="",
+        choices=("", "ding", "chime", "whoosh"),
+        help="Copia i suoni di transizione in output/anteprima (senza nome: tutti).",
+    )
     parser.add_argument(
         "--velocita",
         type=float,
@@ -335,6 +349,7 @@ def _scrivi_copione_md(
         f"- Modalità di scrittura: {modalita}",
         f"- Categorie attive: {', '.join(label_categoria(c) for c in categorie_attive) or 'nessuna'}",
         f"- Parole del copione: {conta_parole(copione['testo'])}",
+        f"- Descrizione breve: {copione.get('descrizione_breve', '')}",
     ]
     if durata_audio:
         righe.append(f"- Durata audio: {durata_umana(durata_audio)}")
@@ -361,6 +376,10 @@ def _scrivi_copione_md(
 
 def _solo_senza_novita(risultato) -> bool:
     return not risultato.articoli and risultato.senza_novita > 0
+
+def _indici_transizioni(sezioni: int) -> list[int]:
+    """Esclude sempre l'ultimo confine, quello prima dell'outro."""
+    return list(range(max(0, sezioni - 2)))
 
 def _deve_salvare_visti(
     dry_run: bool, senza_audio: bool, info_audio: dict[str, Any] | None
@@ -457,6 +476,7 @@ def _stato(
         "data": data_iso,
         "titolo": copione["titolo_episodio"],
         "descrizione": copione["descrizione"],
+        "descrizione_breve": copione.get("descrizione_breve", ""),
         "incipit": incipit,
         "incipit_fonte": incipit_fonte,
         "durata_preset": preset_nome,
@@ -580,6 +600,22 @@ def esegui(
     )
     modello_file, avvisi_incipit_file = leggi_modello_incipit(percorso_incipit)
     modello_incipit, fonte_incipit = scegli_modello(corpo_issue, modello_file)
+
+    percorso_outro = _percorso_base(
+        impostazioni.get("outro", {}).get("file"), "config/outro.txt"
+    )
+    modello_outro_file, avvisi_outro_file = leggi_modello_outro(percorso_outro)
+    modello_outro, fonte_outro = scegli_modello_outro(
+        corpo_issue, modello_outro_file
+    )
+    outro, avvisi_outro = risolvi_outro(
+        modello_outro,
+        str(impostazioni.get("nome_utente", "")),
+        data_riferimento,
+        logger,
+    )
+    errori_non_bloccanti.extend(avvisi_outro_file + avvisi_outro)
+    logger.info("Outro (%s): %s", fonte_outro, outro)
     incipit, avvisi_incipit = risolvi_incipit(
         modello_incipit,
         str(impostazioni.get("nome_utente", "")),
@@ -692,6 +728,7 @@ def esegui(
         data_riferimento,
         logger=logger,
     )
+    applica_outro(copione, outro)
     aggiungi_incipit(copione, incipit)
     avvisi_stile = registra_avvisi(copione["testo"], logger)
     logger.info(
@@ -730,16 +767,50 @@ def esegui(
             raise ErroreBloccante("Copione vuoto: impossibile generare l'audio.")
         logger.info("Genero l'audio con %d blocchi...", len(sezioni))
         try:
-            info_audio = sintetizza_sezioni(
-                sezioni,
-                mp3_path,
-                impostazioni,
-                logger=logger,
-                voce=voce_scelta.nome,
-                velocita=voce_scelta.velocita,
-                motore=voce_scelta.motore,
-            )
-        except TTSError as exc:
+            suono = str(impostazioni.get("suono_transizione", "ding"))
+            if suono == "nessuno":
+                info_audio = sintetizza_sezioni(
+                    sezioni,
+                    mp3_path,
+                    impostazioni,
+                    logger=logger,
+                    voce=voce_scelta.nome,
+                    velocita=voce_scelta.velocita,
+                    motore=voce_scelta.motore,
+                )
+            else:
+                percorso_suono = BASE / "docs" / "suoni" / f"{suono}.mp3"
+                if not percorso_suono.exists():
+                    raise ErroreBloccante(f"Suono di transizione mancante: {percorso_suono}")
+                voce_temp = output / f".voce-{data_iso}.mp3"
+                try:
+                    info_voce = sintetizza_sezioni(
+                        sezioni,
+                        voce_temp,
+                        impostazioni,
+                        logger=logger,
+                        voce=voce_scelta.nome,
+                        velocita=voce_scelta.velocita,
+                        motore=voce_scelta.motore,
+                    )
+                    durate = info_voce.get("durate_sezioni", [])
+                    indici = _indici_transizioni(len(durate))
+                    risultato_suoni = inserisci_suoni(
+                        voce_temp,
+                        percorso_suono,
+                        mp3_path,
+                        durate,
+                        impostazioni,
+                        indici,
+                    )
+                    info_audio = dict(info_voce)
+                    info_audio["durata"] = risultato_suoni["durata"]
+                    info_audio["dimensione"] = mp3_path.stat().st_size
+                    info_audio["transizioni"] = risultato_suoni["transizioni"]
+                    info_audio["suono"] = suono
+                finally:
+                    voce_temp.unlink(missing_ok=True)
+        except (TTSError, AudioError) as exc:
             # Salvo comunque lo stato per diagnostica, poi esco con errore.
             stato = _stato(
                 data_iso=data_iso,
@@ -816,6 +887,7 @@ def esegui(
         "voce_label": voce_label_pub,
         "velocita": velocita_pub,
         "motore": motore_pub,
+        "outro": outro,
         "data": data_iso,
         "nome_utente": str(impostazioni.get("nome_utente", "")),
         "fonti_totali": fonti_totali,
@@ -830,6 +902,7 @@ def esegui(
             data=data_iso,
             titolo=copione["titolo_episodio"],
             descrizione=copione["descrizione"],
+            descrizione_breve=copione.get("descrizione_breve", ""),
             filename=mp3_path.name,
             durata_secondi=float(info_audio["durata"]),
             dimensione=int(info_audio["dimensione"]),
@@ -1070,6 +1143,30 @@ def _issue_url(impostazioni: dict[str, Any]) -> str | None:
         return f"{repo}/issues/{numero}"
     return None
 
+def comando_anteprima_suono(args: argparse.Namespace) -> int:
+    nomi = (
+        ["ding", "chime", "whoosh"]
+        if not args.anteprima_suono
+        else [args.anteprima_suono]
+    )
+    origine = BASE / "docs" / "suoni"
+    destinazione = Path(args.output) / "anteprima"
+    destinazione.mkdir(parents=True, exist_ok=True)
+    for nome in nomi:
+        sorgente = origine / f"{nome}.mp3"
+        if not sorgente.exists():
+            print(f"Suono mancante: {sorgente}", file=sys.stderr)
+            return 1
+        uscita = destinazione / f"suono-{nome}.mp3"
+        uscita.write_bytes(sorgente.read_bytes())
+        try:
+            info = leggi_info_audio(uscita)
+        except Exception:
+            info = {}
+        print(f"{uscita} ({float(info.get('durata', 0)):.2f} s)")
+    return 0
+
+
 def comando_elenco_fonti(args: argparse.Namespace) -> int:
     fonti = carica_fonti_tutte(_percorso_fonti(args))
     elenco_fonti(fonti)
@@ -1166,6 +1263,8 @@ def main(argv: list[str] | None = None) -> int:
     logger.info("================ Notiziario ================")
 
     try:
+        if args.anteprima_suono is not None:
+            return comando_anteprima_suono(args)
         if args.anteprima_voce is not None:
             return comando_anteprima(args, impostazioni, logger)
         if args.importa_feed:

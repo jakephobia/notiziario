@@ -243,6 +243,54 @@ una chiave nei log o nei file.
 I vecchi provini edge-tts restano disponibili con
 `.\scripts\esegui.ps1 --provini` in `output/provini/`.
 
+## Suoni di transizione
+
+Tre suoni royalty-free generati con ffmpeg sono in `docs/suoni/`:
+
+| Suono | Durata | Uso |
+|---|---:|---|
+| `ding.mp3` | 0,50 s | default, nota 880 Hz |
+| `chime.mp3` | 0,80 s | due note, 659 e 880 Hz |
+| `whoosh.mp3` | 0,60 s | rumore filtrato |
+
+Sono mono 44,1 kHz, mp3 ~96 kbps, con volume medio intorno a -20 dBFS.
+Config: `suono_transizione` = `ding|chime|whoosh|nessuno`, `suono_gain_db` per
+il gain controllato. La issue può avere `## Suono` con `suono: ding`.
+Il suono viene inserito dopo il mastering della voce, tra le sezioni, con
+0,3 s di silenzio prima e dopo; non passa da loudnorm e non viene messo dopo
+l'ultima notizia. Con `nessuno` non viene inserito nulla.
+
+Anteprima:
+
+```powershell
+.\scripts\esegui.ps1 --anteprima-suono
+.\scripts\esegui.ps1 --anteprima-suono ding
+```
+
+I file finiscono in `output/anteprima/suono-<nome>.mp3`, senza episodio,
+fetch o modifica di stato. La pagina mostra tre player e indica il suono
+selezionato.
+
+## Descrizione breve dell'episodio
+
+Formato: `22 novembre 2026 - Manovra approvata, Schettino libero, ...`.
+L'AI riceve l'istruzione di produrre `descrizione_breve` con data e 3-8
+micro-riassunti di 2-5 parole, massimo 200 caratteri, senza HTML. Il fallback
+usa data + primi 5 titoli accorciati a 4 parole. La descrizione breve è usata
+nell'item del feed (`description` e `itunes:summary`), nel copione `.md` e
+nel player, non la descrizione lunga del canale.
+
+## Outro configurabile
+
+`config/outro.txt` contiene il default:
+
+> Queste erano le notizie di oggi. A domani con i principali eventi della giornata!
+
+La issue può sovrascriverlo con `## Outro` (testo o blocco codice); stessi
+marker dell'incipit. Se è vuoto si usa il default. L'AI non deve scrivere
+l'outro: il programma rimuove le chiusure generate e appende una sola volta
+l'outro configurato, sempre in fondo dopo le Buone notizie.
+
 ## Categorie
 
 Le categorie sono fisse:
@@ -629,7 +677,7 @@ issue mostra un link discreto al repository.
 
 `docs/impostazioni.json` è generato a ogni run con i valori effettivi
 dell'episodio (categorie, incipit template/risolto, voce, velocità, motore,
-nome, numero fonti totali/attive, data, URL issue/repo). Inizialmente è già
+outro, suono, nome, numero fonti totali/attive, data, URL issue/repo). Inizialmente è già
 presente con i default, così la pagina funziona subito. Le modifiche si salvano
 dalla dashboard GitHub e vengono applicate al run successivo.
 
@@ -654,6 +702,12 @@ voce: Kore
 velocita: 1.1
 motore: gemini
 
+## Suono
+suono: ding
+
+## Outro
+Queste erano le notizie di oggi. A domani con i principali eventi della giornata!
+
 ## Fonti
 - [x] ANSA (italia) — https://www.ansa.it/sito/notizie/topnews/topnews_rss.xml
 - [ ] Corriere (italia) — https://...
@@ -665,18 +719,19 @@ Incolla qui un OPML o una URL per riga. Le nuove fonti vengono importate spente.
 Comandi:
 
 ```powershell
-# Applica Nome/Fonti/Import dalla issue e aggiorna la issue
+# Applica Nome/Fonti/Import/Suono/Outro dalla issue e aggiorna la issue
 .\.venv\Scripts\python.exe -m notiziario.dashboard --applica
 
 # Mostra le modifiche senza scrivere né aggiornare la issue
 .\.venv\Scripts\python.exe -m notiziario.dashboard --applica --dry-run
 
 # Genera il markdown completo dalla config attuale
-.\.venv\Scripts\python.exe -m notiziario.dashboard --genera-corpo
+.\.venv\Scripts\python.exe -m notiziario.dashboard --genera-corpo --out output/issue-dashboard.md
 ```
 
 `--applica` richiede `GITHUB_TOKEN`, `GITHUB_REPOSITORY` e
-`GITHUB_ISSUE_CATEGORIE`; il workflow lo esegue prima di generare l'episodio,
+`GITHUB_ISSUE_CATEGORIE`; applica Nome, Fonti, Import, Suono e Outro e il
+workflow lo esegue prima di generare l'episodio,
 con `issues: write`, e non blocca la run se la issue non è raggiungibile.
 Nome e Fonti sono conservativi: le sezioni malformate non vengono toccate.
 L'import crea solo fonti nuove, le verifica per un massimo di 20 feed (timeout
@@ -777,7 +832,7 @@ Controllo stile manuale di un copione:
 
 ## Risultato della verifica locale (22 novembre 2026)
 
-- `pytest`: **190 test passati**.
+- `pytest`: **198 test passati**.
 - `--test-llm`: Gemini 2.5 Flash ha risposto con la chiave letta dal registro
   utente (nessuna chiave scritta su file).
 - Run standard finale: 31 fonti attive, 22 feed OK e 9 KO solo per assenza di

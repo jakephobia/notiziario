@@ -19,6 +19,7 @@ from .audio import (
     applica_atempo,
     concatena_wav,
     genera_silenzio_wav,
+    info_audio,
     masterizza,
     verifica_mp3,
 )
@@ -276,6 +277,7 @@ def sintetizza_sezioni_gemini(
     )
     try:
         pezzi: list[Path] = []
+        durate_sezioni: list[float] = []
         pause: dict[float, Path] = {}
         indice = 0
         chiamate = 0
@@ -284,6 +286,7 @@ def sintetizza_sezioni_gemini(
             while True:
                 chunks = chunk_testo(testo_sezione, limite)
                 locali: list[Path] = []
+                durata_sezione = 0.0
                 try:
                     for posizione, chunk in enumerate(chunks):
                         if chiamate > 0 and pausa_chiamate > 0:
@@ -297,6 +300,7 @@ def sintetizza_sezioni_gemini(
                         _pcm_a_wav(pcm, grezzo, rate)
                         parlato = cartella / f"parlato-{indice:03d}.wav"
                         applica_atempo(grezzo, parlato, velocita)
+                        durata_sezione += float(info_audio(parlato)["durata"])
                         locali.append(parlato)
                         pausa = pausa_sezione if posizione == len(chunks) - 1 else 0.5
                         if pausa > 0:
@@ -305,6 +309,7 @@ def sintetizza_sezioni_gemini(
                                 genera_silenzio_wav(pausa, silenzio)
                                 pause[pausa] = silenzio
                             locali.append(pause[pausa])
+                            durata_sezione += pausa
                         logger.info(
                             "Gemini TTS chunk %d: %d parole, %d byte PCM.",
                             indice,
@@ -312,6 +317,7 @@ def sintetizza_sezioni_gemini(
                             len(pcm),
                         )
                     pezzi.extend(locali)
+                    durate_sezioni.append(durata_sezione)
                     break
                 except GeminiTTSError as exc:
                     if (
@@ -342,6 +348,7 @@ def sintetizza_sezioni_gemini(
                 "motivo_fallback": None,
                 "limite_chunk_usato": limite_usato,
                 "chiamate": chiamate,
+                "durate_sezioni": durate_sezioni,
             }
         )
         logger.info(

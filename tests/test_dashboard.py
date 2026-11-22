@@ -160,6 +160,12 @@ voce: Kore
 velocita: 1.1
 motore: gemini
 
+## Suono
+suono: chime
+
+## Outro
+Queste erano le notizie. A domani!
+
 ## Fonti
 - [ ] ANSA (mondo) — https://a.test/feed
 
@@ -193,10 +199,37 @@ https://nuovo.test/feed
     assert "## Categorie\n- [x] Italia" in aggiornato
     assert "Ciao [NOME], buongiorno." in aggiornato
     assert "voce: Kore" in aggiornato
+    assert "## Suono\nsuono: chime" in aggiornato
+    assert "## Outro\nQueste erano le notizie. A domani!" in aggiornato
     assert "- [ ] ANSA (mondo) — https://a.test/feed" in aggiornato
     assert "- [ ] nuovo.test (da-assegnare) — https://nuovo.test/feed" in aggiornato
     assert "Import completato: 1 aggiunte, 0 duplicate, 0 scartate." in aggiornato
     config = json.loads((tmp_path / "config" / "impostazioni.json").read_text(encoding="utf-8"))
     assert config["nome_utente"] == "Luca"
+    assert config["suono_transizione"] == "chime"
+    assert (tmp_path / "config" / "outro.txt").read_text(encoding="utf-8").strip() == "Queste erano le notizie. A domani!"
     yaml = (tmp_path / "config" / "fonti.yaml").read_text(encoding="utf-8")
     assert "https://nuovo.test/feed" in yaml
+
+def test_parse_suono_e_outro():
+    corpo = """## Suono
+suono: chime
+
+## Outro
+Queste erano le notizie. A domani!
+"""
+    assert dashboard.parse_suono(corpo) == ("chime", [])
+    assert dashboard.parse_outro(corpo)[0] == "Queste erano le notizie. A domani!"
+    assert dashboard.parse_suono("## Suono\nsuono: strano\n")[0] == "ding"
+    assert dashboard.parse_outro("## Outro\n   ")[0].startswith("Queste erano")
+
+
+def test_genera_corpo_include_suono_e_outro():
+    corpo = dashboard.genera_corpo(
+        carica_impostazioni(),
+        carica_fonti_tutte(),
+        "Ciao [NOME], [DATA].",
+        "Queste erano le notizie. A domani!",
+    )
+    assert "## Suono\nsuono: ding" in corpo
+    assert "## Outro\nQueste erano le notizie. A domani!" in corpo

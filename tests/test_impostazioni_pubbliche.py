@@ -22,6 +22,8 @@ def test_struttura_impostazioni_pubbliche(tmp_path):
         nome_utente="Jacopo",
         fonti_totali=31,
         fonti_attive=31,
+        suono="ding",
+        outro="Queste erano le notizie.",
         issue_url="https://github.com/o/r/issues/1",
         repo_url="https://github.com/o/r",
     )
@@ -38,6 +40,8 @@ def test_struttura_impostazioni_pubbliche(tmp_path):
         "nome_utente",
         "fonti_totali",
         "fonti_attive",
+        "suono",
+        "outro",
         "issue_url",
         "repo_url",
     }
