@@ -239,3 +239,23 @@ def test_sport_da_feed_generalista_escluso_se_categoria_spenta():
     attive = seleziona(clusters, preset, ["sport"])
     assert len(attive) == 1
     assert attive[0].categoria == "sport"
+
+
+def test_live_blog_escluso_se_ci_sono_alternative():
+    preset = carica_impostazioni()["preset"]["svelto"]
+    clusters = [
+        crea_cluster([crea_articolo("Australian politics live", categoria="mondo", ore_fa=1)]),
+        crea_cluster([crea_articolo("Notizia italiana", categoria="italia", ore_fa=2)]),
+    ]
+    scelte = seleziona(clusters, preset, ["italia", "mondo"], max_notizie=2)
+    assert all("live" not in s.titolo.casefold() for s in scelte)
+    assert any(s.titolo == "Notizia italiana" for s in scelte)
+
+
+def test_live_blog_unico_non_viene_selezionato():
+    preset = carica_impostazioni()["preset"]["svelto"]
+    clusters = [
+        crea_cluster([crea_articolo("Politica australiana in diretta", categoria="mondo")])
+    ]
+    assert seleziona(clusters, preset, ["mondo"]) == []
+

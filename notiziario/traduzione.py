@@ -10,6 +10,7 @@ from typing import Any
 
 from .copione import _chiama_gemini, _contiene_stopword_inglese, _estrai_json
 from .selezione import NotiziaSelezionata
+from .testi import deduplica_paragrafi
 
 
 LIMITE_BATCH = 18_000
@@ -26,7 +27,7 @@ def _testo_notizia(selezione: NotiziaSelezionata) -> str:
         testo = articolo.contenuto or articolo.sommario or ""
         if testo:
             pezzi.append(testo)
-    return "\n".join(pezzi)[:LIMITE_TESTO_NOTIZIA]
+    return deduplica_paragrafi("\n\n".join(pezzi))[:LIMITE_TESTO_NOTIZIA]
 
 
 def _non_italiana(selezione: NotiziaSelezionata) -> bool:
@@ -81,6 +82,7 @@ def _traduzioni_da_risposta(risposta: str) -> dict[int, tuple[str, str]]:
             continue
         titolo = str(voce.get("titolo_it") or voce.get("titolo") or "").strip()
         testo = str(voce.get("testo_it") or voce.get("testo") or "").strip()
+        testo = deduplica_paragrafi(testo)
         if not titolo or not testo:
             continue
         if _contiene_stopword_inglese(titolo + " " + testo):

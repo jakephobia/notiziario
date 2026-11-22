@@ -834,6 +834,21 @@ voce: Kore
 velocita: 1.1
 motore: gemini
 
+## Deduplicazione e live blog
+
+Prima del copione ogni notizia viene ripulita da paragrafi e frasi ripetute:
+normalizzazione di minuscole, punteggiatura, accenti e spazi, poi similarità
+combinata (sequenza + token comuni) con soglia **0,85**. Si tiene la prima
+occorrenza e si conservano i contenuti unici. La stessa deduplica viene
+applicata al copione AI e al fallback, inclusa la ripetizione del titolo a
+breve distanza. I paragrafi rimossi non cambiano il numero di notizie né i
+confini dei suoni.
+
+I live blog vengono esclusi dalla selezione se il titolo o l'URL contiene
+`live`, `liveblog`, `diretta`, `in diretta`, `as it happened`, `breaking` o
+`ultime notizie`. Se non ci sono alternative la scaletta resta più corta
+invece di pubblicare un live blog.
+
 ## Suono
 suono: ding
 
@@ -964,7 +979,7 @@ Controllo stile manuale di un copione:
 
 ## Risultato della verifica locale (22 novembre 2026)
 
-- `pytest`: **261 test passati**.
+- `pytest`: **272 test passati**.
 - `--test-llm`: Gemini 2.5 Flash ha risposto con la chiave letta dal registro
   utente (nessuna chiave scritta su file).
 - Run standard finale: 31 fonti attive, 22 feed OK e 9 KO solo per assenza di

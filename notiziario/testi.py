@@ -266,6 +266,124 @@ def token_significativi(titolo: str) -> set[str]:
     return set(normalizzato.split()) if normalizzato else set()
 
 
+def normalizza_dedup(testo: str) -> str:
+    """Minuscole, senza accenti, punteggiatura o spazi multipli."""
+    testo = _senza_accenti(str(testo or "")).casefold()
+    testo = re.sub(r"[^a-z0-9\s]", " ", testo)
+    return re.sub(r"\s+", " ", testo).strip()
+
+
+_ATTRIBUZIONE_RE = re.compile(
+    r"^(?:come riporta|secondo|lo riporta|ne parla|dalla ricostruzione di)\s+[^,]+,\s*",
+    re.IGNORECASE,
+)
+
+
+def _senza_attribuzione(testo: str) -> str:
+    return _ATTRIBUZIONE_RE.sub("", str(testo or ""), count=1)
+
+
+def _normalizza_confronto(testo: str) -> str:
+    return normalizza_dedup(_senza_attribuzione(testo))
+
+
+def similarita_testi(a: str, b: str, soglia: float = 0.85) -> float:
+    """Similarità prudente per paragrafi/frasi: sequenza + token comuni."""
+    na, nb = _normalizza_confronto(a), _normalizza_confronto(b)
+    if not na or not nb:
+        return 0.0
+    if na == nb:
+        return 1.0
+    sequenza = SequenceMatcher(None, na, nb).ratio()
+    ta, tb = set(na.split()), set(nb.split())
+    unione = ta | tb
+    jaccard = len(ta & tb) / len(unione) if unione else 0.0
+    return 0.55 * sequenza + 0.45 * jaccard
+
+
+def deduplica_unita(unita: list[str], soglia: float = 0.85) -> list[str]:
+    """Mantiene la prima occorrenza e scarta unità quasi identiche."""
+    tenute: list[str] = []
+    for voce in unita:
+        testo = str(voce or "").strip()
+        if not testo:
+            continue
+        if any(similarita_testi(testo, altra, soglia) >= soglia for altra in tenute):
+            continue
+        tenute.append(testo)
+    return tenute
+
+
+def deduplica_frasi(testo: str, soglia: float = 0.85) -> str:
+    """Deduplica le frasi mantenendo l'ordine e la prima occorrenza."""
+    return " ".join(deduplica_unita(estrai_frasi(testo), soglia)).strip()
+
+
+def deduplica_paragrafi(testo: str, soglia: float = 0.85) -> str:
+    """Deduplica paragrafi e frasi, anche se la ripetizione è in un altro paragrafo."""
+    paragrafi = [
+        p.strip() for p in re.split(r"\n\s*\n", testo or "") if p.strip()
+    ]
+    frasi_viste: list[str] = []
+    puliti: list[str] = []
+    for paragrafo in paragrafi:
+        frasi: list[str] = []
+        for frase in estrai_frasi(paragrafo):
+            if any(similarita_testi(frase, vista, soglia) >= soglia for vista in frasi_viste):
+                continue
+            frasi_viste.append(frase)
+            frasi.append(frase)
+        if frasi:
+            puliti.append(" ".join(frasi))
+    return "\n\n".join(deduplica_unita(puliti, soglia))
+
+
+def rimuovi_titoli_ripetuti(testo: str, titoli: list[str]) -> str:
+    """Rimuove le occorrenze successive dello stesso titolo, lasciando la prima."""
+    risultato = testo or ""
+    for titolo in sorted({t.strip() for t in titoli if t and len(t.split()) >= 3}, key=len, reverse=True):
+        pattern = re.compile(re.escape(titolo), re.IGNORECASE)
+        occorrenze = list(pattern.finditer(risultato))
+        for trovata in reversed(occorrenze[1:]):
+            risultato = risultato[: trovata.start()] + risultato[trovata.end() :]
+    risultato = re.sub(r"[ \t]{2,}", " ", risultato)
+    risultato = re.sub(r"\s+([,.;:!?])", r"\1", risultato)
+    risultato = re.sub(r"([,;:])\s*[,;:]+", r"\1", risultato)
+    risultato = re.sub(r",\s*([.!?])", r"\1", risultato)
+    risultato = re.sub(r"\n{3,}", "\n\n", risultato)
+    return risultato.strip(" \t\n,;:")
+
+
+def _chiave_senza_titoli(testo: str, titoli: list[str]) -> str:
+    chiave = normalizza_dedup(_senza_attribuzione(testo))
+    for titolo in titoli:
+        norm = normalizza_dedup(titolo)
+        if len(norm.split()) >= 3:
+            chiave = chiave.replace(norm, " ")
+    return re.sub(r"\s+", " ", chiave).strip()
+
+
+def deduplica_testo_finale(testo: str, titoli: list[str] | None = None, soglia: float = 0.85) -> str:
+    """Deduplica il copione mantenendo ordine, incipit e outro."""
+    if titoli:
+        testo = rimuovi_titoli_ripetuti(testo, titoli)
+    paragrafi = [
+        p.strip() for p in re.split(r"\n\s*\n", testo or "") if p.strip()
+    ]
+    chiavi_viste: list[str] = []
+    paragrafi_tenuti: list[str] = []
+    for paragrafo in paragrafi:
+        frasi_tenute: list[str] = []
+        for frase in estrai_frasi(paragrafo):
+            chiave = _chiave_senza_titoli(frase, titoli or [])
+            if any(similarita_testi(chiave, vista, soglia) >= soglia for vista in chiavi_viste):
+                continue
+            chiavi_viste.append(chiave)
+            frasi_tenute.append(frase)
+        if frasi_tenute:
+            paragrafi_tenuti.append(" ".join(frasi_tenute))
+    return "\n\n".join(paragrafi_tenuti).strip()
+
 def similarita_normalizzate(a: str, b: str) -> float:
     """Similarità combinata su titoli già normalizzati."""
     if not a or not b:

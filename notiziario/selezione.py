@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+import re
 from dataclasses import dataclass
 
 from .categorie import CATEGORIE_IDS, label_categoria
@@ -33,6 +34,21 @@ class NotiziaSelezionata:
     @property
     def fonti(self) -> list[str]:
         return self.cluster.fonti
+
+
+_LIVE_RE = re.compile(
+    r"\b(?:live(?:\s*blog)?|in\s+diretta|diretta|as\s+it\s+happened|breaking|"
+    r"ultime\s+notizie)\b",
+    re.IGNORECASE,
+)
+
+
+def e_live_blog(cluster: Cluster) -> bool:
+    """Riconosce live blog e dirette dal titolo o dagli URL del cluster."""
+    testi = [cluster.titolo]
+    for articolo in cluster.articoli:
+        testi.extend([articolo.titolo, articolo.link])
+    return any(_LIVE_RE.search(str(testo or "")) for testo in testi)
 
 
 def _compatibile(candidato: Cluster, scelti: list[Cluster], soglia: float = 0.8) -> bool:
@@ -90,6 +106,15 @@ def seleziona(
     - se manca spazio si riducono le secondarie, non le copertine.
     """
     logger = logger or logging.getLogger("notiziario")
+    if not clusters and not buone_notizie:
+        return []
+
+    esclusi_live = [c for c in clusters if e_live_blog(c)]
+    if esclusi_live:
+        logger.info("Live blog esclusi dalla selezione: %d.", len(esclusi_live))
+    clusters = [c for c in clusters if not e_live_blog(c)]
+    if buone_notizie:
+        buone_notizie = [c for c in buone_notizie if not e_live_blog(c)]
     if not clusters and not buone_notizie:
         return []
 

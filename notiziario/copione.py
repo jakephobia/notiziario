@@ -18,6 +18,11 @@ from .stile import semplifica_slop
 from .testi import (
     conta_parole,
     data_in_italiano,
+    deduplica_frasi,
+    deduplica_paragrafi,
+    deduplica_testo_finale,
+    normalizza_dedup,
+    similarita_testi,
     elenco_naturale,
     estrai_frasi,
     normalizza_per_tts,
@@ -53,8 +58,8 @@ def prepara_materiale(selezioni: list[NotiziaSelezionata]) -> list[dict[str, Any
                 {
                     "fonte": selezione.fonti[0] if selezione.fonti else "",
                     "titolo": selezione.titolo,
-                    "sommario": selezione.testo_tradotto[:300],
-                    "testo": selezione.testo_tradotto,
+                    "sommario": deduplica_frasi(selezione.testo_tradotto)[:300],
+                    "testo": deduplica_paragrafi(selezione.testo_tradotto),
                     "arricchito": True,
                     "contenuto_parziale": False,
                     "pubblicato": primo.pubblicato.isoformat() if primo else "",
@@ -62,13 +67,29 @@ def prepara_materiale(selezioni: list[NotiziaSelezionata]) -> list[dict[str, Any
                 }
             )
         else:
+            frasi_viste: list[str] = []
             for articolo in selezione.cluster.ordina_articoli():
+                testo = deduplica_paragrafi(
+                    articolo.contenuto or articolo.sommario
+                )
+                frasi = []
+                for frase in estrai_frasi(testo):
+                    if any(
+                        similarita_testi(frase, vista) >= 0.85
+                        for vista in frasi_viste
+                    ):
+                        continue
+                    frasi_viste.append(frase)
+                    frasi.append(frase)
+                testo = " ".join(frasi).strip()
+                if not testo:
+                    continue
                 articoli.append(
                     {
                         "fonte": articolo.fonte,
                         "titolo": articolo.titolo,
-                        "sommario": articolo.sommario,
-                        "testo": articolo.contenuto or articolo.sommario,
+                        "sommario": deduplica_frasi(articolo.sommario),
+                        "testo": testo,
                         "arricchito": bool(articolo.contenuto),
                         "contenuto_parziale": articolo.contenuto_parziale,
                         "pubblicato": articolo.pubblicato.isoformat(),
@@ -745,6 +766,11 @@ def _finalizza_llm(
                     paragrafi_voce.append(normale)
         if not paragrafi_voce and breve_voce:
             paragrafi_voce = [breve_voce]
+        paragrafi_voce = [
+            p
+            for p in deduplica_paragrafi("\n\n".join(paragrafi_voce)).split("\n\n")
+            if p.strip()
+        ]
         notizie.append(
             {
                 "titolo": pulisci_titolo(str(voce["titolo"])),
@@ -755,6 +781,12 @@ def _finalizza_llm(
                 "paragrafi": paragrafi_voce,
             }
         )
+    for voce in notizie:
+        uniti = "\n\n".join(voce["paragrafi"])
+        pulito = deduplica_testo_finale(uniti, [voce["titolo"]])
+        voce["paragrafi"] = [
+            p.strip() for p in re.split(r"\n\s*\n", pulito) if p.strip()
+        ]
     if paragrafi_espliciti:
         paragrafi_completi = [p for voce in notizie for p in voce["paragrafi"]]
         paragrafi_testo = [
@@ -790,6 +822,7 @@ def _finalizza_llm(
             else:
                 testo = "\n\n".join(paragrafi + positive_texts)
     testo = _garantisci_chiusura_finale(testo)
+    testo = deduplica_testo_finale(testo, [n["titolo"] for n in notizie])
     if not descrizione:
         descrizione = "Le notizie del giorno lette in italiano."
     breve = _pulisci_descrizione_breve(
@@ -1025,8 +1058,10 @@ def _frasi_cluster(
                 continue
             if normalizza_titolo(frase) == titolo_norm:
                 continue
-            chiave = re.sub(r"\W+", " ", frase.casefold()).strip()
-            if not chiave or chiave in visti:
+            chiave = normalizza_dedup(frase)
+            if not chiave or any(
+                similarita_testi(frase, vista) >= 0.85 for vista in visti
+            ):
                 continue
             visti.add(chiave)
             if frase[0].islower():
@@ -1221,11 +1256,17 @@ def _genera_fallback(
         (voce, semplifica_slop(_normalizza_blocco(blocco)))
         for voce, blocco in zip(voci, blocchi)
     ]
-    coppie = [
-        (voce, normale)
-        for voce, normale in coppie
-        if normale and not _copione_ha_inglese(normale)
-    ]
+    coppie_pulite: list[tuple[dict[str, Any], str]] = []
+    for voce, normale in coppie:
+        if not normale or _copione_ha_inglese(normale):
+            continue
+        normale = deduplica_testo_finale(normale, [voce.get("titolo", "")])
+        if not normale:
+            continue
+        if any(similarita_testi(normale, altra) >= 0.85 for _, altra in coppie_pulite):
+            continue
+        coppie_pulite.append((voce, normale))
+    coppie = coppie_pulite
     voci = [voce for voce, _ in coppie]
     blocchi_norm = [normale for _, normale in coppie]
     for voce, normale in coppie:
@@ -1233,6 +1274,7 @@ def _genera_fallback(
         voce["paragrafi"] = [normale]
     corpo = "\n\n".join(blocchi_norm + [chiusura_norm])
     corpo = semplifica_slop(corpo)
+    corpo = deduplica_testo_finale(corpo, [v["titolo"] for v in voci])
 
     target = sum(s.parole_target for s in selezioni) + 15
     titoli = [v["titolo"] for v in voci[:3]]
