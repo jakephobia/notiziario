@@ -66,3 +66,28 @@ def test_workflow_orario_e_dispatch_manuale():
         assert passo.get("if") == condizione
     assert nomi.index("Controlla orario") < nomi.index("Genera episodio")
 
+
+def test_workflow_notifiche_issue_e_email():
+    percorso = ROOT / ".github" / "workflows" / "notiziario.yml"
+    dati = yaml.safe_load(percorso.read_text(encoding="utf-8"))
+    passi = dati["jobs"]["episodio"]["steps"]
+    nomi = [p.get("name") for p in passi]
+    assert nomi.index("Aggiorna feed, sito e stato nel repository") < nomi.index("Notifica episodio")
+    assert nomi.index("Notifica episodio") < nomi.index("Email episodio")
+
+    notifica = passi[nomi.index("Notifica episodio")]
+    assert notifica.get("continue-on-error") is True
+    assert notifica["env"]["ISSUE_NOTIFICHE"] == "${{ vars.ISSUE_NOTIFICHE }}"
+    assert "gh issue comment \"$ISSUE_NOTIFICHE\" --body-file" in notifica["run"]
+    assert "ISSUE_NOTIFICHE non impostata" in notifica["run"]
+
+    email = passi[nomi.index("Email episodio")]
+    assert email.get("continue-on-error") is True
+    assert "env.MAIL_TO != ''" in email["if"]
+    assert "--email" in email["run"]
+    for chiave in ("MAIL_TO", "SMTP_HOST", "SMTP_PORT", "SMTP_USER", "SMTP_PASSWORD"):
+        assert f"secrets.{chiave}" in email["env"][chiave]
+
+    testo = percorso.read_text(encoding="utf-8")
+    for marcatore in ("password-segreta", "AIza", "ghp_", "github_pat_"):
+        assert marcatore not in testo

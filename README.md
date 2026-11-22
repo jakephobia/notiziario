@@ -919,9 +919,10 @@ ambiente; per attivarlo servono:
 
 Il workflow:
 
-- parte ogni giorno alle **05:30 UTC** (06:30 in Italia con l'ora solare,
-  07:30 con l'ora legale) e si può lanciare a mano con `workflow_dispatch`,
-  scegliendo `svelto`, `standard` o `completo`;
+- parte ogni ora e genera solo se l'ora di Roma coincide con
+  `orario_generazione` (default `07:00`); si può lanciare a mano con
+  `workflow_dispatch`, scegliendo `svelto`, `standard` o `completo`, e in quel
+  caso il controllo orario viene saltato;
 - installa Python 3.12 e ffmpeg su Ubuntu;
 - applica la dashboard (`python -m notiziario.dashboard --applica`) prima di
   generare: se la issue non è raggiungibile, avvisa e prosegue con la config
@@ -935,15 +936,17 @@ Il workflow:
   `docs/index.html`, con `sito_url` reale derivato da `GITHUB_REPOSITORY`
   (`https://owner.github.io/repo/`, con caso speciale `owner.github.io`), poi
   committa e pusha **`docs/`, `state/visti.json` e `config/`**;
-- pubblica `docs/` su GitHub Pages solo dopo release, verifica HEAD e commit.
+- pubblica `docs/` su GitHub Pages solo dopo release, verifica HEAD e commit;
+- commenta la issue delle notifiche, se `ISSUE_NOTIFICHE` è impostata;
+- invia l'email opzionale se i secret SMTP sono configurati.
 
 C'è anche un workflow manuale separato `.github/workflows/anteprima-voce.yml`:
 scegli voce, velocità e frase, scarica l'mp3 come artifact, senza episodio.
 `.github/workflows/tests.yml` esegue pytest su push e pull request (Python 3.12),
 senza segreti.
 
-Permessi usati: `contents: write`, `pages: write`, `id-token: write`,
-`issues: write`. La concurrency evita due run sovrapposte. Le action sono
+Permessi usati: `contents: write`, `issues: write`. La concurrency evita due
+run sovrapposte. Le action sono
 pinnate ai tag major (`@v4`, `@v5`, `@v3`): rischio basso di supply chain,
 documentato; non sono stati inventati SHA.
 
@@ -953,6 +956,42 @@ falliscono sia Gemini TTS sia edge-tts, o il fetch totale, la run esce con
 errore e non pubblica un episodio incompleto. Se tutti i feed senza date sono già in rubrica, anche con altri feed KO per
 “nessun articolo valido”, la run termina con `Nessuna novità` e non crea un
 episodio.
+
+## Notifiche episodi
+
+Canale principale, senza servizi esterni: un commento alla issue GitHub
+dedicata. GitHub invia l'email di notifica se la issue è assegnata all'utente
+e le notifiche per le issue assegnate sono attive.
+
+1. Crea una issue intitolata **Notifiche episodi** e assegnarla a te stesso.
+2. Imposta la variabile del repository con il numero della issue:
+
+```powershell
+gh variable set ISSUE_NOTIFICHE --body 7
+```
+
+Sostituisci `7` con il numero reale. Il workflow, dopo il commit di feed/sito,
+esegue `python -m notiziario.notifica` e commenta la issue con
+`gh issue comment "$ISSUE_NOTIFICHE" --body-file output/notifica.md`, usando
+`GITHUB_TOKEN` (`issues: write`). Se la variabile è vuota lo step salta; se il
+commento fallisce non blocca l'episodio (`continue-on-error`).
+
+Email diretta opzionale: configura questi secret del repository. Se ne manca
+uno, lo step salta senza errore e stampa `email non configurata`.
+
+- `MAIL_TO` — uno o più destinatari separati da virgola;
+- `SMTP_HOST` — per Gmail `smtp.gmail.com`;
+- `SMTP_PORT` — `587` (STARTTLS);
+- `SMTP_USER` — indirizzo mittente;
+- `SMTP_PASSWORD` — password o app password.
+
+Con Gmail serve la verifica in due passaggi e una **app password** dedicata;
+la password normale dell'account non funziona. Il workflow esegue
+`python -m notiziario.notifica --email` solo se `MAIL_TO` è impostata e non
+blocca l'episodio in caso di errore.
+
+Il messaggio contiene titolo, data, durata, descrizione breve e link a player,
+feed RSS e MP3. Il feed e il player restano i canali principali di ascolto.
 
 ## Test
 
@@ -979,7 +1018,7 @@ Controllo stile manuale di un copione:
 
 ## Risultato della verifica locale (22 novembre 2026)
 
-- `pytest`: **272 test passati**.
+- `pytest`: **280 test passati**.
 - `--test-llm`: Gemini 2.5 Flash ha risposto con la chiave letta dal registro
   utente (nessuna chiave scritta su file).
 - Run standard finale: 31 fonti attive, 22 feed OK e 9 KO solo per assenza di

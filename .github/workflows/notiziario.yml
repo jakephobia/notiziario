@@ -107,4 +107,29 @@ jobs:
             git push
           fi
 
+      - name: Notifica episodio
+        if: ${{ github.event_name == 'workflow_dispatch' || steps.orario.outputs.run == 'true' }}
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NOTIFICHE: ${{ vars.ISSUE_NOTIFICHE }}
+        run: |
+          if [ -z "$ISSUE_NOTIFICHE" ]; then
+            echo "ISSUE_NOTIFICHE non impostata: salto il commento."
+            exit 0
+          fi
+          python -m notiziario.notifica > output/notifica.md
+          gh issue comment "$ISSUE_NOTIFICHE" --body-file output/notifica.md
+
+      - name: Email episodio
+        if: ${{ (github.event_name == 'workflow_dispatch' || steps.orario.outputs.run == 'true') && env.MAIL_TO != '' }}
+        continue-on-error: true
+        env:
+          MAIL_TO: ${{ secrets.MAIL_TO }}
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+        run: python -m notiziario.notifica --email
+
       # Pages pubblica docs/ da main: impostazione del repository, nessun artifact.
