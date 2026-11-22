@@ -15,6 +15,9 @@ cache/
 output/qa*
 docs-qa*
 
+# File di handoff tra sessioni
+HANDOFF-*.md
+
 # Sistema
 .DS_Store
 Thumbs.db

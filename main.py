@@ -39,6 +39,7 @@ from notiziario.controllo_feed import (
 from notiziario.feed import (
     Episodio,
     aggiorna_docs,
+    fonti_pubbliche,
     normalizza_sito_url,
     scrivi_impostazioni_pubbliche,
 )
@@ -872,6 +873,7 @@ def esegui(
     )
     motore_pub = str(info_audio.get("motore", voce_scelta.motore)) if info_audio else voce_scelta.motore
     velocita_pub = float(info_audio.get("velocita", voce_scelta.velocita)) if info_audio else voce_scelta.velocita
+    tutte_fonti = fonti
     try:
         tutte_fonti = carica_fonti_tutte(_percorso_fonti(args))
         fonti_totali = len(tutte_fonti)
@@ -885,6 +887,8 @@ def esegui(
         "incipit_risolto": incipit,
         "voce": voce_pub,
         "voce_label": voce_label_pub,
+        "voce_configurata": str(impostazioni.get("voce", {}).get("nome", "")),
+        "durata_default": str(impostazioni.get("durata_default", "standard")),
         "velocita": velocita_pub,
         "motore": motore_pub,
         "motore_richiesto": voce_scelta.motore,
@@ -894,6 +898,7 @@ def esegui(
         "nome_utente": str(impostazioni.get("nome_utente", "")),
         "fonti_totali": fonti_totali,
         "fonti_attive": fonti_attive,
+        "fonti": fonti_pubbliche(tutte_fonti),
         "issue_url": _issue_url(impostazioni),
         "repo_url": _repo_url(impostazioni),
     }

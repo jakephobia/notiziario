@@ -23,6 +23,8 @@
   "incipit_risolto": "Ciao Jacopo, ecco le tue notizie del giorno. Oggi è il 22 novembre.",
   "voce": "it-IT-IsabellaNeural",
   "voce_label": "it-IT-IsabellaNeural (edge-tts)",
+  "voce_configurata": "Kore",
+  "durata_default": "standard",
   "velocita": 1.1,
   "motore": "edge",
   "motore_richiesto": "gemini",
@@ -30,8 +32,502 @@
   "nome_utente": "Jacopo",
   "suono": "ding",
   "outro": "Queste erano le notizie di oggi. A domani con i principali eventi della giornata!",
-  "fonti_totali": 31,
-  "fonti_attive": 31,
+  "fonti_totali": 82,
+  "fonti_attive": 82,
   "issue_url": "https://github.com/jakephobia/notiziario/issues/1",
-  "repo_url": "https://github.com/jakephobia/notiziario"
+  "repo_url": "https://github.com/jakephobia/notiziario",
+  "fonti": [
+    {
+      "nome": "ANSA",
+      "url": "https://www.ansa.it/sito/notizie/topnews/topnews_rss.xml",
+      "categoria": "italia",
+      "attivo": true
+    },
+    {
+      "nome": "ANSA",
+      "url": "https://www.ansa.it/sito/notizie/cronaca/cronaca_rss.xml",
+      "categoria": "italia",
+      "attivo": true
+    },
+    {
+      "nome": "ANSA",
+      "url": "https://www.ansa.it/sito/notizie/mondo/mondo_rss.xml",
+      "categoria": "mondo",
+      "attivo": true
+    },
+    {
+      "nome": "ANSA",
+      "url": "https://www.ansa.it/sito/notizie/economia/economia_rss.xml",
+      "categoria": "economia",
+      "attivo": true
+    },
+    {
+      "nome": "ANSA",
+      "url": "https://www.ansa.it/sito/notizie/sport/sport_rss.xml",
+      "categoria": "sport",
+      "attivo": true
+    },
+    {
+      "nome": "ANSA",
+      "url": "https://www.ansa.it/sito/notizie/cultura/cultura_rss.xml",
+      "categoria": "cultura",
+      "attivo": true
+    },
+    {
+      "nome": "Repubblica",
+      "url": "https://www.repubblica.it/rss/homepage/rss2.0.xml",
+      "categoria": "italia",
+      "attivo": true
+    },
+    {
+      "nome": "Repubblica",
+      "url": "https://www.repubblica.it/rss/politica/rss2.0.xml",
+      "categoria": "italia",
+      "attivo": true
+    },
+    {
+      "nome": "Repubblica",
+      "url": "https://www.repubblica.it/rss/cronaca/rss2.0.xml",
+      "categoria": "italia",
+      "attivo": true
+    },
+    {
+      "nome": "Repubblica",
+      "url": "https://www.repubblica.it/rss/esteri/rss2.0.xml",
+      "categoria": "mondo",
+      "attivo": true
+    },
+    {
+      "nome": "Repubblica",
+      "url": "https://www.repubblica.it/rss/economia/rss2.0.xml",
+      "categoria": "economia",
+      "attivo": true
+    },
+    {
+      "nome": "Repubblica",
+      "url": "https://www.repubblica.it/rss/cultura/rss2.0.xml",
+      "categoria": "cultura",
+      "attivo": true
+    },
+    {
+      "nome": "Repubblica",
+      "url": "https://www.repubblica.it/rss/tecnologia/rss2.0.xml",
+      "categoria": "tecnologia",
+      "attivo": true
+    },
+    {
+      "nome": "Repubblica",
+      "url": "https://www.repubblica.it/rss/ambiente/rss2.0.xml",
+      "categoria": "ambiente",
+      "attivo": true
+    },
+    {
+      "nome": "Repubblica",
+      "url": "https://www.repubblica.it/rss/salute/rss2.0.xml",
+      "categoria": "scienza-salute",
+      "attivo": true
+    },
+    {
+      "nome": "Il Post",
+      "url": "https://www.ilpost.it/italia/feed/",
+      "categoria": "italia",
+      "attivo": true
+    },
+    {
+      "nome": "Il Post",
+      "url": "https://www.ilpost.it/mondo/feed/",
+      "categoria": "mondo",
+      "attivo": true
+    },
+    {
+      "nome": "Il Post",
+      "url": "https://www.ilpost.it/economia/feed/",
+      "categoria": "economia",
+      "attivo": true
+    },
+    {
+      "nome": "Il Post",
+      "url": "https://www.ilpost.it/tecnologia/feed/",
+      "categoria": "tecnologia",
+      "attivo": true
+    },
+    {
+      "nome": "Il Post",
+      "url": "https://www.ilpost.it/scienza/feed/",
+      "categoria": "scienza-salute",
+      "attivo": true
+    },
+    {
+      "nome": "Il Post",
+      "url": "https://www.ilpost.it/cultura/feed/",
+      "categoria": "cultura",
+      "attivo": true
+    },
+    {
+      "nome": "Il Post",
+      "url": "https://www.ilpost.it/sport/feed/",
+      "categoria": "sport",
+      "attivo": true
+    },
+    {
+      "nome": "Il Sole 24 Ore",
+      "url": "https://www.ilsole24ore.com/rss/italia.xml",
+      "categoria": "italia",
+      "attivo": true
+    },
+    {
+      "nome": "Il Sole 24 Ore",
+      "url": "https://www.ilsole24ore.com/rss/mondo.xml",
+      "categoria": "mondo",
+      "attivo": true
+    },
+    {
+      "nome": "Il Sole 24 Ore",
+      "url": "https://www.ilsole24ore.com/rss/economia.xml",
+      "categoria": "economia",
+      "attivo": true
+    },
+    {
+      "nome": "Il Sole 24 Ore",
+      "url": "https://www.ilsole24ore.com/rss/tecnologia.xml",
+      "categoria": "tecnologia",
+      "attivo": true
+    },
+    {
+      "nome": "Il Sole 24 Ore",
+      "url": "https://www.ilsole24ore.com/rss/cultura.xml",
+      "categoria": "cultura",
+      "attivo": true
+    },
+    {
+      "nome": "Il Sole 24 Ore",
+      "url": "https://www.ilsole24ore.com/rss/salute.xml",
+      "categoria": "scienza-salute",
+      "attivo": true
+    },
+    {
+      "nome": "HDblog",
+      "url": "https://www.hdblog.it/rss/",
+      "categoria": "tecnologia",
+      "attivo": true
+    },
+    {
+      "nome": "Domani",
+      "url": "https://www.editorialedomani.it/rss",
+      "categoria": "italia",
+      "attivo": true
+    },
+    {
+      "nome": "Il Manifesto",
+      "url": "https://ilmanifesto.it/feed/",
+      "categoria": "italia",
+      "attivo": true
+    },
+    {
+      "nome": "Il Fatto Quotidiano",
+      "url": "https://www.ilfattoquotidiano.it/feed/",
+      "categoria": "italia",
+      "attivo": true
+    },
+    {
+      "nome": "Open",
+      "url": "https://www.open.online/feed/",
+      "categoria": "italia",
+      "attivo": true
+    },
+    {
+      "nome": "Jacobin Italia",
+      "url": "https://jacobinitalia.it/feed/",
+      "categoria": "italia",
+      "attivo": true
+    },
+    {
+      "nome": "Dinamopress",
+      "url": "https://www.dinamopress.it/feed/",
+      "categoria": "italia",
+      "attivo": true
+    },
+    {
+      "nome": "Left",
+      "url": "https://www.left.it/feed/",
+      "categoria": "italia",
+      "attivo": true
+    },
+    {
+      "nome": "Valigia Blu",
+      "url": "https://www.valigiablu.it/feed/",
+      "categoria": "italia",
+      "attivo": true
+    },
+    {
+      "nome": "IRPI Media",
+      "url": "https://irpimedia.irpi.eu/feed/",
+      "categoria": "italia",
+      "attivo": true
+    },
+    {
+      "nome": "Openpolis",
+      "url": "https://www.openpolis.it/feed/",
+      "categoria": "italia",
+      "attivo": true
+    },
+    {
+      "nome": "Pagella Politica",
+      "url": "https://pagellapolitica.it/feed.xml",
+      "categoria": "italia",
+      "attivo": true
+    },
+    {
+      "nome": "Radio Popolare",
+      "url": "https://www.radiopopolare.it/feed/",
+      "categoria": "italia",
+      "attivo": true
+    },
+    {
+      "nome": "Agi",
+      "url": "https://www.agi.it/politica/rss.xml",
+      "categoria": "italia",
+      "attivo": true
+    },
+    {
+      "nome": "MicroMega",
+      "url": "https://www.micromega.net/feed/",
+      "categoria": "cultura",
+      "attivo": true
+    },
+    {
+      "nome": "Il Tascabile",
+      "url": "https://www.iltascabile.com/feed/",
+      "categoria": "cultura",
+      "attivo": true
+    },
+    {
+      "nome": "doppiozero",
+      "url": "https://www.doppiozero.com/feed",
+      "categoria": "cultura",
+      "attivo": true
+    },
+    {
+      "nome": "Nazione Indiana",
+      "url": "https://www.nazioneindiana.com/feed/",
+      "categoria": "cultura",
+      "attivo": true
+    },
+    {
+      "nome": "Carmilla",
+      "url": "https://www.carmillaonline.com/feed/",
+      "categoria": "cultura",
+      "attivo": true
+    },
+    {
+      "nome": "Artribune",
+      "url": "https://www.artribune.com/feed/",
+      "categoria": "cultura",
+      "attivo": true
+    },
+    {
+      "nome": "Rolling Stone Italia",
+      "url": "https://www.rollingstone.it/feed/",
+      "categoria": "cultura",
+      "attivo": true
+    },
+    {
+      "nome": "Lucy sulla cultura",
+      "url": "https://lucysullacultura.com/feed/",
+      "categoria": "cultura",
+      "attivo": true
+    },
+    {
+      "nome": "Rivista Studio",
+      "url": "https://www.rivistastudio.com/feed/",
+      "categoria": "cultura",
+      "attivo": true
+    },
+    {
+      "nome": "La Balena Bianca",
+      "url": "https://www.labalenabianca.com/feed/",
+      "categoria": "cultura",
+      "attivo": true
+    },
+    {
+      "nome": "Agi",
+      "url": "https://www.agi.it/cultura/rss.xml",
+      "categoria": "cultura",
+      "attivo": true
+    },
+    {
+      "nome": "Altreconomia",
+      "url": "https://altreconomia.it/feed/",
+      "categoria": "economia",
+      "attivo": true
+    },
+    {
+      "nome": "Sbilanciamoci",
+      "url": "https://sbilanciamoci.info/feed/",
+      "categoria": "economia",
+      "attivo": true
+    },
+    {
+      "nome": "Agi",
+      "url": "https://www.agi.it/estero/rss.xml",
+      "categoria": "mondo",
+      "attivo": true
+    },
+    {
+      "nome": "Internazionale",
+      "url": "https://www.internazionale.it/sitemaps/rss.xml",
+      "categoria": "mondo",
+      "attivo": true
+    },
+    {
+      "nome": "Le Grand Continent",
+      "url": "https://legrandcontinent.eu/it/feed/",
+      "categoria": "mondo",
+      "attivo": true
+    },
+    {
+      "nome": "Limes",
+      "url": "https://www.limesonline.com/rss",
+      "categoria": "mondo",
+      "attivo": true
+    },
+    {
+      "nome": "Geopolitica.info",
+      "url": "https://www.geopolitica.info/feed/",
+      "categoria": "mondo",
+      "attivo": true
+    },
+    {
+      "nome": "Inside Over",
+      "url": "https://www.insideover.com/feed/",
+      "categoria": "mondo",
+      "attivo": true
+    },
+    {
+      "nome": "Eastjournal",
+      "url": "https://www.eastjournal.net/feed/",
+      "categoria": "mondo",
+      "attivo": true
+    },
+    {
+      "nome": "Eunews",
+      "url": "https://www.eunews.it/feed/",
+      "categoria": "mondo",
+      "attivo": true
+    },
+    {
+      "nome": "Voxeurop",
+      "url": "https://voxeurop.eu/it/feed/",
+      "categoria": "mondo",
+      "attivo": true
+    },
+    {
+      "nome": "The Guardian",
+      "url": "https://www.theguardian.com/world/rss",
+      "categoria": "mondo",
+      "attivo": true
+    },
+    {
+      "nome": "Al Jazeera",
+      "url": "https://www.aljazeera.com/xml/rss/all.xml",
+      "categoria": "mondo",
+      "attivo": true
+    },
+    {
+      "nome": "Foreign Policy",
+      "url": "https://foreignpolicy.com/feed/",
+      "categoria": "mondo",
+      "attivo": true
+    },
+    {
+      "nome": "Responsible Statecraft",
+      "url": "https://responsiblestatecraft.org/feed/",
+      "categoria": "mondo",
+      "attivo": true
+    },
+    {
+      "nome": "Drop Site News",
+      "url": "https://www.dropsitenews.com/feed",
+      "categoria": "mondo",
+      "attivo": true
+    },
+    {
+      "nome": "The Nation",
+      "url": "https://www.thenation.com/feed/?post_type=article",
+      "categoria": "mondo",
+      "attivo": true
+    },
+    {
+      "nome": "The Intercept",
+      "url": "https://theintercept.com/feed/?lang=en",
+      "categoria": "mondo",
+      "attivo": true
+    },
+    {
+      "nome": "Jacobin",
+      "url": "https://jacobin.com/feed",
+      "categoria": "mondo",
+      "attivo": true
+    },
+    {
+      "nome": "Mother Jones",
+      "url": "https://www.motherjones.com/feed/",
+      "categoria": "mondo",
+      "attivo": true
+    },
+    {
+      "nome": "The New Republic",
+      "url": "https://newrepublic.com/rss.xml",
+      "categoria": "mondo",
+      "attivo": true
+    },
+    {
+      "nome": "The American Prospect",
+      "url": "https://prospect.org/feed/",
+      "categoria": "mondo",
+      "attivo": true
+    },
+    {
+      "nome": "Politico",
+      "url": "https://rss.politico.com/politics-news.xml",
+      "categoria": "mondo",
+      "attivo": true
+    },
+    {
+      "nome": "The Guardian US",
+      "url": "https://www.theguardian.com/us-news/rss",
+      "categoria": "mondo",
+      "attivo": true
+    },
+    {
+      "nome": "ProPublica",
+      "url": "https://www.propublica.org/feeds/propublica/main",
+      "categoria": "mondo",
+      "attivo": true
+    },
+    {
+      "nome": "Democracy Now",
+      "url": "https://www.democracynow.org/democracynow.rss",
+      "categoria": "mondo",
+      "attivo": true
+    },
+    {
+      "nome": "Zeteo",
+      "url": "https://zeteo.com/feed",
+      "categoria": "mondo",
+      "attivo": true
+    },
+    {
+      "nome": "Buone Notizie",
+      "url": "https://www.buonenotizie.it/feed/",
+      "categoria": "buone-notizie",
+      "attivo": true
+    },
+    {
+      "nome": "Italia Che Cambia",
+      "url": "https://www.italiachecambia.org/feed/",
+      "categoria": "buone-notizie",
+      "attivo": true
+    }
+  ]
 }

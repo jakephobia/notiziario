@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<opml version="2.0">
+  <head>
+    <title>Notiziario — fonti aggiuntive (22 novembre 2026)</title>
+  </head>
+  <body>
+    <outline text="Italia — politica e società" title="Italia — politica e società">
+      <outline type="rss" text="Domani" title="Domani" xmlUrl="https://www.editorialedomani.it/rss"/>
+      <outline type="rss" text="Il Manifesto" title="Il Manifesto" xmlUrl="https://ilmanifesto.it/feed/"/>
+      <outline type="rss" text="Il Fatto Quotidiano" title="Il Fatto Quotidiano" xmlUrl="https://www.ilfattoquotidiano.it/feed/"/>
+      <outline type="rss" text="Open" title="Open" xmlUrl="https://www.open.online/feed/"/>
+      <outline type="rss" text="Jacobin Italia" title="Jacobin Italia" xmlUrl="https://jacobinitalia.it/feed/"/>
+      <outline type="rss" text="Dinamopress" title="Dinamopress" xmlUrl="https://www.dinamopress.it/feed/"/>
+      <outline type="rss" text="Left" title="Left" xmlUrl="https://www.left.it/feed/"/>
+      <outline type="rss" text="Valigia Blu" title="Valigia Blu" xmlUrl="https://www.valigiablu.it/feed/"/>
+      <outline type="rss" text="IRPI Media" title="IRPI Media" xmlUrl="https://irpimedia.irpi.eu/feed/"/>
+      <outline type="rss" text="Openpolis" title="Openpolis" xmlUrl="https://www.openpolis.it/feed/"/>
+      <outline type="rss" text="Pagella Politica" title="Pagella Politica" xmlUrl="https://pagellapolitica.it/feed.xml"/>
+      <outline type="rss" text="Radio Popolare" title="Radio Popolare" xmlUrl="https://www.radiopopolare.it/feed/"/>
+      <outline type="rss" text="Agi — Politica" title="Agi — Politica" xmlUrl="https://www.agi.it/politica/rss.xml"/>
+    </outline>
+    <outline text="Cultura" title="Cultura">
+      <outline type="rss" text="MicroMega" title="MicroMega" xmlUrl="https://www.micromega.net/feed/"/>
+      <outline type="rss" text="Il Tascabile" title="Il Tascabile" xmlUrl="https://www.iltascabile.com/feed/"/>
+      <outline type="rss" text="doppiozero" title="doppiozero" xmlUrl="https://www.doppiozero.com/feed"/>
+      <outline type="rss" text="Nazione Indiana" title="Nazione Indiana" xmlUrl="https://www.nazioneindiana.com/feed/"/>
+      <outline type="rss" text="Carmilla" title="Carmilla" xmlUrl="https://www.carmillaonline.com/feed/"/>
+      <outline type="rss" text="Artribune" title="Artribune" xmlUrl="https://www.artribune.com/feed/"/>
+      <outline type="rss" text="Rolling Stone Italia" title="Rolling Stone Italia" xmlUrl="https://www.rollingstone.it/feed/"/>
+      <outline type="rss" text="Lucy sulla cultura" title="Lucy sulla cultura" xmlUrl="https://lucysullacultura.com/feed/"/>
+      <outline type="rss" text="Rivista Studio" title="Rivista Studio" xmlUrl="https://www.rivistastudio.com/feed/"/>
+      <outline type="rss" text="La Balena Bianca" title="La Balena Bianca" xmlUrl="https://www.labalenabianca.com/feed/"/>
+      <outline type="rss" text="Agi — Cultura" title="Agi — Cultura" xmlUrl="https://www.agi.it/cultura/rss.xml"/>
+    </outline>
+    <outline text="Economia e lavoro" title="Economia e lavoro">
+      <outline type="rss" text="Altreconomia" title="Altreconomia" xmlUrl="https://altreconomia.it/feed/"/>
+      <outline type="rss" text="Sbilanciamoci" title="Sbilanciamoci" xmlUrl="https://sbilanciamoci.info/feed/"/>
+    </outline>
+    <outline text="Esteri e geopolitica" title="Esteri e geopolitica">
+      <outline type="rss" text="Agi — Estero" title="Agi — Estero" xmlUrl="https://www.agi.it/estero/rss.xml"/>
+      <outline type="rss" text="Internazionale" title="Internazionale" xmlUrl="https://www.internazionale.it/sitemaps/rss.xml"/>
+      <outline type="rss" text="Le Grand Continent" title="Le Grand Continent" xmlUrl="https://legrandcontinent.eu/it/feed/"/>
+      <outline type="rss" text="Limes" title="Limes" xmlUrl="https://www.limesonline.com/rss"/>
+      <outline type="rss" text="Geopolitica.info" title="Geopolitica.info" xmlUrl="https://www.geopolitica.info/feed/"/>
+      <outline type="rss" text="Inside Over" title="Inside Over" xmlUrl="https://www.insideover.com/feed/"/>
+      <outline type="rss" text="Eastjournal" title="Eastjournal" xmlUrl="https://www.eastjournal.net/feed/"/>
+      <outline type="rss" text="Eunews" title="Eunews" xmlUrl="https://www.eunews.it/feed/"/>
+      <outline type="rss" text="Voxeurop" title="Voxeurop" xmlUrl="https://voxeurop.eu/it/feed/"/>
+      <outline type="rss" text="The Guardian" title="The Guardian" xmlUrl="https://www.theguardian.com/world/rss"/>
+      <outline type="rss" text="Al Jazeera" title="Al Jazeera" xmlUrl="https://www.aljazeera.com/xml/rss/all.xml"/>
+      <outline type="rss" text="Foreign Policy" title="Foreign Policy" xmlUrl="https://foreignpolicy.com/feed/"/>
+      <outline type="rss" text="Responsible Statecraft" title="Responsible Statecraft" xmlUrl="https://responsiblestatecraft.org/feed/"/>
+      <outline type="rss" text="Drop Site News" title="Drop Site News" xmlUrl="https://www.dropsitenews.com/feed"/>
+    </outline>
+    <outline text="Stati Uniti — sinistra e progressisti" title="Stati Uniti — sinistra e progressisti">
+      <outline type="rss" text="The Nation" title="The Nation" xmlUrl="https://www.thenation.com/feed/?post_type=article"/>
+      <outline type="rss" text="The Intercept" title="The Intercept" xmlUrl="https://theintercept.com/feed/?lang=en"/>
+      <outline type="rss" text="Jacobin" title="Jacobin" xmlUrl="https://jacobin.com/feed"/>
+      <outline type="rss" text="Mother Jones" title="Mother Jones" xmlUrl="https://www.motherjones.com/feed/"/>
+      <outline type="rss" text="The New Republic" title="The New Republic" xmlUrl="https://newrepublic.com/rss.xml"/>
+      <outline type="rss" text="The American Prospect" title="The American Prospect" xmlUrl="https://prospect.org/feed/"/>
+      <outline type="rss" text="Politico" title="Politico" xmlUrl="https://rss.politico.com/politics-news.xml"/>
+      <outline type="rss" text="The Guardian US" title="The Guardian US" xmlUrl="https://www.theguardian.com/us-news/rss"/>
+      <outline type="rss" text="ProPublica" title="ProPublica" xmlUrl="https://www.propublica.org/feeds/propublica/main"/>
+      <outline type="rss" text="Democracy Now" title="Democracy Now" xmlUrl="https://www.democracynow.org/democracynow.rss"/>
+      <outline type="rss" text="Zeteo" title="Zeteo" xmlUrl="https://zeteo.com/feed"/>
+    </outline>
+  </body>
+</opml>

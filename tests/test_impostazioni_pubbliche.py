@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from notiziario.config import carica_impostazioni
+from notiziario.config import carica_fonti, carica_impostazioni
 from notiziario.feed import Episodio, aggiorna_docs, scrivi_impostazioni_pubbliche
 
 
@@ -27,6 +27,14 @@ def test_struttura_impostazioni_pubbliche(tmp_path):
         outro="Queste erano le notizie.",
         issue_url="https://github.com/o/r/issues/1",
         repo_url="https://github.com/o/r",
+        fonti=[
+            {
+                "nome": "ANSA",
+                "url": "https://www.ansa.it/feed",
+                "categoria": "italia",
+                "attivo": True,
+            }
+        ],
     )
     assert set(dati) == {
         "categorie_attive",
@@ -35,6 +43,8 @@ def test_struttura_impostazioni_pubbliche(tmp_path):
         "incipit_risolto",
         "voce",
         "voce_label",
+        "voce_configurata",
+        "durata_default",
         "velocita",
         "motore",
         "motore_richiesto",
@@ -46,6 +56,7 @@ def test_struttura_impostazioni_pubbliche(tmp_path):
         "outro",
         "issue_url",
         "repo_url",
+        "fonti",
     }
     letto = json.loads(percorso.read_text(encoding="utf-8"))
     assert letto["categorie_label"] == ["Italia", "Buone notizie"]
@@ -110,13 +121,16 @@ def test_impostazioni_iniziali_esistono_e_sono_valide():
     assert dati["velocita"] == 1.1
     assert dati["motore"] == "edge"
     assert dati["motore_richiesto"] == "gemini"
+    assert dati["voce_configurata"] == "Kore"
+    assert dati["durata_default"] == "standard"
+    assert len(dati["fonti"]) == len(carica_fonti())
+    assert dati["fonti"][0].keys() == {"nome", "url", "categoria", "attivo"}
     assert dati["incipit_risolto"].startswith("Ciao Jacopo")
     assert dati["repo_url"] == "https://github.com/jakephobia/notiziario"
 
 def test_link_issue_corretto(monkeypatch):
     import copy
     from main import _issue_url
-    from notiziario.config import carica_impostazioni
 
     impostazioni = copy.deepcopy(carica_impostazioni())
     impostazioni["github"]["issue_categorie"] = 12

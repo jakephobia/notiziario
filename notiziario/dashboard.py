@@ -1,4 +1,4 @@
-﻿"""Dashboard GitHub: la issue #1 diventa il punto unico di configurazione."""
+"""Dashboard del Notiziario: issue GitHub o payload JSON della pagina web."""
 
 from __future__ import annotations
 
@@ -12,6 +12,7 @@ import sys
 from dataclasses import replace
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlsplit
 
 import requests
 
@@ -31,10 +32,13 @@ from .config import (
     carica_impostazioni,
     numero_issue_categorie,
     repository_github,
+    valida_impostazioni,
 )
 from .controllo_feed import controlla_tutte
 from .fetch import normalizza_url
 from .fonti_io import merge_fonti, scrivi_fonti_yaml, sostituisci_fonte
+from .incipit import INCIPIT_DEFAULT
+from .voce import normalizza_velocita
 from .importa_feed import ImportError_, _nome_fonte, _parse_opml
 from .outro import OUTRO_DEFAULT, estrai_outro_issue
 from .tempo import adesso_roma, iso_roma
@@ -42,6 +46,22 @@ from .visti import Visti
 
 
 LIMITE_BODY = 60_000
+LIMITE_PAYLOAD = 65_000
+LIMITE_TESTO_PAYLOAD = 500
+MOTORI_VALIDI = {"gemini", "edge"}
+DURATE_VALIDE = {"svelto", "standard", "completo"}
+CAMPI_PAYLOAD = {
+    "nome",
+    "categorie",
+    "incipit",
+    "outro",
+    "voce",
+    "velocita",
+    "motore",
+    "suono",
+    "fonti",
+    "durata",
+}
 _HEADING = re.compile(r"(?ims)^##\s*([^\n]+)\n(.*?)(?=^##\s|\Z)")
 
 
@@ -314,6 +334,425 @@ def parse_import(
     return merged, len(aggiunte), duplicate_count, scartate, avvisi, blocco
 
 
+
+def leggi_payload(
+    payload_json: str | None = None,
+    payload_file: str | Path | None = None,
+) -> dict[str, Any]:
+    """Legge il payload JSON da stringa o file, con limiti e messaggi chiari."""
+    if (payload_json is None) == (payload_file is None):
+        raise DashboardError("Indica esattamente uno tra --payload-json e --payload-file.")
+    if payload_file is not None:
+        percorso = Path(payload_file)
+        if not percorso.exists():
+            raise DashboardError(f"Payload non trovato: {percorso}")
+        try:
+            grezzo = percorso.read_text(encoding="utf-8-sig")
+        except OSError as exc:
+            raise DashboardError(f"Non riesco a leggere il payload: {exc}") from exc
+    else:
+        grezzo = str(payload_json or "")
+    if not grezzo.strip():
+        raise DashboardError("Payload vuoto.")
+    if len(grezzo.encode("utf-8")) > LIMITE_PAYLOAD:
+        raise DashboardError(
+            f"Payload oltre {LIMITE_PAYLOAD} byte: riduci le fonti o i testi."
+        )
+    try:
+        dati = json.loads(grezzo)
+    except json.JSONDecodeError as exc:
+        raise DashboardError(f"Payload JSON non valido: {exc}") from exc
+    if not isinstance(dati, dict):
+        raise DashboardError("Il payload deve essere un oggetto JSON.")
+    return dati
+
+
+def _testo_file(percorso: Path, default: str) -> str:
+    try:
+        testo = percorso.read_text(encoding="utf-8-sig").strip()
+    except OSError:
+        return default
+    return testo or default
+
+
+def _booleano_payload(valore: Any, default: bool = False) -> bool:
+    if isinstance(valore, bool):
+        return valore
+    if isinstance(valore, (int, float)):
+        return bool(valore)
+    testo = str(valore).strip().casefold()
+    if testo in {"true", "1", "yes", "si", "attivo", "attiva"}:
+        return True
+    if testo in {"false", "0", "no", "off", "disattivo", "disattivata"}:
+        return False
+    return default
+
+
+def _categoria_payload(
+    valore: Any, contesto: str, avvisi: list[str]
+) -> str | None:
+    if valore is None:
+        return None
+    if not isinstance(valore, str):
+        avvisi.append(f"{contesto}: categoria non testuale, ignorata.")
+        return None
+    testo = valore.strip()
+    if not testo:
+        return None
+    if normalizza_testo(testo) in {"da assegnare", "daassegnare"}:
+        return CATEGORIA_DA_ASSEGNARE
+    trovata = trova_categoria(testo)
+    if trovata:
+        return trovata
+    avvisi.append(f"{contesto}: categoria '{testo}' sconosciuta, uso da-assegnare.")
+    return CATEGORIA_DA_ASSEGNARE
+
+
+def _url_payload(valore: Any) -> str | None:
+    if not isinstance(valore, str):
+        return None
+    url = valore.strip()
+    if not url or len(url) > 2048:
+        return None
+    try:
+        parti = urlsplit(url)
+    except ValueError:
+        return None
+    if parti.scheme not in {"http", "https"} or not parti.netloc:
+        return None
+    if parti.username or parti.password:
+        return None
+    return url
+
+
+def _nome_payload(valore: Any) -> str | None:
+    if not isinstance(valore, str):
+        return None
+    nome = valore.strip()
+    if not nome or len(nome) > 120 or any(ord(c) < 32 for c in nome):
+        return None
+    return nome
+
+
+def _piano_payload(
+    payload: dict[str, Any],
+    impostazioni: dict[str, Any],
+    base: Path,
+) -> dict[str, Any]:
+    candidato = copy.deepcopy(impostazioni)
+    modifiche: list[str] = []
+    avvisi: list[str] = []
+    modifiche_impostazioni = False
+    sconosciuti = sorted(set(payload) - CAMPI_PAYLOAD)
+    if sconosciuti:
+        avvisi.append("Campi payload ignorati: " + ", ".join(sconosciuti) + ".")
+
+    if "nome" in payload:
+        nome = _nome_payload(payload["nome"])
+        if nome is None:
+            raise DashboardError("Payload: 'nome' deve essere una stringa non vuota (max 120).")
+        if nome != candidato.get("nome_utente"):
+            modifiche.append(f"nome_utente: {candidato.get('nome_utente')} -> {nome}")
+            candidato["nome_utente"] = nome
+            modifiche_impostazioni = True
+
+    if "categorie" in payload:
+        valore = payload["categorie"]
+        if not isinstance(valore, list):
+            raise DashboardError("Payload: 'categorie' deve essere una lista.")
+        categorie: list[str] = []
+        for elemento in valore:
+            if not isinstance(elemento, str):
+                avvisi.append("Categoria non testuale scartata.")
+                continue
+            trovata = trova_categoria(elemento)
+            if not trovata:
+                avvisi.append(f"Categoria sconosciuta scartata: {elemento!r}.")
+                continue
+            if trovata not in categorie:
+                categorie.append(trovata)
+        if not categorie:
+            raise DashboardError("Payload: nessuna categoria valida in 'categorie'.")
+        if categorie != candidato.get("categorie_default"):
+            modifiche.append("categorie_default aggiornate: " + ", ".join(categorie))
+            candidato["categorie_default"] = categorie
+            modifiche_impostazioni = True
+
+    incipit_path = base / "config" / "incipit.txt"
+    outro_path = base / "config" / "outro.txt"
+    incipit = _testo_file(incipit_path, INCIPIT_DEFAULT)
+    outro = _testo_file(outro_path, OUTRO_DEFAULT)
+    incipit_modificato = False
+    outro_modificato = False
+    if "incipit" in payload:
+        valore = payload["incipit"]
+        if not isinstance(valore, str):
+            raise DashboardError("Payload: 'incipit' deve essere una stringa.")
+        nuovo = valore.strip()
+        if not nuovo:
+            raise DashboardError("Payload: 'incipit' non può essere vuoto.")
+        if len(nuovo) > LIMITE_TESTO_PAYLOAD:
+            raise DashboardError(
+                f"Payload: 'incipit' oltre {LIMITE_TESTO_PAYLOAD} caratteri."
+            )
+        if nuovo != incipit:
+            modifiche.append("incipit aggiornato")
+            incipit = nuovo
+            incipit_modificato = True
+    if "outro" in payload:
+        valore = payload["outro"]
+        if not isinstance(valore, str):
+            raise DashboardError("Payload: 'outro' deve essere una stringa.")
+        nuovo = valore.strip() or OUTRO_DEFAULT
+        if len(nuovo) > LIMITE_TESTO_PAYLOAD:
+            raise DashboardError(
+                f"Payload: 'outro' oltre {LIMITE_TESTO_PAYLOAD} caratteri."
+            )
+        if nuovo != outro:
+            modifiche.append("outro aggiornato")
+            outro = nuovo
+            outro_modificato = True
+
+    if "voce" in payload:
+        valore = payload["voce"]
+        if not isinstance(valore, str):
+            raise DashboardError("Payload: 'voce' deve essere una stringa.")
+        voci = {
+            str(v.get("nome", "")).strip().casefold(): str(v.get("nome", "")).strip()
+            for v in candidato.get("voce", {}).get("voci", [])
+            if isinstance(v, dict) and v.get("nome")
+        }
+        canonica = voci.get(valore.strip().casefold())
+        if not canonica:
+            avvisi.append(f"Voce sconosciuta scartata: {valore!r}; mantengo {candidato['voce']['nome']}.")
+        elif canonica != candidato["voce"]["nome"]:
+            modifiche.append(f"voce.nome: {candidato['voce']['nome']} -> {canonica}")
+            candidato["voce"]["nome"] = canonica
+            modifiche_impostazioni = True
+
+    if "velocita" in payload:
+        velocita, avvisi_velocita = normalizza_velocita(payload["velocita"])
+        avvisi.extend(avvisi_velocita)
+        if abs(float(velocita) - float(candidato["voce"].get("velocita", 1.1))) > 1e-9:
+            modifiche.append(
+                f"voce.velocita: {candidato['voce'].get('velocita')} -> {velocita:g}"
+            )
+            candidato["voce"]["velocita"] = velocita
+            modifiche_impostazioni = True
+
+    if "motore" in payload:
+        valore = payload["motore"]
+        if not isinstance(valore, str):
+            raise DashboardError("Payload: 'motore' deve essere una stringa.")
+        motore = valore.strip().casefold()
+        if motore not in MOTORI_VALIDI:
+            avvisi.append(f"Motore non valido scartato: {valore!r}; mantengo {candidato.get('tts_motore')}.")
+        elif motore != candidato.get("tts_motore"):
+            modifiche.append(f"tts_motore: {candidato.get('tts_motore')} -> {motore}")
+            candidato["tts_motore"] = motore
+            modifiche_impostazioni = True
+
+    if "suono" in payload:
+        valore = payload["suono"]
+        if not isinstance(valore, str):
+            raise DashboardError("Payload: 'suono' deve essere una stringa.")
+        suono = valore.strip().casefold()
+        if suono not in SUONI_VALIDI:
+            avvisi.append(f"Suono non valido scartato: {valore!r}; mantengo {candidato.get('suono_transizione')}.")
+        elif suono != candidato.get("suono_transizione"):
+            modifiche.append(
+                f"suono_transizione: {candidato.get('suono_transizione')} -> {suono}"
+            )
+            candidato["suono_transizione"] = suono
+            modifiche_impostazioni = True
+
+    if "durata" in payload:
+        valore = payload["durata"]
+        if not isinstance(valore, str):
+            raise DashboardError("Payload: 'durata' deve essere una stringa.")
+        durata = valore.strip().casefold()
+        if durata not in DURATE_VALIDE or durata not in candidato.get("preset", {}):
+            avvisi.append(f"Durata non valida scartata: {valore!r}; mantengo {candidato.get('durata_default')}.")
+        elif durata != candidato.get("durata_default"):
+            modifiche.append(f"durata_default: {candidato.get('durata_default')} -> {durata}")
+            candidato["durata_default"] = durata
+            modifiche_impostazioni = True
+
+    fonti = list(caricare_fonti_per_payload(base))
+    aggiunte = 0
+    aggiornate = 0
+    if "fonti" in payload:
+        valore = payload["fonti"]
+        if not isinstance(valore, list):
+            raise DashboardError("Payload: 'fonti' deve essere una lista.")
+        if len(valore) > 200:
+            raise DashboardError("Payload: massimo 200 fonti.")
+        esistenti = {normalizza_url(f.url): f for f in fonti}
+        aggiornamenti: dict[str, Fonte] = {}
+        nuove: list[Fonte] = []
+        viste: set[str] = set()
+        for indice, elemento in enumerate(valore, start=1):
+            contesto = f"Fonte {indice}"
+            if not isinstance(elemento, dict):
+                avvisi.append(f"{contesto}: non è un oggetto, scartata.")
+                continue
+            url = _url_payload(elemento.get("url"))
+            if not url:
+                avvisi.append(f"{contesto}: URL non valido, scartata.")
+                continue
+            chiave = normalizza_url(url)
+            if chiave in viste:
+                avvisi.append(f"{contesto}: URL duplicata, scartata.")
+                continue
+            viste.add(chiave)
+            corrente = esistenti.get(chiave)
+            nome = _nome_payload(elemento.get("nome"))
+            if nome is None and corrente is None:
+                avvisi.append(f"{contesto}: nome mancante, scartata.")
+                continue
+            categoria = _categoria_payload(
+                elemento.get("categoria") if "categoria" in elemento else None,
+                contesto,
+                avvisi,
+            )
+            if "categoria" in elemento and categoria is None:
+                avvisi.append(f"{contesto}: categoria non valida, scartata.")
+                continue
+            if corrente is not None:
+                nuova_categoria = categoria or corrente.categoria
+                nuovo_attivo = (
+                    _booleano_payload(elemento["attivo"], corrente.attivo)
+                    if "attivo" in elemento
+                    else corrente.attivo
+                )
+                if nuova_categoria == CATEGORIA_DA_ASSEGNARE:
+                    nuovo_attivo = False
+                aggiornata = replace(
+                    corrente,
+                    nome=nome or corrente.nome,
+                    categoria=nuova_categoria,
+                    attivo=nuovo_attivo,
+                )
+                if aggiornata != corrente:
+                    aggiornamenti[chiave] = aggiornata
+                    aggiornate += 1
+            else:
+                nuova_categoria = categoria or CATEGORIA_DA_ASSEGNARE
+                nuovo_attivo = _booleano_payload(elemento.get("attivo"), False)
+                if nuova_categoria == CATEGORIA_DA_ASSEGNARE:
+                    nuovo_attivo = False
+                nuove.append(
+                    Fonte(
+                        nome=nome or "",
+                        url=url,
+                        categoria=nuova_categoria,
+                        attivo=nuovo_attivo,
+                        controllo="da-verificare",
+                        note=None,
+                    )
+                )
+                aggiunte += 1
+        fonti = [
+            aggiornamenti.get(normalizza_url(f.url), f)
+            for f in fonti
+        ] + nuove
+        if len(fonti) > 200:
+            raise DashboardError("Payload: la configurazione supererebbe 200 fonti.")
+        if aggiunte or aggiornate:
+            modifiche.append(f"fonti: {aggiunte} aggiunte, {aggiornate} aggiornate")
+    else:
+        fonti = list(fonti)
+
+    candidato["voce"] = copy.deepcopy(candidato.get("voce", {}))
+    candidato["voce"]["nome"] = candidato["voce"].get("nome", "Kore")
+    if not isinstance(candidato.get("categorie_default"), list) or not candidato["categorie_default"]:
+        raise DashboardError("Configurazione risultante senza categorie.")
+    valida_impostazioni(candidato)
+
+    return {
+        "impostazioni": candidato,
+        "incipit": incipit,
+        "outro": outro,
+        "fonti": fonti,
+        "modifiche": modifiche,
+        "avvisi": avvisi,
+        "modifiche_impostazioni": modifiche_impostazioni,
+        "incipit_modificato": incipit_modificato,
+        "outro_modificato": outro_modificato,
+        "aggiunte": aggiunte,
+        "aggiornate": aggiornate,
+    }
+
+
+def caricare_fonti_per_payload(base: Path) -> list[Fonte]:
+    percorso = base / "config" / "fonti.yaml"
+    if not percorso.exists():
+        raise DashboardError(f"File fonti non trovato: {percorso}")
+    return carica_fonti_tutte(percorso)
+
+
+def applica_payload(
+    payload: dict[str, Any],
+    *,
+    dry_run: bool = False,
+    base: str | Path | None = None,
+    logger: logging.Logger | None = None,
+) -> dict[str, Any]:
+    """Valida tutto, poi applica in modo idempotente; su errore non scrive nulla."""
+    logger = logger or logging.getLogger("notiziario")
+    radice = Path(base) if base is not None else ROOT
+    config_dir = radice / "config"
+    impostazioni_path = config_dir / "impostazioni.json"
+    if not impostazioni_path.exists():
+        raise DashboardError(f"File impostazioni non trovato: {impostazioni_path}")
+    impostazioni = carica_impostazioni(impostazioni_path)
+    try:
+        grezze = json.loads(impostazioni_path.read_text(encoding="utf-8-sig"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise DashboardError(f"Impostazioni illeggibili: {exc}") from exc
+    piano = _piano_payload(payload, impostazioni, radice)
+    candidate = piano["impostazioni"]
+    candidate_fonti = piano["fonti"]
+
+    if not dry_run:
+        if piano["modifiche_impostazioni"]:
+            grezze["nome_utente"] = candidate["nome_utente"]
+            grezze["categorie_default"] = candidate["categorie_default"]
+            grezze["tts_motore"] = candidate["tts_motore"]
+            grezze["suono_transizione"] = candidate["suono_transizione"]
+            grezze["durata_default"] = candidate["durata_default"]
+            grezze.setdefault("voce", {})
+            if isinstance(grezze["voce"], dict):
+                grezze["voce"]["nome"] = candidate["voce"]["nome"]
+                grezze["voce"]["velocita"] = candidate["voce"]["velocita"]
+            impostazioni_path.write_text(
+                json.dumps(grezze, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
+                newline="\n",
+            )
+            logger.info("Dashboard: impostazioni aggiornate.")
+        if piano["incipit_modificato"]:
+            (config_dir / "incipit.txt").write_text(
+                piano["incipit"].strip() + "\n", encoding="utf-8", newline="\n"
+            )
+        if piano["outro_modificato"]:
+            (config_dir / "outro.txt").write_text(
+                piano["outro"].strip() + "\n", encoding="utf-8", newline="\n"
+            )
+        if candidate_fonti != list(caricare_fonti_per_payload(radice)):
+            scrivi_fonti_yaml(config_dir / "fonti.yaml", candidate_fonti)
+            logger.info("Dashboard: fonti aggiornate.")
+
+    return {
+        "dry_run": dry_run,
+        "modifiche": piano["modifiche"],
+        "avvisi": piano["avvisi"],
+        "aggiunte": piano["aggiunte"],
+        "aggiornate": piano["aggiornate"],
+        "fonti_totali": len(candidate_fonti),
+    }
+
+
 def genera_corpo(
     impostazioni: dict[str, Any],
     fonti: list[Fonte],
@@ -469,9 +908,17 @@ def applica(
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        description="Dashboard unica della issue GitHub per il Notiziario."
+        description="Dashboard del Notiziario: payload JSON o issue GitHub."
     )
     parser.add_argument("--applica", action="store_true", help="Legge e applica la issue.")
+    gruppo = parser.add_mutually_exclusive_group()
+    gruppo.add_argument("--payload-json", help="Payload JSON minificato delle impostazioni.")
+    gruppo.add_argument("--payload-file", help="File JSON con il payload delle impostazioni.")
+    parser.add_argument(
+        "--applica-payload",
+        action="store_true",
+        help="Applica il payload a config/ (senza questo flag fa solo dry-run).",
+    )
     parser.add_argument(
         "--genera-corpo",
         action="store_true",
@@ -482,6 +929,33 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
     logger = logging.getLogger("notiziario")
+
+    if args.payload_json is not None or args.payload_file is not None:
+        try:
+            payload = leggi_payload(args.payload_json, args.payload_file)
+            dry_run = args.dry_run or not args.applica_payload
+            risultato = applica_payload(
+                payload, dry_run=dry_run, logger=logger
+            )
+        except DashboardError as exc:
+            print(f"Payload non applicato: {exc}", file=sys.stderr)
+            return 1
+        etichetta = "dry-run: nessuna scrittura" if dry_run else "applicato"
+        print(
+            f"Payload {etichetta}; fonti totali: {risultato['fonti_totali']} "
+            f"({risultato['aggiunte']} aggiunte, {risultato['aggiornate']} aggiornate)."
+        )
+        for modifica in risultato["modifiche"]:
+            print(f"- {modifica}")
+        for avviso in risultato["avvisi"]:
+            print(f"! {avviso}")
+        return 0
+    if args.applica_payload:
+        print(
+            "Payload non applicato: manca --payload-json o --payload-file.",
+            file=sys.stderr,
+        )
+        return 1
 
     if args.genera_corpo:
         impostazioni = carica_impostazioni()

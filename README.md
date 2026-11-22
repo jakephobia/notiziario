@@ -402,13 +402,19 @@ Le fonti sono in `config/fonti.yaml`, con commenti in italiano. Ogni voce ha
 
 ### Fonti verificate
 
-Il 22 novembre 2026 sono state provate con richieste reali. Queste **31 URL**
-rispondevano e restituivano date valide. Il controllo anti-block ha dato
-**25 OK, 5 `testo-breve` e 1 `campione-insufficiente`** (ANSA con summary corti o 4 item).
-Nella run AI 22 feed avevano articoli nelle ultime 24 ore; 9 sezioni erano
-semplicemente ferme, comprese le due Buone notizie, e vengono saltate senza
-errore quando non hanno notizie fresche. Restano configurate perché si
-aggiornano nel corso della giornata.
+Il 22 novembre 2026 sono state provate con richieste reali. Le **31 fonti
+storiche** qui sotto rispondevano e restituivano date valide. Il controllo
+anti-block aveva dato **25 OK, 5 `testo-breve` e 1 `campione-insufficiente`**
+(ANSA con summary corti o 4 item). Nella run AI 22 feed avevano articoli nelle
+ultime 24 ore; 9 sezioni erano semplicemente ferme, comprese le due Buone
+notizie, e vengono saltate senza errore quando non hanno notizie fresche.
+Restano configurate perché si aggiornano nel corso della giornata.
+
+Lo stesso giorno sono state aggiunte **51 fonti** su cultura, società, politica,
+sinistra progressista, politica statunitense, esteri e geopolitica. Tutte hanno
+risposto e avevano articoli negli ultimi 7 giorni. L'elenco completo è in
+`config/fonti-aggiuntive.opml`, importabile in Feeder; la configurazione del
+podcast è in `config/fonti.yaml` (**82 fonti attive** in totale).
 
 | Testata | Categoria | Feed |
 |---|---|---|
@@ -444,6 +450,20 @@ aggiornano nel corso della giornata.
 | Buone Notizie | buone-notizie | `https://www.buonenotizie.it/feed/` |
 | Italia Che Cambia | buone-notizie | `https://www.italiachecambia.org/feed/` |
 
+### Aggiunte del 22 novembre 2026
+
+51 fonti, tutte verificate con richieste reali. Gli URL completi sono in
+`config/fonti-aggiuntive.opml` e in `config/fonti.yaml`.
+
+| Area | Testate |
+|---|---|
+| Politica e società (Italia) | Domani, Il Manifesto, Il Fatto Quotidiano, Open, Jacobin Italia, Dinamopress, Left, Valigia Blu, IRPI Media, Openpolis, Pagella Politica, Radio Popolare, Agi Politica |
+| Cultura | MicroMega, Il Tascabile, doppiozero, Nazione Indiana, Carmilla, Artribune, Rolling Stone Italia, Lucy sulla cultura, Rivista Studio, La Balena Bianca, Agi Cultura |
+| Economia e lavoro | Altreconomia, Sbilanciamoci |
+| Esteri e geopolitica (Italia) | Agi Estero, Internazionale, Le Grand Continent, Limes, Geopolitica.info, Inside Over, Eastjournal, Eunews, Voxeurop |
+| Esteri e geopolitica (internazionale) | The Guardian World, Al Jazeera, Foreign Policy, Responsible Statecraft, Drop Site News |
+| Stati Uniti | The Nation, The Intercept, Jacobin, Mother Jones, The New Republic, The American Prospect, Politico, The Guardian US, ProPublica, Democracy Now, Zeteo |
+
 ### Fonti scartate dopo la verifica
 
 - **Corriere della Sera**: i feed rispondono ma le date più recenti erano del
@@ -455,6 +475,21 @@ aggiornano nel corso della giornata.
 - **Repubblica Sport**, **Il Sole 24 Ore Sport**, **ANSA Italia**,
   **Corriere Italia**: URL 404 o non aggiornati.
 - **HDblog** con `/feed/` in HTTPS dà errore SSL; funziona `/rss/`.
+- **In These Times**, **Current Affairs**, **Dissent**, **ISPI**, **Fanpage**,
+  **CounterPunch**, **New Statesman**: rispondono 403 anche con User-Agent da
+  browser; non sono usabili dalla pipeline.
+- **Pagella Politica** `/feed` e `/rss`: vuoto o 404; funziona `/feed.xml`.
+- **Limes** `/feed`: 404; funziona `/rss`.
+- **Voxeurop**: `it.voxeurop.eu` non risponde; funziona `voxeurop.eu/it/feed/`.
+- **Wikinotizie**: ultima data maggio 2026. **Wired Italia**: luglio 2026.
+- **Focus**: summary di 43 caratteri, inutilizzabile senza scaricare la pagina.
+- **FrizziFrizzi**, **Osservatorio Globalizzazione**, **Economia e Politica**,
+  **AffarInternazionali**, **openDemocracy**, **MERIP**, **Sentireascoltare**:
+  ferme da più di 7 giorni, alcune da mesi.
+- **Le Monde diplomatique (EN)**: `/feed` 404, `/rss` fermo al 12 novembre.
+- **Slow News**, **minima&moralia**, **Prismo**, **NOT**, **L'Indiscreto**,
+  **Pulp Magazine**, **Europa Today**: errori di rete/SSL o feed vuoti.
+- **Eurovisionworld**: rimosso su richiesta.
 
 I feed cambiano nel tempo. Dopo una modifica, o una volta al mese, controlla:
 
@@ -685,25 +720,59 @@ del progetto, così `/output/` è raggiungibile. In cloud il workflow sostituisc
 
 ## Interfaccia unica e impostazioni
 
-`docs/index.html` unisce player, elenco episodi e una sezione **Impostazioni**:
-categorie attive come chip, incipit, voce, velocità, motore TTS e data
-dell'ultimo aggiornamento. La sezione legge `docs/impostazioni.json`; se
-manca o è invalido usa i dati del feed e non rompe la pagina. Il pulsante
-“Modifica impostazioni” apre la issue configurata in una nuova scheda; senza
-issue mostra un link discreto al repository.
+`docs/index.html` unisce player, elenco episodi e una dashboard **Impostazioni**
+editabile: nome, incipit, outro, voce, velocità, motore, suono, durata,
+categorie e fonti. Il form legge `docs/impostazioni.json`; se manca o è
+invalido usa i dati del feed e resta leggibile. Le fonti sono modificabili una
+per una, si possono aggiungere e importare da OPML, TXT, CSV o JSON. Le nuove
+fonti importate restano spente con categoria `da-assegnare` finché non le
+controlli.
 
 `docs/impostazioni.json` è generato a ogni run con i valori effettivi
-dell'episodio (categorie, incipit template/risolto, voce, velocità, motore,
-outro, suono, nome, motore usato, motore richiesto, numero fonti totali/attive, data, URL
-issue/repo). Se Gemini TTS fallisce e si usa edge, il JSON riporta
+dell'episodio (categorie, incipit template/risolto, voce configurata, durata,
+velocità, motore, outro, suono, nome, fonti totali/attive, elenco delle fonti,
+data, URL issue/repo). Se Gemini TTS fallisce e si usa edge, il JSON riporta
 `motore: edge` e `motore_richiesto: gemini`; la pagina mostra entrambi.
-Inizialmente è già
-presente con i default, così la pagina funziona subito. Le modifiche si salvano
-dalla dashboard GitHub e vengono applicate al run successivo.
 
-## Dashboard GitHub
+## Dashboard web (consigliata)
 
-La issue **#1** del repository è il punto unico di configurazione. Formato:
+La pagina pubblica è <https://jakephobia.github.io/notiziario/>. Per salvare
+serve un token GitHub **fine-grained**:
+
+1. apri <https://github.com/settings/personal-access-tokens/new>;
+2. limita l'accesso al solo repository `jakephobia/notiziario`;
+3. imposta **Actions: Read and write**;
+4. scegli una scadenza breve e genera il token.
+
+Nella pagina incolla il token nel campo password e premi **Salva token nel
+browser**: resta solo in `localStorage` (chiave `notiziario.dashboard.token`),
+non viene messo nell'URL né stampato nei log. **Dimentica token** lo cancella.
+Senza token il form resta leggibile e mostra le istruzioni per crearlo.
+
+**Salva impostazioni** invia il payload al workflow `dashboard.yml` con
+`genera=false`: aggiorna `config/`, fa commit solo se ci sono differenze e non
+avvia l'episodio. **Salva e genera ora** usa `genera=true`: dopo il commit
+avvia `notiziario.yml` con la durata scelta. Il workflow ha `contents: write`
+e `actions: write`, e usa solo `GITHUB_TOKEN`.
+
+Il payload completo è un oggetto JSON con `nome`, `categorie`, `incipit`,
+`outro`, `voce`, `velocita`, `motore`, `suono`, `fonti` e `durata`. Si può
+provare in locale:
+
+```powershell
+.\.venv\Scripts\python.exe -m notiziario.dashboard --payload-file payload.json --dry-run
+.\.venv\Scripts\python.exe -m notiziario.dashboard --payload-file payload.json --applica-payload
+.\.venv\Scripts\python.exe -m notiziario.dashboard --payload-json '{"nome":"Jacopo","categorie":["italia"]}' --dry-run
+```
+
+`--payload-json` senza `--applica-payload` è sempre dry-run. Le fonti nuove
+aggiunte dal payload vengono salvate con `controllo: da-verificare`; quelle
+con categoria `da-assegnare` restano spente. Le fonti non citate non vengono
+rimosse, gli URL sono deduplicati e il limite è 200.
+
+### Issue GitHub (backup)
+
+La issue **#1** resta come modalità avanzata e backup. Formato:
 
 ```markdown
 ## Nome
@@ -852,7 +921,7 @@ Controllo stile manuale di un copione:
 
 ## Risultato della verifica locale (22 novembre 2026)
 
-- `pytest`: **214 test passati**.
+- `pytest`: **231 test passati**.
 - `--test-llm`: Gemini 2.5 Flash ha risposto con la chiave letta dal registro
   utente (nessuna chiave scritta su file).
 - Run standard finale: 31 fonti attive, 22 feed OK e 9 KO solo per assenza di
