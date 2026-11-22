@@ -5,7 +5,7 @@
     <link>https://jakephobia.github.io/notiziario/</link>
     <description>Le notizie del giorno scelte da Jacopo, lette in italiano. Un riassunto quotidiano delle notizie italiane e internazionali.</description>
     <language>it-it</language>
-    <lastBuildDate>Sun, 22 Nov 2026 14:14:14 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 22 Nov 2026 14:30:06 +0000</lastBuildDate>
     <itunes:author>Notiziario</itunes:author>
     <itunes:explicit>false</itunes:explicit>
     <itunes:summary>Le notizie del giorno scelte da Jacopo, lette in italiano. Un riassunto quotidiano delle notizie italiane e internazionali.</itunes:summary>
@@ -15,11 +15,27 @@
       <link>https://jakephobia.github.io/notiziario/</link>
     </image>
     <itunes:image href="https://jakephobia.github.io/notiziario/copertina.png" />
-    <notiziario:categorie>non disponibili</notiziario:categorie>
-    <notiziario:modalita>fallback</notiziario:modalita>
-    <notiziario:voce />
-    <notiziario:voce_label />
+    <notiziario:categorie>Italia, Mondo, Economia, Tecnologia, Scienza e salute, Cultura, Ambiente, Buone notizie</notiziario:categorie>
+    <notiziario:modalita>llm</notiziario:modalita>
+    <notiziario:voce>it-IT-IsabellaNeural</notiziario:voce>
+    <notiziario:voce_label>it-IT-IsabellaNeural (edge-tts)</notiziario:voce_label>
     <notiziario:velocita>1.1</notiziario:velocita>
-    <notiziario:tts_motore />
+    <notiziario:tts_motore>edge</notiziario:tts_motore>
+    <item>
+      <title>Notiziario del 22 novembre 2026</title>
+      <description>Le principali notizie dall'Italia e dal mondo del 22 novembre 2026, con le storie di copertina, gli approfondimenti e le buone notizie.</description>
+      <pubDate>Sun, 22 Nov 2026 14:30:06 +0000</pubDate>
+      <guid isPermaLink="false">notiziario-2026-11-22</guid>
+      <enclosure url="https://github.com/jakephobia/notiziario/releases/download/episodio-2026-11-22/notiziario-2026-11-22.mp3" length="5711769" type="audio/mpeg" />
+      <itunes:duration>00:07:56</itunes:duration>
+      <itunes:summary>Le principali notizie dall'Italia e dal mondo del 22 novembre 2026, con le storie di copertina, gli approfondimenti e le buone notizie.</itunes:summary>
+      <itunes:explicit>false</itunes:explicit>
+      <itunes:image href="https://jakephobia.github.io/notiziario/copertina.png" />
+      <notiziario:modalita>llm</notiziario:modalita>
+      <notiziario:voce>it-IT-IsabellaNeural</notiziario:voce>
+      <notiziario:voce_label>it-IT-IsabellaNeural (edge-tts)</notiziario:voce_label>
+      <notiziario:velocita>1.1</notiziario:velocita>
+      <notiziario:tts_motore>edge</notiziario:tts_motore>
+    </item>
   </channel>
 </rss>

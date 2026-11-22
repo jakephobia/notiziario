@@ -1,3 +1,29 @@
 {
-  "episodi": []
+  "episodi": [
+    {
+      "data": "2026-11-22",
+      "titolo": "Notiziario del 22 novembre 2026",
+      "descrizione": "Le principali notizie dall'Italia e dal mondo del 22 novembre 2026, con le storie di copertina, gli approfondimenti e le buone notizie.",
+      "filename": "notiziario-2026-11-22.mp3",
+      "durata_secondi": 475.90771,
+      "dimensione": 5711769,
+      "modalita": "llm",
+      "categorie": [
+        "italia",
+        "mondo",
+        "economia",
+        "tecnologia",
+        "scienza-salute",
+        "cultura",
+        "ambiente",
+        "buone-notizie"
+      ],
+      "voce": "it-IT-IsabellaNeural",
+      "voce_label": "it-IT-IsabellaNeural (edge-tts)",
+      "velocita": 1.1,
+      "tts_motore": "edge",
+      "pubblicato": "2026-11-22T14:30:06.860212+00:00",
+      "guid": "notiziario-2026-11-22"
+    }
+  ]
 }
