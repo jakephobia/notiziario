@@ -59,7 +59,7 @@ def test_prepara_blocchi_tts_usa_confini_strutturati():
     }
     sezioni, indici = _prepara_blocchi_tts(copione, carica_impostazioni())
     assert len(sezioni) == 7
-    assert indici == [0, 3]
+    assert indici == [3]
 
 def test_prepara_blocchi_tts_non_indovina_confini_incompleti():
     from notiziario.config import carica_impostazioni

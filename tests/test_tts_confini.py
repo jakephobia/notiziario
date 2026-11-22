@@ -44,7 +44,7 @@ def test_cambio_categoria_non_raddoppia_il_suono():
     assert len(indici) == 1
 
 
-def test_intro_prima_notizia_si_ultima_outro_no():
+def test_intro_e_ultima_notizia_verso_outro_senza_suono():
     copione = {
         "incipit": "Ciao Jacopo.",
         "outro": "A domani.",
@@ -55,7 +55,8 @@ def test_intro_prima_notizia_si_ultima_outro_no():
     }
     sezioni, indici = sezioni_tts_strutturate(copione)
     assert [t for t, _ in sezioni] == ["Ciao Jacopo.", "Prima.", "Prima bis.", "Seconda.", "A domani."]
-    assert indici == [0, 2]
+    assert indici == [2]
+    assert 0 not in indici
     assert 3 not in indici
 
 

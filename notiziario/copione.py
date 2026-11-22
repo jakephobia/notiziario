@@ -1281,8 +1281,8 @@ def sezioni_tts_strutturate(
     """Blocchi TTS per notizia, con confini espliciti e pause interne.
 
     Restituisce ``(sezioni, indici_transizioni)``. Gli indici si riferiscono
-    alla sezione dopo cui inserire il suono: intro -> prima notizia, tra
-    notizie diverse e cambi categoria. Non c'è transizione tra paragrafi
+    alla sezione dopo cui inserire il suono: solo tra notizie diverse e cambi
+    categoria. Non c'è transizione tra intro e prima notizia, tra paragrafi
     interni né tra ultima notizia e outro.
     """
     gruppi: list[tuple[str, list[str]]] = []
@@ -1321,7 +1321,7 @@ def sezioni_tts_strutturate(
     for indice_gruppo in range(len(gruppi) - 1):
         tipo_corrente = gruppi[indice_gruppo][0]
         tipo_prossimo = gruppi[indice_gruppo + 1][0]
-        if tipo_corrente == "outro" or tipo_prossimo == "outro":
+        if tipo_corrente in {"intro", "outro"} or tipo_prossimo == "outro":
             continue
         transizioni.append(ultimo_del_gruppo[indice_gruppo])
     return sezioni, transizioni

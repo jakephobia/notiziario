@@ -260,8 +260,8 @@ Il parser delle categorie legge solo `## Categorie`: le checkbox presenti in
 `## Fonti` non attivano o disattivano categorie. Se `## Categorie` manca si
 usano i default con un avviso.
 Il suono viene inserito dopo il mastering della voce, solo ai confini tra
-notizie diverse, ai cambi categoria, tra intro e prima notizia e mai tra
-paragrafi interni della stessa notizia né prima dell'outro. Il confine usa
+notizie diverse e ai cambi categoria. Non c'è suono tra intro e prima notizia,
+tra paragrafi interni della stessa notizia, né prima dell'outro. Il confine usa
 0,3 s di silenzio + suono + 0,3 s; i paragrafi interni hanno solo una pausa di
 0,3 s senza suono. Non passa da loudnorm. Con `nessuno` non viene inserito
 nulla. I confini non si deducono dalla punteggiatura: il copione espone
