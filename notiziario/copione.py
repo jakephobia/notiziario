@@ -109,6 +109,7 @@ def _prompt_utente(
                 "categoria": "string",
                 "fonti": ["string"],
                 "testo": "string",
+                "paragrafi": ["string"],
             }
         ],
     }
@@ -132,6 +133,11 @@ Struttura richiesta:
   del copione.
 - Ogni voce di "notizie" ha titolo, categoria, fonti e un testo breve (1-2 frasi)
   della sola notizia, non l'intero paragrafo già presente in "testo".
+- Ogni voce di "notizie" ha anche "paragrafi": l'elenco dei paragrafi completi
+  della notizia, nello stesso ordine in cui compaiono in "testo". I paragrafi
+  interni sono separati da una riga vuota; non aggiungere titoli o marcatori.
+  Il campo "testo" della notizia resta un riassunto breve: l'audio usa
+  "paragrafi".
 
 Regole di scrittura:
 - Usa solo i fatti del materiale. Se un dettaglio non c'è, non aggiungerlo.
@@ -572,19 +578,47 @@ def _finalizza_llm(
         raise LlmError("copione vuoto dopo la pulizia")
 
     notizie = []
+    paragrafi_espliciti = any(
+        isinstance(voce.get("paragrafi"), list) and voce["paragrafi"]
+        for voce in dati["notizie"]
+        if isinstance(voce, dict)
+    )
     for voce in dati["notizie"]:
+        breve_voce = semplifica_slop(_normalizza_blocco(str(voce["testo"])))
+        paragrafi_voce: list[str] = []
+        if isinstance(voce.get("paragrafi"), list):
+            for paragrafo in voce["paragrafi"]:
+                normale = semplifica_slop(_normalizza_blocco(str(paragrafo)))
+                if normale:
+                    paragrafi_voce.append(normale)
+        if not paragrafi_voce and breve_voce:
+            paragrafi_voce = [breve_voce]
         notizie.append(
             {
                 "titolo": pulisci_titolo(str(voce["titolo"])),
                 "categoria": str(voce["categoria"]).strip()
                 or label_categoria(selezioni[0].categoria),
                 "fonti": [str(f).strip() for f in voce["fonti"] if str(f).strip()],
-                "testo": semplifica_slop(
-                    _normalizza_blocco(str(voce["testo"]))
-                ),
+                "testo": breve_voce,
+                "paragrafi": paragrafi_voce,
             }
         )
-    testo, trovate = _riordina_buone_notizie(testo, selezioni)
+    if paragrafi_espliciti:
+        paragrafi_completi = [p for voce in notizie for p in voce["paragrafi"]]
+        paragrafi_testo = [
+            p.strip() for p in re.split(r"\n\s*\n", testo) if p.strip()
+        ]
+        _, chiusura = _separa_chiusura(paragrafi_testo)
+        if not chiusura:
+            chiusura = _CHIUSURA_DEFAULT
+        testo = "\n\n".join(paragrafi_completi + [chiusura])
+        testo = semplifica_slop(_pulisci_paragrafi(testo))
+    if paragrafi_espliciti:
+        # Il corpo è ricostruito dai paragrafi delle notizie: non riordinarlo
+        # separatamente, altrimenti i blocchi TTS non corrisponderebbero più.
+        trovate = True
+    else:
+        testo, trovate = _riordina_buone_notizie(testo, selezioni)
     if not trovate:
         positive_texts = [
             v["testo"]
@@ -1021,6 +1055,7 @@ def _genera_fallback(
     blocchi_norm = [normale for _, normale in coppie]
     for voce, normale in coppie:
         voce["testo"] = normale
+        voce["paragrafi"] = [normale]
     corpo = "\n\n".join(blocchi_norm + [chiusura_norm])
     corpo = semplifica_slop(corpo)
 
@@ -1216,6 +1251,80 @@ def prova_llm(
         )
     except Exception as exc:
         return False, f"Gemini non disponibile: {_redigi(exc)}"
+
+
+def _paragrafi_della_notizia(voce: dict[str, Any]) -> list[str]:
+    """Paragrafi espliciti della notizia; fallback al suo testo breve."""
+    grezzi = voce.get("paragrafi")
+    if isinstance(grezzi, str):
+        grezzi = [grezzi]
+    paragrafi: list[str] = []
+    if isinstance(grezzi, list):
+        for grezzo in grezzi:
+            normale = _normalizza_blocco(str(grezzo or ""))
+            if normale:
+                paragrafi.append(normale)
+    if not paragrafi:
+        testo = str(voce.get("testo", "") or "")
+        paragrafi = [
+            _normalizza_blocco(paragrafo)
+            for paragrafo in re.split(r"\n\s*\n", testo)
+            if paragrafo.strip()
+        ]
+        paragrafi = [p for p in paragrafi if p]
+    return paragrafi
+
+
+def sezioni_tts_strutturate(
+    copione: dict[str, Any], pausa_interna: float = 0.3
+) -> tuple[list[tuple[str, float]], list[int]]:
+    """Blocchi TTS per notizia, con confini espliciti e pause interne.
+
+    Restituisce ``(sezioni, indici_transizioni)``. Gli indici si riferiscono
+    alla sezione dopo cui inserire il suono: intro -> prima notizia, tra
+    notizie diverse e cambi categoria. Non c'è transizione tra paragrafi
+    interni né tra ultima notizia e outro.
+    """
+    gruppi: list[tuple[str, list[str]]] = []
+    incipit = str(copione.get("incipit", "") or "").strip()
+    if incipit:
+        gruppi.append(("intro", [incipit]))
+    for voce in copione.get("notizie") or []:
+        if not isinstance(voce, dict):
+            continue
+        paragrafi = _paragrafi_della_notizia(voce)
+        if paragrafi:
+            gruppi.append(("notizia", paragrafi))
+    outro = str(copione.get("outro", "") or "").strip()
+    if outro:
+        gruppi.append(("outro", [outro]))
+    if not gruppi:
+        return [], []
+
+    sezioni: list[tuple[str, float]] = []
+    ultimo_del_gruppo: list[int] = []
+    for indice_gruppo, (_, paragrafi) in enumerate(gruppi):
+        for indice_paragrafo, paragrafo in enumerate(paragrafi):
+            ultimo = indice_paragrafo == len(paragrafi) - 1
+            if ultimo:
+                prossimo = gruppi[indice_gruppo + 1][0] if indice_gruppo + 1 < len(gruppi) else None
+                if prossimo == "outro":
+                    pausa = max(0.0, float(pausa_interna))
+                else:
+                    pausa = 0.0
+            else:
+                pausa = max(0.0, float(pausa_interna))
+            sezioni.append((paragrafo, pausa))
+        ultimo_del_gruppo.append(len(sezioni) - 1)
+
+    transizioni: list[int] = []
+    for indice_gruppo in range(len(gruppi) - 1):
+        tipo_corrente = gruppi[indice_gruppo][0]
+        tipo_prossimo = gruppi[indice_gruppo + 1][0]
+        if tipo_corrente == "outro" or tipo_prossimo == "outro":
+            continue
+        transizioni.append(ultimo_del_gruppo[indice_gruppo])
+    return sezioni, transizioni
 
 
 def blocchi_per_tts(testo: str) -> list[str]:

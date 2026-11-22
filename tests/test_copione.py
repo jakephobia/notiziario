@@ -27,6 +27,7 @@ from notiziario.outro import applica_outro, risolvi_outro
 from notiziario.selezione import NotiziaSelezionata
 from notiziario.stile import analizza
 from notiziario.testi import conta_parole
+from notiziario.tempo import ROMA
 
 
 LOGGER = logging.getLogger("test-copione")
@@ -127,6 +128,7 @@ def test_fallback_deterministico_naturale():
     for voce in copione["notizie"]:
         assert voce["testo"]
         assert voce["fonti"]
+        assert voce["paragrafi"] == [voce["testo"]]
     assert copione["target_parole"] > 0
     assert copione["divario_parole"] >= 0
 
@@ -637,3 +639,42 @@ def test_descrizione_ai_invalida_usa_fallback_pulito():
     assert "molto altro" not in breve.casefold()
     assert "22 novembre 2026" not in breve[len("22 novembre 2026 - ") :]
     assert breve.endswith(".")
+
+def test_llm_con_paragrafi_espliciti_ricostruisce_il_corpo():
+    dati = {
+        "titolo_episodio": "Notiziario di 22 novembre 2026",
+        "descrizione": "Le notizie.",
+        "descrizione_breve": "22 novembre 2026 - Manovra approvata, Cop31 fallita",
+        "testo": (
+            "Primo paragrafo A.\n\nSecondo paragrafo A.\n\nTerzo paragrafo A.\n\n"
+            "Primo paragrafo B.\n\nSecondo paragrafo B.\n\nPer oggi è tutto."
+        ),
+        "notizie": [
+            {
+                "titolo": "A",
+                "categoria": "Italia",
+                "fonti": ["ANSA"],
+                "testo": "Riassunto A.",
+                "paragrafi": [
+                    "Primo paragrafo A.",
+                    "Secondo paragrafo A.",
+                    "Terzo paragrafo A.",
+                ],
+            },
+            {
+                "titolo": "B",
+                "categoria": "Mondo",
+                "fonti": ["ANSA"],
+                "testo": "Riassunto B.",
+                "paragrafi": ["Primo paragrafo B.", "Secondo paragrafo B."],
+            },
+        ],
+    }
+    risultato = _finalizza_llm(
+        dati, selezioni_finte(), datetime(2026, 11, 22, 7, 0, tzinfo=ROMA)
+    )
+    assert len(risultato["notizie"][0]["paragrafi"]) == 3
+    assert len(risultato["notizie"][1]["paragrafi"]) == 2
+    assert "Terzo paragrafo A." in risultato["testo"]
+    assert "Secondo paragrafo B." in risultato["testo"]
+    assert risultato["testo"].rstrip().endswith("Per oggi è tutto.")

@@ -259,9 +259,14 @@ il gain controllato. La issue può avere `## Suono` con `suono: ding`.
 Il parser delle categorie legge solo `## Categorie`: le checkbox presenti in
 `## Fonti` non attivano o disattivano categorie. Se `## Categorie` manca si
 usano i default con un avviso.
-Il suono viene inserito dopo il mastering della voce, tra le sezioni, con
-0,3 s di silenzio prima e dopo; non passa da loudnorm e non viene messo dopo
-l'ultima notizia. Con `nessuno` non viene inserito nulla.
+Il suono viene inserito dopo il mastering della voce, solo ai confini tra
+notizie diverse, ai cambi categoria, tra intro e prima notizia e mai tra
+paragrafi interni della stessa notizia né prima dell'outro. Il confine usa
+0,3 s di silenzio + suono + 0,3 s; i paragrafi interni hanno solo una pausa di
+0,3 s senza suono. Non passa da loudnorm. Con `nessuno` non viene inserito
+nulla. I confini non si deducono dalla punteggiatura: il copione espone
+`notizie[].paragrafi`, e il TTS usa intro, paragrafi per notizia e outro come
+blocchi strutturati.
 
 Anteprima:
 
@@ -938,7 +943,7 @@ Controllo stile manuale di un copione:
 
 ## Risultato della verifica locale (22 novembre 2026)
 
-- `pytest`: **232 test passati**.
+- `pytest`: **240 test passati**.
 - `--test-llm`: Gemini 2.5 Flash ha risposto con la chiave letta dal registro
   utente (nessuna chiave scritta su file).
 - Run standard finale: 31 fonti attive, 22 feed OK e 9 KO solo per assenza di

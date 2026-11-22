@@ -29,7 +29,12 @@ from notiziario.config import (
 )
 from notiziario.arricchisci import arricchisci_selezioni
 from notiziario.audio import AudioError, info_audio as leggi_info_audio, inserisci_suoni
-from notiziario.copione import blocchi_per_tts, genera_copione, prova_llm
+from notiziario.copione import (
+    blocchi_per_tts,
+    genera_copione,
+    prova_llm,
+    sezioni_tts_strutturate,
+)
 from notiziario.controllo_feed import (
     aggiorna_fonti_con_controllo,
     controlla_tutte,
@@ -381,6 +386,21 @@ def _solo_senza_novita(risultato) -> bool:
 def _indici_transizioni(sezioni: int) -> list[int]:
     """Esclude sempre l'ultimo confine, quello prima dell'outro."""
     return list(range(max(0, sezioni - 2)))
+
+def _prepara_blocchi_tts(
+    copione: dict[str, Any], impostazioni: dict[str, Any]
+) -> tuple[list[tuple[str, float]], list[int]]:
+    """Usa i confini strutturati; fallback al vecchio chunking per copioni legacy."""
+    sezioni, indici = sezioni_tts_strutturate(copione)
+    if sezioni:
+        parole_strutturate = sum(conta_parole(testo) for testo, _ in sezioni)
+        parole_corpo = conta_parole(str(copione.get("testo", "")))
+        if not parole_corpo or parole_strutturate >= parole_corpo * 0.85:
+            return sezioni, indici
+    # Copione legacy o confini incompleti: non indovinare i confini.
+    sezioni = _prepara_sezioni_tts(str(copione.get("testo", "")), impostazioni)
+    return sezioni, []
+
 
 def _deve_salvare_visti(
     dry_run: bool, senza_audio: bool, info_audio: dict[str, Any] | None
@@ -763,10 +783,14 @@ def esegui(
         motivo = "dry-run" if args.dry_run else "--senza-audio"
         logger.info("Audio non generato (%s).", motivo)
     else:
-        sezioni = _prepara_sezioni_tts(copione["testo"], impostazioni)
+        sezioni, indici_transizioni = _prepara_blocchi_tts(copione, impostazioni)
         if not sezioni:
             raise ErroreBloccante("Copione vuoto: impossibile generare l'audio.")
-        logger.info("Genero l'audio con %d blocchi...", len(sezioni))
+        logger.info(
+            "Genero l'audio con %d blocchi e %d transizioni...",
+            len(sezioni),
+            len(indici_transizioni),
+        )
         try:
             suono = str(impostazioni.get("suono_transizione", "ding"))
             if suono == "nessuno":
@@ -795,14 +819,13 @@ def esegui(
                         motore=voce_scelta.motore,
                     )
                     durate = info_voce.get("durate_sezioni", [])
-                    indici = _indici_transizioni(len(durate))
                     risultato_suoni = inserisci_suoni(
                         voce_temp,
                         percorso_suono,
                         mp3_path,
                         durate,
                         impostazioni,
-                        indici,
+                        indici_transizioni,
                     )
                     info_audio = dict(info_voce)
                     info_audio["durata"] = risultato_suoni["durata"]
