@@ -18,8 +18,6 @@ on:
 
 permissions:
   contents: write
-  pages: write
-  id-token: write
   issues: read
 
 concurrency:
@@ -34,9 +32,6 @@ jobs:
   episodio:
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -95,14 +90,4 @@ jobs:
             git push
           fi
 
-      - name: Configura Pages
-        uses: actions/configure-pages@v5
-
-      - name: Carica artefatto Pages
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: docs
-
-      - name: Deploy Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      # Pages pubblica docs/ da main: impostazione del repository, nessun artifact.
