@@ -25,6 +25,7 @@
   "voce_label": "it-IT-IsabellaNeural (edge-tts)",
   "voce_configurata": "Kore",
   "durata_default": "standard",
+  "orario_generazione": "07:00",
   "velocita": 1.1,
   "motore": "edge",
   "motore_richiesto": "gemini",
@@ -529,6 +530,5 @@
       "categoria": "buone-notizie",
       "attivo": true
     }
-  ],
-  "orario_generazione": "07:00"
+  ]
 }

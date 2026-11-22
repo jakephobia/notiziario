@@ -3,11 +3,11 @@
     {
       "data": "2026-11-22",
       "titolo": "Notiziario di domenica 22 novembre 2026",
-      "descrizione": "Le notizie del 22 novembre 2026: Nave russa colpita a Bengasi, sospetto attacco con droni. L’ira della Libia: «Violata la sovranità nazionale» – La diretta; Australian politics live: small business carveout in digital duty of care; countdown to pass key legislation begins; Grillo, se il giudice...",
+      "descrizione": "Le notizie del 22 novembre 2026: Politica australiana in diretta: Chris Bowen ‘frustrato’ dal vertice sul clima; inizia il conto alla rovescia per l'approvazione di leggi chiave; Estetiche inquiete. Segni vestimentari e politica estetica della strada e delle sue estensioni digitali; Infarto...",
       "filename": "notiziario-2026-11-22.mp3",
-      "descrizione_breve": "22 novembre 2026 - Nave russa colpita a Bengasi, Australian politics live, Grillo se il giudice dice, Fire breaks out at popular tourist, Jensen Huang's reported affair was most.",
-      "durata_secondi": 531.946077,
-      "dimensione": 6384156,
+      "descrizione_breve": "22 novembre 2026 - Politica australiana in diretta, Estetiche inquiete, Infarto ictus e aterosclerosi, Hunger Games.",
+      "durata_secondi": 248.988186,
+      "dimensione": 2988658,
       "modalita": "fallback",
       "categorie": [
         "italia",
@@ -23,7 +23,7 @@
       "voce_label": "it-IT-IsabellaNeural (edge-tts)",
       "velocita": 1.1,
       "tts_motore": "edge",
-      "pubblicato": "2026-11-22T20:54:21.597253+00:00",
+      "pubblicato": "2026-11-22T21:19:51.960784+00:00",
       "guid": "notiziario-2026-11-22"
     }
   ]
