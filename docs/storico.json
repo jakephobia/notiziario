@@ -2,13 +2,13 @@
   "episodi": [
     {
       "data": "2026-11-22",
-      "titolo": "Le notizie del 22 novembre 2026",
-      "descrizione": "Le principali notizie di oggi: una nave russa colpita in Libia da un presunto attacco ucraino, Francesco Schettino ai servizi sociali dopo la scarcerazione, l'inchiesta sulla morte di Gianni De Gennaro.",
+      "titolo": "Notiziario di domenica 22 novembre 2026",
+      "descrizione": "Le notizie del 22 novembre 2026: Media, nave russa colpita in Libia da attacco a lungo raggio ucraino; Schettino fuori dal carcere, ai servizi sociali per buona condotta; Il ceo di Anthropic Amodei in Puglia per seguire la ristrutturazione della sua masseria.",
       "filename": "notiziario-2026-11-22.mp3",
-      "descrizione_breve": "22 novembre 2026 - Nave russa colpita, Schettino fuori dal carcere, Casa di De Gennaro, Fallita la Cop31 accordo, Rendimenti dei Treasury al, GTA 6 record, Rischio cardiometabolico legato, Ovazioni.",
-      "durata_secondi": 412.518073,
-      "dimensione": 4950977,
-      "modalita": "llm",
+      "descrizione_breve": "22 novembre 2026 - Media nave russa colpita in Libia, Schettino fuori dal carcere, Il ceo di Anthropic Amodei, Fallita la Cop31, Il mercato obbligazionario.",
+      "durata_secondi": 512.305079,
+      "dimensione": 6148430,
+      "modalita": "fallback",
       "categorie": [
         "italia",
         "mondo",
@@ -23,7 +23,7 @@
       "voce_label": "it-IT-IsabellaNeural (edge-tts)",
       "velocita": 1.1,
       "tts_motore": "edge",
-      "pubblicato": "2026-11-22T16:52:22.886965+00:00",
+      "pubblicato": "2026-11-22T17:04:00.498821+00:00",
       "guid": "notiziario-2026-11-22"
     }
   ]
