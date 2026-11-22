@@ -6,6 +6,7 @@
     "tecnologia",
     "scienza-salute",
     "cultura",
+    "sport",
     "ambiente",
     "buone-notizie"
   ],
@@ -16,21 +17,22 @@
     "Tecnologia",
     "Scienza e salute",
     "Cultura",
+    "Sport",
     "Ambiente",
     "Buone notizie"
   ],
   "incipit_template": "Ciao [NOME UTENTE], ecco le tue notizie del giorno. Oggi è il [DATA].",
   "incipit_risolto": "Ciao Jacopo, ecco le tue notizie del giorno. Oggi è il 22 novembre.",
-  "voce": "Kore",
-  "voce_label": "Kore — femminile, calda",
+  "voce": "it-IT-IsabellaNeural",
+  "voce_label": "it-IT-IsabellaNeural (edge-tts)",
   "velocita": 1.1,
-  "motore": "gemini",
+  "motore": "edge",
   "data": "2026-11-22",
-  "issue_url": "https://github.com/jakephobia/notiziario/issues/1",
-  "repo_url": "https://github.com/jakephobia/notiziario",
   "nome_utente": "Jacopo",
+  "suono": "ding",
+  "outro": "Queste erano le notizie di oggi. A domani con i principali eventi della giornata!",
   "fonti_totali": 31,
   "fonti_attive": 31,
-  "suono": "ding",
-  "outro": "Queste erano le notizie di oggi. A domani con i principali eventi della giornata!"
+  "issue_url": "https://github.com/jakephobia/notiziario/issues/1",
+  "repo_url": "https://github.com/jakephobia/notiziario"
 }
