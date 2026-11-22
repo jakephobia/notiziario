@@ -5,7 +5,7 @@
     <link>https://jakephobia.github.io/notiziario/</link>
     <description>Le notizie del giorno scelte da Jacopo, lette in italiano. Un riassunto quotidiano delle notizie italiane e internazionali.</description>
     <language>it-it</language>
-    <lastBuildDate>Sun, 22 Nov 2026 17:04:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 22 Nov 2026 20:15:25 +0000</lastBuildDate>
     <itunes:author>Notiziario</itunes:author>
     <itunes:explicit>false</itunes:explicit>
     <itunes:summary>Le notizie del giorno scelte da Jacopo, lette in italiano. Un riassunto quotidiano delle notizie italiane e internazionali.</itunes:summary>
@@ -16,22 +16,22 @@
     </image>
     <itunes:image href="https://jakephobia.github.io/notiziario/copertina.png" />
     <notiziario:categorie>Italia, Mondo, Economia, Tecnologia, Scienza e salute, Cultura, Ambiente, Buone notizie</notiziario:categorie>
-    <notiziario:modalita>fallback</notiziario:modalita>
+    <notiziario:modalita>llm</notiziario:modalita>
     <notiziario:voce>it-IT-IsabellaNeural</notiziario:voce>
     <notiziario:voce_label>it-IT-IsabellaNeural (edge-tts)</notiziario:voce_label>
     <notiziario:velocita>1.1</notiziario:velocita>
     <notiziario:tts_motore>edge</notiziario:tts_motore>
     <item>
-      <title>Notiziario di domenica 22 novembre 2026</title>
-      <description>22 novembre 2026 - Media nave russa colpita in Libia, Schettino fuori dal carcere, Il ceo di Anthropic Amodei, Fallita la Cop31, Il mercato obbligazionario.</description>
-      <pubDate>Sun, 22 Nov 2026 17:04:00 +0000</pubDate>
+      <title>Notiziario radiofonico del 22 novembre 2026</title>
+      <description>22 novembre 2026 - Nave russa colpita a Bengasi, Schettino fuori dal carcere, De Gennaro, Fallimento della Cop 31 sui combustibili, Australian politics live.</description>
+      <pubDate>Sun, 22 Nov 2026 20:15:25 +0000</pubDate>
       <guid isPermaLink="false">notiziario-2026-11-22</guid>
-      <enclosure url="https://github.com/jakephobia/notiziario/releases/download/episodio-2026-11-22/notiziario-2026-11-22.mp3" length="6148430" type="audio/mpeg" />
-      <itunes:duration>00:08:32</itunes:duration>
-      <itunes:summary>22 novembre 2026 - Media nave russa colpita in Libia, Schettino fuori dal carcere, Il ceo di Anthropic Amodei, Fallita la Cop31, Il mercato obbligazionario.</itunes:summary>
+      <enclosure url="https://github.com/jakephobia/notiziario/releases/download/episodio-2026-11-22/notiziario-2026-11-22.mp3" length="6640265" type="audio/mpeg" />
+      <itunes:duration>00:09:13</itunes:duration>
+      <itunes:summary>22 novembre 2026 - Nave russa colpita a Bengasi, Schettino fuori dal carcere, De Gennaro, Fallimento della Cop 31 sui combustibili, Australian politics live.</itunes:summary>
       <itunes:explicit>false</itunes:explicit>
       <itunes:image href="https://jakephobia.github.io/notiziario/copertina.png" />
-      <notiziario:modalita>fallback</notiziario:modalita>
+      <notiziario:modalita>llm</notiziario:modalita>
       <notiziario:voce>it-IT-IsabellaNeural</notiziario:voce>
       <notiziario:voce_label>it-IT-IsabellaNeural (edge-tts)</notiziario:voce_label>
       <notiziario:velocita>1.1</notiziario:velocita>

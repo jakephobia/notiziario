@@ -2,13 +2,13 @@
   "episodi": [
     {
       "data": "2026-11-22",
-      "titolo": "Notiziario di domenica 22 novembre 2026",
-      "descrizione": "Le notizie del 22 novembre 2026: Media, nave russa colpita in Libia da attacco a lungo raggio ucraino; Schettino fuori dal carcere, ai servizi sociali per buona condotta; Il ceo di Anthropic Amodei in Puglia per seguire la ristrutturazione della sua masseria.",
+      "titolo": "Notiziario radiofonico del 22 novembre 2026",
+      "descrizione": "Le principali notizie dal mondo e dall'Italia, con approfondimenti su economia, tecnologia, scienza, salute e cultura, e un focus sulle buone notizie della settimana.",
       "filename": "notiziario-2026-11-22.mp3",
-      "descrizione_breve": "22 novembre 2026 - Media nave russa colpita in Libia, Schettino fuori dal carcere, Il ceo di Anthropic Amodei, Fallita la Cop31, Il mercato obbligazionario.",
-      "durata_secondi": 512.305079,
-      "dimensione": 6148430,
-      "modalita": "fallback",
+      "descrizione_breve": "22 novembre 2026 - Nave russa colpita a Bengasi, Schettino fuori dal carcere, De Gennaro, Fallimento della Cop 31 sui combustibili, Australian politics live.",
+      "durata_secondi": 553.288481,
+      "dimensione": 6640265,
+      "modalita": "llm",
       "categorie": [
         "italia",
         "mondo",
@@ -23,7 +23,7 @@
       "voce_label": "it-IT-IsabellaNeural (edge-tts)",
       "velocita": 1.1,
       "tts_motore": "edge",
-      "pubblicato": "2026-11-22T17:04:00.498821+00:00",
+      "pubblicato": "2026-11-22T20:15:25.379220+00:00",
       "guid": "notiziario-2026-11-22"
     }
   ]
