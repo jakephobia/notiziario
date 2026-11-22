@@ -59,6 +59,14 @@
     .azioni { display:flex; flex-wrap:wrap; gap:10px; }
     .stato-salvataggio { min-height:1.5em; margin:0; color:var(--tenue); word-break:break-word; }
     .stato-salvataggio.errore { color:var(--errore); }
+    .progress-banner { display:none; position:fixed; top:12px; left:50%; transform:translateX(-50%); width:min(100% - 24px,760px); z-index:100; background:var(--card); border:1px solid var(--accento); border-radius:15px; box-shadow:var(--ombra); padding:12px 14px; }
+    .progress-banner[hidden] { display:none; }
+    .progress-banner.visibile { display:block; }
+    .banner-riga { display:flex; align-items:flex-start; justify-content:space-between; gap:10px; }
+    .banner-testo { margin:0; color:var(--testo); }
+    .banner-chiudi { flex:0 0 32px; width:32px; height:32px; padding:0; border:0; background:transparent; color:var(--tenue); font-size:1.3rem; line-height:1; }
+    .banner-azioni { display:flex; flex-wrap:wrap; gap:8px; margin-top:9px; font-size:.88rem; }
+    .banner-azioni a,.banner-azioni button { font-size:.84rem; padding:6px 10px; }
     .token-box { display:grid; gap:10px; }
     .token-azioni { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
     .suoni { display:grid; gap:10px; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); }
@@ -81,6 +89,13 @@
   </style>
 </head>
 <body>
+<aside id="banner-generazione" class="progress-banner" role="status" aria-live="polite" aria-atomic="true" hidden>
+  <div class="banner-riga">
+    <p class="banner-testo" id="banner-testo"></p>
+    <button id="banner-chiudi" class="banner-chiudi" type="button" aria-label="Chiudi stato generazione">×</button>
+  </div>
+  <div class="banner-azioni" id="banner-azioni"></div>
+</aside>
 <main>
   <header>
     <img class="copertina" src="copertina.png" alt="Copertina del podcast">
@@ -203,6 +218,13 @@
   const TOKEN_KEY = "notiziario.dashboard.token";
   const WORKFLOW_DISPATCH = "https://api.github.com/repos/jakephobia/notiziario/actions/workflows/dashboard.yml/dispatches";
   const WORKFLOW_PAGE = "https://github.com/jakephobia/notiziario/actions/workflows/dashboard.yml";
+  const RUNS_API = "https://api.github.com/repos/jakephobia/notiziario/actions/workflows/notiziario.yml/runs?per_page=10";
+  const NOTIZIARIO_PAGE = "https://github.com/jakephobia/notiziario/actions/workflows/notiziario.yml";
+  const PLAYER_URL = "https://jakephobia.github.io/notiziario/";
+  const FEED_URL = "https://jakephobia.github.io/notiziario/feed.xml";
+  const POLL_INTERVAL_MS = 15000;
+  const POLL_TIMEOUT_MS = 20 * 60 * 1000;
+  const STARTUP_GRACE_MS = 3 * 60 * 1000;
   const ISSUE_URL = "https://github.com/jakephobia/notiziario/issues/1";
   const CATEGORIE = [
     {id:"italia",label:"Italia"},{id:"mondo",label:"Mondo"},{id:"economia",label:"Economia"},
@@ -246,6 +268,15 @@
   const salvaBtn = document.getElementById("salva-impostazioni");
   const salvaGeneraBtn = document.getElementById("salva-genera");
   const statoSalvataggioEl = document.getElementById("stato-salvataggio");
+  const bannerGenerazione = document.getElementById("banner-generazione");
+  const bannerTestoEl = document.getElementById("banner-testo");
+  const bannerAzioniEl = document.getElementById("banner-azioni");
+  const bannerChiudiBtn = document.getElementById("banner-chiudi");
+  let pollingTimer = null;
+  let pollingTimeout = null;
+  let pollingStart = 0;
+  let clickedAt = 0;
+  let pollingAttivo = false;
 
   function testoDi(el) { return el && el.textContent ? el.textContent.trim() : ""; }
   function primoNS(radice, ns, nome) { const t = radice.getElementsByTagNameNS(ns, nome); return t.length ? t[0] : null; }
@@ -364,13 +395,151 @@
     p.fonti.forEach(function (f,i) { if (!f.nome) throw new Error("La fonte "+(i+1)+" non ha un nome."); if (!normalizzaUrl(f.url)) throw new Error("La fonte "+(i+1)+" non ha un URL valido."); });
   }
   function erroreHttp(status) { if (status===401||status===403) return "Token non valido o senza permesso Actions. Creane uno fine-grained con Actions read/write sul repository."; if (status===404) return "Workflow dashboard.yml non trovato o token senza accesso al repository."; if (status===422) return "Payload troppo grande o input non valido. Riduci fonti o testi e riprova."; return "GitHub ha rifiutato la richiesta (HTTP "+status+"). Riprova più tardi."; }
+  function linkSicuro(testo, href) {
+    let valore = WORKFLOW_PAGE;
+    try {
+      const url = new URL(String(href || ""));
+      if (url.protocol === "https:" || url.protocol === "http:") valore = url.href;
+    } catch (e) {}
+    const link = document.createElement("a");
+    link.href = valore;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.textContent = testo;
+    return link;
+  }
+
+  function bottoneAzione(testo, azione) {
+    const bottone = document.createElement("button");
+    bottone.type = "button";
+    bottone.className = "secondario";
+    bottone.textContent = testo;
+    bottone.addEventListener("click", azione);
+    return bottone;
+  }
+
+  function formattaTrascorso(millisecondi) {
+    const secondi = Math.max(0, Math.floor(millisecondi / 1000));
+    const minuti = Math.floor(secondi / 60);
+    return minuti > 0 ? minuti + "m " + (secondi % 60) + "s" : secondi + "s";
+  }
+
+  function mostraBanner(testo, azioni) {
+    bannerGenerazione.hidden = false;
+    bannerGenerazione.classList.add("visibile");
+    bannerTestoEl.textContent = testo;
+    bannerAzioniEl.replaceChildren();
+    (azioni || []).forEach(function (azione) { bannerAzioniEl.appendChild(azione); });
+  }
+
+  function fermaPolling() {
+    pollingAttivo = false;
+    if (pollingTimer !== null) { clearInterval(pollingTimer); pollingTimer = null; }
+    if (pollingTimeout !== null) { clearTimeout(pollingTimeout); pollingTimeout = null; }
+  }
+
+  function chiudiBanner() {
+    fermaPolling();
+    bannerGenerazione.hidden = true;
+    bannerGenerazione.classList.remove("visibile");
+  }
+
+  async function controllaRun(token) {
+    if (!pollingAttivo) return;
+    let risposta;
+    try {
+      risposta = await fetch(RUNS_API, {
+        method: "GET",
+        cache: "no-store",
+        headers: {
+          Authorization: "Bearer " + token,
+          Accept: "application/vnd.github+json",
+          "X-GitHub-Api-Version": "2022-11-28"
+        }
+      });
+    } catch (e) {
+      if (pollingAttivo) mostraBanner("Controllo dello stato non disponibile. Riprovo tra poco.", [linkSicuro("Apri le run", WORKFLOW_PAGE)]);
+      return;
+    }
+    if (risposta.status === 401 || risposta.status === 403) {
+      fermaPolling();
+      mostraBanner("Non riesco a controllare lo stato con questo token (serve Actions: read); apri le run", [linkSicuro("Apri le run del notiziario", NOTIZIARIO_PAGE)]);
+      return;
+    }
+    if (!risposta.ok) {
+      if (pollingAttivo) mostraBanner("Controllo dello stato non disponibile (HTTP " + risposta.status + "). Riprovo tra poco.", [linkSicuro("Apri le run", WORKFLOW_PAGE)]);
+      return;
+    }
+    let dati;
+    try { dati = await risposta.json(); } catch (e) { return; }
+    const run = (Array.isArray(dati.workflow_runs) ? dati.workflow_runs : [])
+      .filter(function (r) {
+        const creato = Date.parse(r.created_at || "");
+        return r.head_branch === "main" && Number.isFinite(creato) && creato >= clickedAt - 60000;
+      })
+      .sort(function (a, b) { return Date.parse(b.created_at) - Date.parse(a.created_at); })[0];
+    if (!run) {
+      const azioni = [linkSicuro("Apri le run della dashboard", WORKFLOW_PAGE)];
+      if (Date.now() - pollingStart < STARTUP_GRACE_MS) {
+        mostraBanner("Salvataggio avvenuto, generazione in avvio...", azioni);
+      } else {
+        mostraBanner("La generazione non è partita: controlla le run del workflow Dashboard", azioni);
+      }
+      return;
+    }
+    const stato = String(run.status || "").toLowerCase();
+    const conclusione = String(run.conclusion || "").toLowerCase();
+    const linkRun = run.html_url || WORKFLOW_PAGE;
+    if (stato === "completed") {
+      fermaPolling();
+      if (conclusione === "success") {
+        mostraBanner("Episodio pronto", [
+          linkSicuro("Apri il player", PLAYER_URL),
+          linkSicuro("Apri il feed", FEED_URL),
+          bottoneAzione("Aggiorna pagina", function () { location.reload(); })
+        ]);
+      } else {
+        mostraBanner("Generazione fallita" + (conclusione ? " (" + conclusione + ")" : ""), [
+          linkSicuro("Apri il log della run", linkRun),
+          linkSicuro("Apri le run del notiziario", NOTIZIARIO_PAGE)
+        ]);
+      }
+      return;
+    }
+    const inCorso = ["queued", "in_progress", "waiting", "pending", "requested"];
+    if (inCorso.indexOf(stato) >= 0 || stato === "") {
+      mostraBanner("Generazione in corso · " + formattaTrascorso(Date.now() - clickedAt), [
+        linkSicuro("Apri la run", linkRun)
+      ]);
+    }
+  }
+
+  function avviaPolling(token) {
+    fermaPolling();
+    clickedAt = Date.now();
+    pollingStart = clickedAt;
+    pollingAttivo = true;
+    mostraBanner("Generazione in corso...", [linkSicuro("Apri le run della dashboard", WORKFLOW_PAGE)]);
+    pollingTimer = setInterval(function () { controllaRun(token); }, POLL_INTERVAL_MS);
+    pollingTimeout = setTimeout(function () {
+      if (!pollingAttivo) return;
+      fermaPolling();
+      mostraBanner("Tempo scaduto: la generazione è ancora in corso. Controlla le run.", [
+        linkSicuro("Apri le run del notiziario", NOTIZIARIO_PAGE)
+      ]);
+    }, POLL_TIMEOUT_MS);
+    controllaRun(token);
+  }
+
+  bannerChiudiBtn.addEventListener("click", chiudiBanner);
+
   async function invia(genera) {
     let payload; try { payload=costruisciPayload(); validaPayload(payload); } catch (e) { mostraStato(e.message,true); return; }
     const token=leggiToken(); if (!token) { mostraStato("Token mancante: salvalo nel browser oppure creane uno fine-grained dal link qui sopra.",true); return; }
     salvaBtn.disabled=true; salvaGeneraBtn.disabled=true; mostraStato("Invio delle impostazioni a GitHub…");
     try {
       const r=await fetch(WORKFLOW_DISPATCH, {method: "POST", headers: {Authorization: "Bearer " + token, Accept: "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28", "Content-Type": "application/json"}, body: JSON.stringify({ref: "main", inputs: {payload: JSON.stringify(payload), genera: genera ? "true" : "false", durata: payload.durata}})});
-      if (r.status===204) { const link=document.createElement("a"); link.href=WORKFLOW_PAGE; link.target="_blank"; link.rel="noopener noreferrer"; link.textContent="Apri le run della dashboard"; statoSalvataggioEl.replaceChildren(document.createTextNode("Impostazioni inviate. "),link); statoSalvataggioEl.classList.remove("errore"); if (genera) statoSalvataggioEl.appendChild(document.createTextNode(" La generazione partirà dopo il commit.")); }
+      if (r.status===204) { const link=document.createElement("a"); link.href=WORKFLOW_PAGE; link.target="_blank"; link.rel="noopener noreferrer"; link.textContent="Apri le run della dashboard"; statoSalvataggioEl.replaceChildren(document.createTextNode("Impostazioni inviate. "),link); statoSalvataggioEl.classList.remove("errore"); if (genera) { statoSalvataggioEl.appendChild(document.createTextNode(" La generazione partirà dopo il commit.")); avviaPolling(token); } }
       else mostraStato(erroreHttp(r.status),true);
     } catch (e) { mostraStato("Errore di rete: impossibile raggiungere GitHub. Controlla la connessione.",true); }
     finally { salvaBtn.disabled=false; salvaGeneraBtn.disabled=false; }

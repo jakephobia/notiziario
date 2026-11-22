@@ -755,6 +755,23 @@ avvia l'episodio. **Salva e genera ora** usa `genera=true`: dopo il commit
 avvia `notiziario.yml` con la durata scelta. Il workflow ha `contents: write`
 e `actions: write`, e usa solo `GITHUB_TOKEN`.
 
+Dopo **Salva e genera ora** compare un banner persistente in alto:
+**Generazione in corso...**, con il link alla pagina Actions. La pagina
+controlla `notiziario.yml` ogni 15 secondi per un massimo di 20 minuti:
+- per i primi 3 minuti, se la run non è ancora visibile, mostra
+  **Salvataggio avvenuto, generazione in avvio...**;
+- poi, se non compare, **La generazione non è partita: controlla le run del
+  workflow Dashboard**;
+- quando la run è `queued` o `in_progress`, mostra **Generazione in corso**,
+  il tempo trascorso e il link alla run;
+- a run completata con successo mostra **Episodio pronto**, con i link al
+  player e al feed e il pulsante **Aggiorna pagina**;
+- a run fallita o cancellata mostra **Generazione fallita** e il link al log.
+Il banner ha `aria-live="polite"`, si può chiudere e ferma il polling quando
+arriva a uno stato finale. Per leggere lo stato serve un token con
+**Actions: read**; con 401/403 la pagina mostra un messaggio e il link alle
+run, senza bloccare il form.
+
 Il payload completo è un oggetto JSON con `nome`, `categorie`, `incipit`,
 `outro`, `voce`, `velocita`, `motore`, `suono`, `fonti` e `durata`. Si può
 provare in locale:
@@ -921,7 +938,7 @@ Controllo stile manuale di un copione:
 
 ## Risultato della verifica locale (22 novembre 2026)
 
-- `pytest`: **231 test passati**.
+- `pytest`: **232 test passati**.
 - `--test-llm`: Gemini 2.5 Flash ha risposto con la chiave letta dal registro
   utente (nessuna chiave scritta su file).
 - Run standard finale: 31 fonti attive, 22 feed OK e 9 KO solo per assenza di

@@ -69,3 +69,23 @@ def test_javascript_pagina_valido_con_node(tmp_path):
         text=True,
     )
     assert risultato.returncode == 0, risultato.stderr
+def test_banner_polling_della_generazione():
+    assert 'id="banner-generazione"' in PAGINA
+    assert 'aria-live="polite"' in PAGINA
+    assert 'role="status"' in PAGINA
+    assert 'id="banner-chiudi"' in PAGINA
+    assert "https://api.github.com/repos/jakephobia/notiziario/actions/workflows/notiziario.yml/runs?per_page=10" in PAGINA
+    assert "setInterval" in PAGINA and "setTimeout" in PAGINA
+    assert "15000" in PAGINA and "20 * 60 * 1000" in PAGINA and "3 * 60 * 1000" in PAGINA
+    assert "head_branch === \"main\"" in PAGINA
+    assert "created_at" in PAGINA and "60000" in PAGINA
+    assert "Generazione in corso" in PAGINA
+    assert "Salvataggio avvenuto, generazione in avvio" in PAGINA
+    assert "La generazione non è partita" in PAGINA
+    assert "Episodio pronto" in PAGINA
+    assert "Generazione fallita" in PAGINA
+    assert "Non riesco a controllare lo stato con questo token" in PAGINA
+    assert "https://jakephobia.github.io/notiziario/" in PAGINA
+    assert "https://jakephobia.github.io/notiziario/feed.xml" in PAGINA
+    assert "Aggiorna pagina" in PAGINA
+    assert "innerHTML" not in PAGINA
