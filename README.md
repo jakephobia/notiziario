@@ -753,12 +753,21 @@ fallisce e si usa edge, il JSON riporta `motore: edge` e
 ## Orario di generazione
 
 `config/impostazioni.json` contiene `orario_generazione: "07:00"` (ora intera,
-fuso `Europe/Rome`). Il workflow non ha più un cron giornaliero fisso: parte
-ogni ora (`0 * * * *`), esegue `python -m notiziario.orario --controlla` e
-prosegue solo se l'ora di Roma coincide. Il dispatch manuale, incluso **Salva
-e genera ora**, salta il controllo e parte subito. La dashboard espone
-`orario_generazione` nel form e nel payload `orario`; lo script lo valida come
-`HH:00` e lo salva in configurazione. L'ora legale è gestita da `zoneinfo`.
+fuso `Europe/Rome`). Il workflow parte ogni 30 minuti (`*/30 * * * *`) e
+`python -m notiziario.orario --controlla` restituisce `true` quando l'ora di
+Roma ha superato l'orario configurato **e** `docs/storico.json`/`docs/feed.xml`
+non contiene già un episodio con la data odierna. In questo modo recupera una
+run persa o ritardata più tardi nella stessa giornata; quando l'episodio esiste,
+le run successive saltano. Il dispatch manuale, incluso **Salva e genera ora**,
+salta il controllo e parte subito. La dashboard espone `orario_generazione` nel
+form e nel payload `orario`; lo script lo valida come `HH:00` e lo salva in
+configurazione. L'ora legale è gestita da `zoneinfo`; GitHub può ritardare le
+run schedulate, quindi il controllo non richiede più l'ora esatta.
+
+Nello step **Aggiorna feed, sito e stato nel repository**, dopo il commit
+locale viene eseguito `git pull --rebase` prima del push. Se il rebase trova
+conflitti, il workflow stampa un errore, esegue `git rebase --abort` ed esce
+senza fare push forzato. Se non ci sono modifiche, lo step termina senza errore.
 
 ## Dashboard web (consigliata)
 
@@ -1018,7 +1027,7 @@ Controllo stile manuale di un copione:
 
 ## Risultato della verifica locale (22 novembre 2026)
 
-- `pytest`: **280 test passati**.
+- `pytest`: **282 test passati**.
 - `--test-llm`: Gemini 2.5 Flash ha risposto con la chiave letta dal registro
   utente (nessuna chiave scritta su file).
 - Run standard finale: 31 fonti attive, 22 feed OK e 9 KO solo per assenza di

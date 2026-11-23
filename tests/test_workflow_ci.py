@@ -45,7 +45,7 @@ def test_workflow_orario_e_dispatch_manuale():
     percorso = ROOT / ".github" / "workflows" / "notiziario.yml"
     dati = yaml.safe_load(percorso.read_text(encoding="utf-8"))
     eventi = dati.get("on") or dati.get(True)
-    assert eventi["schedule"][0]["cron"] == "0 * * * *"
+    assert eventi["schedule"][0]["cron"] == "*/30 * * * *"
     passi = dati["jobs"]["episodio"]["steps"]
     nomi = [p.get("name", "") for p in passi]
     controllo = next(p for p in passi if p.get("name") == "Controlla orario")
@@ -91,3 +91,18 @@ def test_workflow_notifiche_issue_e_email():
     testo = percorso.read_text(encoding="utf-8")
     for marcatore in ("password-segreta", "AIza", "ghp_", "github_pat_"):
         assert marcatore not in testo
+
+def test_workflow_commit_pull_rebase_push_e_caso_vuoto():
+    percorso = ROOT / ".github" / "workflows" / "notiziario.yml"
+    dati = yaml.safe_load(percorso.read_text(encoding="utf-8"))
+    passi = dati["jobs"]["episodio"]["steps"]
+    passo = next(p for p in passi if p.get("name") == "Aggiorna feed, sito e stato nel repository")
+    run = passo["run"]
+    assert 'git commit -m "Aggiorna feed notiziario' in run
+    assert "git pull --rebase" in run
+    assert "git push" in run
+    assert run.index("git commit") < run.index("git pull --rebase") < run.index("git push")
+    assert "Nessuna modifica da committare" in run
+    assert "git diff --cached --quiet" in run
+    assert "git rebase --abort" in run
+    assert "push --force" not in run

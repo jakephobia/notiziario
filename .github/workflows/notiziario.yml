@@ -2,8 +2,8 @@ name: Notiziario quotidiano
 
 on:
   schedule:
-    # Ogni ora: il controllo orario in Europe/Rome decide se generare.
-    - cron: "0 * * * *"
+    # Ogni 30 minuti: il controllo in Europe/Rome recupera la generazione mancante.
+    - cron: "*/30 * * * *"
   workflow_dispatch:
     inputs:
       durata:
@@ -101,9 +101,14 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add docs state/visti.json config/
           if git diff --cached --quiet; then
-            echo "Nessuna modifica a docs/ o state/visti.json."
+            echo "Nessuna modifica da committare."
           else
             git commit -m "Aggiorna feed notiziario $(TZ=Europe/Rome date +%F)"
+            if ! git pull --rebase; then
+              echo "::error::Rebase fallito: conflitto con il remoto. Risolvi manualmente; nessun push forzato."
+              git rebase --abort || true
+              exit 1
+            fi
             git push
           fi
 
