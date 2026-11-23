@@ -1,397 +1,347 @@
 # Fonti RSS del Notiziario.
-#
-# Come modificare:
-#   - nome: la testata come deve essere pronunciata nel copione (es. "ANSA");
-#   - url: l'indirizzo del feed RSS, non della pagina del sito;
-#   - categoria: una tra
-#       italia, mondo, economia, tecnologia, scienza-salute, cultura, sport, ambiente.
-#
-# Per aggiungere una fonte copia un blocco "- nome: ..." e cambia i valori.
-# Per togliere una fonte cancella il suo blocco.
-# Dopo una modifica puoi controllare i feed con:  python -m notiziario.verifica_fonti
-#
-# URL verificati con richieste reali il 22 novembre 2026.
-# Restano solo feed che rispondono e hanno date valide. Alcune sezioni possono
-# essere ferme da più di 24 ore: vengono saltate senza errore e si useranno
-# quando si aggiorneranno. Le testate con feed davvero fermi sono in fondo.
+# Campi: nome, url, categoria, attivo, controllo, ultimo_controllo, note.
+# Categorie valide: italia, mondo, economia, tecnologia, scienza-salute,
+# cultura, sport, ambiente, buone-notizie. 'da-assegnare' esclude la fonte.
+# Dopo una modifica: python -m notiziario.verifica_fonti
 
 fonti:
-  # --- ANSA ---
-  - nome: ANSA
-    url: https://www.ansa.it/sito/notizie/topnews/topnews_rss.xml
-    categoria: italia
-
-  - nome: ANSA
-    url: https://www.ansa.it/sito/notizie/cronaca/cronaca_rss.xml
-    categoria: italia
-
-  - nome: ANSA
-    url: https://www.ansa.it/sito/notizie/mondo/mondo_rss.xml
-    categoria: mondo
-
-  - nome: ANSA
-    url: https://www.ansa.it/sito/notizie/economia/economia_rss.xml
-    categoria: economia
-
-  - nome: ANSA
-    url: https://www.ansa.it/sito/notizie/sport/sport_rss.xml
-    categoria: sport
-
-  - nome: ANSA
-    url: https://www.ansa.it/sito/notizie/cultura/cultura_rss.xml
-    categoria: cultura
-
-  # --- la Repubblica ---
-  - nome: Repubblica
-    url: https://www.repubblica.it/rss/homepage/rss2.0.xml
-    categoria: italia
-
-  - nome: Repubblica
-    url: https://www.repubblica.it/rss/politica/rss2.0.xml
-    categoria: italia
-
-  - nome: Repubblica
-    url: https://www.repubblica.it/rss/cronaca/rss2.0.xml
-    categoria: italia
-
-  - nome: Repubblica
-    url: https://www.repubblica.it/rss/esteri/rss2.0.xml
-    categoria: mondo
-
-  - nome: Repubblica
-    url: https://www.repubblica.it/rss/economia/rss2.0.xml
-    categoria: economia
-
-  - nome: Repubblica
-    url: https://www.repubblica.it/rss/cultura/rss2.0.xml
-    categoria: cultura
-
-  - nome: Repubblica
-    url: https://www.repubblica.it/rss/tecnologia/rss2.0.xml
-    categoria: tecnologia
-
-  - nome: Repubblica
-    url: https://www.repubblica.it/rss/ambiente/rss2.0.xml
-    categoria: ambiente
-
-  - nome: Repubblica
-    url: https://www.repubblica.it/rss/salute/rss2.0.xml
-    categoria: scienza-salute
-
-  # --- Il Post ---
-  - nome: Il Post
-    url: https://www.ilpost.it/italia/feed/
-    categoria: italia
-
-  - nome: Il Post
-    url: https://www.ilpost.it/mondo/feed/
-    categoria: mondo
-
-  - nome: Il Post
-    url: https://www.ilpost.it/economia/feed/
-    categoria: economia
-
-  - nome: Il Post
-    url: https://www.ilpost.it/tecnologia/feed/
-    categoria: tecnologia
-
-  - nome: Il Post
-    url: https://www.ilpost.it/scienza/feed/
-    categoria: scienza-salute
-
-  - nome: Il Post
-    url: https://www.ilpost.it/cultura/feed/
-    categoria: cultura
-
-  - nome: Il Post
-    url: https://www.ilpost.it/sport/feed/
-    categoria: sport
-
-  # --- Il Sole 24 Ore ---
-  - nome: Il Sole 24 Ore
-    url: https://www.ilsole24ore.com/rss/italia.xml
-    categoria: italia
-
-  - nome: Il Sole 24 Ore
-    url: https://www.ilsole24ore.com/rss/mondo.xml
-    categoria: mondo
-
-  - nome: Il Sole 24 Ore
-    url: https://www.ilsole24ore.com/rss/economia.xml
-    categoria: economia
-
-  - nome: Il Sole 24 Ore
-    url: https://www.ilsole24ore.com/rss/tecnologia.xml
-    categoria: tecnologia
-
-  - nome: Il Sole 24 Ore
-    url: https://www.ilsole24ore.com/rss/cultura.xml
-    categoria: cultura
-
-  - nome: Il Sole 24 Ore
-    url: https://www.ilsole24ore.com/rss/salute.xml
-    categoria: scienza-salute
-
-  # --- HDblog ---
-  - nome: HDblog
-    url: https://www.hdblog.it/rss/
-    categoria: tecnologia
-
-  # ============================================================
-  # Aggiunte del 22 novembre 2026
-  # Area: cultura, società, politica, sinistra progressista,
-  # politica statunitense, esteri e geopolitica.
-  # Tutti gli URL sono stati provati con richieste reali: rispondono
-  # e hanno articoli negli ultimi 7 giorni. Le testate più lente
-  # (riviste, mensili) entrano nel podcast solo quando pubblicano.
-  # ============================================================
-
-  # --- Politica e società (Italia) ---
-  - nome: Domani
-    url: https://www.editorialedomani.it/rss
-    categoria: italia
-
-  - nome: Il Manifesto
-    url: https://ilmanifesto.it/feed/
-    categoria: italia
-
-  - nome: Il Fatto Quotidiano
-    url: https://www.ilfattoquotidiano.it/feed/
-    categoria: italia
-
-  - nome: Open
-    url: https://www.open.online/feed/
-    categoria: italia
-
-  - nome: Jacobin Italia
-    url: https://jacobinitalia.it/feed/
-    categoria: italia
-
-  - nome: Dinamopress
-    url: https://www.dinamopress.it/feed/
-    categoria: italia
-
-  - nome: Left
-    url: https://www.left.it/feed/
-    categoria: italia
-
-  - nome: Valigia Blu
-    url: https://www.valigiablu.it/feed/
-    categoria: italia
-
-  - nome: IRPI Media
-    url: https://irpimedia.irpi.eu/feed/
-    categoria: italia
-
-  - nome: Openpolis
-    url: https://www.openpolis.it/feed/
-    categoria: italia
-
-  - nome: Pagella Politica
-    url: https://pagellapolitica.it/feed.xml
-    categoria: italia
-
-  - nome: Radio Popolare
-    url: https://www.radiopopolare.it/feed/
-    categoria: italia
-
-  - nome: Agi
-    url: https://www.agi.it/politica/rss.xml
-    categoria: italia
-
-  # --- Cultura ---
-  - nome: MicroMega
-    url: https://www.micromega.net/feed/
-    categoria: cultura
-
-  - nome: Il Tascabile
-    url: https://www.iltascabile.com/feed/
-    categoria: cultura
-
-  - nome: doppiozero
-    url: https://www.doppiozero.com/feed
-    categoria: cultura
-
-  - nome: Nazione Indiana
-    url: https://www.nazioneindiana.com/feed/
-    categoria: cultura
-
-  - nome: Carmilla
-    url: https://www.carmillaonline.com/feed/
-    categoria: cultura
-
-  - nome: Artribune
-    url: https://www.artribune.com/feed/
-    categoria: cultura
-
-  - nome: Rolling Stone Italia
-    url: https://www.rollingstone.it/feed/
-    categoria: cultura
-
-  - nome: Lucy sulla cultura
-    url: https://lucysullacultura.com/feed/
-    categoria: cultura
-
-  - nome: Rivista Studio
-    url: https://www.rivistastudio.com/feed/
-    categoria: cultura
-
-  - nome: La Balena Bianca
-    url: https://www.labalenabianca.com/feed/
-    categoria: cultura
-
-  - nome: Agi
-    url: https://www.agi.it/cultura/rss.xml
-    categoria: cultura
-
-  # --- Economia e lavoro ---
-  - nome: Altreconomia
-    url: https://altreconomia.it/feed/
-    categoria: economia
-
-  - nome: Sbilanciamoci
-    url: https://sbilanciamoci.info/feed/
-    categoria: economia
-
-  # --- Esteri e geopolitica (Italia) ---
-  - nome: Agi
-    url: https://www.agi.it/estero/rss.xml
-    categoria: mondo
-
-  - nome: Internazionale
-    url: https://www.internazionale.it/sitemaps/rss.xml
-    categoria: mondo
-
-  - nome: Le Grand Continent
-    url: https://legrandcontinent.eu/it/feed/
-    categoria: mondo
-
-  - nome: Limes
-    url: https://www.limesonline.com/rss
-    categoria: mondo
-
-  - nome: Geopolitica.info
-    url: https://www.geopolitica.info/feed/
-    categoria: mondo
-
-  - nome: Inside Over
-    url: https://www.insideover.com/feed/
-    categoria: mondo
-
-  - nome: Eastjournal
-    url: https://www.eastjournal.net/feed/
-    categoria: mondo
-
-  - nome: Eunews
-    url: https://www.eunews.it/feed/
-    categoria: mondo
-
-  - nome: Voxeurop
-    url: https://voxeurop.eu/it/feed/
-    categoria: mondo
-
-  # --- Esteri e geopolitica (internazionale) ---
-  - nome: The Guardian
-    url: https://www.theguardian.com/world/rss
-    categoria: mondo
-
-  - nome: Al Jazeera
-    url: https://www.aljazeera.com/xml/rss/all.xml
-    categoria: mondo
-
-  - nome: Foreign Policy
-    url: https://foreignpolicy.com/feed/
-    categoria: mondo
-
-  - nome: Responsible Statecraft
-    url: https://responsiblestatecraft.org/feed/
-    categoria: mondo
-
-  - nome: Drop Site News
-    url: https://www.dropsitenews.com/feed
-    categoria: mondo
-
-  # --- Stati Uniti: sinistra e progressisti ---
-  - nome: The Nation
-    url: https://www.thenation.com/feed/?post_type=article
-    categoria: mondo
-
-  - nome: The Intercept
-    url: https://theintercept.com/feed/?lang=en
-    categoria: mondo
-
-  - nome: Jacobin
-    url: https://jacobin.com/feed
-    categoria: mondo
-
-  - nome: Mother Jones
-    url: https://www.motherjones.com/feed/
-    categoria: mondo
-
-  - nome: The New Republic
-    url: https://newrepublic.com/rss.xml
-    categoria: mondo
-
-  - nome: The American Prospect
-    url: https://prospect.org/feed/
-    categoria: mondo
-
-  - nome: Politico
-    url: https://rss.politico.com/politics-news.xml
-    categoria: mondo
-
-  - nome: The Guardian US
-    url: https://www.theguardian.com/us-news/rss
-    categoria: mondo
-
-  - nome: ProPublica
-    url: https://www.propublica.org/feeds/propublica/main
-    categoria: mondo
-
-  - nome: Democracy Now
-    url: https://www.democracynow.org/democracynow.rss
-    categoria: mondo
-
-  - nome: Zeteo
-    url: https://zeteo.com/feed
-    categoria: mondo
-
-  # --- Buone notizie (feed dedicati, verificati il 22 novembre 2026) ---
-  # Usati dal blocco finale anche senza AI. Con AI, il filtro di positività
-  # può aggiungere notizie positive dai feed generalisti.
-  - nome: Buone Notizie
-    url: https://www.buonenotizie.it/feed/
-    categoria: buone-notizie
-    attivo: true
-
-  - nome: Italia Che Cambia
-    url: https://www.italiachecambia.org/feed/
-    categoria: buone-notizie
-    attivo: true
-
-# Campi opzionali delle fonti:
-#   attivo: true/false (default true se manca)
-#   controllo: ultimo esito del controllo feed
-#   ultimo_controllo: data ISO dell'ultimo controllo
-#   note: annotazioni libere
-#
-# Feed testati e scartati il 22 novembre 2026 (non aggiungerli senza riprovare):
-# - Corriere della Sera (homepage, esteri, economia, sport, cultura, tecnologia,
-#   scienze, ambiente): rispondono ma le date più recenti sono del 2024/2025.
-# - Wired Italia: https://www.wired.it/feed/rss/ risponde ma l'ultima data era
-#   luglio 2026, quindi non entra mai nelle ultime 24 ore.
-# - ANSA Tecnologia e ANSA Ambiente (URL /sito/notizie/...): date ferme al 2023.
-# - Il Post homepage: risponde 403; le sezioni singole funzionano.
-# - Repubblica Sport, Il Sole 24 Ore Sport, ANSA Italia, Corriere Italia:
-#   URL 404 o non aggiornati.
-# - HDblog /feed/ con HTTPS dà errore SSL; funziona /rss/.
-# - In These Times, Current Affairs, Dissent, ISPI, Fanpage, CounterPunch,
-#   New Statesman: 403 anche con User-Agent da browser.
-# - Pagella Politica /feed e /rss: vuoto o 404; funziona /feed.xml.
-# - Limes /feed: 404; funziona /rss. Voxeurop: funziona voxeurop.eu/it/feed/.
-# - Wikinotizie (maggio 2026), FrizziFrizzi (2024), Osservatorio
-#   Globalizzazione (dicembre 2025), Economia e Politica e AffarInternazionali
-#   (ottobre 2026), openDemocracy (aprile 2026), MERIP e Sentireascoltare
-#   (novembre 2026): fermi o troppo lenti per un podcast quotidiano.
-# - Slow News, minima&moralia, Prismo, NOT, L'Indiscreto, Pulp Magazine,
-#   Europa Today: errori di rete/SSL o feed vuoti.
+  - nome: "ANSA"
+    url: "https://www.ansa.it/sito/notizie/topnews/topnews_rss.xml"
+    categoria: "italia"
+
+  - nome: "ANSA"
+    url: "https://www.ansa.it/sito/notizie/cronaca/cronaca_rss.xml"
+    categoria: "italia"
+
+  - nome: "ANSA"
+    url: "https://www.ansa.it/sito/notizie/mondo/mondo_rss.xml"
+    categoria: "mondo"
+
+  - nome: "ANSA"
+    url: "https://www.ansa.it/sito/notizie/economia/economia_rss.xml"
+    categoria: "economia"
+
+  - nome: "ANSA"
+    url: "https://www.ansa.it/sito/notizie/sport/sport_rss.xml"
+    categoria: "sport"
+
+  - nome: "ANSA"
+    url: "https://www.ansa.it/sito/notizie/cultura/cultura_rss.xml"
+    categoria: "cultura"
+
+  - nome: "Repubblica"
+    url: "https://www.repubblica.it/rss/homepage/rss2.0.xml"
+    categoria: "italia"
+
+  - nome: "Repubblica"
+    url: "https://www.repubblica.it/rss/politica/rss2.0.xml"
+    categoria: "italia"
+
+  - nome: "Repubblica"
+    url: "https://www.repubblica.it/rss/cronaca/rss2.0.xml"
+    categoria: "italia"
+
+  - nome: "Repubblica"
+    url: "https://www.repubblica.it/rss/esteri/rss2.0.xml"
+    categoria: "mondo"
+
+  - nome: "Repubblica"
+    url: "https://www.repubblica.it/rss/economia/rss2.0.xml"
+    categoria: "economia"
+
+  - nome: "Repubblica"
+    url: "https://www.repubblica.it/rss/cultura/rss2.0.xml"
+    categoria: "cultura"
+
+  - nome: "Repubblica"
+    url: "https://www.repubblica.it/rss/tecnologia/rss2.0.xml"
+    categoria: "tecnologia"
+
+  - nome: "Repubblica"
+    url: "https://www.repubblica.it/rss/ambiente/rss2.0.xml"
+    categoria: "ambiente"
+
+  - nome: "Repubblica"
+    url: "https://www.repubblica.it/rss/salute/rss2.0.xml"
+    categoria: "scienza-salute"
+
+  - nome: "Il Post"
+    url: "https://www.ilpost.it/italia/feed/"
+    categoria: "italia"
+
+  - nome: "Il Post"
+    url: "https://www.ilpost.it/mondo/feed/"
+    categoria: "mondo"
+
+  - nome: "Il Post"
+    url: "https://www.ilpost.it/economia/feed/"
+    categoria: "economia"
+
+  - nome: "Il Post"
+    url: "https://www.ilpost.it/tecnologia/feed/"
+    categoria: "tecnologia"
+
+  - nome: "Il Post"
+    url: "https://www.ilpost.it/scienza/feed/"
+    categoria: "scienza-salute"
+
+  - nome: "Il Post"
+    url: "https://www.ilpost.it/cultura/feed/"
+    categoria: "cultura"
+
+  - nome: "Il Post"
+    url: "https://www.ilpost.it/sport/feed/"
+    categoria: "sport"
+
+  - nome: "Il Sole 24 Ore"
+    url: "https://www.ilsole24ore.com/rss/italia.xml"
+    categoria: "italia"
+
+  - nome: "Il Sole 24 Ore"
+    url: "https://www.ilsole24ore.com/rss/mondo.xml"
+    categoria: "mondo"
+
+  - nome: "Il Sole 24 Ore"
+    url: "https://www.ilsole24ore.com/rss/economia.xml"
+    categoria: "economia"
+
+  - nome: "Il Sole 24 Ore"
+    url: "https://www.ilsole24ore.com/rss/tecnologia.xml"
+    categoria: "tecnologia"
+
+  - nome: "Il Sole 24 Ore"
+    url: "https://www.ilsole24ore.com/rss/cultura.xml"
+    categoria: "cultura"
+
+  - nome: "Il Sole 24 Ore"
+    url: "https://www.ilsole24ore.com/rss/salute.xml"
+    categoria: "scienza-salute"
+
+  - nome: "HDblog"
+    url: "https://www.hdblog.it/rss/"
+    categoria: "tecnologia"
+
+  - nome: "Domani"
+    url: "https://www.editorialedomani.it/rss"
+    categoria: "italia"
+
+  - nome: "Il Manifesto"
+    url: "https://ilmanifesto.it/feed/"
+    categoria: "italia"
+
+  - nome: "Il Fatto Quotidiano"
+    url: "https://www.ilfattoquotidiano.it/feed/"
+    categoria: "italia"
+
+  - nome: "Open"
+    url: "https://www.open.online/feed/"
+    categoria: "italia"
+
+  - nome: "Jacobin Italia"
+    url: "https://jacobinitalia.it/feed/"
+    categoria: "italia"
+
+  - nome: "Dinamopress"
+    url: "https://www.dinamopress.it/feed/"
+    categoria: "italia"
+
+  - nome: "Left"
+    url: "https://www.left.it/feed/"
+    categoria: "italia"
+
+  - nome: "Valigia Blu"
+    url: "https://www.valigiablu.it/feed/"
+    categoria: "italia"
+
+  - nome: "IRPI Media"
+    url: "https://irpimedia.irpi.eu/feed/"
+    categoria: "italia"
+    attivo: false
+
+  - nome: "Openpolis"
+    url: "https://www.openpolis.it/feed/"
+    categoria: "italia"
+
+  - nome: "Pagella Politica"
+    url: "https://pagellapolitica.it/feed.xml"
+    categoria: "italia"
+
+  - nome: "Radio Popolare"
+    url: "https://www.radiopopolare.it/feed/"
+    categoria: "italia"
+
+  - nome: "Agi"
+    url: "https://www.agi.it/politica/rss.xml"
+    categoria: "italia"
+
+  - nome: "MicroMega"
+    url: "https://www.micromega.net/feed/"
+    categoria: "cultura"
+
+  - nome: "Il Tascabile"
+    url: "https://www.iltascabile.com/feed/"
+    categoria: "cultura"
+
+  - nome: "doppiozero"
+    url: "https://www.doppiozero.com/feed"
+    categoria: "cultura"
+
+  - nome: "Nazione Indiana"
+    url: "https://www.nazioneindiana.com/feed/"
+    categoria: "cultura"
+
+  - nome: "Carmilla"
+    url: "https://www.carmillaonline.com/feed/"
+    categoria: "cultura"
+    attivo: false
+
+  - nome: "Artribune"
+    url: "https://www.artribune.com/feed/"
+    categoria: "cultura"
+    attivo: false
+
+  - nome: "Rolling Stone Italia"
+    url: "https://www.rollingstone.it/feed/"
+    categoria: "cultura"
+    attivo: false
+
+  - nome: "Lucy sulla cultura"
+    url: "https://lucysullacultura.com/feed/"
+    categoria: "cultura"
+    attivo: false
+
+  - nome: "Rivista Studio"
+    url: "https://www.rivistastudio.com/feed/"
+    categoria: "cultura"
+    attivo: false
+
+  - nome: "La Balena Bianca"
+    url: "https://www.labalenabianca.com/feed/"
+    categoria: "cultura"
+    attivo: false
+
+  - nome: "Agi"
+    url: "https://www.agi.it/cultura/rss.xml"
+    categoria: "cultura"
+
+  - nome: "Altreconomia"
+    url: "https://altreconomia.it/feed/"
+    categoria: "economia"
+
+  - nome: "Sbilanciamoci"
+    url: "https://sbilanciamoci.info/feed/"
+    categoria: "economia"
+
+  - nome: "Agi"
+    url: "https://www.agi.it/estero/rss.xml"
+    categoria: "mondo"
+
+  - nome: "Internazionale"
+    url: "https://www.internazionale.it/sitemaps/rss.xml"
+    categoria: "mondo"
+
+  - nome: "Le Grand Continent"
+    url: "https://legrandcontinent.eu/it/feed/"
+    categoria: "mondo"
+    attivo: false
+
+  - nome: "Limes"
+    url: "https://www.limesonline.com/rss"
+    categoria: "mondo"
+
+  - nome: "Geopolitica.info"
+    url: "https://www.geopolitica.info/feed/"
+    categoria: "mondo"
+
+  - nome: "Inside Over"
+    url: "https://www.insideover.com/feed/"
+    categoria: "mondo"
+    attivo: false
+
+  - nome: "Eastjournal"
+    url: "https://www.eastjournal.net/feed/"
+    categoria: "mondo"
+    attivo: false
+
+  - nome: "Eunews"
+    url: "https://www.eunews.it/feed/"
+    categoria: "mondo"
+
+  - nome: "Voxeurop"
+    url: "https://voxeurop.eu/it/feed/"
+    categoria: "mondo"
+
+  - nome: "The Guardian"
+    url: "https://www.theguardian.com/world/rss"
+    categoria: "mondo"
+
+  - nome: "Al Jazeera"
+    url: "https://www.aljazeera.com/xml/rss/all.xml"
+    categoria: "mondo"
+
+  - nome: "Foreign Policy"
+    url: "https://foreignpolicy.com/feed/"
+    categoria: "mondo"
+
+  - nome: "Responsible Statecraft"
+    url: "https://responsiblestatecraft.org/feed/"
+    categoria: "mondo"
+    attivo: false
+
+  - nome: "Drop Site News"
+    url: "https://www.dropsitenews.com/feed"
+    categoria: "mondo"
+
+  - nome: "The Nation"
+    url: "https://www.thenation.com/feed/?post_type=article"
+    categoria: "mondo"
+
+  - nome: "The Intercept"
+    url: "https://theintercept.com/feed/?lang=en"
+    categoria: "mondo"
+
+  - nome: "Jacobin"
+    url: "https://jacobin.com/feed"
+    categoria: "mondo"
+
+  - nome: "Mother Jones"
+    url: "https://www.motherjones.com/feed/"
+    categoria: "mondo"
+    attivo: false
+
+  - nome: "The New Republic"
+    url: "https://newrepublic.com/rss.xml"
+    categoria: "mondo"
+
+  - nome: "The American Prospect"
+    url: "https://prospect.org/feed/"
+    categoria: "mondo"
+    attivo: false
+
+  - nome: "Politico"
+    url: "https://rss.politico.com/politics-news.xml"
+    categoria: "mondo"
+
+  - nome: "The Guardian US"
+    url: "https://www.theguardian.com/us-news/rss"
+    categoria: "mondo"
+
+  - nome: "ProPublica"
+    url: "https://www.propublica.org/feeds/propublica/main"
+    categoria: "mondo"
+
+  - nome: "Democracy Now"
+    url: "https://www.democracynow.org/democracynow.rss"
+    categoria: "mondo"
+
+  - nome: "Zeteo"
+    url: "https://zeteo.com/feed"
+    categoria: "mondo"
+
+  - nome: "Buone Notizie"
+    url: "https://www.buonenotizie.it/feed/"
+    categoria: "buone-notizie"
+
+  - nome: "Italia Che Cambia"
+    url: "https://www.italiachecambia.org/feed/"
+    categoria: "buone-notizie"
