@@ -3,11 +3,11 @@
     {
       "data": "2026-11-23",
       "titolo": "Notiziario del 23 novembre 2026",
-      "descrizione": "Il notiziario di oggi, lunedì 23 novembre 2026, si apre con l'aumento del prezzo del gas e le fluttuazioni sui mercati finanziari. Spazio poi alle innovazioni tecnologiche nel campo dell'ottica e agli studi sull'impatto del cambiamento climatico sul patrimonio culturale.",
+      "descrizione": "Le principali notizie del 23 novembre 2026: allarmi bomba in Danimarca e Germania, il suicidio di Gianni De Gennaro, le proposte della Lega sul DL cortei, il cyber-attacco a Next, la storia del logo Anthropic, il dibattito sui vaccini Covid, le riprese del film 'Casa d'altri' e le parole del.",
       "filename": "notiziario-2026-11-23.mp3",
-      "descrizione_breve": "23 novembre 2026 - Il prezzo del gas oltre 93, Euro in aumento, IXI gli occhiali con lenti, Scegliere cosa salvare, Novanta secondi di morte in Irpinia.",
-      "durata_secondi": 373.148481,
-      "dimensione": 4478577,
+      "descrizione_breve": "23 novembre 2026 - Allarmi bomba nelle scuole in Danimarca, Dl cortei, Next lancia un avviso di cyber, Perché la I di Anthropic è, Commissione Covid.",
+      "durata_secondi": 610.652041,
+      "dimensione": 7328639,
       "modalita": "llm",
       "categorie": [
         "italia",
@@ -23,7 +23,7 @@
       "voce_label": "it-IT-IsabellaNeural (edge-tts)",
       "velocita": 1.15,
       "tts_motore": "edge",
-      "pubblicato": "2026-11-23T07:46:15.425351+00:00",
+      "pubblicato": "2026-11-23T12:18:07.158846+00:00",
       "guid": "notiziario-2026-11-23"
     },
     {
