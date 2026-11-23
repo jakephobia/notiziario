@@ -22,7 +22,7 @@ def test_multi_paragrafo_un_suono_tra_due_notizie():
     sezioni, indici = sezioni_tts_strutturate(copione)
     assert [testo for testo, _ in sezioni] == ["A uno.", "A due.", "A tre.", "B uno.", "B due."]
     assert indici == [2]
-    assert [pausa for _, pausa in sezioni] == [0.3, 0.3, 0.0, 0.3, 0.0]
+    assert [pausa for _, pausa in sezioni] == [0.3, 0.3, 0.3, 0.3, 0.0]
 
 
 def test_dieci_notizie_nove_suoni():
@@ -31,6 +31,7 @@ def test_dieci_notizie_nove_suoni():
     assert len(sezioni) == 10
     assert len(indici) == 9
     assert indici == list(range(9))
+    assert all(sezioni[indice][1] >= 0.25 for indice in indici)
 
 
 def test_cambio_categoria_non_raddoppia_il_suono():
@@ -58,6 +59,20 @@ def test_intro_e_ultima_notizia_verso_outro_senza_suono():
     assert indici == [2]
     assert 0 not in indici
     assert 3 not in indici
+    # Nessuna pausa aggiunta tra intro e prima notizia.
+    assert sezioni[0][1] == 0.0
+
+
+def test_ogni_confine_con_transizione_ha_pausa_reale():
+    copione = {
+        "incipit": "Ciao Jacopo.",
+        "outro": "A domani.",
+        "notizie": [notizia("italia", f"Notizia {i}.") for i in range(5)],
+    }
+    sezioni, indici = sezioni_tts_strutturate(copione)
+    assert len(indici) == 4
+    assert all(sezioni[indice][1] >= 0.25 for indice in indici)
+    assert sezioni[-1][1] == 0.0
 
 
 def test_nessun_suono_tra_paragrafi_interni():

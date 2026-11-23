@@ -62,6 +62,9 @@ def test_inserimento_suoni_conta_e_aumenta_durata(tmp_path):
         [0, 1],
     )
     assert risultato["transizioni"] == 2
+    # Il tono continuo non ha silenzi: si usano i confini stimati.
+    assert risultato["punti_regolati"] == [2.0, 3.0]
+    assert all(0 < punto < 4.0 for punto in risultato["punti_regolati"])
     durata = audio.info_audio(uscita)["durata"]
     durata_suono = audio.info_audio(Path("docs/suoni/ding.mp3"))["durata"]
     atteso = 4.0 + 2 * (0.3 + durata_suono + 0.3)

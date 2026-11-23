@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import logging
 import re
 import shutil
 import subprocess
@@ -380,6 +381,102 @@ def verifica_silenzio_iniziale(
     return massimo <= soglia_db, massimo, risultato.stderr[-500:]
 
 
+def rileva_silenzi(
+    percorso: str | Path,
+    soglia_db: float = -35.0,
+    durata_min: float = 0.12,
+) -> list[tuple[float, float]]:
+    """Elenca i silenzi reali ``(inizio, fine)`` con ``silencedetect``."""
+    path = Path(percorso)
+    if not path.exists():
+        raise AudioError(f"File audio non trovato: {path}")
+    ffmpeg = _strumento("ffmpeg")
+    filtro = (
+        f"silencedetect=noise={float(soglia_db):.1f}dB:"
+        f"d={float(durata_min):.3f}"
+    )
+    risultato = subprocess.run(
+        [
+            ffmpeg,
+            "-hide_banner",
+            "-nostats",
+            "-i",
+            str(path),
+            "-vn",
+            "-af",
+            filtro,
+            "-f",
+            "null",
+            "-",
+        ],
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        check=False,
+    )
+    if risultato.returncode != 0:
+        dettaglio = (risultato.stderr or "").strip()[-500:]
+        raise AudioError(f"silencedetect ha fallito su {path}: {dettaglio}")
+
+    silenzi: list[tuple[float, float]] = []
+    inizio: float | None = None
+    for riga in (risultato.stderr or "").splitlines():
+        avvio = re.search(r"silence_start:\s*(-?\d+(?:\.\d+)?)", riga)
+        if avvio:
+            inizio = max(0.0, float(avvio.group(1)))
+            continue
+        fine = re.search(r"silence_end:\s*(-?\d+(?:\.\d+)?)", riga)
+        if fine and inizio is not None:
+            finale = max(inizio, float(fine.group(1)))
+            if finale > inizio:
+                silenzi.append((inizio, finale))
+            inizio = None
+    if inizio is not None:
+        # Il file può terminare dentro un silenzio: chiudo alla durata nota.
+        finale = inizio
+        try:
+            finale = float(info_audio(path)["durata"])
+        except AudioError:
+            pass
+        if finale > inizio:
+            silenzi.append((inizio, finale))
+    return silenzi
+
+
+def _punto_in_silenzio(
+    punto: float,
+    silenzi: list[tuple[float, float]],
+    finestra: float = 1.5,
+) -> float:
+    """Sposta ``punto`` dentro il silenzio più vicino entro ``finestra``.
+
+    Se non c'è un silenzio abbastanza vicino restituisce il punto originale.
+    Il margine evita di tagliare l'attacco o la coda di una parola.
+    """
+    punto = float(punto)
+    migliore: tuple[float, float, float] | None = None
+    for inizio, fine in silenzi:
+        inizio = float(inizio)
+        fine = float(fine)
+        if fine <= inizio:
+            continue
+        if inizio <= punto <= fine:
+            distanza = 0.0
+        else:
+            distanza = min(abs(punto - inizio), abs(punto - fine))
+        if distanza <= finestra and (migliore is None or distanza < migliore[0]):
+            migliore = (distanza, inizio, fine)
+    if migliore is None:
+        return punto
+    _, inizio, fine = migliore
+    minimo = inizio + 0.02
+    massimo = fine - 0.03
+    if massimo < minimo:
+        return (inizio + fine) / 2
+    return min(max(punto, minimo), massimo)
+
+
 def inserisci_suoni(
     voce: str | Path,
     suono: str | Path,
@@ -391,6 +488,8 @@ def inserisci_suoni(
     """Inserisce 0.3s + suono + 0.3s tra le sezioni, dopo il mastering.
 
     Il suono non passa da loudnorm: viene solo applicato il gain configurato.
+    I confini stimati vengono riallineati ai silenzi reali del file voce, così
+    il taglio non cade mai dentro una parola se la stima è di poco sbagliata.
     """
     voce_path = Path(voce)
     suono_path = Path(suono)
@@ -400,7 +499,11 @@ def inserisci_suoni(
     durate = [max(0.0, float(x)) for x in durate_sezioni]
     if not durate:
         uscita_path.write_bytes(voce_path.read_bytes())
-        return {"transizioni": 0, "durata": info_audio(voce_path)["durata"]}
+        return {
+            "transizioni": 0,
+            "durata": info_audio(voce_path)["durata"],
+            "punti_regolati": [],
+        }
     iniziale = int(impostazioni.get("silenzio_iniziale_ms", 1000)) / 1000
     confini: list[float] = []
     cumulato = iniziale
@@ -420,7 +523,25 @@ def inserisci_suoni(
     )
     if not punti:
         uscita_path.write_bytes(voce_path.read_bytes())
-        return {"transizioni": 0, "durata": durata_voce}
+        return {"transizioni": 0, "durata": durata_voce, "punti_regolati": []}
+
+    logger = logging.getLogger("notiziario")
+    try:
+        silenzi = rileva_silenzi(voce_path)
+    except AudioError as exc:
+        logger.warning(
+            "Rilevamento silenzi non disponibile (%s): uso i confini stimati.",
+            exc,
+        )
+        silenzi = []
+    punti = sorted({_punto_in_silenzio(punto, silenzi) for punto in punti})
+    punti_regolati = [round(punto, 3) for punto in punti]
+    logger.info(
+        "Transizioni: %d confini, %d silenzi rilevati, punti %s.",
+        len(punti),
+        len(silenzi),
+        punti_regolati,
+    )
 
     ffmpeg = _strumento("ffmpeg")
     cartella = Path(tempfile.mkdtemp(prefix="notiziario-suoni-", dir=str(uscita_path.parent)))
@@ -492,7 +613,11 @@ def inserisci_suoni(
                 pezzi.extend([silenzio, suono_gain, silenzio])
         concatena_mp3(pezzi, uscita_path)
         info = info_audio(uscita_path)
-        return {"transizioni": len(punti), "durata": info["durata"]}
+        return {
+            "transizioni": len(punti),
+            "durata": info["durata"],
+            "punti_regolati": punti_regolati,
+        }
     except AudioError:
         raise
     except Exception as exc:

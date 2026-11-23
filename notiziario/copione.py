@@ -1526,9 +1526,11 @@ def sezioni_tts_strutturate(
     """Blocchi TTS per notizia, con confini espliciti e pause interne.
 
     Restituisce ``(sezioni, indici_transizioni)``. Gli indici si riferiscono
-    alla sezione dopo cui inserire il suono: solo tra notizie diverse e cambi
-    categoria. Non c'è transizione tra intro e prima notizia, tra paragrafi
-    interni né tra ultima notizia e outro.
+    alla sezione dopo cui inserire il suono: solo tra notizie diverse.
+    La pausa tra due notizie diverse è almeno ``pausa_interna`` (0.3 s),
+    perché lì verrà inserito il jingle. Non c'è pausa aggiunta tra intro e
+    prima notizia, né dopo l'ultima sezione; prima dell'outro resta la pausa
+    interna già prevista. I paragrafi interni mantengono ``pausa_interna``.
     """
     gruppi: list[tuple[str, list[str]]] = []
     incipit = str(copione.get("incipit", "") or "").strip()
@@ -1548,12 +1550,19 @@ def sezioni_tts_strutturate(
 
     sezioni: list[tuple[str, float]] = []
     ultimo_del_gruppo: list[int] = []
-    for indice_gruppo, (_, paragrafi) in enumerate(gruppi):
+    for indice_gruppo, (tipo, paragrafi) in enumerate(gruppi):
         for indice_paragrafo, paragrafo in enumerate(paragrafi):
             ultimo = indice_paragrafo == len(paragrafi) - 1
             if ultimo:
-                prossimo = gruppi[indice_gruppo + 1][0] if indice_gruppo + 1 < len(gruppi) else None
-                if prossimo == "outro":
+                prossimo = (
+                    gruppi[indice_gruppo + 1][0]
+                    if indice_gruppo + 1 < len(gruppi)
+                    else None
+                )
+                if tipo == "notizia" and prossimo == "notizia":
+                    pausa = max(0.0, float(pausa_interna))
+                elif prossimo == "outro":
+                    # Comportamento storico: pausa prima dell'outro, senza jingle.
                     pausa = max(0.0, float(pausa_interna))
                 else:
                     pausa = 0.0

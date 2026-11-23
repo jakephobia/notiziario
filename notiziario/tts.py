@@ -15,8 +15,8 @@ import edge_tts
 from .audio import (
     AudioError,
     applica_atempo,
-    concatena_mp3,
-    genera_silenzio,
+    concatena_wav,
+    genera_silenzio_wav,
     info_audio,
     masterizza,
     verifica_mp3,
@@ -112,10 +112,12 @@ def _sintetizza_edge(
         pezzi: list[Path] = []
         durate_sezioni: list[float] = []
         pause: dict[float, Path] = {}
+        durate_pause: dict[float, float] = {}
         for pausa in sorted({p for _, p in sezioni if p > 0}):
-            percorso_pausa = cartella / f"pausa-{pausa:.2f}.mp3"
-            genera_silenzio(pausa, percorso_pausa)
+            percorso_pausa = cartella / f"pausa-{pausa:.2f}.wav"
+            genera_silenzio_wav(pausa, percorso_pausa)
             pause[pausa] = percorso_pausa
+            durate_pause[pausa] = float(info_audio(percorso_pausa)["durata"])
 
         async def lavora() -> None:
             for indice, (testo, pausa) in enumerate(sezioni, start=1):
@@ -131,13 +133,14 @@ def _sintetizza_edge(
                     indice,
                     logger,
                 )
-                parlato = cartella / f"parlato-{indice:02d}.mp3"
-                applica_atempo(grezzo, parlato, velocita, bitrate="48k")
+                # WAV senza padding MP3: le durate misurate restano esatte.
+                parlato = cartella / f"parlato-{indice:02d}.wav"
+                applica_atempo(grezzo, parlato, velocita)
                 durata_sezione += float(info_audio(parlato)["durata"])
                 pezzi.append(parlato)
                 if pausa > 0:
                     pezzi.append(pause[pausa])
-                    durata_sezione += pausa
+                    durata_sezione += durate_pause[pausa]
                 durate_sezioni.append(durata_sezione)
 
         try:
@@ -149,8 +152,8 @@ def _sintetizza_edge(
                 f"Errore imprevisto durante edge-tts: {type(exc).__name__}."
             ) from exc
 
-        grezzo = cartella / "grezzo.mp3"
-        concatena_mp3(pezzi, grezzo)
+        grezzo = cartella / "grezzo.wav"
+        concatena_wav(pezzi, grezzo)
         masterizza(grezzo, percorso_uscita, impostazioni)
         info = verifica_mp3(percorso_uscita, min_durata=1.0)
         info.update(

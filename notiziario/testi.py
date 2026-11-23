@@ -266,6 +266,104 @@ def token_significativi(titolo: str) -> set[str]:
     return set(normalizzato.split()) if normalizzato else set()
 
 
+_PAROLA_NOME_RE = re.compile(r"[^\W\d_]+(?:['’][^\W\d_]+)*", re.UNICODE)
+_APOSTROFO_RE = re.compile(r"['’]")
+
+PARTICELLE_NOME = frozenset(
+    {
+        "de",
+        "di",
+        "da",
+        "del",
+        "della",
+        "dello",
+        "dei",
+        "degli",
+        "delle",
+        "van",
+        "von",
+        "bin",
+        "al",
+        "el",
+        "la",
+        "le",
+        "du",
+        "des",
+        "d",
+        "l",
+        "il",
+        "lo",
+        "i",
+        "gli",
+        "un",
+        "una",
+        "uno",
+    }
+)
+
+
+def sequenza_significativa(nome: tuple[str, ...]) -> tuple[str, ...]:
+    """Token del nome senza particelle e articoli."""
+    return tuple(token for token in nome if token not in PARTICELLE_NOME)
+
+
+def estrai_nomi_propri(testo: str) -> set[tuple[str, ...]]:
+    """Nomi di almeno due parole con iniziale maiuscola, normalizzati.
+
+    Apostrofi e punteggiatura spezzano i token; numeri e simboli interrompono
+    la sequenza. I token sono minuscoli e senza accenti.
+    """
+    testo = str(testo or "")
+    if not testo:
+        return set()
+
+    nomi: set[tuple[str, ...]] = set()
+    corrente: list[str] = []
+    fine_precedente: int | None = None
+
+    def chiudi() -> None:
+        nonlocal corrente
+        if len(corrente) >= 2:
+            nomi.add(tuple(corrente))
+        corrente = []
+
+    for trovato in _PAROLA_NOME_RE.finditer(testo):
+        if fine_precedente is not None and testo[fine_precedente : trovato.start()].strip():
+            chiudi()
+        fine_precedente = trovato.end()
+        for pezzo in _APOSTROFO_RE.split(trovato.group(0)):
+            if not pezzo:
+                continue
+            if pezzo[0].isupper():
+                corrente.append(_senza_accenti(pezzo).casefold())
+            else:
+                chiudi()
+    chiudi()
+    return nomi
+
+
+def stesso_nome(primo: tuple[str, ...], secondo: tuple[str, ...]) -> bool:
+    """Vero se le sequenze senza particelle coincidono o una è suffisso.
+
+    "De Gennaro" (``gennaro``) combacia con "Gianni De Gennaro"
+    (``gianni``, ``gennaro``). Non combacia invece con "Gennaro De Luca"
+    (``gennaro``, ``luca``), perché ``gennaro`` è un prefisso, non un
+    suffisso. Così due persone diverse con lo stesso cognome non si
+    confondono, mentre il cognome citato da solo resta riconoscibile.
+    """
+    sequenza_primo = sequenza_significativa(tuple(primo))
+    sequenza_secondo = sequenza_significativa(tuple(secondo))
+    if not sequenza_primo or not sequenza_secondo:
+        return False
+    if sequenza_primo == sequenza_secondo:
+        return True
+    if len(sequenza_primo) <= len(sequenza_secondo):
+        corta, lunga = sequenza_primo, sequenza_secondo
+    else:
+        corta, lunga = sequenza_secondo, sequenza_primo
+    return len(corta) < len(lunga) and lunga[-len(corta) :] == corta
+
+
 def normalizza_dedup(testo: str) -> str:
     """Minuscole, senza accenti, punteggiatura o spazi multipli."""
     testo = _senza_accenti(str(testo or "")).casefold()

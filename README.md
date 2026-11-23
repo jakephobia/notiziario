@@ -249,7 +249,7 @@ Tre suoni royalty-free generati con ffmpeg sono in `docs/suoni/`:
 
 | Suono | Durata | Uso |
 |---|---:|---|
-| `ding.mp3` | 0,50 s | default, nota 880 Hz |
+| `ding.mp3` | 2,20 s | default, nota 880 Hz |
 | `chime.mp3` | 0,80 s | due note, 659 e 880 Hz |
 | `whoosh.mp3` | 0,60 s | rumore filtrato |
 
@@ -263,7 +263,11 @@ Il suono viene inserito dopo il mastering della voce, solo ai confini tra
 notizie diverse e ai cambi categoria. Non c'è suono tra intro e prima notizia,
 tra paragrafi interni della stessa notizia, né prima dell'outro. Il confine usa
 0,3 s di silenzio + suono + 0,3 s; i paragrafi interni hanno solo una pausa di
-0,3 s senza suono. Non passa da loudnorm. Con `nessuno` non viene inserito
+0,3 s senza suono. Tra due notizie diverse viene aggiunta una pausa reale di
+0,3 s e il taglio viene agganciato al silenzio rilevato con ffmpeg: così il
+jingle non parte e non finisce in mezzo a una parola. I blocchi TTS edge
+passano da WAV prima del mastering, senza il padding MP3 che spostava i
+confini. Il suono non passa da loudnorm. Con `nessuno` non viene inserito
 nulla. I confini non si deducono dalla punteggiatura: il copione espone
 `notizie[].paragrafi`, e il TTS usa intro, paragrafi per notizia e outro come
 blocchi strutturati.
@@ -865,6 +869,14 @@ occorrenza e si conservano i contenuti unici. La stessa deduplica viene
 applicata al copione AI e al fallback, inclusa la ripetizione del titolo a
 breve distanza. I paragrafi rimossi non cambiano il numero di notizie né i
 confini dei suoni.
+
+Prima della scaletta, le notizie che raccontano lo stesso evento vengono
+riconosciute anche quando i titoli sono diversi: si cercano nomi propri
+condivisi (per esempio "De Gennaro" e "Gianni De Gennaro") e contenuti comuni.
+La notizia duplicata non viene scartata: i suoi articoli vengono assorbiti
+nello stesso paragrafo e restano come fonti aggiuntive, con le rispettive
+testate e i link nel copione. Se il paragrafo non entra nella scaletta finale,
+i duplicati non vengono letti.
 
 I live blog vengono esclusi dalla selezione se il titolo o l'URL contiene
 `live`, `liveblog`, `diretta`, `in diretta`, `as it happened`, `breaking` o

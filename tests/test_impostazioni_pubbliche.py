@@ -129,7 +129,10 @@ def test_impostazioni_iniziali_esistono_e_sono_valide():
     assert dati["fonti_totali"] == len(carica_fonti_tutte())
     assert dati["fonti_attive"] == len(carica_fonti())
     assert dati["fonti"][0].keys() == {"nome", "url", "categoria", "attivo"}
-    assert dati["incipit_risolto"].startswith("Ciao Jacopo")
+    incipit = dati["incipit_risolto"]
+    assert incipit.startswith("Ciao")
+    assert "Jacopo" in incipit
+    assert "[" not in incipit and "]" not in incipit
     assert dati["repo_url"] == "https://github.com/jakephobia/notiziario"
 
 def test_link_issue_corretto(monkeypatch):
