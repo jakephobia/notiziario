@@ -6,7 +6,7 @@ from pathlib import Path
 import pytest
 
 from notiziario import dashboard
-from notiziario.config import DEFAULT_SETTINGS, Fonte, carica_fonti_tutte
+from notiziario.config import DEFAULT_SETTINGS, Fonte, carica_fonti, carica_fonti_tutte
 from notiziario.fonti_io import scrivi_fonti_yaml
 
 
@@ -83,13 +83,13 @@ def test_payload_completo_applica(base):
     assert fonti["https://c.test/feed"] == fonti_demo()[2]
     assert fonti["https://nuovo.test/feed"].attivo is True
     assert fonti["https://nuovo.test/feed"].controllo == "da-verificare"
-    assert risultato["fonti_totali"] == 4
+    assert risultato["fonti_totali"] == 2
     assert risultato["aggiunte"] == 1
     assert risultato["aggiornate"] == 1
     pubblico = json.loads((base / "docs" / "impostazioni.json").read_text(encoding="utf-8"))
     assert pubblico["durata_default"] == "completo"
     assert pubblico["voce_configurata"] == "Leda"
-    assert len(pubblico["fonti"]) == 4
+    assert len(pubblico["fonti"]) == 2
 
 
 def test_categorie_sconosciute_e_voce_sconosciuta(base):
@@ -144,6 +144,11 @@ def test_dedupe_url_normalizzata(base):
     assert any("duplicata" in a for a in risultato["avvisi"])
     fonti = carica_fonti_tutte(base / "config" / "fonti.yaml")
     assert sum(1 for f in fonti if f.url == "https://a.test/feed") == 1
+    attive = carica_fonti(base / "config" / "fonti.yaml")
+    pubblico = json.loads((base / "docs" / "impostazioni.json").read_text(encoding="utf-8"))
+    assert len(pubblico["fonti"]) == len(attive)
+    assert [f["url"] for f in pubblico["fonti"]] == [f.url for f in attive]
+    assert len({f["url"] for f in pubblico["fonti"]}) == len(pubblico["fonti"])
 
 
 def test_categoria_nuova_sconosciuta_diventa_da_assegnare(base):

@@ -424,7 +424,7 @@ Lo stesso giorno sono state aggiunte **51 fonti** su cultura, società, politica
 sinistra progressista, politica statunitense, esteri e geopolitica. Tutte hanno
 risposto e avevano articoli negli ultimi 7 giorni. L'elenco completo è in
 `config/fonti-aggiuntive.opml`, importabile in Feeder; la configurazione del
-podcast è in `config/fonti.yaml` (**67 fonti attive** in totale).
+podcast è in `config/fonti.yaml` (**73 fonti attive** in totale).
 
 | Testata | Categoria | Feed |
 |---|---|---|
@@ -788,7 +788,9 @@ Senza token il form resta leggibile e mostra le istruzioni per crearlo.
 `genera=false`: aggiorna `config/` e `docs/impostazioni.json`, fa commit solo
 se ci sono differenze e non avvia l'episodio. La pagina monitora la run della
 dashboard e, al successo, ricarica il JSON con `cache: "no-store"` e ripopola
-il form mostrando **Salvato**. **Salva e genera ora** usa `genera=true`: dopo
+il form mostrando **Salvato**. Il JSON pubblico viene rigenerato dalle fonti
+uniche di `carica_fonti()`, non dalla lista grezza del payload: eventuali
+duplicati nel payload non finiscono in `docs/impostazioni.json`. **Salva e genera ora** usa `genera=true`: dopo
 il commit avvia `notiziario.yml` con la durata scelta. Il workflow ha
 `contents: write` e `actions: write`, e usa solo `GITHUB_TOKEN`.
 

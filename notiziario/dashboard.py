@@ -28,6 +28,7 @@ from .categorie import (
 from .config import (
     Fonte,
     ROOT,
+    carica_fonti,
     carica_fonti_tutte,
     carica_impostazioni,
     numero_issue_categorie,
@@ -806,10 +807,11 @@ def applica_payload(
         if candidate_fonti != list(caricare_fonti_per_payload(radice)):
             salva_fonti(config_dir / "fonti.yaml", candidate_fonti)
             logger.info("Dashboard: fonti aggiornate.")
+        fonti_config = carica_fonti(config_dir / "fonti.yaml")
         _rigenera_pubblico(
             radice,
             candidate,
-            candidate_fonti,
+            fonti_config,
             piano["incipit"],
             piano["outro"],
         )
@@ -820,7 +822,7 @@ def applica_payload(
         "avvisi": piano["avvisi"],
         "aggiunte": piano["aggiunte"],
         "aggiornate": piano["aggiornate"],
-        "fonti_totali": len(candidate_fonti),
+        "fonti_totali": len(carica_fonti(config_dir / "fonti.yaml")),
     }
 
 
