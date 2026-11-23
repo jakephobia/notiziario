@@ -2,12 +2,12 @@
   "episodi": [
     {
       "data": "2026-11-23",
-      "titolo": "Notizie del 23 novembre 2026",
-      "descrizione": "Le principali notizie di lunedì 23 novembre 2026.",
+      "titolo": "Notiziario del 23 novembre 2026",
+      "descrizione": "Il notiziario di oggi, lunedì 23 novembre 2026, si apre con l'aumento del prezzo del gas e le fluttuazioni sui mercati finanziari. Spazio poi alle innovazioni tecnologiche nel campo dell'ottica e agli studi sull'impatto del cambiamento climatico sul patrimonio culturale.",
       "filename": "notiziario-2026-11-23.mp3",
-      "descrizione_breve": "23 novembre 2026 - I telefoni e gli appunti, Le lettere, Black Friday, Infarto ictus e aterosclerosi, Novanta secondi di morte in Irpinia.",
-      "durata_secondi": 577.262948,
-      "dimensione": 6928026,
+      "descrizione_breve": "23 novembre 2026 - Il prezzo del gas oltre 93, Euro in aumento, IXI gli occhiali con lenti, Scegliere cosa salvare, Novanta secondi di morte in Irpinia.",
+      "durata_secondi": 373.148481,
+      "dimensione": 4478577,
       "modalita": "llm",
       "categorie": [
         "italia",
@@ -23,7 +23,7 @@
       "voce_label": "it-IT-IsabellaNeural (edge-tts)",
       "velocita": 1.15,
       "tts_motore": "edge",
-      "pubblicato": "2026-11-23T06:45:20.117065+00:00",
+      "pubblicato": "2026-11-23T07:46:15.425351+00:00",
       "guid": "notiziario-2026-11-23"
     },
     {

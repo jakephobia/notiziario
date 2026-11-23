@@ -5,7 +5,7 @@
     <link>https://jakephobia.github.io/notiziario/</link>
     <description>Le notizie del giorno scelte da Jacopo, lette in italiano. Un riassunto quotidiano delle notizie italiane e internazionali.</description>
     <language>it-it</language>
-    <lastBuildDate>Mon, 23 Nov 2026 06:45:20 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 23 Nov 2026 07:46:15 +0000</lastBuildDate>
     <itunes:author>Notiziario</itunes:author>
     <itunes:explicit>false</itunes:explicit>
     <itunes:summary>Le notizie del giorno scelte da Jacopo, lette in italiano. Un riassunto quotidiano delle notizie italiane e internazionali.</itunes:summary>
@@ -22,13 +22,13 @@
     <notiziario:velocita>1.15</notiziario:velocita>
     <notiziario:tts_motore>edge</notiziario:tts_motore>
     <item>
-      <title>Notizie del 23 novembre 2026</title>
-      <description>23 novembre 2026 - I telefoni e gli appunti, Le lettere, Black Friday, Infarto ictus e aterosclerosi, Novanta secondi di morte in Irpinia.</description>
-      <pubDate>Mon, 23 Nov 2026 06:45:20 +0000</pubDate>
+      <title>Notiziario del 23 novembre 2026</title>
+      <description>23 novembre 2026 - Il prezzo del gas oltre 93, Euro in aumento, IXI gli occhiali con lenti, Scegliere cosa salvare, Novanta secondi di morte in Irpinia.</description>
+      <pubDate>Mon, 23 Nov 2026 07:46:15 +0000</pubDate>
       <guid isPermaLink="false">notiziario-2026-11-23</guid>
-      <enclosure url="https://github.com/jakephobia/notiziario/releases/download/episodio-2026-11-23/notiziario-2026-11-23.mp3" length="6928026" type="audio/mpeg" />
-      <itunes:duration>00:09:37</itunes:duration>
-      <itunes:summary>23 novembre 2026 - I telefoni e gli appunti, Le lettere, Black Friday, Infarto ictus e aterosclerosi, Novanta secondi di morte in Irpinia.</itunes:summary>
+      <enclosure url="https://github.com/jakephobia/notiziario/releases/download/episodio-2026-11-23/notiziario-2026-11-23.mp3" length="4478577" type="audio/mpeg" />
+      <itunes:duration>00:06:13</itunes:duration>
+      <itunes:summary>23 novembre 2026 - Il prezzo del gas oltre 93, Euro in aumento, IXI gli occhiali con lenti, Scegliere cosa salvare, Novanta secondi di morte in Irpinia.</itunes:summary>
       <itunes:explicit>false</itunes:explicit>
       <itunes:image href="https://jakephobia.github.io/notiziario/copertina.png" />
       <notiziario:modalita>llm</notiziario:modalita>
