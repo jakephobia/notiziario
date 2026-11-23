@@ -13,6 +13,7 @@ from notiziario.testi import (
     pulisci_html,
     pulisci_testo,
     pulisci_titolo,
+    rimuovi_pubblicita,
     similarita_titoli,
     spezza_frasi_lunghe,
     tronca_a_frase,
@@ -128,3 +129,90 @@ def test_normalizza_mesi_minuscolo():
     assert normalizza_mesi("22 Novembre 2026") == "22 novembre 2026"
     assert normalizza_mesi("Notiziario di 22 NOVEMBRE 2026") == "Notiziario di 22 novembre 2026"
     assert normalizza_mesi("Marzo e Maggio") == "marzo e maggio"
+
+
+def test_pulisci_html_rimuove_elementi_pubblicitari_e_lascia_il_resto():
+    html = (
+        '<div class="header"><p>Testata locale</p></div>'
+        '<div class="ad-container"><p>Acquista il prodotto del partner</p></div>'
+        '<div class="sponsored"><p>Messaggio sponsor</p></div>'
+        '<div id="taboola"><p>Storie consigliate</p></div>'
+        '<div class="loading">Caricamento</div>'
+        '<p class="read-more">Leggi tutto</p>'
+        "<p>La notizia vera continua qui.</p>"
+    )
+    pulito = pulisci_html(html)
+    assert "Testata locale" in pulito
+    assert "La notizia vera continua qui" in pulito
+    assert "Caricamento" in pulito
+    assert "Leggi tutto" in pulito
+    assert "Acquista il prodotto" not in pulito
+    assert "Messaggio sponsor" not in pulito
+    assert "Storie consigliate" not in pulito
+
+
+def test_rimuovi_pubblicita_etichette_cta_e_contesto_informativo():
+    testo = (
+        "Pubblicità\n"
+        "Contenuto sponsorizzato: scopri l'offerta e acquista ora con il codice sconto.\n\n"
+        "Il governo ha approvato la manovra. "
+        "La pubblicità online cresce del 5 per cento."
+    )
+    pulito = rimuovi_pubblicita(testo)
+    assert not pulito.startswith("Pubblicità")
+    assert "Contenuto sponsorizzato" not in pulito
+    assert "acquista ora" not in pulito.casefold()
+    assert "Il governo ha approvato la manovra" in pulito
+    assert "La pubblicità online cresce del 5 per cento" in pulito
+
+
+def test_rimuovi_pubblicita_continua_e_collaborazione_breve():
+    testo = (
+        "Continua dopo la pubblicità\n\n"
+        "In collaborazione con Acme.\n\n"
+        "In collaborazione con il ministero, il progetto coinvolge dieci "
+        "scuole e due università italiane."
+    )
+    pulito = rimuovi_pubblicita(testo)
+    assert "Continua dopo" not in pulito
+    assert "Acme" not in pulito
+    assert "dieci scuole" in pulito
+
+
+def test_rimuovi_pubblicita_continua_in_linea_mista_non_cancella_la_notizia():
+    testo = (
+        "Leggi tutto su ANSA. Continua dopo la pubblicità. "
+        "Il fatto è accaduto ieri."
+    )
+    pulito = rimuovi_pubblicita(testo)
+    assert "Continua dopo" not in pulito
+    assert "Il fatto è accaduto ieri" in pulito
+
+
+def test_rimuovi_pubblicita_salta_blocco_prodotto_dopo_etichetta():
+    testo = (
+        "Pubblicità\n\n"
+        "Il nuovo smartphone costa 499 euro ed è disponibile in tutti i negozi."
+    )
+    assert rimuovi_pubblicita(testo) == ""
+
+
+def test_rimuovi_pubblicita_non_scarta_notizie_legittime():
+    testo = (
+        "Gli abbonati a Netflix sono aumentati del 10 per cento. "
+        "Il governo taglia gli sconti del 20 per cento sulle bollette. "
+        "La società ha offerto un'offerta limitata ai dipendenti."
+    )
+    pulito = rimuovi_pubblicita(testo)
+    assert "abbonati a Netflix" in pulito
+    assert "taglia gli sconti del 20 per cento" in pulito
+    assert "offerta limitata ai dipendenti" in pulito
+
+
+def test_rimuovi_pubblicita_rimuove_cta_a_inizio_frase():
+    testo = (
+        "Abbonati a Il Foglio con l'offerta speciale. "
+        "Sconti del 20 per cento su tutto. "
+        "Offerta limitata: approfitta subito."
+    )
+    assert rimuovi_pubblicita(testo) == ""

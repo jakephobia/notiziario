@@ -196,6 +196,36 @@ def test_index_contiene_sezione_impostazioni_e_fetch(tmp_path):
     assert "suoni/whoosh.mp3" in html
     assert "Outro" in html
 
+def test_index_playlist_in_alto_fonti_collassabili_e_anteprima(tmp_path):
+    impostazioni = carica_impostazioni()
+    percorso = tmp_path / "index.html"
+    scrivi_index(percorso, impostazioni)
+    html = percorso.read_text(encoding="utf-8")
+
+    for frammento in (
+        "player-layout",
+        "playlist-card",
+        'id="episodi"',
+        'id="conteggio"',
+        "fonti-dettagli",
+        "fonti-riepilogo",
+        'id="anteprima-fonte"',
+        "anteprime-fonti.json",
+        "showModal",
+        "normalizzaUrl",
+    ):
+        assert frammento in html
+
+    assert "innerHTML" not in html
+    assert "<h2>Episodi</h2>" not in html
+    assert '<summary id="fonti-riepilogo">Elenco fonti (0)</summary>' in html
+    assert '<details id="fonti-dettagli" class="fonti-dettagli">' in html
+    assert html.index('class="player-layout"') < html.index('id="titolo-impostazioni"')
+    assert html.index('id="episodi"') < html.index('id="fonti-dettagli"')
+    assert "anteprime-fonti.json?t=" in html
+    assert 'cache: "no-store"' in html
+
+
 def test_titolo_feed_mese_minuscolo(tmp_path):
     impostazioni = carica_impostazioni()
     ep = episodio("2026-11-22")

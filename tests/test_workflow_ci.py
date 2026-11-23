@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 import yaml
@@ -39,6 +40,25 @@ def test_workflow_anteprima_velocita_110():
     testo = percorso.read_text(encoding="utf-8")
     assert "0.75-1.25" in testo
     assert 'default: "1.1"' in testo
+
+
+def test_workflow_durata_coerente_con_config():
+    percorso = ROOT / ".github" / "workflows" / "notiziario.yml"
+    dati = yaml.safe_load(percorso.read_text(encoding="utf-8"))
+    eventi = dati.get("on") or dati.get(True)
+    config = json.loads(
+        (ROOT / "config" / "impostazioni.json").read_text(encoding="utf-8-sig")
+    )
+    attesa = config["durata_default"]
+    input_durata = eventi["workflow_dispatch"]["inputs"]["durata"]
+    assert input_durata["default"] == attesa
+    assert attesa in input_durata["options"]
+    passo = next(
+        p
+        for p in dati["jobs"]["episodio"]["steps"]
+        if p.get("name") == "Genera episodio"
+    )
+    assert f"|| '{attesa}'" in passo["run"]
 
 
 def test_workflow_orario_e_dispatch_manuale():

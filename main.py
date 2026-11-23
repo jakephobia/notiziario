@@ -27,6 +27,7 @@ from notiziario.config import (
     numero_issue_categorie,
     repository_github,
 )
+from notiziario.anteprime import costruisci_anteprime
 from notiziario.arricchisci import arricchisci_selezioni
 from notiziario.traduzione import TraduzioneError, prepara_selezioni_italiane
 from notiziario.audio import AudioError, info_audio as leggi_info_audio, inserisci_suoni
@@ -935,6 +936,7 @@ def esegui(
         "issue_url": _issue_url(impostazioni),
         "repo_url": _repo_url(impostazioni),
     }
+    anteprime_fonti = costruisci_anteprime(risultato_fetch.articoli, tutte_fonti)
 
     docs_info = None
     if info_audio and not args.dry_run and not args.no_feed:
@@ -967,6 +969,7 @@ def esegui(
                 sito_url=_sito_url(args, impostazioni),
                 impostazioni_pubbliche=impostazioni_pubbliche,
                 logger=logger,
+                anteprime_fonti=anteprime_fonti,
             )
         except Exception as exc:
             messaggio = f"Feed/sito non aggiornati: {type(exc).__name__}: {exc}"

@@ -13,6 +13,7 @@ from typing import Any
 import requests
 
 from .categorie import CATEGORIE_IDS, label_categoria
+from .qualita import frase_per_esigenza, verifica_completezza
 from .selezione import NotiziaSelezionata
 from .stile import semplifica_slop
 from .testi import (
@@ -28,9 +29,11 @@ from .testi import (
     normalizza_per_tts,
     pulisci_html,
     pulisci_testo,
+    rimuovi_pubblicita,
     normalizza_mesi,
     normalizza_titolo,
     pulisci_titolo,
+    similarita_titoli,
     spezza_frasi_lunghe,
     tronca_a_frase,
 )
@@ -54,12 +57,13 @@ def prepara_materiale(selezioni: list[NotiziaSelezionata]) -> list[dict[str, Any
         if selezione.testo_tradotto:
             originale = selezione.cluster.ordina_articoli()
             primo = originale[0] if originale else None
+            testo_tradotto = rimuovi_pubblicita(selezione.testo_tradotto)
             articoli.append(
                 {
                     "fonte": selezione.fonti[0] if selezione.fonti else "",
                     "titolo": selezione.titolo,
-                    "sommario": deduplica_frasi(selezione.testo_tradotto)[:300],
-                    "testo": deduplica_paragrafi(selezione.testo_tradotto),
+                    "sommario": deduplica_frasi(testo_tradotto)[:300],
+                    "testo": deduplica_paragrafi(testo_tradotto),
                     "arricchito": True,
                     "contenuto_parziale": False,
                     "pubblicato": primo.pubblicato.isoformat() if primo else "",
@@ -70,7 +74,7 @@ def prepara_materiale(selezioni: list[NotiziaSelezionata]) -> list[dict[str, Any
             frasi_viste: list[str] = []
             for articolo in selezione.cluster.ordina_articoli():
                 testo = deduplica_paragrafi(
-                    articolo.contenuto or articolo.sommario
+                    rimuovi_pubblicita(articolo.contenuto or articolo.sommario)
                 )
                 frasi = []
                 for frase in estrai_frasi(testo):
@@ -88,7 +92,9 @@ def prepara_materiale(selezioni: list[NotiziaSelezionata]) -> list[dict[str, Any
                     {
                         "fonte": articolo.fonte,
                         "titolo": articolo.titolo,
-                        "sommario": deduplica_frasi(articolo.sommario),
+                        "sommario": deduplica_frasi(
+                            rimuovi_pubblicita(articolo.sommario)
+                        ),
                         "testo": testo,
                         "arricchito": bool(articolo.contenuto),
                         "contenuto_parziale": articolo.contenuto_parziale,
@@ -118,7 +124,13 @@ def _system_prompt() -> str:
         "notizie' o 'Apriamo con'. Il saluto verrà aggiunto dal programma. "
         "Usa soltanto i fatti presenti nel materiale fornito: non inventare "
         "nomi, numeri, cause, conseguenze o citazioni e non aggiungere opinioni. "
-        "Se il materiale non basta, scrivi meno parole invece di riempire. Per "
+        "Se il materiale non basta, scrivi meno parole invece di riempire. "
+        "Per ogni notizia rispondi, quando il materiale lo consente, a cosa è "
+        "successo, chi o cosa è coinvolto, quando e dove, perché e quali sono "
+        "le conseguenze. Non omettere notizie: una voce per ogni posizione del "
+        "materiale. "
+        "Ignora pubblicità, contenuti sponsorizzati, promozioni e inviti "
+        "all'acquisto: non citarli nel copione. Per "
         "le notizie di copertina cita le testate indicate. Le notizie del blocco "
         "'Buone notizie' vanno alla fine, dopo tutte le altre e prima "
         "dell'ultima frase. Non usare markdown, elenchi, parentesi, link, emoji "
@@ -142,6 +154,7 @@ def _prompt_utente(
         "testo": "string",
         "notizie": [
             {
+                "posizione": 1,
                 "titolo": "string",
                 "categoria": "string",
                 "fonti": ["string"],
@@ -167,7 +180,9 @@ Struttura richiesta:
 - Il campo "testo" contiene il copione senza saluto, con i paragrafi separati
   da una riga vuota. Il saluto/incipit viene aggiunto dal programma.
 - Il campo "notizie" contiene una voce per ogni notizia, nello stesso ordine
-  del copione.
+  del copione. Non omettere notizie: una voce per ogni posizione del materiale.
+- Ogni voce di "notizie" ha "posizione": lo stesso numero 1-based della voce
+  del materiale.
 - Ogni voce di "notizie" ha titolo, categoria, fonti e un testo breve (1-2 frasi)
   della sola notizia, non l'intero paragrafo già presente in "testo".
 - Ogni voce di "notizie" ha anche "paragrafi": l'elenco dei paragrafi completi
@@ -180,6 +195,9 @@ Regole di scrittura:
 - Scrivi tutto in italiano: titoli, descrizione breve e testo. Traduci i
   titoli stranieri, non copiarli in inglese.
 - Usa solo i fatti del materiale. Se un dettaglio non c'è, non aggiungerlo.
+- Per ogni notizia rispondi, quando il materiale lo consente, a:
+  cosa è successo, chi o cosa è coinvolto, quando e dove, perché, conseguenze
+  o effetti. Non inventare gli elementi che il materiale non contiene.
 - Non esprimere opinioni, previsioni o giudizi.
 - Per le copertine scrivi "Secondo ANSA e Repubblica..." citando le testate.
 - Varia le transizioni: non ripetere "Parliamo di", "Passiamo a", "Apriamo con",
@@ -730,6 +748,34 @@ def _pulisci_descrizione_breve(valore: str, data_riferimento: datetime) -> str:
     return testo
 
 
+def _posizione_notizia(
+    voce: dict[str, Any],
+    indice: int,
+    selezioni: list[NotiziaSelezionata],
+) -> int:
+    """Posizione 1-based della notizia: campo del modello, titolo o ordine."""
+    grezza = voce.get("posizione")
+    try:
+        posizione = int(grezza)  # type: ignore[arg-type]
+    except (TypeError, ValueError):
+        posizione = 0
+    if selezioni:
+        massimo = max(selezione.ordine for selezione in selezioni)
+        if 1 <= posizione <= massimo:
+            return posizione
+        titolo = pulisci_titolo(str(voce.get("titolo", "")))
+        migliore = max(
+            selezioni, key=lambda s: similarita_titoli(titolo, s.titolo)
+        )
+        punteggio = similarita_titoli(titolo, migliore.titolo)
+        if punteggio >= 0.35:
+            return migliore.ordine
+        if 1 <= indice <= len(selezioni):
+            return selezioni[indice - 1].ordine
+        return migliore.ordine
+    return posizione if posizione >= 1 else indice
+
+
 def _finalizza_llm(
     dati: dict[str, Any],
     selezioni: list[NotiziaSelezionata],
@@ -756,7 +802,7 @@ def _finalizza_llm(
         for voce in dati["notizie"]
         if isinstance(voce, dict)
     )
-    for voce in dati["notizie"]:
+    for indice, voce in enumerate(dati["notizie"], start=1):
         breve_voce = semplifica_slop(_normalizza_blocco(str(voce["testo"])))
         paragrafi_voce: list[str] = []
         if isinstance(voce.get("paragrafi"), list):
@@ -773,6 +819,7 @@ def _finalizza_llm(
         ]
         notizie.append(
             {
+                "posizione": _posizione_notizia(voce, indice, selezioni),
                 "titolo": pulisci_titolo(str(voce["titolo"])),
                 "categoria": str(voce["categoria"]).strip()
                 or label_categoria(selezioni[0].categoria),
@@ -1199,11 +1246,356 @@ def _raggruppa_secondarie(
     ]
 
 
+def _testo_materiale(voce: dict[str, Any]) -> str:
+    """Testo utile di una voce di materiale, senza date di pubblicazione."""
+    parti: list[str] = []
+
+    def aggiungi(valore: Any) -> None:
+        testo = str(valore or "").strip()
+        if testo:
+            # Titoli e sommari sono parti distinte: senza punteggiatura finale
+            # l'estrazione delle frasi li incollerebbe alla frase successiva.
+            if testo[-1] not in ".!?":
+                testo += "."
+            parti.append(testo)
+
+    for chiave in ("titolo", "sommario", "testo"):
+        aggiungi(voce.get(chiave))
+    articoli = voce.get("articoli")
+    if isinstance(articoli, list):
+        for articolo in articoli:
+            if not isinstance(articolo, dict):
+                continue
+            for chiave in ("titolo", "sommario", "testo"):
+                aggiungi(articolo.get(chiave))
+    return "\n".join(parti)
+
+
+def _titolo_materiale(
+    voce: dict[str, Any],
+    indice: int,
+    selezioni: list[NotiziaSelezionata],
+) -> str:
+    titolo = str(voce.get("titolo") or "").strip()
+    if titolo:
+        return titolo
+    # La selezione può avere un titolo tradotto: è quello che il modello vede.
+    if 0 <= indice < len(selezioni):
+        return selezioni[indice].titolo
+    articoli = voce.get("articoli")
+    if isinstance(articoli, list):
+        for articolo in articoli:
+            if isinstance(articolo, dict) and articolo.get("titolo"):
+                return str(articolo["titolo"]).strip()
+    return ""
+
+
+def _indice_materiale(
+    voce_notizia: dict[str, Any],
+    indice: int,
+    materiale: list[dict[str, Any]],
+    selezioni: list[NotiziaSelezionata],
+) -> tuple[int, dict[str, Any]]:
+    """Trova il materiale della notizia: posizione, poi similarità del titolo."""
+    if not materiale:
+        return -1, {}
+    try:
+        posizione = int(voce_notizia.get("posizione"))  # type: ignore[arg-type]
+    except (TypeError, ValueError):
+        posizione = 0
+    if posizione >= 1:
+        for indice_materiale, voce in enumerate(materiale):
+            try:
+                if int(voce.get("posizione")) == posizione:
+                    return indice_materiale, voce
+            except (TypeError, ValueError):
+                continue
+        if posizione <= len(materiale):
+            return posizione - 1, materiale[posizione - 1]
+
+    titolo = str(voce_notizia.get("titolo", "") or "")
+    migliore = -1
+    punteggio_migliore = -1.0
+    for indice_materiale, voce in enumerate(materiale):
+        punteggio = similarita_titoli(
+            titolo, _titolo_materiale(voce, indice_materiale, selezioni)
+        )
+        if punteggio > punteggio_migliore:
+            migliore = indice_materiale
+            punteggio_migliore = punteggio
+    if migliore >= 0 and punteggio_migliore >= 0.3:
+        return migliore, materiale[migliore]
+
+    indice_sicuro = min(max(indice - 1, 0), len(materiale) - 1)
+    return indice_sicuro, materiale[indice_sicuro]
+
+
+def _ultimo_paragrafo_notizia(
+    paragrafi_corpo: list[str],
+    paragrafi_notizia: list[str],
+    titolo: str,
+) -> int | None:
+    """Ultimo paragrafo del corpo che appartiene alla notizia indicata."""
+    candidati: list[int] = []
+    for indice, paragrafo in enumerate(paragrafi_corpo):
+        if any(
+            normalizza_dedup(paragrafo) == normalizza_dedup(originale)
+            or similarita_testi(paragrafo, originale) >= 0.75
+            for originale in paragrafi_notizia
+            if originale.strip()
+        ):
+            candidati.append(indice)
+    if candidati:
+        return candidati[-1]
+
+    token_titolo = {
+        token
+        for token in normalizza_titolo(titolo).split()
+        if len(token) >= 4
+    }
+    if len(token_titolo) >= 2:
+        for indice, paragrafo in enumerate(paragrafi_corpo):
+            token_paragrafo = set(normalizza_titolo(paragrafo).split())
+            if len(token_titolo & token_paragrafo) >= 2:
+                candidati.append(indice)
+        if candidati:
+            return candidati[-1]
+    return None
+
+
+def migliora_completezza(
+    copione: dict[str, Any],
+    selezioni: list[NotiziaSelezionata],
+    materiale: list[dict[str, Any]],
+    logger: logging.Logger | None = None,
+) -> dict[str, Any]:
+    """Aggiunge al copione frasi del materiale per coprire le domande scoperte.
+
+    Non inventa nulla: usa solo frasi già presenti nel materiale della notizia.
+    Le mancanze che restano vengono registrate in ``copione["qualita"]`` e
+    loggate, senza far fallire la generazione.
+    """
+    logger = logger or logging.getLogger("notiziario")
+    if not materiale:
+        copione["qualita"] = {
+            "mancanti_iniziali": [],
+            "aggiunte": 0,
+            "mancanti_finali": [],
+        }
+        return copione
+
+    notizie = copione.get("notizie")
+    if not isinstance(notizie, list) or not notizie:
+        copione["qualita"] = {
+            "mancanti_iniziali": [],
+            "aggiunte": 0,
+            "mancanti_finali": [],
+        }
+        return copione
+
+    mancanti_iniziali: list[dict[str, Any]] = []
+    mancanti_finali: list[dict[str, Any]] = []
+    aggiunte_per_notizia: dict[int, tuple[list[str], list[str], str]] = {}
+    totale_aggiunte = 0
+    frasi_esistenti: list[str] = []
+    for voce_esistente in notizie:
+        if not isinstance(voce_esistente, dict):
+            continue
+        for paragrafo in _paragrafi_della_notizia(voce_esistente):
+            frasi_esistenti.extend(estrai_frasi(paragrafo))
+
+    for indice, voce in enumerate(notizie, start=1):
+        if not isinstance(voce, dict):
+            continue
+        indice_materiale, voce_materiale = _indice_materiale(
+            voce, indice, materiale, selezioni
+        )
+        testo_materiale = _testo_materiale(voce_materiale)
+        if not testo_materiale:
+            continue
+        titolo = str(voce.get("titolo", "") or "").strip()
+        if not titolo:
+            titolo = _titolo_materiale(voce_materiale, indice_materiale, selezioni)
+        posizione = 0
+        try:
+            posizione = int(voce.get("posizione"))  # type: ignore[arg-type]
+        except (TypeError, ValueError):
+            posizione = 0
+        if posizione < 1:
+            try:
+                posizione = int(voce_materiale.get("posizione"))
+            except (TypeError, ValueError):
+                posizione = indice_materiale + 1 if indice_materiale >= 0 else indice
+
+        paragrafi = _paragrafi_della_notizia(voce)
+        paragrafi_originali = list(paragrafi)
+        testo_notizia = "\n\n".join(paragrafi)
+        testo_verifica = " ".join(
+            parte for parte in (titolo, testo_notizia) if parte
+        )
+        esito = verifica_completezza(
+            testo_notizia, testo_materiale, titolo, posizione=posizione
+        )
+        if esito.mancanti:
+            mancanti_iniziali.append(
+                {
+                    "posizione": posizione,
+                    "titolo": titolo,
+                    "mancanti": list(esito.mancanti),
+                }
+            )
+
+        frasi_aggiunte: list[str] = []
+        for esigenza in esito.mancanti:
+            if len(frasi_aggiunte) >= 2:
+                break
+            stato_attuale = verifica_completezza(
+                testo_notizia, testo_materiale, titolo, posizione=posizione
+            )
+            if esigenza not in stato_attuale.mancanti:
+                continue
+            frase = frase_per_esigenza(
+                testo_materiale, esigenza, testo_verifica
+            )
+            if not frase or _copione_ha_inglese(frase):
+                continue
+            if any(
+                similarita_testi(frase, esistente) >= 0.85
+                for esistente in frasi_esistenti
+            ):
+                continue
+            paragrafi.append(frase)
+            frasi_aggiunte.append(frase)
+            frasi_esistenti.append(frase)
+            testo_notizia = "\n\n".join(paragrafi)
+            testo_verifica = " ".join(
+                parte for parte in (titolo, testo_notizia) if parte
+            )
+
+        if frasi_aggiunte:
+            voce["paragrafi"] = paragrafi
+            aggiunte_per_notizia[indice] = (
+                frasi_aggiunte,
+                paragrafi_originali,
+                titolo,
+            )
+            totale_aggiunte += len(frasi_aggiunte)
+            logger.info(
+                "Copione: posizione %d (%s), aggiunte %d frasi di completezza.",
+                posizione,
+                titolo or "senza titolo",
+                len(frasi_aggiunte),
+            )
+
+        finale = verifica_completezza(
+            testo_notizia, testo_materiale, titolo, posizione=posizione
+        )
+        if finale.mancanti:
+            mancanti_finali.append(
+                {
+                    "posizione": posizione,
+                    "titolo": titolo,
+                    "mancanti": list(finale.mancanti),
+                }
+            )
+            logger.warning(
+                "Copione: posizione %d (%s), mancano ancora: %s.",
+                posizione,
+                titolo or "senza titolo",
+                ", ".join(finale.mancanti),
+            )
+
+    if totale_aggiunte:
+        testo_originale = str(copione.get("testo") or "").strip()
+        paragrafi_corpo = [
+            p.strip()
+            for p in re.split(r"\n\s*\n", testo_originale)
+            if p.strip()
+        ]
+        paragrafi_corpo, chiusura = _separa_chiusura(paragrafi_corpo)
+        if not chiusura:
+            chiusura = _CHIUSURA_DEFAULT
+        if not paragrafi_corpo:
+            paragrafi_corpo = [
+                paragrafo
+                for voce in notizie
+                if isinstance(voce, dict)
+                for paragrafo in _paragrafi_della_notizia(voce)
+            ]
+        for indice in sorted(aggiunte_per_notizia):
+            frasi, paragrafi_originali, titolo = aggiunte_per_notizia[indice]
+            posizione_corpo = _ultimo_paragrafo_notizia(
+                paragrafi_corpo, paragrafi_originali, titolo
+            )
+            if posizione_corpo is None:
+                paragrafi_corpo.extend(frasi)
+            else:
+                paragrafi_corpo[
+                    posizione_corpo + 1 : posizione_corpo + 1
+                ] = frasi
+        nuovo_testo = "\n\n".join(paragrafi_corpo + [chiusura])
+        nuovo_testo = semplifica_slop(_pulisci_paragrafi(nuovo_testo))
+        nuovo_testo = deduplica_testo_finale(
+            nuovo_testo,
+            [
+                str(voce.get("titolo", ""))
+                for voce in notizie
+                if isinstance(voce, dict)
+            ],
+        )
+        nuovo_testo = _garantisci_chiusura_finale(nuovo_testo)
+        copione["testo"] = nuovo_testo
+        try:
+            target = int(copione.get("target_parole") or 0)
+        except (TypeError, ValueError):
+            target = 0
+        if target:
+            copione["divario_parole"] = max(
+                0, target - conta_parole(nuovo_testo)
+            )
+
+    copione["qualita"] = {
+        "mancanti_iniziali": mancanti_iniziali,
+        "aggiunte": totale_aggiunte,
+        "mancanti_finali": mancanti_finali,
+    }
+    if mancanti_finali:
+        logger.warning(
+            "Copione: completezza conclusa con %d notizie ancora scoperte.",
+            len(mancanti_finali),
+        )
+    elif totale_aggiunte:
+        logger.info(
+            "Copione: completezza conclusa, %d frasi aggiunte dal materiale.",
+            totale_aggiunte,
+        )
+    return copione
+
+
+def _arricchisci_senza_fallire(
+    copione: dict[str, Any],
+    selezioni: list[NotiziaSelezionata],
+    materiale: list[dict[str, Any]],
+    logger: logging.Logger,
+) -> dict[str, Any]:
+    try:
+        return migliora_completezza(
+            copione, selezioni, materiale, logger=logger
+        )
+    except Exception as exc:  # pragma: no cover - difesa finale
+        logger.warning(
+            "Completezza del copione non applicata (%s).",
+            type(exc).__name__,
+        )
+        return copione
+
+
 def _genera_fallback(
     selezioni: list[NotiziaSelezionata],
     data_riferimento: datetime,
     motivo: str,
     impostazioni: dict[str, Any] | None = None,
+    logger: logging.Logger | None = None,
 ) -> dict[str, Any]:
     copertine = [s for s in selezioni if s.copertina]
     secondarie = _raggruppa_secondarie(selezioni)
@@ -1217,6 +1609,7 @@ def _genera_fallback(
         blocchi.append(testo)
         voci.append(
             {
+                "posizione": selezione.ordine,
                 "titolo": selezione.titolo,
                 "categoria": label_categoria(selezione.categoria),
                 "fonti": selezione.fonti,
@@ -1232,6 +1625,7 @@ def _genera_fallback(
         blocchi.append(testo)
         voci.append(
             {
+                "posizione": selezione.ordine,
                 "titolo": selezione.titolo,
                 "categoria": label_categoria(selezione.categoria),
                 "fonti": selezione.fonti,
@@ -1244,6 +1638,7 @@ def _genera_fallback(
         blocchi.append(testo)
         voci.append(
             {
+                "posizione": selezione.ordine,
                 "titolo": selezione.titolo,
                 "categoria": label_categoria("buone-notizie"),
                 "fonti": selezione.fonti,
@@ -1286,7 +1681,7 @@ def _genera_fallback(
     descrizione = pulisci_testo(descrizione)
     if len(descrizione) > 300:
         descrizione = descrizione[:297].rsplit(" ", 1)[0].rstrip(" ,;:") + "..."
-    return {
+    copione = {
         "titolo_episodio": normalizza_mesi(
             f"Notiziario di {data_in_italiano(data_riferimento)}"
         ),
@@ -1305,6 +1700,13 @@ def _genera_fallback(
         "modello_usato": None,
         "motivo_modello": motivo,
     }
+    logger = logger or logging.getLogger("notiziario")
+    return _arricchisci_senza_fallire(
+        copione,
+        selezioni,
+        prepara_materiale(selezioni),
+        logger,
+    )
 
 
 def genera_copione(
@@ -1356,6 +1758,9 @@ def genera_copione(
                     modello_usato=modello_primario,
                     motivo_modello="primario",
                     impostazioni=impostazioni,
+                )
+                copione = _arricchisci_senza_fallire(
+                    copione, selezioni, materiale, logger
                 )
                 frasi_inglesi = _frasi_con_inglese(copione["testo"])
                 if frasi_inglesi:
@@ -1419,6 +1824,9 @@ def genera_copione(
                     motivo_modello="riserva dopo errore primario",
                     impostazioni=impostazioni,
                 )
+                copione = _arricchisci_senza_fallire(
+                    copione, selezioni, materiale, logger
+                )
                 frasi_inglesi = _frasi_con_inglese(copione["testo"])
                 if frasi_inglesi:
                     if tentativo == 1:
@@ -1449,7 +1857,11 @@ def genera_copione(
         logger.warning("Passo al copione di fallback deterministico.")
 
     copione = _genera_fallback(
-        selezioni, data_riferimento, motivo, impostazioni=impostazioni
+        selezioni,
+        data_riferimento,
+        motivo,
+        impostazioni=impostazioni,
+        logger=logger,
     )
     logger.info(
         "Copione di fallback: %d parole (target %d, divario %d; %s).",

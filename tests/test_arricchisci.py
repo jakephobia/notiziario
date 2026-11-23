@@ -43,6 +43,26 @@ def test_estrazione_html_lungo():
     assert motivo == "ok"
 
 
+def test_estrazione_html_ignora_blocco_pubblicitario(monkeypatch):
+    paragrafo = (
+        "Il consiglio dei ministri ha approvato la manovra con nuove misure "
+        "per la scuola e la sanità. "
+    ) * 4
+    html = (
+        "<html><body><article>"
+        '<div class="ad-container"><p>Messaggio del nostro partner '
+        "commerciale con un invito speciale per te.</p></div>"
+        f"<p>{paragrafo}</p>"
+        "</article></body></html>"
+    )
+    monkeypatch.setattr(arricchisci, "_HA_TRAFILATURA", False)
+    testo, parziale, motivo = estrai_da_html(html, "Titolo", 100)
+    assert testo
+    assert motivo == "ok"
+    assert "Messaggio del nostro partner" not in testo
+    assert "consiglio dei ministri" in testo
+
+
 def test_paywall_breve_fallback():
     html = "<html><body><p>Abbonati per leggere l'articolo completo</p></body></html>"
     testo, parziale, motivo = estrai_da_html(html, "Titolo", 100)

@@ -26,7 +26,12 @@ from .sicurezza import (
     valida_url_pubblica,
 )
 from .tempo import adesso_roma, iso_roma, parse_iso
-from .testi import pulisci_testo, pulisci_titolo, tronca_a_frase
+from .testi import (
+    pulisci_testo,
+    pulisci_titolo,
+    rimuovi_elementi_pubblicitari,
+    tronca_a_frase,
+)
 
 try:
     import trafilatura
@@ -147,6 +152,7 @@ def _estrazione_bs4(html: str) -> str:
     soup = BeautifulSoup(html, "html.parser")
     for tag in soup(["script", "style", "noscript", "nav", "footer", "aside", "form"]):
         tag.decompose()
+    rimuovi_elementi_pubblicitari(soup)
     paragrafi = []
     for p in soup.find_all(["p", "h2", "h3", "li"]):
         testo = pulisci_testo(p.get_text(" "))

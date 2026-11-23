@@ -159,25 +159,223 @@ _URL_RE = re.compile(r"https?://\S+|www\.\S+", re.IGNORECASE)
 _EMAIL_RE = re.compile(r"\b\S+@\S+\.\S+\b")
 _SPAZI_RE = re.compile(r"[ \t\u00a0\u200b\ufeff]+")
 _RIGA_VUOTA_RE = re.compile(r"\n{3,}")
+_HTML_RE = re.compile(r"<[a-zA-Z!/][^>]*>")
+
+# Token di classi e id che indicano contenitori pubblicitari. Il confronto è
+# per token intero: "ad-container" sì, "header", "read-more", "loading" no.
+_TOKENS_PUBBLICITARI = (
+    "advertisement",
+    "advertising",
+    "sponsorizzato",
+    "affiliazione",
+    "promozionale",
+    "google-ads",
+    "googleads",
+    "sponsored",
+    "promozione",
+    "advertorial",
+    "advert",
+    "sponsor",
+    "adsense",
+    "taboola",
+    "outbrain",
+    "affiliate",
+    "banner",
+    "promo",
+    "adv",
+    "ads",
+    "dfp",
+    "ad",
+)
+_TOKEN_PUBBLICITARIO_RE = re.compile(
+    r"(?<![a-z0-9])(?:"
+    + "|".join(re.escape(token) for token in _TOKENS_PUBBLICITARI)
+    + r")(?![a-z0-9])",
+    re.IGNORECASE,
+)
+
+_ETICHETTE_PUB = re.compile(
+    r"^(?:pubblicità|pubblicita|adv|advertisement|advertorial|sponsor|"
+    r"sponsorizzato|contenuto\s+sponsorizzato|articolo\s+sponsorizzato)$",
+    re.IGNORECASE,
+)
+_PROMOSSO_DA_RE = re.compile(r"^promosso\s+da\b", re.IGNORECASE)
+_COLLABORAZIONE_RE = re.compile(r"^in\s+collaborazione\s+con\b", re.IGNORECASE)
+_CONTINUA_PUB_RE = re.compile(
+    r"\b(?:l['’]articolo\s+)?continua\s+(?:a\s+leggere\s+)?(?:dopo|sotto)\s+"
+    r"(?:la\s+|il\s+|l['’])?"
+    r"(?:pubblicità|pubblicita|video|articolo|galleria|gallery|immagini|contenuto)\b",
+    re.IGNORECASE,
+)
+_RIGHE_PUB = (
+    r"\bcontenut[oi]\s+sponsorizzat[oi]\b",
+    r"\barticol[oi]\s+sponsorizzat[oi]\b",
+    r"\badvertorial\b",
+    r"\blink\s+di\s+affiliazione\b",
+    r"\blink\s+affiliat[oi]\b",
+    r"\bse\s+acquisti\s+tramite\b",
+    r"\bpotremmo\s+ricevere\s+una\s+commissione\b",
+    r"\bacquista\s+ora\b",
+    r"\bcompra\s+ora\b",
+    r"\bscopri\s+l['’]offerta\b",
+    r"\bapprofitta\s+dell['’]offerta\b",
+    # Queste formule restano pubblicitarie solo quando aprono la frase:
+    # "Gli abbonati a Netflix..." o "Il governo taglia gli sconti del 20 per
+    # cento" sono notizie e non vanno scartate.
+    r"^offerta\s+limitata\b",
+    r"\bcodice\s+sconto\b",
+    r"^sconti?\s+del\s+\d+(?:[.,]\d+)?\s*(?:%|per\s+cento)\b",
+    r"\bspedizione\s+gratuita\b",
+    r"\bprenota\s+ora\b",
+    r"\biscriviti\s+alla\s+newsletter\b",
+    r"^abbonati\s+a\b",
+    r"\bsostieni\s+il\s+nostro\s+giornalismo\b",
+)
+_FRASI_PUB_RE = re.compile("|".join(_RIGHE_PUB), re.IGNORECASE)
+
+
+def rimuovi_elementi_pubblicitari(soup: BeautifulSoup) -> None:
+    """Decompone i tag con classi o id che indicano pubblicità."""
+    for tag in list(soup.find_all(True)):
+        if getattr(tag, "decomposed", False):
+            continue
+        valori: list[str] = []
+        classi = tag.get("class")
+        if isinstance(classi, (list, tuple)):
+            valori.extend(str(classe) for classe in classi)
+        elif classi:
+            valori.append(str(classi))
+        identificativo = tag.get("id")
+        if identificativo:
+            valori.append(str(identificativo))
+        if any(_TOKEN_PUBBLICITARIO_RE.search(valore) for valore in valori):
+            tag.decompose()
+
+
+def _e_etichetta_pubblicitaria(blocco: str) -> bool:
+    testo = _SPAZI_RE.sub(" ", str(blocco or "")).strip()
+    if not testo:
+        return False
+    nucleo = testo.strip(" \t\r\n.:;!?-–—|")
+    if _ETICHETTE_PUB.match(nucleo):
+        return True
+    if conta_parole(nucleo) <= 8 and (
+        _PROMOSSO_DA_RE.match(nucleo) or _COLLABORAZIONE_RE.match(nucleo)
+    ):
+        return True
+    return False
+
+
+def _e_riga_pubblicitaria(riga: str) -> bool:
+    """Riga che *è* un'etichetta o un invito a continuare dopo l'annuncio."""
+    if _e_etichetta_pubblicitaria(riga):
+        return True
+    nucleo = _SPAZI_RE.sub(" ", str(riga or "")).strip(" \t\r\n.:;!?-–—|")
+    return bool(_CONTINUA_PUB_RE.fullmatch(nucleo))
+
+
+def _blocco_pubblicitario_da_saltare(blocco: str) -> bool:
+    """Blocco brevissimo dopo un'etichetta ad: CTA, prezzo o prodotto."""
+    testo = str(blocco or "").strip()
+    if not testo or conta_parole(testo) > 45:
+        return False
+    basso = testo.casefold()
+    indicatori = (
+        "offert",
+        "sconto",
+        "prodotto",
+        "prodotta",
+        "acquista",
+        "compra",
+        "ordina",
+        "spedizione",
+        "gratis",
+        "gratuit",
+        "codice",
+        "promo",
+        "abbonat",
+        "iscriviti",
+        "clicca",
+        "visita",
+        "scopri",
+    )
+    if any(indicatore in basso for indicatore in indicatori):
+        return True
+    # Prezzi espliciti sì; "il prezzo del gas aumenta" o "l'euro si rafforza"
+    # sono notizie e non vanno scartati.
+    if re.search(r"\d+(?:[.,]\d+)?\s*(?:€|euro|dollari|dollaro)", basso):
+        return True
+    return bool(re.search(r"\bprezzo\b\s*[:=]?\s*\d", basso))
+
+
+def rimuovi_pubblicita(testo: str) -> str:
+    """Toglie etichette, disclosure e inviti all'acquisto da testo semplice.
+
+    Lavora su paragrafi, righe e frasi. Una frase che parla di pubblicità in
+    modo informativo (per esempio "La pubblicità online cresce del 5 per
+    cento") resta: vengono rimossi solo etichette isolate e formule esplicite.
+    """
+    if not testo:
+        return ""
+    normalizzato = str(testo).replace("\r\n", "\n").replace("\r", "\n")
+    risultato: list[str] = []
+    salta_successivo = False
+    for paragrafo in re.split(r"\n\s*\n", normalizzato):
+        righe = [riga.strip() for riga in paragrafo.split("\n") if riga.strip()]
+        if not righe:
+            continue
+        blocco_etichetta = all(_e_riga_pubblicitaria(riga) for riga in righe)
+        tenute: list[str] = []
+        for riga in righe:
+            if _e_riga_pubblicitaria(riga):
+                continue
+            frasi = [
+                frase
+                for frase in estrai_frasi(riga)
+                if not _e_etichetta_pubblicitaria(frase)
+                and not _CONTINUA_PUB_RE.search(frase)
+                and not _FRASI_PUB_RE.search(frase)
+            ]
+            if frasi:
+                tenute.append(" ".join(frasi))
+        nuovo = " ".join(tenute).strip()
+        if salta_successivo:
+            salta_successivo = False
+            if _blocco_pubblicitario_da_saltare(nuovo):
+                continue
+        if not nuovo:
+            if blocco_etichetta:
+                salta_successivo = True
+            continue
+        risultato.append(nuovo)
+    return "\n\n".join(risultato).strip()
 
 
 def pulisci_html(valore: str | None) -> str:
-    """Toglie tag e script da un frammento HTML, mantenendo il testo."""
+    """Toglie tag, script e contenitori pubblicitari, mantenendo il testo."""
     if not valore:
         return ""
     soup = BeautifulSoup(str(valore), "html.parser")
     for tag in soup(["script", "style", "noscript", "iframe", "svg", "form"]):
         tag.decompose()
+    rimuovi_elementi_pubblicitari(soup)
     testo = soup.get_text(" ")
     testo = html_module.unescape(testo)
     return _SPAZI_RE.sub(" ", testo).strip()
 
 
 def pulisci_testo(valore: str | None) -> str:
-    """Pulisce un summary RSS: HTML, boilerplate, link, firme e spazi doppi."""
+    """Pulisce un summary RSS: HTML, pubblicità, boilerplate, link e spazi."""
     if not valore:
         return ""
-    testo = pulisci_html(valore)
+    grezzo = str(valore)
+    if _HTML_RE.search(grezzo):
+        testo = pulisci_html(grezzo)
+        testo = rimuovi_pubblicita(testo)
+    else:
+        testo = rimuovi_pubblicita(grezzo)
+        testo = pulisci_html(testo)
+        testo = rimuovi_pubblicita(testo)
     testo = _URL_RE.sub(" ", testo)
     testo = _EMAIL_RE.sub(" ", testo)
     testo = _BOILERPLATE_RE.sub(" ", testo)

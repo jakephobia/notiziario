@@ -9,7 +9,7 @@ on:
       durata:
         description: "Durata dell'episodio"
         required: true
-        default: standard
+        default: completo
         type: choice
         options:
           - svelto
@@ -69,7 +69,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_ISSUE_CATEGORIE: ${{ vars.GITHUB_ISSUE_CATEGORIE }}
         run: |
-          DURATA="${{ github.event.inputs.durata || 'standard' }}"
+          DURATA="${{ github.event.inputs.durata || 'completo' }}"
           python main.py \
             --durata "$DURATA" \
             --feed-base-url "https://github.com/${{ github.repository }}/releases/download" \

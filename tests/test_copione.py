@@ -19,8 +19,10 @@ from notiziario.copione import (
     _pulisci_descrizione_breve,
     _minuscola_dopo_secondo,
     _rimuovi_apertura,
+    _system_prompt,
     blocchi_per_tts,
     genera_copione,
+    migliora_completezza,
     prepara_materiale,
     prova_llm,
 )
@@ -833,3 +835,213 @@ def test_copione_ai_sempre_inglese_usa_fallback_italiano(monkeypatch):
     assert copione["modalita"] == "fallback"
     assert chiamate["n"] >= 2
     assert not _contiene_stopword_inglese(copione["testo"])
+
+def test_prompt_e_system_contengono_domande_e_posizione():
+    prompt, _ = _prompt_utente(
+        prepara_materiale(selezioni_finte()),
+        datetime(2026, 11, 22, 7, 0, tzinfo=ROMA),
+        {},
+    )
+    sistema = _system_prompt()
+    for parola in (
+        "cosa è successo",
+        "chi o cosa è coinvolto",
+        "quando e dove",
+        "conseguenze",
+        "posizione",
+        "Non omettere notizie",
+    ):
+        assert parola.casefold() in prompt.casefold()
+    assert '"posizione"' in prompt
+    for parola in ("cosa è successo", "quando e dove", "conseguenze"):
+        assert parola.casefold() in sistema.casefold()
+    assert "non omettere notizie" in sistema.casefold()
+
+
+def test_finalizza_llm_assegna_posizione_dal_titolo_se_manca():
+    dati = {
+        "titolo_episodio": "Notiziario di prova",
+        "descrizione": "Notizie.",
+        "testo": "Testo uno.\n\nTesto due.\n\nPer oggi è tutto.",
+        "notizie": [
+            {
+                "titolo": "La manovra arriva in Parlamento",
+                "categoria": "Economia",
+                "fonti": ["Il Sole 24 Ore"],
+                "testo": "La manovra arriva in Parlamento.",
+            },
+            {
+                "titolo": "Il governo approva il piano per la scuola",
+                "categoria": "Italia",
+                "fonti": ["ANSA"],
+                "testo": "Il governo approva il piano per la scuola.",
+            },
+            {
+                "titolo": "Cop31, nuova bozza sul clima",
+                "categoria": "Mondo",
+                "fonti": ["ANSA"],
+                "testo": "Cop31, nuova bozza sul clima.",
+            },
+        ],
+    }
+    risultato = _finalizza_llm(
+        dati,
+        selezioni_finte(),
+        datetime(2026, 11, 22, 7, 0, tzinfo=ROMA),
+    )
+    assert [n["posizione"] for n in risultato["notizie"]] == [3, 2, 1]
+
+
+def test_migliora_completezza_aggiunge_quando_dove_e_conseguenze():
+    articolo = crea_articolo(
+        "Il governo approva la riforma della scuola",
+        fonte="ANSA",
+        categoria="italia",
+        sommario=(
+            "Il 20 novembre 2026 il governo ha approvato a Roma la riforma "
+            "della scuola. La riforma potrebbe aumentare i costi per le famiglie."
+        ),
+    )
+    selezione = NotiziaSelezionata(crea_cluster([articolo]), True, 1, 100)
+    materiale = prepara_materiale([selezione])
+    copione = {
+        "titolo_episodio": "Notiziario di prova",
+        "descrizione": "Notizie.",
+        "descrizione_breve": "",
+        "testo": (
+            "Il governo ha approvato la riforma della scuola.\n\n"
+            "Per oggi è tutto. A domani."
+        ),
+        "notizie": [
+            {
+                "posizione": 1,
+                "titolo": "Il governo approva la riforma della scuola",
+                "categoria": "Italia",
+                "fonti": ["ANSA"],
+                "testo": "Il governo ha approvato la riforma della scuola.",
+                "paragrafi": ["Il governo ha approvato la riforma della scuola."],
+            }
+        ],
+        "modalita": "llm",
+        "motivo_fallback": None,
+        "target_parole": 100,
+        "divario_parole": 90,
+    }
+    risultato = migliora_completezza(
+        copione, [selezione], materiale, LOGGER
+    )
+    notizia = risultato["notizie"][0]
+    testo_notizia = " ".join(notizia["paragrafi"])
+    assert "20 novembre 2026" in testo_notizia
+    assert "Roma" in testo_notizia
+    assert "potrebbe aumentare" in testo_notizia
+    assert len(notizia["paragrafi"]) == 3
+    assert "20 novembre 2026" in risultato["testo"]
+    assert "potrebbe aumentare" in risultato["testo"]
+    assert risultato["testo"].rstrip().endswith("Per oggi è tutto. A domani.")
+    assert risultato["modalita"] == "llm"
+    assert risultato["motivo_fallback"] is None
+    assert risultato["target_parole"] == 100
+    assert risultato["divario_parole"] <= 90
+    assert risultato["qualita"]["aggiunte"] == 2
+    assert risultato["qualita"]["mancanti_iniziali"][0]["mancanti"] == [
+        "quando",
+        "dove",
+        "conseguenze",
+    ]
+    assert risultato["qualita"]["mancanti_finali"] == []
+
+
+def test_fallback_produce_posizione_e_passa_dal_controllo_qualita():
+    copione = genera_copione(
+        selezioni_finte(),
+        carica_impostazioni(),
+        datetime(2026, 11, 22, 7, 0, tzinfo=ROMA),
+        logger=LOGGER,
+        usa_llm=False,
+    )
+    posizioni = {voce["posizione"] for voce in copione["notizie"]}
+    assert posizioni == {1, 2, 3}
+    assert set(copione["qualita"]) == {
+        "mancanti_iniziali",
+        "aggiunte",
+        "mancanti_finali",
+    }
+    assert copione["qualita"]["aggiunte"] >= 0
+
+
+def test_migliora_completezza_non_solleva_se_il_materiale_non_basta(caplog):
+    materiale = [
+        {
+            "posizione": 1,
+            "titolo": "Riforma",
+            "articoli": [
+                {"titolo": "Riforma", "sommario": "Il 20 novembre 2026.", "testo": ""}
+            ],
+        }
+    ]
+    copione = {
+        "testo": (
+            "Il governo ha approvato la riforma.\n\n"
+            "Per oggi è tutto. A domani."
+        ),
+        "notizie": [
+            {
+                "posizione": 1,
+                "titolo": "Riforma",
+                "categoria": "Italia",
+                "fonti": ["ANSA"],
+                "testo": "Il governo ha approvato la riforma.",
+                "paragrafi": ["Il governo ha approvato la riforma."],
+            }
+        ],
+        "modalita": "llm",
+        "motivo_fallback": None,
+        "target_parole": 100,
+        "divario_parole": 90,
+    }
+    with caplog.at_level(logging.WARNING, logger=LOGGER.name):
+        risultato = migliora_completezza(copione, [], materiale, LOGGER)
+    assert risultato["testo"] == copione["testo"]
+    assert risultato["qualita"]["aggiunte"] == 0
+    assert risultato["qualita"]["mancanti_finali"]
+    assert "mancano ancora" in caplog.text
+    assert risultato["modalita"] == "llm"
+    assert risultato["target_parole"] == 100
+
+
+def test_migliora_completezza_non_incolla_titolo_e_prima_frase():
+    articolo = crea_articolo(
+        "Riforma scuola approvata",
+        fonte="ANSA",
+        categoria="italia",
+        sommario=(
+            "Il 20 novembre 2026 il governo ha approvato a Roma la riforma "
+            "della scuola. La riforma potrebbe aumentare i costi per le famiglie."
+        ),
+    )
+    selezione = NotiziaSelezionata(crea_cluster([articolo]), True, 1, 100)
+    materiale = prepara_materiale([selezione])
+    copione = {
+        "testo": (
+            "Il governo ha approvato la riforma della scuola.\n\n"
+            "Per oggi è tutto. A domani."
+        ),
+        "notizie": [
+            {
+                "posizione": 1,
+                "titolo": "Il governo approva la riforma della scuola",
+                "categoria": "Italia",
+                "fonti": ["ANSA"],
+                "testo": "Il governo ha approvato la riforma della scuola.",
+                "paragrafi": ["Il governo ha approvato la riforma della scuola."],
+            }
+        ],
+        "target_parole": 100,
+        "divario_parole": 90,
+    }
+    risultato = migliora_completezza(copione, [selezione], materiale, LOGGER)
+    paragrafi = risultato["notizie"][0]["paragrafi"]
+    assert any(p.startswith("Il 20 novembre 2026") for p in paragrafi)
+    assert all("Riforma scuola approvata Il" not in p for p in paragrafi)
+    assert risultato["qualita"]["aggiunte"] == 2
