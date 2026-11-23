@@ -807,7 +807,7 @@ def applica_payload(
         if candidate_fonti != list(caricare_fonti_per_payload(radice)):
             salva_fonti(config_dir / "fonti.yaml", candidate_fonti)
             logger.info("Dashboard: fonti aggiornate.")
-        fonti_config = carica_fonti(config_dir / "fonti.yaml")
+        fonti_config = carica_fonti_tutte(config_dir / "fonti.yaml")
         _rigenera_pubblico(
             radice,
             candidate,
@@ -822,7 +822,7 @@ def applica_payload(
         "avvisi": piano["avvisi"],
         "aggiunte": piano["aggiunte"],
         "aggiornate": piano["aggiornate"],
-        "fonti_totali": len(carica_fonti(config_dir / "fonti.yaml")),
+        "fonti_totali": len(carica_fonti_tutte(config_dir / "fonti.yaml")),
     }
 
 

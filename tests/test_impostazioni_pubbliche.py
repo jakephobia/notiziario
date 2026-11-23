@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from notiziario.config import carica_fonti, carica_impostazioni
+from notiziario.config import carica_fonti, carica_fonti_tutte, carica_impostazioni
 from notiziario.feed import Episodio, aggiorna_docs, scrivi_impostazioni_pubbliche
 
 
@@ -125,7 +125,9 @@ def test_impostazioni_iniziali_esistono_e_sono_valide():
     assert dati["voce_configurata"] == "Kore"
     assert dati["durata_default"] in {"svelto", "standard", "completo"}
     assert dati["orario_generazione"] == "07:00"
-    assert len(dati["fonti"]) == len(carica_fonti())
+    assert len(dati["fonti"]) == len(carica_fonti_tutte())
+    assert dati["fonti_totali"] == len(carica_fonti_tutte())
+    assert dati["fonti_attive"] == len(carica_fonti())
     assert dati["fonti"][0].keys() == {"nome", "url", "categoria", "attivo"}
     assert dati["incipit_risolto"].startswith("Ciao Jacopo")
     assert dati["repo_url"] == "https://github.com/jakephobia/notiziario"

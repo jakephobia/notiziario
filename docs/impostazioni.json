@@ -33,7 +33,7 @@
   "nome_utente": "Jacopo",
   "suono": "ding",
   "outro": "Queste erano le notizie di oggi. A domani con i principali eventi della giornata!",
-  "fonti_totali": 73,
+  "fonti_totali": 96,
   "fonti_attive": 73,
   "issue_url": "https://github.com/jakephobia/notiziario/issues/1",
   "repo_url": "https://github.com/jakephobia/notiziario",
@@ -61,6 +61,12 @@
       "url": "https://www.ansa.it/sito/notizie/economia/economia_rss.xml",
       "categoria": "economia",
       "attivo": true
+    },
+    {
+      "nome": "ANSA",
+      "url": "https://www.ansa.it/sito/notizie/sport/sport_rss.xml",
+      "categoria": "sport",
+      "attivo": false
     },
     {
       "nome": "ANSA",
@@ -157,6 +163,12 @@
       "url": "https://www.ilpost.it/cultura/feed/",
       "categoria": "cultura",
       "attivo": true
+    },
+    {
+      "nome": "Il Post",
+      "url": "https://www.ilpost.it/sport/feed/",
+      "categoria": "sport",
+      "attivo": false
     },
     {
       "nome": "Il Sole 24 Ore",
@@ -295,6 +307,48 @@
       "url": "https://www.doppiozero.com/feed",
       "categoria": "cultura",
       "attivo": true
+    },
+    {
+      "nome": "Nazione Indiana",
+      "url": "https://www.nazioneindiana.com/feed/",
+      "categoria": "cultura",
+      "attivo": false
+    },
+    {
+      "nome": "Carmilla",
+      "url": "https://www.carmillaonline.com/feed/",
+      "categoria": "cultura",
+      "attivo": false
+    },
+    {
+      "nome": "Artribune",
+      "url": "https://www.artribune.com/feed/",
+      "categoria": "cultura",
+      "attivo": false
+    },
+    {
+      "nome": "Rolling Stone Italia",
+      "url": "https://www.rollingstone.it/feed/",
+      "categoria": "cultura",
+      "attivo": false
+    },
+    {
+      "nome": "Lucy sulla cultura",
+      "url": "https://lucysullacultura.com/feed/",
+      "categoria": "cultura",
+      "attivo": false
+    },
+    {
+      "nome": "Rivista Studio",
+      "url": "https://www.rivistastudio.com/feed/",
+      "categoria": "cultura",
+      "attivo": false
+    },
+    {
+      "nome": "La Balena Bianca",
+      "url": "https://www.labalenabianca.com/feed/",
+      "categoria": "cultura",
+      "attivo": false
     },
     {
       "nome": "Agi",
@@ -475,6 +529,90 @@
       "url": "https://www.italiachecambia.org/feed/",
       "categoria": "buone-notizie",
       "attivo": true
+    },
+    {
+      "nome": "China Labour Bulletin (CLB)",
+      "url": "https://clb.org.hk/rss.xml",
+      "categoria": "da-assegnare",
+      "attivo": false
+    },
+    {
+      "nome": "Lausan Collective",
+      "url": "https://lausancollective.com/feed/",
+      "categoria": "da-assegnare",
+      "attivo": false
+    },
+    {
+      "nome": "Hong Kong Free Press (HKFP)",
+      "url": "https://hongkongfp.com/feed/",
+      "categoria": "da-assegnare",
+      "attivo": false
+    },
+    {
+      "nome": "elDiario.es",
+      "url": "https://www.eldiario.es/rss/",
+      "categoria": "da-assegnare",
+      "attivo": false
+    },
+    {
+      "nome": "Público",
+      "url": "https://www.publico.es/rss/",
+      "categoria": "da-assegnare",
+      "attivo": false
+    },
+    {
+      "nome": "El Salto",
+      "url": "https://www.elsaltodiario.com/feeds/rss",
+      "categoria": "da-assegnare",
+      "attivo": false
+    },
+    {
+      "nome": "La Jornada (Edizione)",
+      "url": "https://www.jornada.com.mx/rss/edicion.xml",
+      "categoria": "da-assegnare",
+      "attivo": false
+    },
+    {
+      "nome": "La Jornada (Politica)",
+      "url": "https://www.jornada.com.mx/rss/politica.xml",
+      "categoria": "da-assegnare",
+      "attivo": false
+    },
+    {
+      "nome": "SinEmbargo",
+      "url": "https://www.sinembargo.mx/feed",
+      "categoria": "da-assegnare",
+      "attivo": false
+    },
+    {
+      "nome": "Pie de Página",
+      "url": "https://piedepagina.mx/feed/",
+      "categoria": "da-assegnare",
+      "attivo": false
+    },
+    {
+      "nome": "Brasil de Fato",
+      "url": "https://www.brasildefato.com.br/rss2.xml",
+      "categoria": "da-assegnare",
+      "attivo": false
+    },
+    {
+      "nome": "CartaCapital",
+      "url": "https://www.cartacapital.com.br/feed/",
+      "categoria": "da-assegnare",
+      "attivo": false
+    },
+    {
+      "nome": "Agência Pública",
+      "url": "https://apublica.org/feed/",
+      "categoria": "da-assegnare",
+      "attivo": false
+    },
+    {
+      "nome": "Opera Mundi",
+      "url": "https://operamundi.uol.com.br/feed/",
+      "categoria": "da-assegnare",
+      "attivo": false
     }
   ]
 }

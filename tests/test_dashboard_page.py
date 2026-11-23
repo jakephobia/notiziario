@@ -5,7 +5,7 @@ import shutil
 import subprocess
 from pathlib import Path
 
-from notiziario.config import carica_fonti
+from notiziario.config import carica_fonti, carica_fonti_tutte
 
 
 PAGINA = Path("docs/index.html").read_text(encoding="utf-8")
@@ -50,7 +50,10 @@ def test_impostazioni_pubbliche_contengono_tutte_le_fonti():
     import json
 
     dati = json.loads(SETTINGS)
-    assert len(dati["fonti"]) == len(carica_fonti())
+    assert len(dati["fonti"]) == len(carica_fonti_tutte())
+    assert dati["fonti_totali"] == len(carica_fonti_tutte())
+    assert dati["fonti_attive"] == len(carica_fonti())
+    assert sum(1 for f in dati["fonti"] if not f["attivo"]) == len(carica_fonti_tutte()) - len(carica_fonti())
     assert dati["durata_default"] in {"svelto", "standard", "completo"}
     assert set(dati["fonti"][0]) == {"nome", "url", "categoria", "attivo"}
     assert all(f["url"].startswith(("http://", "https://")) for f in dati["fonti"])

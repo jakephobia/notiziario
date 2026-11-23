@@ -746,7 +746,10 @@ controlli.
 `docs/impostazioni.json` è generato a ogni run con i valori effettivi
 dell'episodio (categorie, incipit template/risolto, voce configurata, durata,
 orario di generazione, velocità, motore, outro, suono, nome, fonti
-totali/attive, elenco delle fonti, data, URL issue/repo). Se Gemini TTS
+totali/attive, elenco delle fonti, data, URL issue/repo). L'elenco pubblico
+contiene **tutte** le fonti della config, comprese quelle disattivate, con
+`attivo: false`: la dashboard mostra anche le 23 fonti spente e permette di
+riattivarle. Se Gemini TTS
 fallisce e si usa edge, il JSON riporta `motore: edge` e
 `motore_richiesto: gemini`; la pagina mostra entrambi.
 
