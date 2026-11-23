@@ -53,11 +53,16 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add config/
+          git add config/ docs/impostazioni.json
           if git diff --cached --quiet; then
-            echo "Nessuna modifica a config/."
+            echo "Nessuna modifica da committare."
           else
             git commit -m "Dashboard: aggiorna impostazioni"
+            if ! git pull --rebase; then
+              echo "::error::Rebase fallito: conflitto con il remoto. Risolvi manualmente; nessun push forzato."
+              git rebase --abort || true
+              exit 1
+            fi
             git push
           fi
 

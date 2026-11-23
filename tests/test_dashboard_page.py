@@ -96,3 +96,13 @@ def test_orario_configurabile_nella_pagina():
     assert "<option value=\"07:00\">07:00</option>" in PAGINA
     assert "orario_generazione" in PAGINA
     assert "orario:orarioEl.value" in PAGINA
+
+def test_salvataggio_dashboard_visibile_nella_pagina():
+    assert 'cache: "no-store"' in PAGINA
+    assert "impostazioni.json?t=" in PAGINA
+    assert "dashboard.yml/runs?per_page=10" in PAGINA
+    assert "avviaPollingDashboard" in PAGINA
+    assert "ricaricaPubblico" in PAGINA
+    assert "Salvato" in PAGINA
+    assert "Salvataggio fallito" in PAGINA
+    assert "innerHTML" not in PAGINA

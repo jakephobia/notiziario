@@ -11,6 +11,11 @@ from .config import Fonte
 from .fetch import normalizza_url
 
 
+def salva_fonti(percorso: str | Path, fonti: Iterable[Fonte]) -> None:
+    """API stabile per salvare le fonti (delega a scrivi_fonti_yaml)."""
+    scrivi_fonti_yaml(percorso, fonti)
+
+
 def scrivi_fonti_yaml(percorso: str | Path, fonti: Iterable[Fonte]) -> None:
     """Scrive un YAML leggibile. I commenti vengono rigenerati."""
     path = Path(percorso)

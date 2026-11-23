@@ -424,7 +424,7 @@ Lo stesso giorno sono state aggiunte **51 fonti** su cultura, società, politica
 sinistra progressista, politica statunitense, esteri e geopolitica. Tutte hanno
 risposto e avevano articoli negli ultimi 7 giorni. L'elenco completo è in
 `config/fonti-aggiuntive.opml`, importabile in Feeder; la configurazione del
-podcast è in `config/fonti.yaml` (**82 fonti attive** in totale).
+podcast è in `config/fonti.yaml` (**67 fonti attive** in totale).
 
 | Testata | Categoria | Feed |
 |---|---|---|
@@ -785,10 +785,18 @@ non viene messo nell'URL né stampato nei log. **Dimentica token** lo cancella.
 Senza token il form resta leggibile e mostra le istruzioni per crearlo.
 
 **Salva impostazioni** invia il payload al workflow `dashboard.yml` con
-`genera=false`: aggiorna `config/`, fa commit solo se ci sono differenze e non
-avvia l'episodio. **Salva e genera ora** usa `genera=true`: dopo il commit
-avvia `notiziario.yml` con la durata scelta. Il workflow ha `contents: write`
-e `actions: write`, e usa solo `GITHUB_TOKEN`.
+`genera=false`: aggiorna `config/` e `docs/impostazioni.json`, fa commit solo
+se ci sono differenze e non avvia l'episodio. La pagina monitora la run della
+dashboard e, al successo, ricarica il JSON con `cache: "no-store"` e ripopola
+il form mostrando **Salvato**. **Salva e genera ora** usa `genera=true`: dopo
+il commit avvia `notiziario.yml` con la durata scelta. Il workflow ha
+`contents: write` e `actions: write`, e usa solo `GITHUB_TOKEN`.
+
+Lo step di commit della dashboard esegue `git pull --rebase` prima del push:
+se il rebase va in conflitto, esce con un errore chiaro e non forza il push.
+La generazione automatica del notiziario è volutamente sospesa finché il
+workflow `notiziario.yml` non viene riabilitato; salvare o generare dalla
+dashboard non riabilita il workflow.
 
 Dopo **Salva e genera ora** compare un banner persistente in alto:
 **Generazione in corso...**, con il link alla pagina Actions. La pagina
@@ -1027,7 +1035,7 @@ Controllo stile manuale di un copione:
 
 ## Risultato della verifica locale (22 novembre 2026)
 
-- `pytest`: **282 test passati**.
+- `pytest`: **283 test passati**.
 - `--test-llm`: Gemini 2.5 Flash ha risposto con la chiave letta dal registro
   utente (nessuna chiave scritta su file).
 - Run standard finale: 31 fonti attive, 22 feed OK e 9 KO solo per assenza di

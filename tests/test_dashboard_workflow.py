@@ -40,9 +40,13 @@ def test_workflow_ordine_applica_commit_dispatch():
     assert "inputs.payload" not in applica["run"]
 
     commit = steps[nomi.index("Salva configurazione")]
-    assert "git add config/" in commit["run"]
+    assert "git add config/ docs/impostazioni.json" in commit["run"]
     assert 'git commit -m "Dashboard: aggiorna impostazioni"' in commit["run"]
+    assert "git pull --rebase" in commit["run"]
     assert "git push" in commit["run"]
+    assert "git rebase --abort" in commit["run"]
+    assert "Nessuna modifica da committare" in commit["run"]
+    assert "push --force" not in commit["run"]
 
     dispatch = steps[nomi.index("Avvia generazione")]
     assert dispatch["if"] == "${{ inputs.genera }}"

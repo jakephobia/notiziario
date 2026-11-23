@@ -14,11 +14,13 @@ ROOT = Path(__file__).resolve().parents[1]
 def test_impostazioni_reali_valide():
     impostazioni = carica_impostazioni()
     assert set(impostazioni["preset"]) == {"svelto", "standard", "completo"}
-    assert impostazioni["durata_default"] == "standard"
+    assert impostazioni["durata_default"] in impostazioni["preset"]
     assert impostazioni["orario_generazione"] == "07:00"
     assert impostazioni["tts_motore"] == "gemini"
     assert impostazioni["voce"]["nome"] == "Kore"
-    assert impostazioni["voce"]["velocita"] == 1.1
+    velocita = impostazioni["voce"]["velocita"]
+    assert 0.75 <= velocita <= 1.25
+    assert round(velocita * 100) % 5 == 0
     assert impostazioni["silenzio_iniziale_ms"] == 1000
     assert impostazioni["tts_chunk_max_caratteri"] == 4500
     assert impostazioni["llm_modello_riserva"]

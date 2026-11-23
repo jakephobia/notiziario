@@ -86,6 +86,10 @@ def test_payload_completo_applica(base):
     assert risultato["fonti_totali"] == 4
     assert risultato["aggiunte"] == 1
     assert risultato["aggiornate"] == 1
+    pubblico = json.loads((base / "docs" / "impostazioni.json").read_text(encoding="utf-8"))
+    assert pubblico["durata_default"] == "completo"
+    assert pubblico["voce_configurata"] == "Leda"
+    assert len(pubblico["fonti"]) == 4
 
 
 def test_categorie_sconosciute_e_voce_sconosciuta(base):

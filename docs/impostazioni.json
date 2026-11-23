@@ -24,17 +24,17 @@
   "voce": "it-IT-IsabellaNeural",
   "voce_label": "it-IT-IsabellaNeural (edge-tts)",
   "voce_configurata": "Kore",
-  "durata_default": "standard",
+  "durata_default": "completo",
   "orario_generazione": "07:00",
-  "velocita": 1.1,
+  "velocita": 1.15,
   "motore": "edge",
   "motore_richiesto": "gemini",
   "data": "2026-11-22",
   "nome_utente": "Jacopo",
   "suono": "ding",
   "outro": "Queste erano le notizie di oggi. A domani con i principali eventi della giornata!",
-  "fonti_totali": 82,
-  "fonti_attive": 82,
+  "fonti_totali": 73,
+  "fonti_attive": 73,
   "issue_url": "https://github.com/jakephobia/notiziario/issues/1",
   "repo_url": "https://github.com/jakephobia/notiziario",
   "fonti": [
@@ -60,12 +60,6 @@
       "nome": "ANSA",
       "url": "https://www.ansa.it/sito/notizie/economia/economia_rss.xml",
       "categoria": "economia",
-      "attivo": true
-    },
-    {
-      "nome": "ANSA",
-      "url": "https://www.ansa.it/sito/notizie/sport/sport_rss.xml",
-      "categoria": "sport",
       "attivo": true
     },
     {
@@ -162,12 +156,6 @@
       "nome": "Il Post",
       "url": "https://www.ilpost.it/cultura/feed/",
       "categoria": "cultura",
-      "attivo": true
-    },
-    {
-      "nome": "Il Post",
-      "url": "https://www.ilpost.it/sport/feed/",
-      "categoria": "sport",
       "attivo": true
     },
     {
@@ -305,48 +293,6 @@
     {
       "nome": "doppiozero",
       "url": "https://www.doppiozero.com/feed",
-      "categoria": "cultura",
-      "attivo": true
-    },
-    {
-      "nome": "Nazione Indiana",
-      "url": "https://www.nazioneindiana.com/feed/",
-      "categoria": "cultura",
-      "attivo": true
-    },
-    {
-      "nome": "Carmilla",
-      "url": "https://www.carmillaonline.com/feed/",
-      "categoria": "cultura",
-      "attivo": true
-    },
-    {
-      "nome": "Artribune",
-      "url": "https://www.artribune.com/feed/",
-      "categoria": "cultura",
-      "attivo": true
-    },
-    {
-      "nome": "Rolling Stone Italia",
-      "url": "https://www.rollingstone.it/feed/",
-      "categoria": "cultura",
-      "attivo": true
-    },
-    {
-      "nome": "Lucy sulla cultura",
-      "url": "https://lucysullacultura.com/feed/",
-      "categoria": "cultura",
-      "attivo": true
-    },
-    {
-      "nome": "Rivista Studio",
-      "url": "https://www.rivistastudio.com/feed/",
-      "categoria": "cultura",
-      "attivo": true
-    },
-    {
-      "nome": "La Balena Bianca",
-      "url": "https://www.labalenabianca.com/feed/",
       "categoria": "cultura",
       "attivo": true
     },

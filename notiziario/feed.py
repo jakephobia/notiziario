@@ -577,11 +577,13 @@ _TEMPLATE_INDEX = r"""<!DOCTYPE html>
   const WORKFLOW_DISPATCH = "https://api.github.com/repos/jakephobia/notiziario/actions/workflows/dashboard.yml/dispatches";
   const WORKFLOW_PAGE = "https://github.com/jakephobia/notiziario/actions/workflows/dashboard.yml";
   const RUNS_API = "https://api.github.com/repos/jakephobia/notiziario/actions/workflows/notiziario.yml/runs?per_page=10";
+  const DASHBOARD_RUNS_API = "https://api.github.com/repos/jakephobia/notiziario/actions/workflows/dashboard.yml/runs?per_page=10";
   const NOTIZIARIO_PAGE = "https://github.com/jakephobia/notiziario/actions/workflows/notiziario.yml";
   const PLAYER_URL = "https://jakephobia.github.io/notiziario/";
   const FEED_URL = "https://jakephobia.github.io/notiziario/feed.xml";
   const POLL_INTERVAL_MS = 15000;
   const POLL_TIMEOUT_MS = 20 * 60 * 1000;
+  const DASHBOARD_POLL_TIMEOUT_MS = 8 * 60 * 1000;
   const STARTUP_GRACE_MS = 3 * 60 * 1000;
   const ISSUE_URL = "https://github.com/jakephobia/notiziario/issues/1";
   const CATEGORIE = [
@@ -735,7 +737,7 @@ _TEMPLATE_INDEX = r"""<!DOCTYPE html>
       fallback.categorie_attive=labels.map(function (label) { const c=CATEGORIE.find(function (x) { return normalizzaTesto(x.label)===normalizzaTesto(label); }); return c?c.id:""; }).filter(Boolean);
       fallback.voce=testoDi(primoNS(canale,NS_NOTIZIARIO,"voce")); fallback.velocita=Number(testoDi(primoNS(canale,NS_NOTIZIARIO,"velocita")))||1.1; fallback.motore=testoDi(primoNS(canale,NS_NOTIZIARIO,"tts_motore")); fallback.outro=testoDi(primoNS(canale,NS_NOTIZIARIO,"outro"));
     }
-    let dati=null; try { const r=await fetch("impostazioni.json",{cache:"no-store"}); if (r.ok) dati=await r.json(); } catch (e) { dati=null; }
+    let dati=null; try { const r=await fetch("impostazioni.json?t="+Date.now(),{cache:"no-store"}); if (r.ok) dati=await r.json(); } catch (e) { dati=null; }
     popolaForm(dati && typeof dati==="object"?dati:fallback);
   }
   function leggiToken() { try { return localStorage.getItem(TOKEN_KEY)||""; } catch (e) { return ""; } }
@@ -802,6 +804,99 @@ _TEMPLATE_INDEX = r"""<!DOCTYPE html>
     fermaPolling();
     bannerGenerazione.hidden = true;
     bannerGenerazione.classList.remove("visibile");
+  }
+
+  async function ricaricaPubblico() {
+    try {
+      const risposta = await fetch("impostazioni.json?t=" + Date.now(), { cache: "no-store" });
+      if (risposta.ok) {
+        const dati = await risposta.json();
+        if (dati && typeof dati === "object") popolaForm(dati);
+      }
+    } catch (e) {}
+  }
+
+  async function controllaRunDashboard(token, genera) {
+    if (!pollingAttivo) return;
+    let risposta;
+    try {
+      risposta = await fetch(DASHBOARD_RUNS_API, {
+        method: "GET",
+        cache: "no-store",
+        headers: {
+          Authorization: "Bearer " + token,
+          Accept: "application/vnd.github+json",
+          "X-GitHub-Api-Version": "2022-11-28"
+        }
+      });
+    } catch (e) {
+      if (pollingAttivo) mostraBanner("Controllo del salvataggio non disponibile. Riprovo tra poco.", [linkSicuro("Apri le run", WORKFLOW_PAGE)]);
+      return;
+    }
+    if (risposta.status === 401 || risposta.status === 403) {
+      fermaPolling();
+      mostraBanner("Non riesco a controllare il salvataggio con questo token (serve Actions: read); apri le run", [linkSicuro("Apri le run della dashboard", WORKFLOW_PAGE)]);
+      return;
+    }
+    if (!risposta.ok) {
+      if (pollingAttivo) mostraBanner("Controllo del salvataggio non disponibile (HTTP " + risposta.status + "). Riprovo tra poco.", [linkSicuro("Apri le run", WORKFLOW_PAGE)]);
+      return;
+    }
+    let dati;
+    try { dati = await risposta.json(); } catch (e) { return; }
+    const run = (Array.isArray(dati.workflow_runs) ? dati.workflow_runs : [])
+      .filter(function (r) {
+        const creato = Date.parse(r.created_at || "");
+        return r.head_branch === "main" && Number.isFinite(creato) && creato >= clickedAt - 60000;
+      })
+      .sort(function (a, b) { return Date.parse(b.created_at) - Date.parse(a.created_at); })[0];
+    if (!run) {
+      const azioni = [linkSicuro("Apri le run della dashboard", WORKFLOW_PAGE)];
+      if (Date.now() - pollingStart < STARTUP_GRACE_MS) {
+        mostraBanner("Salvataggio avvenuto, dashboard in avvio...", azioni);
+      } else {
+        mostraBanner("La dashboard non ha risposto: controlla le run del workflow Dashboard", azioni);
+      }
+      return;
+    }
+    const stato = String(run.status || "").toLowerCase();
+    const conclusione = String(run.conclusion || "").toLowerCase();
+    const linkRun = run.html_url || WORKFLOW_PAGE;
+    if (stato === "completed") {
+      fermaPolling();
+      if (conclusione === "success") {
+        if (genera) {
+          avviaPolling(token);
+        } else {
+          await ricaricaPubblico();
+          mostraBanner("Salvato", [linkSicuro("Apri il log del salvataggio", linkRun)]);
+          mostraStato("Salvato.");
+        }
+      } else {
+        mostraBanner("Salvataggio fallito" + (conclusione ? " (" + conclusione + ")" : ""), [
+          linkSicuro("Apri il log della dashboard", linkRun)
+        ]);
+      }
+      return;
+    }
+    if (["queued", "in_progress", "waiting", "pending", "requested", ""].indexOf(stato) >= 0) {
+      mostraBanner("Salvataggio in corso · " + formattaTrascorso(Date.now() - clickedAt), [linkSicuro("Apri la run", linkRun)]);
+    }
+  }
+
+  function avviaPollingDashboard(token, genera) {
+    fermaPolling();
+    clickedAt = Date.now();
+    pollingStart = clickedAt;
+    pollingAttivo = true;
+    mostraBanner(genera ? "Salvataggio e generazione in corso..." : "Salvataggio in corso...", [linkSicuro("Apri le run della dashboard", WORKFLOW_PAGE)]);
+    pollingTimer = setInterval(function () { controllaRunDashboard(token, genera); }, POLL_INTERVAL_MS);
+    pollingTimeout = setTimeout(function () {
+      if (!pollingAttivo) return;
+      fermaPolling();
+      mostraBanner("Tempo scaduto: il salvataggio non ha dato esito. Controlla le run.", [linkSicuro("Apri le run della dashboard", WORKFLOW_PAGE)]);
+    }, DASHBOARD_POLL_TIMEOUT_MS);
+    controllaRunDashboard(token, genera);
   }
 
   async function controllaRun(token) {
@@ -899,7 +994,7 @@ _TEMPLATE_INDEX = r"""<!DOCTYPE html>
     salvaBtn.disabled=true; salvaGeneraBtn.disabled=true; mostraStato("Invio delle impostazioni a GitHub…");
     try {
       const r=await fetch(WORKFLOW_DISPATCH, {method: "POST", headers: {Authorization: "Bearer " + token, Accept: "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28", "Content-Type": "application/json"}, body: JSON.stringify({ref: "main", inputs: {payload: JSON.stringify(payload), genera: genera ? "true" : "false", durata: payload.durata}})});
-      if (r.status===204) { const link=document.createElement("a"); link.href=WORKFLOW_PAGE; link.target="_blank"; link.rel="noopener noreferrer"; link.textContent="Apri le run della dashboard"; statoSalvataggioEl.replaceChildren(document.createTextNode("Impostazioni inviate. "),link); statoSalvataggioEl.classList.remove("errore"); if (genera) { statoSalvataggioEl.appendChild(document.createTextNode(" La generazione partirà dopo il commit.")); avviaPolling(token); } }
+      if (r.status===204) { const link=document.createElement("a"); link.href=WORKFLOW_PAGE; link.target="_blank"; link.rel="noopener noreferrer"; link.textContent="Apri le run della dashboard"; statoSalvataggioEl.replaceChildren(document.createTextNode("Impostazioni inviate. "),link); statoSalvataggioEl.classList.remove("errore"); if (genera) statoSalvataggioEl.appendChild(document.createTextNode(" La generazione partirà dopo il commit.")); avviaPollingDashboard(token, genera); }
       else mostraStato(erroreHttp(r.status),true);
     } catch (e) { mostraStato("Errore di rete: impossibile raggiungere GitHub. Controlla la connessione.",true); }
     finally { salvaBtn.disabled=false; salvaGeneraBtn.disabled=false; }

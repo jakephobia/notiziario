@@ -36,7 +36,8 @@ from .config import (
 )
 from .controllo_feed import controlla_tutte
 from .fetch import normalizza_url
-from .fonti_io import merge_fonti, scrivi_fonti_yaml, sostituisci_fonte
+from .fonti_io import merge_fonti, salva_fonti, scrivi_fonti_yaml, sostituisci_fonte
+from .feed import fonti_pubbliche, scrivi_impostazioni_pubbliche
 from .incipit import INCIPIT_DEFAULT
 from .orario import orario_valido
 from .voce import normalizza_velocita
@@ -709,6 +710,50 @@ def caricare_fonti_per_payload(base: Path) -> list[Fonte]:
     return carica_fonti_tutte(percorso)
 
 
+def _rigenera_pubblico(
+    radice: Path,
+    impostazioni: dict[str, Any],
+    fonti: list[Fonte],
+    incipit: str,
+    outro: str,
+) -> None:
+    percorso = radice / "docs" / "impostazioni.json"
+    precedente: dict[str, Any] = {}
+    if percorso.exists():
+        try:
+            dati = json.loads(percorso.read_text(encoding="utf-8-sig"))
+            if isinstance(dati, dict):
+                precedente = dati
+        except (OSError, json.JSONDecodeError):
+            precedente = {}
+    voce = str(precedente.get("voce") or impostazioni["voce"]["nome"])
+    scrivi_impostazioni_pubbliche(
+        percorso,
+        categorie_attive=list(impostazioni["categorie_default"]),
+        incipit_template=incipit,
+        incipit_risolto=str(precedente.get("incipit_risolto") or incipit),
+        voce=voce,
+        voce_label=str(precedente.get("voce_label") or voce),
+        velocita=float(impostazioni["voce"]["velocita"]),
+        motore=str(precedente.get("motore") or impostazioni["tts_motore"]),
+        motore_richiesto=str(impostazioni["tts_motore"]),
+        motore_configurato=str(impostazioni["tts_motore"]),
+        data=str(precedente.get("data", "")),
+        nome_utente=str(impostazioni.get("nome_utente", "")),
+        suono=str(impostazioni.get("suono_transizione", "ding")),
+        outro=outro,
+        fonti_totali=len(fonti),
+        fonti_attive=sum(1 for f in fonti if f.attivo),
+        issue_url=precedente.get("issue_url"),
+        repo_url=precedente.get("repo_url")
+        or impostazioni.get("github", {}).get("repo_url"),
+        voce_configurata=str(impostazioni["voce"]["nome"]),
+        durata_default=str(impostazioni.get("durata_default", "standard")),
+        orario_generazione=str(impostazioni.get("orario_generazione", "07:00")),
+        fonti=fonti_pubbliche(fonti),
+    )
+
+
 def applica_payload(
     payload: dict[str, Any],
     *,
@@ -759,8 +804,15 @@ def applica_payload(
                 piano["outro"].strip() + "\n", encoding="utf-8", newline="\n"
             )
         if candidate_fonti != list(caricare_fonti_per_payload(radice)):
-            scrivi_fonti_yaml(config_dir / "fonti.yaml", candidate_fonti)
+            salva_fonti(config_dir / "fonti.yaml", candidate_fonti)
             logger.info("Dashboard: fonti aggiornate.")
+        _rigenera_pubblico(
+            radice,
+            candidate,
+            candidate_fonti,
+            piano["incipit"],
+            piano["outro"],
+        )
 
     return {
         "dry_run": dry_run,
