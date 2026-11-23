@@ -1,6 +1,32 @@
 {
   "episodi": [
     {
+      "data": "2026-11-23",
+      "titolo": "Notizie del 23 novembre 2026",
+      "descrizione": "Le principali notizie di lunedì 23 novembre 2026.",
+      "filename": "notiziario-2026-11-23.mp3",
+      "descrizione_breve": "23 novembre 2026 - I telefoni e gli appunti, Le lettere, Black Friday, Infarto ictus e aterosclerosi, Novanta secondi di morte in Irpinia.",
+      "durata_secondi": 577.262948,
+      "dimensione": 6928026,
+      "modalita": "llm",
+      "categorie": [
+        "italia",
+        "mondo",
+        "economia",
+        "tecnologia",
+        "scienza-salute",
+        "cultura",
+        "ambiente",
+        "buone-notizie"
+      ],
+      "voce": "it-IT-IsabellaNeural",
+      "voce_label": "it-IT-IsabellaNeural (edge-tts)",
+      "velocita": 1.15,
+      "tts_motore": "edge",
+      "pubblicato": "2026-11-23T06:45:20.117065+00:00",
+      "guid": "notiziario-2026-11-23"
+    },
+    {
       "data": "2026-11-22",
       "titolo": "Notiziario di domenica 22 novembre 2026",
       "descrizione": "Le notizie del 22 novembre 2026: Schettino fuori dal carcere, ai servizi sociali per buona condotta; Estetiche inquiete. Segni vestimentari e politica estetica della strada e delle sue estensioni digitali; Infarto, ictus e aterosclerosi: i rischi se reni e fegato non funzionano, ecco 5 consigli...",
