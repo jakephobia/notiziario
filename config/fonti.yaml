@@ -24,7 +24,6 @@ fonti:
   - nome: "ANSA"
     url: "https://www.ansa.it/sito/notizie/sport/sport_rss.xml"
     categoria: "sport"
-    attivo: false
 
   - nome: "ANSA"
     url: "https://www.ansa.it/sito/notizie/cultura/cultura_rss.xml"
@@ -93,7 +92,6 @@ fonti:
   - nome: "Il Post"
     url: "https://www.ilpost.it/sport/feed/"
     categoria: "sport"
-    attivo: false
 
   - nome: "Il Sole 24 Ore"
     url: "https://www.ilsole24ore.com/rss/italia.xml"
@@ -186,42 +184,34 @@ fonti:
   - nome: "doppiozero"
     url: "https://www.doppiozero.com/feed"
     categoria: "cultura"
-    attivo: false
 
   - nome: "Nazione Indiana"
     url: "https://www.nazioneindiana.com/feed/"
     categoria: "cultura"
-    attivo: false
 
   - nome: "Carmilla"
     url: "https://www.carmillaonline.com/feed/"
     categoria: "cultura"
-    attivo: false
 
   - nome: "Artribune"
     url: "https://www.artribune.com/feed/"
     categoria: "cultura"
-    attivo: false
 
   - nome: "Rolling Stone Italia"
     url: "https://www.rollingstone.it/feed/"
     categoria: "cultura"
-    attivo: false
 
   - nome: "Lucy sulla cultura"
     url: "https://lucysullacultura.com/feed/"
     categoria: "cultura"
-    attivo: false
 
   - nome: "Rivista Studio"
     url: "https://www.rivistastudio.com/feed/"
     categoria: "cultura"
-    attivo: false
 
   - nome: "La Balena Bianca"
     url: "https://www.labalenabianca.com/feed/"
     categoria: "cultura"
-    attivo: false
 
   - nome: "Agi"
     url: "https://www.agi.it/cultura/rss.xml"
@@ -246,7 +236,6 @@ fonti:
   - nome: "Le Grand Continent"
     url: "https://legrandcontinent.eu/it/feed/"
     categoria: "mondo"
-    attivo: false
 
   - nome: "Limes"
     url: "https://www.limesonline.com/rss"
@@ -259,7 +248,6 @@ fonti:
   - nome: "Inside Over"
     url: "https://www.insideover.com/feed/"
     categoria: "mondo"
-    attivo: false
 
   - nome: "Eastjournal"
     url: "https://www.eastjournal.net/feed/"
@@ -288,7 +276,6 @@ fonti:
   - nome: "Responsible Statecraft"
     url: "https://responsiblestatecraft.org/feed/"
     categoria: "mondo"
-    attivo: false
 
   - nome: "Drop Site News"
     url: "https://www.dropsitenews.com/feed"
@@ -309,12 +296,10 @@ fonti:
   - nome: "Mother Jones"
     url: "https://www.motherjones.com/feed/"
     categoria: "mondo"
-    attivo: false
 
   - nome: "The New Republic"
     url: "https://newrepublic.com/rss.xml"
     categoria: "mondo"
-    attivo: false
 
   - nome: "The American Prospect"
     url: "https://prospect.org/feed/"
@@ -347,3 +332,87 @@ fonti:
   - nome: "Italia Che Cambia"
     url: "https://www.italiachecambia.org/feed/"
     categoria: "buone-notizie"
+
+  - nome: "China Labour Bulletin (CLB)"
+    url: "https://clb.org.hk/rss.xml"
+    categoria: "da-assegnare"
+    attivo: false
+    controllo: "da-verificare"
+
+  - nome: "Lausan Collective"
+    url: "https://lausancollective.com/feed/"
+    categoria: "da-assegnare"
+    attivo: false
+    controllo: "da-verificare"
+
+  - nome: "Hong Kong Free Press (HKFP)"
+    url: "https://hongkongfp.com/feed/"
+    categoria: "da-assegnare"
+    attivo: false
+    controllo: "da-verificare"
+
+  - nome: "elDiario.es"
+    url: "https://www.eldiario.es/rss/"
+    categoria: "da-assegnare"
+    attivo: false
+    controllo: "da-verificare"
+
+  - nome: "Público"
+    url: "https://www.publico.es/rss/"
+    categoria: "da-assegnare"
+    attivo: false
+    controllo: "da-verificare"
+
+  - nome: "El Salto"
+    url: "https://www.elsaltodiario.com/feeds/rss"
+    categoria: "da-assegnare"
+    attivo: false
+    controllo: "da-verificare"
+
+  - nome: "La Jornada (Edizione)"
+    url: "https://www.jornada.com.mx/rss/edicion.xml"
+    categoria: "da-assegnare"
+    attivo: false
+    controllo: "da-verificare"
+
+  - nome: "La Jornada (Politica)"
+    url: "https://www.jornada.com.mx/rss/politica.xml"
+    categoria: "da-assegnare"
+    attivo: false
+    controllo: "da-verificare"
+
+  - nome: "SinEmbargo"
+    url: "https://www.sinembargo.mx/feed"
+    categoria: "da-assegnare"
+    attivo: false
+    controllo: "da-verificare"
+
+  - nome: "Pie de Página"
+    url: "https://piedepagina.mx/feed/"
+    categoria: "da-assegnare"
+    attivo: false
+    controllo: "da-verificare"
+
+  - nome: "Brasil de Fato"
+    url: "https://www.brasildefato.com.br/rss2.xml"
+    categoria: "da-assegnare"
+    attivo: false
+    controllo: "da-verificare"
+
+  - nome: "CartaCapital"
+    url: "https://www.cartacapital.com.br/feed/"
+    categoria: "da-assegnare"
+    attivo: false
+    controllo: "da-verificare"
+
+  - nome: "Agência Pública"
+    url: "https://apublica.org/feed/"
+    categoria: "da-assegnare"
+    attivo: false
+    controllo: "da-verificare"
+
+  - nome: "Opera Mundi"
+    url: "https://operamundi.uol.com.br/feed/"
+    categoria: "da-assegnare"
+    attivo: false
+    controllo: "da-verificare"
