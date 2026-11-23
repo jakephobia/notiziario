@@ -158,7 +158,6 @@ fonti:
   - nome: "IRPI Media"
     url: "https://irpimedia.irpi.eu/feed/"
     categoria: "italia"
-    attivo: false
 
   - nome: "Openpolis"
     url: "https://www.openpolis.it/feed/"
@@ -187,10 +186,12 @@ fonti:
   - nome: "doppiozero"
     url: "https://www.doppiozero.com/feed"
     categoria: "cultura"
+    attivo: false
 
   - nome: "Nazione Indiana"
     url: "https://www.nazioneindiana.com/feed/"
     categoria: "cultura"
+    attivo: false
 
   - nome: "Carmilla"
     url: "https://www.carmillaonline.com/feed/"
@@ -263,7 +264,6 @@ fonti:
   - nome: "Eastjournal"
     url: "https://www.eastjournal.net/feed/"
     categoria: "mondo"
-    attivo: false
 
   - nome: "Eunews"
     url: "https://www.eunews.it/feed/"
@@ -314,11 +314,11 @@ fonti:
   - nome: "The New Republic"
     url: "https://newrepublic.com/rss.xml"
     categoria: "mondo"
+    attivo: false
 
   - nome: "The American Prospect"
     url: "https://prospect.org/feed/"
     categoria: "mondo"
-    attivo: false
 
   - nome: "Politico"
     url: "https://rss.politico.com/politics-news.xml"
