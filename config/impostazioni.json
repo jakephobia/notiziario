@@ -1,7 +1,7 @@
 {
   "versione": 3,
   "orario_generazione": "07:00",
-  "durata_default": "standard",
+  "durata_default": "completo",
   "nome_utente": "Jacopo",
   "tts_motore": "gemini",
   "preset": {
@@ -68,7 +68,7 @@
   },
   "voce": {
     "nome": "Kore",
-    "velocita": 1.1,
+    "velocita": 1.15,
     "voci": [
       {
         "nome": "Kore",
