@@ -99,16 +99,11 @@ def risolvi_voce(
     fonte = "config"
 
     issue = sezione_voce(corpo_issue)
+    voce_issue: str | None = None
     if issue:
         fonte = "issue"
         if "voce" in issue:
-            trovata = _canonica(issue["voce"], voci)
-            if trovata:
-                nome = str(trovata["nome"])
-            else:
-                avvisi.append(
-                    f"Voce issue '{issue['voce']}' non valida: uso {nome}."
-                )
+            voce_issue = issue["voce"]
         if "velocita" in issue:
             velocita, avvisi_velocita = normalizza_velocita(
                 issue["velocita"], velocita
@@ -116,7 +111,7 @@ def risolvi_voce(
             avvisi.extend(avvisi_velocita)
         if "motore" in issue:
             valore = issue["motore"].casefold()
-            if valore in {"gemini", "edge"}:
+            if valore in {"gemini", "edge", "google"}:
                 motore = valore
             else:
                 avvisi.append(
@@ -125,12 +120,7 @@ def risolvi_voce(
 
     # I flag CLI servono soprattutto per l'anteprima; hanno precedenza.
     if voce_cli:
-        trovata = _canonica(voce_cli, voci)
-        if trovata:
-            nome = str(trovata["nome"])
-            fonte = "cli"
-        else:
-            avvisi.append(f"Voce CLI '{voce_cli}' non valida: uso {nome}.")
+        fonte = "cli"
     if velocita_cli is not None:
         velocita, avvisi_velocita = normalizza_velocita(
             velocita_cli, velocita
@@ -138,11 +128,54 @@ def risolvi_voce(
         avvisi.extend(avvisi_velocita)
         fonte = "cli"
     if motore_cli:
-        if motore_cli in {"gemini", "edge"}:
+        if motore_cli in {"gemini", "edge", "google"}:
             motore = motore_cli
             fonte = "cli"
         else:
             avvisi.append(f"Motore CLI '{motore_cli}' non valido: uso {motore}.")
+
+    if motore == "google":
+        google = config_voce.get("google", {})
+        if not isinstance(google, dict):
+            google = {}
+        nome_google = str(google.get("nome") or "").strip()
+        if not nome_google:
+            nome_google = "it-IT-Chirp3-HD-Achernar"
+            avvisi.append(
+                "Voce Google non configurata: uso it-IT-Chirp3-HD-Achernar."
+            )
+        richiesta = (voce_cli or voce_issue or "").strip()
+        if richiesta.startswith("it-IT-"):
+            nome = richiesta
+        else:
+            if richiesta:
+                avvisi.append(
+                    f"Voce '{richiesta}' non valida per Google: uso {nome_google}."
+                )
+            nome = nome_google
+        return VoceScelta(
+            nome=nome,
+            velocita=round(float(velocita), 2),
+            motore=motore,
+            etichetta=str(google.get("label") or nome),
+            genere=str(google.get("genere", "")),
+            avvisi=avvisi,
+            fonte=fonte,
+        )
+
+    if voce_issue:
+        trovata = _canonica(voce_issue, voci)
+        if trovata:
+            nome = str(trovata["nome"])
+        else:
+            avvisi.append(f"Voce issue '{voce_issue}' non valida: uso {nome}.")
+    if voce_cli:
+        trovata = _canonica(voce_cli, voci)
+        if trovata:
+            nome = str(trovata["nome"])
+            fonte = "cli"
+        else:
+            avvisi.append(f"Voce CLI '{voce_cli}' non valida: uso {nome}.")
 
     voce_scelta = _canonica(nome, voci)
     if not voce_scelta:

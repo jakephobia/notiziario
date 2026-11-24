@@ -192,7 +192,7 @@ def costruisci_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         "--tts-motore",
-        choices=("gemini", "edge"),
+        choices=("gemini", "edge", "google"),
         help="Forza il motore TTS.",
     )
     parser.add_argument(
@@ -554,7 +554,7 @@ def _stato(
             ),
             "voce_etichetta": (
                 voce_scelta.etichetta
-                if info_audio and info_audio.get("motore") == "gemini"
+                if info_audio and info_audio.get("motore") in {"gemini", "google"}
                 else (
                     f"{info_audio.get('voce')} (edge-tts)"
                     if info_audio
@@ -940,7 +940,7 @@ def esegui(
     voce_pub = str(info_audio.get("voce", voce_scelta.nome)) if info_audio else voce_scelta.nome
     voce_label_pub = (
         voce_scelta.etichetta
-        if info_audio and info_audio.get("motore") == "gemini"
+        if info_audio and info_audio.get("motore") in {"gemini", "google"}
         else (f"{voce_pub} (edge-tts)" if info_audio else voce_scelta.etichetta)
     )
     motore_pub = str(info_audio.get("motore", voce_scelta.motore)) if info_audio else voce_scelta.motore
@@ -992,7 +992,7 @@ def esegui(
             voce=str(info_audio.get("voce", voce_scelta.nome)),
             voce_label=(
                 voce_scelta.etichetta
-                if info_audio.get("motore") == "gemini"
+                if info_audio.get("motore") in {"gemini", "google"}
                 else f"{info_audio.get('voce', voce_scelta.nome)} (edge-tts)"
             ),
             velocita=float(info_audio.get("velocita", voce_scelta.velocita)),

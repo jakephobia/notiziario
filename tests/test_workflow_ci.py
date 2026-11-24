@@ -126,3 +126,29 @@ def test_workflow_commit_pull_rebase_push_e_caso_vuoto():
     assert "git diff --cached --quiet" in run
     assert "git rebase --abort" in run
     assert "push --force" not in run
+
+def test_workflow_genera_episodio_espone_chiave_google():
+    percorso = ROOT / ".github" / "workflows" / "notiziario.yml"
+    dati = yaml.safe_load(percorso.read_text(encoding="utf-8"))
+    passi = dati["jobs"]["episodio"]["steps"]
+    passo = next(p for p in passi if p.get("name") == "Genera episodio")
+    assert passo["env"]["GOOGLE_CLOUD_TTS_API_KEY"] == (
+        "${{ secrets.GOOGLE_CLOUD_TTS_API_KEY }}"
+    )
+
+
+def test_workflow_prove_voci_google():
+    percorso = ROOT / ".github" / "workflows" / "voci-google.yml"
+    dati = yaml.safe_load(percorso.read_text(encoding="utf-8"))
+    eventi = dati.get("on") or dati.get(True)
+    assert "workflow_dispatch" in eventi
+    passi = dati["jobs"]["campioni"]["steps"]
+    testo = percorso.read_text(encoding="utf-8")
+    assert "python scripts/prova_voci_google.py" in testo
+    assert "python-version: \"3.11\"" in testo
+    upload = next(p for p in passi if "upload-artifact" in p.get("uses", ""))
+    assert upload["with"]["name"] == "prove-voci"
+    assert "output/prove-voci" in upload["with"]["path"]
+    assert "output/voci-google.json" in upload["with"]["path"]
+    assert "git push" not in testo
+    assert "git commit" not in testo

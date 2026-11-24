@@ -51,7 +51,7 @@ from .visti import Visti
 LIMITE_BODY = 60_000
 LIMITE_PAYLOAD = 65_000
 LIMITE_TESTO_PAYLOAD = 500
-MOTORI_VALIDI = {"gemini", "edge"}
+MOTORI_VALIDI = {"gemini", "edge", "google"}
 DURATE_VALIDE = {"svelto", "standard", "completo"}
 CAMPI_PAYLOAD = {
     "nome",

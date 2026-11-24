@@ -66,6 +66,7 @@ jobs:
         if: ${{ github.event_name == 'workflow_dispatch' || steps.orario.outputs.run == 'true' }}
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GOOGLE_CLOUD_TTS_API_KEY: ${{ secrets.GOOGLE_CLOUD_TTS_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_ISSUE_CATEGORIE: ${{ vars.GITHUB_ISSUE_CATEGORIE }}
         run: |

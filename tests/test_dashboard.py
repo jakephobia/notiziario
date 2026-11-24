@@ -235,3 +235,6 @@ def test_genera_corpo_include_suono_e_outro():
     )
     assert "## Suono\nsuono: ding" in corpo
     assert "## Outro\nQueste erano le notizie. A domani!" in corpo
+
+def test_motori_validi_include_google():
+    assert dashboard.MOTORI_VALIDI == {"gemini", "edge", "google"}

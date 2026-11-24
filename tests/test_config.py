@@ -23,6 +23,12 @@ def test_impostazioni_reali_valide():
     assert round(velocita * 100) % 5 == 0
     assert impostazioni["silenzio_iniziale_ms"] == 1000
     assert impostazioni["tts_chunk_max_caratteri"] == 4500
+    assert impostazioni["tts_motore"] in {"gemini", "edge", "google"}
+    assert impostazioni["tts_google"]["lingua"] == "it-IT"
+    assert impostazioni["tts_google"]["max_caratteri_chunk"] == 3000
+    assert impostazioni["tts_google"]["timeout"] == 90
+    assert impostazioni["tts_google"]["endpoint"].startswith("https://")
+    assert impostazioni["voce"]["google"]["nome"] == "it-IT-Chirp3-HD-Achernar"
     assert impostazioni["llm_modello_riserva"]
     assert impostazioni["voce"]["edge"]["nome"] == "it-IT-IsabellaNeural"
     assert {v["nome"] for v in impostazioni["voce"]["voci"]} >= {"Kore", "Leda", "Charon", "Puck", "Orus"}

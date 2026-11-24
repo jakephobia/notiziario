@@ -65,3 +65,24 @@ def test_cli_prevale_e_edge_mappa_voce():
     assert scelta.motore == "edge"
     assert scelta.velocita == 1.1
     assert any("non è disponibile" in a for a in scelta.avvisi)
+
+
+def test_motore_google_usa_voce_google():
+    scelta = risolvi_voce(
+        carica_impostazioni(),
+        corpo_issue="## Voce\nmotore: google\nvelocita: 1.1\n",
+    )
+    assert scelta.motore == "google"
+    assert scelta.nome == "it-IT-Chirp3-HD-Achernar"
+    assert scelta.etichetta == "Google Chirp 3 HD — Achernar"
+    assert scelta.fonte == "issue"
+
+
+def test_motore_google_voce_cli_completa():
+    scelta = risolvi_voce(
+        carica_impostazioni(),
+        voce_cli="it-IT-Chirp3-HD-Puck",
+        motore_cli="google",
+    )
+    assert scelta.motore == "google"
+    assert scelta.nome == "it-IT-Chirp3-HD-Puck"

@@ -105,6 +105,11 @@ DEFAULT_SETTINGS: dict[str, Any] = {
             {"nome": "Orus", "genere": "M", "label": "Orus — maschile, riserva"},
         ],
         "edge": {"nome": "it-IT-IsabellaNeural", "alternativa": "it-IT-ElsaNeural"},
+        "google": {
+            "nome": "it-IT-Chirp3-HD-Achernar",
+            "label": "Google Chirp 3 HD — Achernar",
+            "genere": "",
+        },
     },
     "tts_gemini": {
         "modello": "gemini-2.5-flash-preview-tts",
@@ -119,6 +124,12 @@ DEFAULT_SETTINGS: dict[str, Any] = {
             "voice, with varied pacing and clear pronunciation. Read only the "
             "Italian text below, not this instruction."
         ),
+    },
+    "tts_google": {
+        "lingua": "it-IT",
+        "endpoint": "https://texttospeech.googleapis.com/v1/text:synthesize",
+        "max_caratteri_chunk": 3000,
+        "timeout": 90,
     },
     "tts": {
         "pausa_sezione": 0.8,
@@ -286,8 +297,8 @@ def valida_impostazioni(impostazioni: dict[str, Any]) -> None:
         raise ConfigError("github.repo_url deve essere una stringa.")
 
     motore = impostazioni.get("tts_motore", "gemini")
-    if motore not in {"gemini", "edge"}:
-        raise ConfigError("tts_motore deve essere 'gemini' oppure 'edge'.")
+    if motore not in {"gemini", "edge", "google"}:
+        raise ConfigError("tts_motore deve essere 'gemini', 'edge' oppure 'google'.")
 
     suono = impostazioni.get("suono_transizione", "ding")
     if suono not in {"ding", "chime", "whoosh", "nessuno"}:
@@ -349,6 +360,8 @@ def valida_impostazioni(impostazioni: dict[str, Any]) -> None:
         raise ConfigError("voce.velocita deve essere un numero tra 0.75 e 1.25.")
     if not isinstance(voce.get("edge", {}), dict):
         raise ConfigError("voce.edge deve essere un oggetto.")
+    if not isinstance(voce.get("google", {}), dict):
+        raise ConfigError("voce.google deve essere un oggetto.")
 
     tts = impostazioni.get("tts", {})
     for chiave in ("pausa_chiamate",):
@@ -372,6 +385,25 @@ def valida_impostazioni(impostazioni: dict[str, Any]) -> None:
         valore = tts_gemini.get(chiave)
         if not isinstance(valore, int) or valore < 1:
             raise ConfigError(f"tts_gemini.{chiave} deve essere un intero positivo.")
+
+    tts_google = impostazioni.get("tts_google", {})
+    if not isinstance(tts_google, dict):
+        raise ConfigError("tts_google deve essere un oggetto.")
+    if not isinstance(tts_google.get("lingua"), str) or not tts_google["lingua"].strip():
+        raise ConfigError("tts_google.lingua deve essere una stringa non vuota.")
+    endpoint_google = tts_google.get("endpoint")
+    if not isinstance(endpoint_google, str) or not endpoint_google.startswith(
+        ("http://", "https://")
+    ):
+        raise ConfigError("tts_google.endpoint deve essere un URL http(s).")
+    chunk_google = tts_google.get("max_caratteri_chunk")
+    if not isinstance(chunk_google, int) or not 500 <= chunk_google <= 5000:
+        raise ConfigError(
+            "tts_google.max_caratteri_chunk deve essere un intero tra 500 e 5000."
+        )
+    timeout_google = tts_google.get("timeout")
+    if not isinstance(timeout_google, int) or not 10 <= timeout_google <= 300:
+        raise ConfigError("tts_google.timeout deve essere un intero tra 10 e 300.")
 
     arricchimento = impostazioni.get("arricchimento", {})
     if not isinstance(arricchimento.get("attivo"), bool):

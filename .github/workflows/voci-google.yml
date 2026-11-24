@@ -1,0 +1,36 @@
+name: Prove voci Google Chirp 3 HD
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  campioni:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Installa requests
+        run: python -m pip install requests
+
+      - name: Elenca voci e genera campioni
+        env:
+          GOOGLE_CLOUD_TTS_API_KEY: ${{ secrets.GOOGLE_CLOUD_TTS_API_KEY }}
+        run: python scripts/prova_voci_google.py
+
+      - name: Carica artifact dei campioni
+        uses: actions/upload-artifact@v4
+        with:
+          name: prove-voci
+          path: |
+            output/prove-voci
+            output/voci-google.json

@@ -236,3 +236,9 @@ def test_titolo_feed_mese_minuscolo(tmp_path):
     radice = ET.parse(percorso).getroot()
     titolo = radice.find("./channel/item/title").text
     assert titolo == "Notiziario di 22 novembre 2026"
+
+def test_index_include_motore_google(tmp_path):
+    percorso = tmp_path / "index.html"
+    scrivi_index(percorso, carica_impostazioni())
+    html = percorso.read_text(encoding="utf-8")
+    assert '<option value="google">Google Chirp 3 HD</option>' in html

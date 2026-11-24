@@ -1,7 +1,7 @@
-{
+﻿{
   "versione": 3,
   "orario_generazione": "07:00",
-  "durata_default": "standard",
+  "durata_default": "completo",
   "nome_utente": "Jacopo",
   "tts_motore": "gemini",
   "preset": {
@@ -71,27 +71,27 @@
       {
         "nome": "Kore",
         "genere": "F",
-        "label": "Kore — femminile, calda"
+        "label": "Kore â€” femminile, calda"
       },
       {
         "nome": "Leda",
         "genere": "F",
-        "label": "Leda — femminile, luminosa"
+        "label": "Leda â€” femminile, luminosa"
       },
       {
         "nome": "Charon",
         "genere": "M",
-        "label": "Charon — maschile, profonda"
+        "label": "Charon â€” maschile, profonda"
       },
       {
         "nome": "Puck",
         "genere": "M",
-        "label": "Puck — maschile, vivace"
+        "label": "Puck â€” maschile, vivace"
       },
       {
         "nome": "Orus",
         "genere": "M",
-        "label": "Orus — maschile, riserva"
+        "label": "Orus â€” maschile, riserva"
       }
     ],
     "edge": {
@@ -191,3 +191,4 @@
     "file": "config/outro.txt"
   }
 }
+

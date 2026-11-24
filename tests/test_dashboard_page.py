@@ -109,3 +109,7 @@ def test_salvataggio_dashboard_visibile_nella_pagina():
     assert "Salvato" in PAGINA
     assert "Salvataggio fallito" in PAGINA
     assert "innerHTML" not in PAGINA
+
+def test_motore_google_visibile_nella_pagina():
+    assert '<option value="google">Google Chirp 3 HD</option>' in PAGINA
+    assert '["gemini","edge","google"].indexOf(motore)' in PAGINA

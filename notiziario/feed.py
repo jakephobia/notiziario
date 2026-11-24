@@ -554,7 +554,7 @@ _TEMPLATE_INDEX = r"""<!DOCTYPE html>
             </select>
           </label>
           <label>Motore TTS
-            <select id="tts-motore" name="motore"><option value="gemini">Gemini TTS</option><option value="edge">edge-tts</option></select>
+            <select id="tts-motore" name="motore"><option value="gemini">Gemini TTS</option><option value="edge">edge-tts</option><option value="google">Google Chirp 3 HD</option></select>
           </label>
           <label class="largo">Velocità <span class="valore-range" id="velocita-valore">1.10×</span>
             <input id="velocita" name="velocita" type="range" min="0.75" max="1.25" step="0.05" value="1.1">
@@ -919,7 +919,7 @@ _TEMPLATE_INDEX = r"""<!DOCTYPE html>
     nomeEl.value=d.nome_utente||"Jacopo"; incipitEl.value=d.incipit_template||""; outroEl.value=d.outro||"";
     const voce=d.voce_configurata||d.voce||"Kore"; voceEl.value=Array.from(voceEl.options).some(function (o) { return o.value===voce; })?voce:"Kore";
     const v=Number(d.velocita); const valore=Number.isFinite(v)?Math.min(1.25,Math.max(.75,v)):1.1; velocitaEl.value=String(valore); velocitaValoreEl.textContent=Number(valore).toFixed(2)+"×";
-    const motore=d.motore_richiesto||d.motore||"gemini"; motoreEl.value=motore==="edge"?"edge":"gemini";
+    const motore=d.motore_richiesto||d.motore||"gemini"; motoreEl.value=["gemini","edge","google"].indexOf(motore)>=0?motore:"gemini";
     const suono=d.suono||"ding"; suonoEl.value=["ding","chime","whoosh","nessuno"].indexOf(suono)>=0?suono:"ding";
     const durata=d.durata_default||"standard"; durataEl.value=["svelto","standard","completo"].indexOf(durata)>=0?durata:"standard";
     const orario=d.orario_generazione||"07:00"; orarioEl.value=/^\d{2}:00$/.test(orario)?orario:"07:00";

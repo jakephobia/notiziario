@@ -1,4 +1,4 @@
-﻿"""Motore TTS: Gemini principale, edge-tts come fallback forzabile."""
+﻿"""Motore TTS: Gemini principale, Google Cloud TTS selezionabile, edge-tts fallback."""
 
 from __future__ import annotations
 
@@ -23,6 +23,7 @@ from .audio import (
 )
 from .testi import conta_parole
 from .tts_gemini import GeminiTTSError, sintetizza_sezioni_gemini
+from .tts_google import GoogleTTSError, sintetizza_sezioni_google
 
 
 class TTSError(Exception):
@@ -187,9 +188,10 @@ def sintetizza_sezioni(
     velocita: float | None = None,
     motore: str | None = None,
 ) -> dict[str, Any]:
-    """Sintetizza con Gemini; su errore/quota passa a edge-tts.
+    """Sintetizza con Gemini o Google Cloud TTS; su errore passa a edge-tts.
 
-    ``sezioni`` contiene coppie (testo, pausa_dopo_in_secondi).
+    ``sezioni`` contiene coppie (testo, pausa_dopo_in_secondi). Il motore
+    ``edge`` salta del tutto Gemini e Google.
     """
     logger = logger or logging.getLogger("notiziario")
     sezioni = [(t.strip(), float(p)) for t, p in sezioni if t and t.strip()]
@@ -200,7 +202,21 @@ def sintetizza_sezioni(
 
     configurazione_voce = impostazioni.get("voce", {})
     motore = (motore or impostazioni.get("tts_motore", "gemini")).lower()
-    voce = voce or str(configurazione_voce.get("nome", "Kore"))
+    voce_edge = voce
+    if motore == "google":
+        google = configurazione_voce.get("google", {})
+        if not isinstance(google, dict):
+            google = {}
+        voce_google = str(google.get("nome") or "").strip() or (
+            "it-IT-Chirp3-HD-Achernar"
+        )
+        if voce and str(voce).startswith("it-IT-"):
+            voce = str(voce)
+        else:
+            voce = voce_google
+        voce_edge = None
+    else:
+        voce = voce or str(configurazione_voce.get("nome", "Kore"))
     if velocita is None:
         velocita = float(configurazione_voce.get("velocita", 1.1))
     velocita = float(velocita)
@@ -208,7 +224,28 @@ def sintetizza_sezioni(
         raise TTSError("La velocità deve essere tra 0.75 e 1.25.")
 
     motivo_fallback = None
-    if motore == "gemini":
+    if motore == "google":
+        try:
+            return sintetizza_sezioni_google(
+                sezioni,
+                uscita,
+                impostazioni,
+                logger,
+                voce=voce,
+                velocita=velocita,
+            )
+        except GoogleTTSError as exc:
+            motivo_fallback = str(exc)
+            logger.warning(
+                "Google TTS non disponibile (%s). Passo a edge-tts.", motivo_fallback
+            )
+        except Exception as exc:  # pragma: no cover - difesa
+            motivo_fallback = f"errore imprevisto ({type(exc).__name__})"
+            logger.warning(
+                "Google TTS non disponibile (%s). Passo a edge-tts.",
+                motivo_fallback,
+            )
+    elif motore == "gemini":
         try:
             return sintetizza_sezioni_gemini(
                 sezioni,
@@ -236,7 +273,7 @@ def sintetizza_sezioni(
             uscita,
             impostazioni,
             logger,
-            voce=voce,
+            voce=voce_edge,
             velocita=velocita,
         )
         info["motivo_fallback"] = motivo_fallback
@@ -244,7 +281,7 @@ def sintetizza_sezioni(
     except TTSError as exc:
         if motivo_fallback:
             raise TTSError(
-                f"Gemini TTS: {motivo_fallback}; fallback edge fallito: {exc}"
+                f"TTS principale: {motivo_fallback}; fallback edge fallito: {exc}"
             ) from exc
         raise
 
