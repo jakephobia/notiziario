@@ -827,6 +827,24 @@ workflow. Con cron-job.org (gratuito):
 Il dispatch manuale salta il controllo orario e parte subito. La schedule GitHub
 resta come backup: se l'episodio esiste già, le run successive non fanno nulla.
 
+### Alternativa senza nuovi servizi: Google Apps Script
+
+Se hai un account Google, puoi usare Google Apps Script senza iscriverti a
+cron-job.org. Il file pronto è `scripts/sveglia-google-apps-script.js`:
+
+1. apri https://script.google.com/ e crea un nuovo progetto;
+2. incolla il contenuto di `scripts/sveglia-google-apps-script.js`;
+3. **Impostazioni progetto** → fuso orario `Europe/Rome`;
+4. **Impostazioni progetto** → **Proprietà script** → aggiungi `GITHUB_TOKEN`
+   con la fine-grained PAT limitata al repository e **Actions: read/write**;
+5. **Trigger** → **Aggiungi trigger** → funzione `triggerNotiziario` → origine
+   **A tempo** → **Timer a minuti** → ogni 5 minuti;
+6. autorizza lo script al primo avvio.
+
+Lo script lavora solo tra le 7 e le 8 di Europe/Rome, controlla se l'episodio di
+oggi è già in `docs/storico.json` e non duplica. La funzione `testToken` serve a
+verificare la chiave senza avviare una puntata.
+
 Nello step **Aggiorna feed, sito e stato nel repository**, dopo il commit
 locale viene eseguito `git pull --rebase` prima del push. Se il rebase trova
 conflitti, il workflow stampa un errore, esegue `git rebase --abort` ed esce
