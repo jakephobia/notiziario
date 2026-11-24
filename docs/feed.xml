@@ -5,7 +5,7 @@
     <link>https://jakephobia.github.io/notiziario/</link>
     <description>Le notizie del giorno scelte da Jacopo, lette in italiano. Un riassunto quotidiano delle notizie italiane e internazionali.</description>
     <language>it-it</language>
-    <lastBuildDate>Tue, 24 Nov 2026 10:22:12 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 24 Nov 2026 20:32:26 +0000</lastBuildDate>
     <itunes:author>Notiziario</itunes:author>
     <itunes:explicit>false</itunes:explicit>
     <itunes:summary>Le notizie del giorno scelte da Jacopo, lette in italiano. Un riassunto quotidiano delle notizie italiane e internazionali.</itunes:summary>
@@ -17,25 +17,25 @@
     <itunes:image href="https://jakephobia.github.io/notiziario/copertina.png" />
     <notiziario:categorie>Italia, Mondo, Economia, Tecnologia, Scienza e salute, Cultura, Ambiente, Buone notizie</notiziario:categorie>
     <notiziario:modalita>llm</notiziario:modalita>
-    <notiziario:voce>it-IT-IsabellaNeural</notiziario:voce>
-    <notiziario:voce_label>it-IT-IsabellaNeural (edge-tts)</notiziario:voce_label>
+    <notiziario:voce>it-IT-Chirp3-HD-Kore</notiziario:voce>
+    <notiziario:voce_label>Kore â€” femminile, calda (Google Chirp 3 HD)</notiziario:voce_label>
     <notiziario:velocita>1.15</notiziario:velocita>
-    <notiziario:tts_motore>edge</notiziario:tts_motore>
+    <notiziario:tts_motore>google</notiziario:tts_motore>
     <item>
-      <title>Notiziario Radiofonico</title>
-      <description>24 novembre 2026 - Allarmi bomba nelle scuole in Danimarca, Delitto del trapano, Costa ai 27, Costa chiama i Ventisette a Bruxelles, La tecnologia migliore dell'anno tra cuffie.</description>
-      <pubDate>Tue, 24 Nov 2026 10:22:12 +0000</pubDate>
+      <title>Notiziario Radiofonico del 24 novembre 2026</title>
+      <description>24 novembre 2026 - Francia Sarkozy e Carla Bruni andranno, Il nuovo bonus da 300 euro, Allarmi bomba nelle scuole in Danimarca, Pma 56mila firme per cambiare.</description>
+      <pubDate>Tue, 24 Nov 2026 20:32:26 +0000</pubDate>
       <guid isPermaLink="false">notiziario-2026-11-24</guid>
-      <enclosure url="https://github.com/jakephobia/notiziario/releases/download/episodio-2026-11-24/notiziario-2026-11-24.mp3" length="7338357" type="audio/mpeg" />
-      <itunes:duration>00:10:11</itunes:duration>
-      <itunes:summary>24 novembre 2026 - Allarmi bomba nelle scuole in Danimarca, Delitto del trapano, Costa ai 27, Costa chiama i Ventisette a Bruxelles, La tecnologia migliore dell'anno tra cuffie.</itunes:summary>
+      <enclosure url="https://github.com/jakephobia/notiziario/releases/download/episodio-2026-11-24/notiziario-2026-11-24.mp3" length="7780353" type="audio/mpeg" />
+      <itunes:duration>00:08:06</itunes:duration>
+      <itunes:summary>24 novembre 2026 - Francia Sarkozy e Carla Bruni andranno, Il nuovo bonus da 300 euro, Allarmi bomba nelle scuole in Danimarca, Pma 56mila firme per cambiare.</itunes:summary>
       <itunes:explicit>false</itunes:explicit>
       <itunes:image href="https://jakephobia.github.io/notiziario/copertina.png" />
       <notiziario:modalita>llm</notiziario:modalita>
-      <notiziario:voce>it-IT-IsabellaNeural</notiziario:voce>
-      <notiziario:voce_label>it-IT-IsabellaNeural (edge-tts)</notiziario:voce_label>
+      <notiziario:voce>it-IT-Chirp3-HD-Kore</notiziario:voce>
+      <notiziario:voce_label>Kore â€” femminile, calda (Google Chirp 3 HD)</notiziario:voce_label>
       <notiziario:velocita>1.15</notiziario:velocita>
-      <notiziario:tts_motore>edge</notiziario:tts_motore>
+      <notiziario:tts_motore>google</notiziario:tts_motore>
     </item>
     <item>
       <title>Notiziario del 23 novembre 2026</title>

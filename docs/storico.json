@@ -2,12 +2,12 @@
   "episodi": [
     {
       "data": "2026-11-24",
-      "titolo": "Notiziario Radiofonico",
-      "descrizione": "Oggi, martedì 24 novembre 2026, apriamo con l'ondata di allarmi bomba che ha interessato scuole in Germania e Danimarca. In Italia, una condanna a trenta anni per il 'delitto del trapano' a Genova dopo trentuno anni. Dalle istituzioni europee, si discute della presidenza della BCE e del bilancio UE.",
+      "titolo": "Notiziario Radiofonico del 24 novembre 2026",
+      "descrizione": "Le principali notizie di oggi, martedì 24 novembre 2026, con un focus sul processo che coinvolge Nicolas Sarkozy e Carla Bruni, l'andamento delle borse europee, e altre notizie dall'Italia e dal mondo. In chiusura, le buone notizie della giornata.",
       "filename": "notiziario-2026-11-24.mp3",
-      "descrizione_breve": "24 novembre 2026 - Allarmi bomba nelle scuole in Danimarca, Delitto del trapano, Costa ai 27, Costa chiama i Ventisette a Bruxelles, La tecnologia migliore dell'anno tra cuffie.",
-      "durata_secondi": 611.454807,
-      "dimensione": 7338357,
+      "descrizione_breve": "24 novembre 2026 - Francia Sarkozy e Carla Bruni andranno, Il nuovo bonus da 300 euro, Allarmi bomba nelle scuole in Danimarca, Pma 56mila firme per cambiare.",
+      "durata_secondi": 486.199728,
+      "dimensione": 7780353,
       "modalita": "llm",
       "categorie": [
         "italia",
@@ -19,11 +19,11 @@
         "ambiente",
         "buone-notizie"
       ],
-      "voce": "it-IT-IsabellaNeural",
-      "voce_label": "it-IT-IsabellaNeural (edge-tts)",
+      "voce": "it-IT-Chirp3-HD-Kore",
+      "voce_label": "Kore â€” femminile, calda (Google Chirp 3 HD)",
       "velocita": 1.15,
-      "tts_motore": "edge",
-      "pubblicato": "2026-11-24T10:22:12.623065+00:00",
+      "tts_motore": "google",
+      "pubblicato": "2026-11-24T20:32:26.302544+00:00",
       "guid": "notiziario-2026-11-24"
     },
     {
