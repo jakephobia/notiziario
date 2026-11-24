@@ -18,6 +18,10 @@ docs-qa*
 # File di handoff tra sessioni
 HANDOFF-*.md
 
+# Traccia musicale originale fornita dall'utente (si usa la versione compressa)
+/background_music.mp3
+/assets/originali/
+
 # Sistema
 .DS_Store
 Thumbs.db
