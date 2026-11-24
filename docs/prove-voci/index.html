@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prove voci Google Chirp 3 HD — Notiziario</title>
+<style>
+  :root {
+    --bg: #101317;
+    --card: #191e24;
+    --testo: #edf1f5;
+    --tenue: #aab4bf;
+    --bordo: #2b333c;
+    --accento: #7cc4ff;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 24px;
+    background: var(--bg);
+    color: var(--testo);
+    font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  main { max-width: 760px; margin: 0 auto; }
+  h1 { font-size: 1.45rem; margin: 0 0 6px; }
+  p { color: var(--tenue); margin: 0 0 18px; }
+  .voce {
+    background: var(--card);
+    border: 1px solid var(--bordo);
+    border-radius: 14px;
+    padding: 16px;
+    margin: 0 0 14px;
+  }
+  .voce h2 { font-size: 1.05rem; margin: 0 0 4px; }
+  .voce small { color: var(--tenue); display: block; margin-bottom: 12px; }
+  audio { width: 100%; }
+  a { color: var(--accento); }
+  .nota { border-top: 1px solid var(--bordo); margin-top: 22px; padding-top: 16px; font-size: .92rem; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Voci Google Chirp 3 HD (italiano)</h1>
+  <p>Stesso testo di prova in stile notizia, stessa velocità (1.0), nessuna musica. Scegli la voce che ti convince di più.</p>
+
+  <section class="voce">
+    <h2>Achernar</h2>
+    <small>femminile · voce attualmente impostata come default</small>
+    <audio controls preload="metadata" src="it-it-chirp3-hd-achernar.mp3"></audio>
+  </section>
+
+  <section class="voce">
+    <h2>Aoede</h2>
+    <small>femminile</small>
+    <audio controls preload="metadata" src="it-it-chirp3-hd-aoede.mp3"></audio>
+  </section>
+
+  <section class="voce">
+    <h2>Kore</h2>
+    <small>femminile · la stessa “Kore” che usavi su Gemini, ma in versione Google Cloud</small>
+    <audio controls preload="metadata" src="it-it-chirp3-hd-kore.mp3"></audio>
+  </section>
+
+  <section class="voce">
+    <h2>Leda</h2>
+    <small>femminile</small>
+    <audio controls preload="metadata" src="it-it-chirp3-hd-leda.mp3"></audio>
+  </section>
+
+  <section class="voce">
+    <h2>Charon</h2>
+    <small>maschile</small>
+    <audio controls preload="metadata" src="it-it-chirp3-hd-charon.mp3"></audio>
+  </section>
+
+  <section class="voce">
+    <h2>Puck</h2>
+    <small>maschile</small>
+    <audio controls preload="metadata" src="it-it-chirp3-hd-puck.mp3"></audio>
+  </section>
+
+  <p class="nota">
+    Google mette a disposizione 30 voci italiane Chirp 3 HD. Se nessuna di queste ti convince,
+    posso generare campioni delle altre. Dopo la scelta aggiorno la configurazione e rigenero la puntata.
+  </p>
+</main>
+</body>
+</html>
