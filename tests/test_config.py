@@ -136,7 +136,7 @@ def test_llm_revisione_valido_e_protetto():
     revisione = impostazioni["llm_revisione"]
     assert revisione["modello"] == "gemini-2.5-flash"
     assert revisione["temperatura"] == 0.15
-    assert revisione["max_output_tokens"] == 8192
+    assert revisione["max_output_tokens"] == 16384
     # Le chiavi storiche della traduzione non sono state toccate.
     assert impostazioni["llm_modello_traduzione"] == "gemini-3.1-flash-lite"
     assert impostazioni["llm_modello_riserva"] == "gemini-3.1-flash-lite"

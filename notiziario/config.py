@@ -175,7 +175,7 @@ DEFAULT_SETTINGS: dict[str, Any] = {
     "llm_revisione": {
         "modello": "gemini-2.5-flash",
         "temperatura": 0.15,
-        "max_output_tokens": 8192,
+        "max_output_tokens": 16384,
     },
     "arricchimento": {
         "attivo": True,

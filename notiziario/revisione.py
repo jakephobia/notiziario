@@ -18,12 +18,17 @@ from .testi import conta_parole, rimuovi_pubblicita
 
 MODELLO_REVISIONE_DEFAULT = "gemini-2.5-flash"
 TEMPERATURA_REVISIONE_DEFAULT = 0.15
-MAX_OUTPUT_TOKENS_REVISIONE_DEFAULT = 8192
+MAX_OUTPUT_TOKENS_REVISIONE_DEFAULT = 16384
 
 # Rapporto ammesso tra parole revisionate e parole originali: evita sia la
-# perdita di contenuti sia l'aggiunta di fatti.
-RAPPORTO_MINIMO = 0.70
+# perdita di contenuti sia l'aggiunta di fatti. È solo diagnostica: la
+# protezione vera è il controllo per singola notizia.
+RAPPORTO_MINIMO = 0.60
 RAPPORTO_MASSIMO = 1.15
+
+# Una singola notizia non può scendere sotto metà delle parole originali
+# (con minimo assoluto di una parola).
+RAPPORTO_POSIZIONE_MINIMO = 0.50
 
 _TERMINALI = ".!?»\"”"
 
@@ -109,6 +114,7 @@ def _chiama_gemini(
     modello: str | None = None,
     temperatura: float | None = None,
     max_output_tokens: int | None = None,
+    thinking_budget: int | None = None,
 ) -> str:
     """Wrapper pattchabile nei test: inoltra alla chiamata di ``copione``."""
     from .copione import _chiama_gemini as chiama
@@ -122,6 +128,7 @@ def _chiama_gemini(
         modello=modello,
         temperatura=temperatura,
         max_output_tokens=max_output_tokens,
+        thinking_budget=thinking_budget,
     )
 
 
@@ -381,58 +388,99 @@ def _paragrafo_validato(testo: Any) -> str:
     return pulito
 
 
+def _estratto_risposta(testo: Any, massimo: int = 160) -> str:
+    """Estratto redatto e breve della risposta, mai il copione intero."""
+    redatto = _redigi(str(testo or "")).strip()
+    return redatto[:massimo]
+
+
 def _valida_revisione(
     dati: dict[str, Any],
     notizie: list[dict[str, Any]],
-    parole_originali: int,
-) -> tuple[dict[int, list[str]], str]:
-    """Valida la risposta del revisore; solleva ``_RevisioneError`` se invalida."""
+) -> tuple[dict[int, list[str]], str | None, list[int]]:
+    """Valida la risposta del revisore con controllo per singola notizia.
+
+    Solleva ``_RevisioneError`` per gli errori globali: risposta non-lista,
+    posizioni mancanti/duplicate o nessuna posizione valida. Le posizioni con
+    paragrafi vuoti, inglese, placeholder, boilerplate o con meno del 50%
+    delle parole originali vengono restituite in ``scartate``: il chiamante
+    per quelle tiene il testo originale. La chiusura è ``None`` se non valida.
+    """
     notizie_risposta = dati.get("notizie")
     if not isinstance(notizie_risposta, list) or not notizie_risposta:
         raise _RevisioneError("notizie mancanti nella risposta")
 
     attese = [voce["posizione"] for voce in notizie]
+    parole_originali_posizione = {
+        voce["posizione"]: sum(
+            conta_parole(p) for p in (voce.get("paragrafi") or [])
+        )
+        for voce in notizie
+    }
+    viste: set[int] = set()
     mappa: dict[int, list[str]] = {}
+    scartate: list[int] = []
     for voce in notizie_risposta:
         if not isinstance(voce, dict):
             raise _RevisioneError("notizia non è un oggetto")
         posizione = _posizione(voce, 0)
-        if posizione in mappa:
+        if posizione in viste:
             raise _RevisioneError(f"posizione duplicata ({posizione})")
-        paragrafi = voce.get("paragrafi")
-        if not isinstance(paragrafi, list) or not paragrafi:
-            raise _RevisioneError(f"posizione {posizione}: paragrafi mancanti")
-        mappa[posizione] = [_paragrafo_validato(p) for p in paragrafi]
+        viste.add(posizione)
+        try:
+            paragrafi = voce.get("paragrafi")
+            if not isinstance(paragrafi, list) or not paragrafi:
+                raise _RevisioneError("paragrafi mancanti")
+            validati = [_paragrafo_validato(p) for p in paragrafi]
+            originali = parole_originali_posizione.get(posizione, 0)
+            minime = max(1.0, originali * RAPPORTO_POSIZIONE_MINIMO)
+            revisionate = sum(conta_parole(p) for p in validati)
+            if revisionate < minime:
+                raise _RevisioneError(
+                    f"testo ridotto ({revisionate} parole su {originali})"
+                )
+        except _RevisioneError:
+            scartate.append(posizione)
+            continue
+        mappa[posizione] = validati
 
-    if sorted(mappa) != sorted(attese):
+    if sorted(viste) != sorted(attese):
         raise _RevisioneError("posizioni mancanti o diverse dall'originale")
+    if not mappa:
+        raise _RevisioneError("nessuna posizione valida")
 
-    chiusura_validata = _paragrafo_validato(dati.get("chiusura"))
+    try:
+        chiusura_validata: str | None = _paragrafo_validato(
+            dati.get("chiusura")
+        )
+    except _RevisioneError:
+        chiusura_validata = None
 
-    parole_nuove = sum(
-        conta_parole(p) for paragrafi in mappa.values() for p in paragrafi
-    ) + conta_parole(chiusura_validata)
-    if parole_originali > 0:
-        rapporto = parole_nuove / parole_originali
-        if not RAPPORTO_MINIMO <= rapporto <= RAPPORTO_MASSIMO:
-            raise _RevisioneError(
-                f"lunghezza fuori intervallo ({parole_nuove} parole su "
-                f"{parole_originali}, rapporto {rapporto:.2f})"
-            )
-    return mappa, chiusura_validata
+    return mappa, chiusura_validata, sorted(scartate)
+
+
+_ISTRUZIONE_JSON = (
+    "\n\nRispondi SOLO con l'oggetto JSON, senza testo prima o dopo."
+)
 
 
 def _esegui_revisione(
     notizie: list[dict[str, Any]],
     chiusura: str,
-    parole_originali: int,
     impostazioni: dict[str, Any],
     logger: logging.Logger,
-) -> tuple[dict[int, list[str]] | None, str | None, str | None, str]:
+) -> tuple[
+    dict[int, list[str]] | None,
+    str | None,
+    list[int],
+    str | None,
+    str,
+]:
     """Prova il modello di revisione e poi la riserva.
 
-    Restituisce ``(mappa, chiusura, modello, motivo)``. ``mappa`` è ``None``
-    se nessun modello ha prodotto una revisione valida.
+    Restituisce ``(mappa, chiusura, scartate, modello, motivo)``. ``mappa`` è
+    ``None`` se nessun modello ha prodotto una revisione valida. Ogni modello
+    ha fino a due tentativi quando la risposta non contiene JSON valido.
     """
     modello, temperatura, massimo = _config_revisione(impostazioni)
     riserva = ""
@@ -444,32 +492,79 @@ def _esegui_revisione(
     prompt = _prompt_revisione(notizie, chiusura)
     ultimo_motivo = "nessun modello disponibile"
     for nome in modelli:
-        try:
-            risposta = _chiama_gemini(
-                prompt,
-                _SYSTEM_REVISIONE,
-                impostazioni,
-                _chiave_api(),
-                logger,
-                modello=nome,
-                temperatura=temperatura,
-                max_output_tokens=massimo,
-            )
-            dati = _estrai_json(risposta)
+        for tentativo in range(2):
+            prompt_uso = prompt if tentativo == 0 else prompt + _ISTRUZIONE_JSON
+            try:
+                risposta = _chiama_gemini(
+                    prompt_uso,
+                    _SYSTEM_REVISIONE,
+                    impostazioni,
+                    _chiave_api(),
+                    logger,
+                    modello=nome,
+                    temperatura=temperatura,
+                    max_output_tokens=massimo,
+                    thinking_budget=0,
+                )
+            except Exception as exc:  # la revisione non deve mai bloccare
+                ultimo_motivo = _redigi(f"{type(exc).__name__}: {exc}")
+                logger.warning(
+                    "Revisione copione: modello %s non riuscito (%s).",
+                    nome,
+                    ultimo_motivo,
+                )
+                break
+            try:
+                dati = _estrai_json(risposta)
+            except Exception as exc:
+                ultimo_motivo = _redigi(f"{type(exc).__name__}: {exc}")
+                estratto = _estratto_risposta(risposta)
+                if tentativo == 0:
+                    logger.warning(
+                        "Revisione copione: modello %s non ha restituito "
+                        "JSON (%s), riprovo. Estratto risposta: %s",
+                        nome,
+                        ultimo_motivo,
+                        estratto,
+                    )
+                    continue
+                logger.warning(
+                    "Revisione copione: modello %s non ha restituito JSON "
+                    "nemmeno al secondo tentativo (%s). Estratto risposta: %s",
+                    nome,
+                    ultimo_motivo,
+                    estratto,
+                )
+                break
             if not isinstance(dati, dict):
-                raise _RevisioneError("la risposta non è un oggetto JSON")
-            mappa, nuova_chiusura = _valida_revisione(
-                dati, notizie, parole_originali
-            )
-            return mappa, nuova_chiusura, nome, ""
-        except Exception as exc:  # la revisione non deve mai bloccare
-            ultimo_motivo = _redigi(f"{type(exc).__name__}: {exc}")
-            logger.warning(
-                "Revisione copione: modello %s non riuscito (%s).",
-                nome,
-                ultimo_motivo,
-            )
-    return None, None, modelli[-1] if modelli else None, ultimo_motivo
+                ultimo_motivo = "la risposta non è un oggetto JSON"
+                logger.warning(
+                    "Revisione copione: modello %s non riuscito (%s).",
+                    nome,
+                    ultimo_motivo,
+                )
+                break
+            try:
+                mappa, nuova_chiusura, scartate = _valida_revisione(
+                    dati, notizie
+                )
+            except Exception as exc:
+                ultimo_motivo = _redigi(f"{type(exc).__name__}: {exc}")
+                logger.warning(
+                    "Revisione copione: modello %s non riuscito (%s).",
+                    nome,
+                    ultimo_motivo,
+                )
+                break
+            if scartate:
+                logger.warning(
+                    "Revisione copione: modello %s, posizioni scartate %s "
+                    "(restano le originali).",
+                    nome,
+                    scartate,
+                )
+            return mappa, nuova_chiusura, scartate, nome, ""
+    return None, None, [], modelli[-1] if modelli else None, ultimo_motivo
 
 
 def _aggiorna_contatori(copione: dict[str, Any], parole: int) -> None:
@@ -489,11 +584,16 @@ def _esito(
     motivo: str,
     parole_prima: int,
     parole_dopo: int,
+    *,
+    parziale: bool = False,
+    posizioni_scartate: list[int] | None = None,
 ) -> dict[str, Any]:
     return {
         "applicata": applicata,
         "modello": modello,
         "motivo": motivo,
+        "parziale": parziale,
+        "posizioni_scartate": list(posizioni_scartate or []),
         "parole_prima": parole_prima,
         "parole_dopo": parole_dopo,
     }
@@ -535,10 +635,10 @@ def _rifinisci(
         )
         return lavoro
 
-    mappa, nuova_chiusura, modello, motivo = _esegui_revisione(
-        notizie, chiusura, parole_pulite, impostazioni, logger
+    mappa, nuova_chiusura, scartate, modello, motivo = _esegui_revisione(
+        notizie, chiusura, impostazioni, logger
     )
-    if mappa is None or nuova_chiusura is None:
+    if not mappa:
         logger.warning(
             "Revisione copione non applicata: %s. Resta il copione pulito.",
             motivo or "nessuna risposta valida",
@@ -557,17 +657,50 @@ def _rifinisci(
         if posizione in mappa:
             voce["paragrafi"] = list(mappa[posizione])
 
+    # La chiusura non valida non blocca: si tiene quella originale pulita.
+    chiusura_finale = (
+        nuova_chiusura if nuova_chiusura is not None else chiusura
+    )
     blocchi = [
         paragrafo
         for voce in lavoro["notizie"]
         for paragrafo in (voce.get("paragrafi") or [])
     ]
-    blocchi.append(nuova_chiusura)
+    blocchi.append(chiusura_finale)
     lavoro["testo"] = "\n\n".join(blocchi)
     parole_dopo = conta_parole(lavoro["testo"])
     _aggiorna_contatori(lavoro, parole_dopo)
+
+    # Il totale è solo diagnostica: con una revisione parziale può essere
+    # sotto il 60% pur avendo posizioni valide, e non va rifiutato.
+    rapporto = parole_dopo / parole_pulite if parole_pulite else 1.0
+    if not RAPPORTO_MINIMO <= rapporto <= RAPPORTO_MASSIMO:
+        logger.warning(
+            "Revisione copione: totale %d -> %d parole (rapporto %.2f) fuori "
+            "intervallo, mantenuto perché le posizioni applicate sono valide.",
+            parole_pulite,
+            parole_dopo,
+            rapporto,
+        )
+
+    parziale = bool(scartate) or nuova_chiusura is None
+    if parziale:
+        dettagli: list[str] = []
+        if scartate:
+            dettagli.append(f"posizioni scartate: {scartate}")
+        if nuova_chiusura is None:
+            dettagli.append("chiusura originale")
+        motivo_esito = "revisione parziale applicata (" + "; ".join(dettagli) + ")"
+    else:
+        motivo_esito = "revisione applicata"
     lavoro["revisione"] = _esito(
-        True, modello, "revisione applicata", parole_prima, parole_dopo
+        True,
+        modello,
+        motivo_esito,
+        parole_prima,
+        parole_dopo,
+        parziale=parziale,
+        posizioni_scartate=scartate,
     )
     logger.info(
         "Revisione copione applicata con %s: %d -> %d parole.",
@@ -589,8 +722,9 @@ def rifinisci_copione(
 
     Applica prima ``pulisci_residui`` a paragrafi e chiusura. Se la revisione
     LLM restituisce un JSON valido sostituisce i paragrafi e ricostruisce
-    ``testo``; altrimenti restituisce il copione pulito deterministicamente
-    senza modifiche parziali. Non solleva eccezioni.
+    ``testo``. Le posizioni scartate dalla validazione per-notizia mantengono
+    l'originale pulito (revisione parziale); senza posizioni valide resta il
+    copione pulito deterministicamente. Non solleva eccezioni.
     """
     logger = logger or logging.getLogger("notiziario")
     try:

@@ -308,6 +308,7 @@ def _chiama_gemini(
     modello: str | None = None,
     temperatura: float | None = None,
     max_output_tokens: int | None = None,
+    thinking_budget: int | None = None,
 ) -> str:
     configurazione = impostazioni["llm"]
     modello = modello or configurazione["modello"]
@@ -331,13 +332,32 @@ def _chiama_gemini(
             "maxOutputTokens": valore_token,
         },
     }
+    if thinking_budget is not None:
+        payload["generationConfig"]["thinkingConfig"] = {
+            "thinkingBudget": int(thinking_budget)
+        }
     headers = {
         "Content-Type": "application/json",
         "x-goog-api-key": api_key,
         "User-Agent": "Notiziario/0.3",
     }
     timeout = int(configurazione.get("timeout", 60))
-    for tentativo in range(2):
+
+    def messaggio_http(risposta: Any) -> str:
+        dettaglio = ""
+        try:
+            corpo = risposta.json()
+            dettaglio = str(corpo.get("error", {}).get("message", ""))
+        except ValueError:
+            pass
+        messaggio = f"HTTP {risposta.status_code}"
+        if dettaglio:
+            messaggio += f": {_redigi(dettaglio)}"
+        return messaggio
+
+    tentativo_rete = 0
+    errore_thinking = ""
+    while True:
         try:
             risposta = requests.post(
                 endpoint,
@@ -346,28 +366,41 @@ def _chiama_gemini(
                 timeout=timeout,
             )
         except requests.RequestException as exc:
-            if tentativo == 0:
+            if tentativo_rete == 0:
                 logger.warning("Gemini: errore di rete, riprovo una volta.")
+                tentativo_rete = 1
                 time.sleep(2)
                 continue
-            raise LlmError(f"errore di rete ({type(exc).__name__})") from exc
+            messaggio_rete = f"errore di rete ({type(exc).__name__})"
+            if errore_thinking:
+                messaggio_rete += (
+                    f" (prima con thinkingConfig: {errore_thinking})"
+                )
+            raise LlmError(messaggio_rete) from exc
 
-        if risposta.status_code in (429, 500, 502, 503, 504) and tentativo == 0:
+        if risposta.status_code in (429, 500, 502, 503, 504) and tentativo_rete == 0:
             logger.warning(
                 "Gemini: HTTP %s, riprovo tra due secondi.", risposta.status_code
             )
+            tentativo_rete = 1
             time.sleep(2)
             continue
         if risposta.status_code >= 400:
-            dettaglio = ""
-            try:
-                corpo = risposta.json()
-                dettaglio = str(corpo.get("error", {}).get("message", ""))
-            except ValueError:
-                pass
-            messaggio = f"HTTP {risposta.status_code}"
-            if dettaglio:
-                messaggio += f": {_redigi(dettaglio)}"
+            messaggio = messaggio_http(risposta)
+            if (
+                risposta.status_code == 400
+                and "thinkingConfig" in payload["generationConfig"]
+            ):
+                # Alcuni modelli non supportano thinkingConfig: lo rimuoviamo e
+                # riproviamo una sola volta, conservando l'errore originale.
+                errore_thinking = messaggio
+                del payload["generationConfig"]["thinkingConfig"]
+                logger.warning(
+                    "Gemini: HTTP 400 con thinkingConfig, riprovo senza."
+                )
+                continue
+            if errore_thinking:
+                messaggio += f" (prima con thinkingConfig: {errore_thinking})"
             raise LlmError(messaggio)
 
         try:

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import copy
 import json
 import logging
 from datetime import datetime
@@ -23,7 +24,7 @@ def impostazioni_revisione() -> dict:
         "llm_revisione": {
             "modello": "gemini-2.5-flash",
             "temperatura": 0.15,
-            "max_output_tokens": 8192,
+            "max_output_tokens": 16384,
         },
         "llm_modello_riserva": "gemini-riserva",
     }
@@ -190,10 +191,13 @@ def test_rifinisci_copione_applica_la_revisione_valida(monkeypatch):
     assert risultato["parole"] == 19
     assert risultato["titolo_episodio"] == originale["titolo_episodio"]
     assert risultato["descrizione"] == originale["descrizione"]
+    assert risultato["revisione"]["parziale"] is False
+    assert risultato["revisione"]["posizioni_scartate"] == []
     # La revisione usa il modello e i parametri dedicati.
     assert chiamate[0]["modello"] == "gemini-2.5-flash"
     assert chiamate[0]["temperatura"] == 0.15
-    assert chiamate[0]["max_output_tokens"] == 8192
+    assert chiamate[0]["max_output_tokens"] == 16384
+    assert chiamate[0]["thinking_budget"] == 0
 
 
 def _risposta_non_valida(tipo: str) -> str:
@@ -247,16 +251,12 @@ def _risposta_finta(tipo):
     [
         ("posizione_mancante", "posizioni"),
         ("posizione_duplicata", "duplicata"),
-        ("paragrafo_vuoto", "vuoto"),
-        ("inglese", "inglese"),
-        ("placeholder", "placeholder"),
-        ("troppo_corta", "lunghezza"),
-        ("chiusura_vuota", "vuoto"),
+        ("troppo_corta", "nessuna posizione valida"),
     ],
 )
-def test_rifinisci_copione_scarta_risposte_non_valide(
-    monkeypatch, tipo, atteso
-):
+def test_rifinisci_copione_scarta_errori_globali(monkeypatch, tipo, atteso):
+    # Posizioni mancanti/duplicate e nessuna posizione valida sono errori
+    # globali: non si applica nulla e resta il copione pulito.
     monkeypatch.setenv("GEMINI_API_KEY", "chiave-di-prova")
     monkeypatch.setattr(
         modulo_revisione,
@@ -269,6 +269,8 @@ def test_rifinisci_copione_scarta_risposte_non_valide(
     )
 
     assert risultato["revisione"]["applicata"] is False
+    assert risultato["revisione"]["parziale"] is False
+    assert risultato["revisione"]["posizioni_scartate"] == []
     assert atteso.casefold() in risultato["revisione"]["motivo"].casefold()
     # Nessuna modifica parziale: resta il copione pulito deterministicamente.
     assert risultato["notizie"][1]["paragrafi"] == [
@@ -280,6 +282,154 @@ def test_rifinisci_copione_scarta_risposte_non_valide(
     assert originale["notizie"][1]["paragrafi"] == [
         "Resta indietro la tutela contro la sorveglianza, art."
     ]
+
+
+@pytest.mark.parametrize("tipo", ["paragrafo_vuoto", "inglese", "placeholder"])
+def test_rifinisci_copione_applica_le_posizioni_valide(monkeypatch, tipo):
+    # Una posizione invalida viene scartata, l'altra viene applicata.
+    monkeypatch.setenv("GEMINI_API_KEY", "chiave-di-prova")
+    monkeypatch.setattr(
+        modulo_revisione,
+        "_chiama_gemini",
+        _risposta_finta(tipo),
+    )
+    risultato = rifinisci_copione(
+        copione_da_rivedere(), impostazioni_revisione(), LOGGER
+    )
+
+    assert risultato["revisione"]["applicata"] is True
+    assert risultato["revisione"]["parziale"] is True
+    assert risultato["revisione"]["posizioni_scartate"] == [1]
+    assert risultato["notizie"][0]["paragrafi"] == [
+        "L'ex presidente della Repubblica. Nicolas Sarkozy."
+    ]
+    assert risultato["notizie"][1]["paragrafi"] == [
+        "Resta indietro la tutela contro la sorveglianza."
+    ]
+    assert risultato["testo"] == (
+        "L'ex presidente della Repubblica. Nicolas Sarkozy.\n\n"
+        "Resta indietro la tutela contro la sorveglianza.\n\n"
+        "Per oggi è tutto. A domani."
+    )
+    assert [n["titolo"] for n in risultato["notizie"]] == ["Sarkozy", "Sorveglianza"]
+
+
+def test_rifinisci_copione_chiusura_invalida_tiene_l_originale(monkeypatch):
+    monkeypatch.setenv("GEMINI_API_KEY", "chiave-di-prova")
+    monkeypatch.setattr(
+        modulo_revisione,
+        "_chiama_gemini",
+        _risposta_finta("chiusura_vuota"),
+    )
+    risultato = rifinisci_copione(
+        copione_da_rivedere(), impostazioni_revisione(), LOGGER
+    )
+
+    assert risultato["revisione"]["applicata"] is True
+    assert risultato["revisione"]["parziale"] is True
+    assert risultato["revisione"]["posizioni_scartate"] == []
+    assert "chiusura originale" in risultato["revisione"]["motivo"]
+    assert risultato["testo"].rstrip().endswith("Per oggi è tutto. A domani.")
+
+
+def test_rifinisci_copione_accetta_taglio_al_70_percento(monkeypatch):
+    # Totale al 68% (sotto la vecchia soglia 0.70) ma ogni notizia resta
+    # sopra il 50%: la revisione va applicata, non scartata.
+    monkeypatch.setenv("GEMINI_API_KEY", "chiave-di-prova")
+    risposta = json.dumps(
+        {
+            "chiusura": "Per oggi è tutto. A domani.",
+            "notizie": [
+                {"posizione": 1, "paragrafi": ["Nicolas Sarkozy assolto."]},
+                {"posizione": 2, "paragrafi": ["La sorveglianza resta limitata."]},
+            ],
+        },
+        ensure_ascii=False,
+    )
+    monkeypatch.setattr(
+        modulo_revisione,
+        "_chiama_gemini",
+        lambda *args, **kwargs: risposta,
+    )
+    risultato = rifinisci_copione(
+        copione_da_rivedere(), impostazioni_revisione(), LOGGER
+    )
+
+    assert risultato["revisione"]["applicata"] is True
+    assert risultato["revisione"]["parziale"] is False
+    assert risultato["revisione"]["posizioni_scartate"] == []
+    assert risultato["notizie"][0]["paragrafi"] == ["Nicolas Sarkozy assolto."]
+    assert risultato["notizie"][1]["paragrafi"] == ["La sorveglianza resta limitata."]
+    # 3 + 4 + 6 = 13 parole su 19 pulite.
+    assert risultato["revisione"]["parole_dopo"] == 13
+
+
+def test_rifinisci_copione_scarta_solo_la_notizia_dimezzata(monkeypatch):
+    monkeypatch.setenv("GEMINI_API_KEY", "chiave-di-prova")
+    risposta = json.dumps(
+        {
+            "chiusura": "Per oggi è tutto. A domani.",
+            "notizie": [
+                {
+                    "posizione": 1,
+                    "paragrafi": ["L'ex presidente della Repubblica, Sarkozy."],
+                },
+                {"posizione": 2, "paragrafi": ["Tutela ridotta."]},
+            ],
+        },
+        ensure_ascii=False,
+    )
+    monkeypatch.setattr(
+        modulo_revisione,
+        "_chiama_gemini",
+        lambda *args, **kwargs: risposta,
+    )
+    originale = copione_da_rivedere()
+    risultato = rifinisci_copione(
+        originale, impostazioni_revisione(), LOGGER
+    )
+
+    assert risultato["revisione"]["applicata"] is True
+    assert risultato["revisione"]["parziale"] is True
+    assert risultato["revisione"]["posizioni_scartate"] == [2]
+    assert risultato["notizie"][0]["paragrafi"] == [
+        "L'ex presidente della Repubblica, Sarkozy."
+    ]
+    # La notizia scartata resta identica all'originale pulito.
+    assert risultato["notizie"][1]["paragrafi"] == [
+        "Resta indietro la tutela contro la sorveglianza."
+    ]
+    assert risultato["testo"] == (
+        "L'ex presidente della Repubblica, Sarkozy.\n\n"
+        "Resta indietro la tutela contro la sorveglianza.\n\n"
+        "Per oggi è tutto. A domani."
+    )
+    # L'originale in ingresso non viene mutato.
+    assert originale["notizie"][1]["paragrafi"] == [
+        "Resta indietro la tutela contro la sorveglianza, art."
+    ]
+
+
+def test_rifinisci_copione_ritenta_se_manca_il_json(monkeypatch):
+    monkeypatch.setenv("GEMINI_API_KEY", "chiave-di-prova")
+    prompt_usati: list[str] = []
+
+    def finta(prompt, system, impostazioni, api_key, logger, **kwargs):
+        prompt_usati.append(prompt)
+        if len(prompt_usati) == 1:
+            return "Ecco la revisione: nessun JSON qui."
+        return risposta_valida()
+
+    monkeypatch.setattr(modulo_revisione, "_chiama_gemini", finta)
+    risultato = rifinisci_copione(
+        copione_da_rivedere(), impostazioni_revisione(), LOGGER
+    )
+
+    assert len(prompt_usati) == 2
+    assert "Rispondi SOLO con l'oggetto JSON" in prompt_usati[1]
+    assert "Rispondi SOLO con l'oggetto JSON" not in prompt_usati[0]
+    assert risultato["revisione"]["applicata"] is True
+    assert risultato["revisione"]["modello"] == "gemini-2.5-flash"
 
 
 def test_rifinisci_copione_prova_la_riserva(monkeypatch):
@@ -494,6 +644,80 @@ def test_chiama_gemini_usa_temperatura_e_token_di_revisione(monkeypatch):
     configurazione = catturato["payload"]["generationConfig"]
     assert configurazione["temperature"] == 0.15
     assert configurazione["maxOutputTokens"] == 4096
+
+
+def _risposta_gemini(testo: str, status_code: int = 200):
+    class Risposta:
+        pass
+
+    risposta = Risposta()
+    risposta.status_code = status_code
+    risposta.json = lambda: {
+        "candidates": [{"content": {"parts": [{"text": testo}]}}]
+    }
+    return risposta
+
+
+def _risposta_http_400(messaggio: str):
+    class Risposta:
+        status_code = 400
+
+        def json(self):
+            return {"error": {"message": messaggio}}
+
+    return Risposta()
+
+
+def test_chiama_gemini_ritenta_senza_thinking_config_su_http_400(monkeypatch):
+    payloads: list[dict] = []
+
+    def finto_post(url, json=None, headers=None, timeout=None, **kwargs):
+        # Il payload viene mutato al retry: salvo una copia per ogni chiamata.
+        payloads.append(copy.deepcopy(json))
+        if len(payloads) == 1:
+            return _risposta_http_400("thinkingConfig non supportato")
+        return _risposta_gemini('{"ok": true}')
+
+    monkeypatch.setattr(modulo_copione.requests, "post", finto_post)
+    testo = modulo_copione._chiama_gemini(
+        "prompt",
+        "system",
+        carica_impostazioni(),
+        "chiave-di-prova",
+        LOGGER,
+        max_output_tokens=16384,
+        thinking_budget=0,
+    )
+
+    assert testo == '{"ok": true}'
+    assert len(payloads) == 2
+    assert payloads[0]["generationConfig"]["thinkingConfig"] == {
+        "thinkingBudget": 0
+    }
+    assert "thinkingConfig" not in payloads[1]["generationConfig"]
+
+
+def test_chiama_gemini_http_400_conserva_l_errore_con_thinking(monkeypatch):
+    payloads: list[dict] = []
+
+    def finto_post(url, json=None, headers=None, timeout=None, **kwargs):
+        payloads.append(json)
+        return _risposta_http_400("thinkingConfig non supportato")
+
+    monkeypatch.setattr(modulo_copione.requests, "post", finto_post)
+    with pytest.raises(modulo_copione.LlmError) as errore:
+        modulo_copione._chiama_gemini(
+            "prompt",
+            "system",
+            carica_impostazioni(),
+            "chiave-di-prova",
+            LOGGER,
+            thinking_budget=0,
+        )
+
+    assert len(payloads) == 2
+    assert "HTTP 400" in str(errore.value)
+    assert "thinkingConfig" in str(errore.value)
 
 
 def test_chiama_gemini_default_invariati(monkeypatch):

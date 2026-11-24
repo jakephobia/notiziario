@@ -227,8 +227,10 @@ Queste erano le notizie. A domani!
 
 
 def test_genera_corpo_include_suono_e_outro():
+    impostazioni = carica_impostazioni()
+    impostazioni["suono_transizione"] = "ding"
     corpo = dashboard.genera_corpo(
-        carica_impostazioni(),
+        impostazioni,
         carica_fonti_tutte(),
         "Ciao [NOME], [DATA].",
         "Queste erano le notizie. A domani!",
