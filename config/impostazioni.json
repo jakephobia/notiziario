@@ -1,4 +1,4 @@
-﻿{
+{
   "versione": 3,
   "orario_generazione": "07:00",
   "durata_default": "completo",
@@ -54,6 +54,7 @@
     "mondo",
     "tecnologia",
     "scienza-salute",
+    "cultura",
     "ambiente",
     "buone-notizie"
   ],
