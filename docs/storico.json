@@ -3,27 +3,25 @@
     {
       "data": "2026-11-24",
       "titolo": "Notiziario del 24 novembre 2026",
-      "descrizione": "Il notiziario di oggi, martedì 24 novembre 2026, si apre con la notizia del reintegro di Jensen Huang alla guida di Nvidia, tra polemiche e indagini, e le accuse di insider trading rivolte a Donald Trump.",
+      "descrizione": "Il notiziario di martedì 24 novembre 2026 tratta delle vicende giudiziarie internazionali, gli allarmi bomba in Europa, le politiche interne italiane e le novità scientifiche.",
       "filename": "notiziario-2026-11-24.mp3",
-      "descrizione_breve": "24 novembre 2026 - Nvidia Huang dopo il reintegro, La Spagna vieta aromi e sapori, Boehringer punta 160 milioni sui principi, Standing ovation per John Travolta, Violenza economica.",
-      "durata_secondi": 540.902721,
-      "dimensione": 8655559,
+      "descrizione_breve": "24 novembre 2026 - Francia Sarkozy e Carla Bruni andranno, Notiziario del 24 novembre 2026, Allarmi bomba nelle scuole in Danimarca, Il nuovo bonus da 300 euro, Piano di investimenti Petrobras da 122.",
+      "durata_secondi": 392.508503,
+      "dimensione": 6281133,
       "modalita": "llm",
       "categorie": [
         "italia",
         "mondo",
-        "economia",
         "tecnologia",
         "scienza-salute",
-        "cultura",
         "ambiente",
         "buone-notizie"
       ],
       "voce": "it-IT-Chirp3-HD-Kore",
       "voce_label": "Kore â€” femminile, calda (Google Chirp 3 HD)",
-      "velocita": 1.15,
+      "velocita": 1.1,
       "tts_motore": "google",
-      "pubblicato": "2026-11-24T21:47:20.905263+00:00",
+      "pubblicato": "2026-11-24T22:20:52.684140+00:00",
       "guid": "notiziario-2026-11-24"
     },
     {
