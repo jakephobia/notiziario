@@ -32,7 +32,7 @@
   "suono": "ding",
   "outro": "Queste erano le notizie di oggi. A domani con i principali eventi della giornata!",
   "fonti_totali": 96,
-  "fonti_attive": 73,
+  "fonti_attive": 62,
   "issue_url": "https://github.com/jakephobia/notiziario/issues/1",
   "repo_url": "https://github.com/jakephobia/notiziario",
   "fonti": [
@@ -58,7 +58,7 @@
       "nome": "ANSA",
       "url": "https://www.ansa.it/sito/notizie/economia/economia_rss.xml",
       "categoria": "economia",
-      "attivo": true
+      "attivo": false
     },
     {
       "nome": "ANSA",
@@ -70,7 +70,7 @@
       "nome": "ANSA",
       "url": "https://www.ansa.it/sito/notizie/cultura/cultura_rss.xml",
       "categoria": "cultura",
-      "attivo": true
+      "attivo": false
     },
     {
       "nome": "Repubblica",
@@ -100,7 +100,7 @@
       "nome": "Repubblica",
       "url": "https://www.repubblica.it/rss/economia/rss2.0.xml",
       "categoria": "economia",
-      "attivo": true
+      "attivo": false
     },
     {
       "nome": "Repubblica",
@@ -142,7 +142,7 @@
       "nome": "Il Post",
       "url": "https://www.ilpost.it/economia/feed/",
       "categoria": "economia",
-      "attivo": true
+      "attivo": false
     },
     {
       "nome": "Il Post",
@@ -184,7 +184,7 @@
       "nome": "Il Sole 24 Ore",
       "url": "https://www.ilsole24ore.com/rss/economia.xml",
       "categoria": "economia",
-      "attivo": true
+      "attivo": false
     },
     {
       "nome": "Il Sole 24 Ore",
@@ -196,7 +196,7 @@
       "nome": "Il Sole 24 Ore",
       "url": "https://www.ilsole24ore.com/rss/cultura.xml",
       "categoria": "cultura",
-      "attivo": true
+      "attivo": false
     },
     {
       "nome": "Il Sole 24 Ore",
@@ -292,19 +292,19 @@
       "nome": "MicroMega",
       "url": "https://www.micromega.net/feed/",
       "categoria": "cultura",
-      "attivo": true
+      "attivo": false
     },
     {
       "nome": "Il Tascabile",
       "url": "https://www.iltascabile.com/feed/",
       "categoria": "cultura",
-      "attivo": true
+      "attivo": false
     },
     {
       "nome": "doppiozero",
       "url": "https://www.doppiozero.com/feed",
       "categoria": "cultura",
-      "attivo": true
+      "attivo": false
     },
     {
       "nome": "Nazione Indiana",
@@ -484,7 +484,7 @@
       "nome": "The American Prospect",
       "url": "https://prospect.org/feed/",
       "categoria": "mondo",
-      "attivo": true
+      "attivo": false
     },
     {
       "nome": "Politico",
@@ -520,7 +520,7 @@
       "nome": "Buone Notizie",
       "url": "https://www.buonenotizie.it/feed/",
       "categoria": "buone-notizie",
-      "attivo": true
+      "attivo": false
     },
     {
       "nome": "Italia Che Cambia",
