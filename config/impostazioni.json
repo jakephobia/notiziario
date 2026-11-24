@@ -80,22 +80,22 @@
       {
         "nome": "Kore",
         "genere": "F",
-        "label": "Kore â€” femminile, calda"
+        "label": "Kore - femminile, calda"
       },
       {
         "nome": "Leda",
         "genere": "F",
-        "label": "Leda â€” femminile, luminosa"
+        "label": "Leda - femminile, luminosa"
       },
       {
         "nome": "Charon",
         "genere": "M",
-        "label": "Charon â€” maschile, profonda"
+        "label": "Charon - maschile, profonda"
       },
       {
         "nome": "Puck",
         "genere": "M",
-        "label": "Puck â€” maschile, vivace"
+        "label": "Puck - maschile, vivace"
       }
     ],
     "edge": {

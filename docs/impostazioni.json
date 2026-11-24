@@ -18,7 +18,7 @@
   "incipit_template": "Ciao, [NOME UTENTE]! Ecco le tue notizie del giorno. Oggi è il [DATA].",
   "incipit_risolto": "Ciao, Jacopo! Ecco le tue notizie del giorno. Oggi è il 24 novembre.",
   "voce": "it-IT-Chirp3-HD-Kore",
-  "voce_label": "Kore â€” femminile, calda (Google Chirp 3 HD)",
+  "voce_label": "Kore - femminile, calda (Google Chirp 3 HD)",
   "voce_configurata": "Kore",
   "durata_default": "completo",
   "orario_generazione": "07:00",
