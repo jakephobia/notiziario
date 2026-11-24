@@ -33,9 +33,11 @@ TEMPO_LIMITE = 60
 PREFERITE = [
     "it-IT-Chirp3-HD-Achernar",
     "it-IT-Chirp3-HD-Aoede",
+    "it-IT-Chirp3-HD-Kore",
+    "it-IT-Chirp3-HD-Leda",
+    "it-IT-Chirp3-HD-Zephyr",
     "it-IT-Chirp3-HD-Charon",
     "it-IT-Chirp3-HD-Puck",
-    "it-IT-Chirp3-HD-Kore",
 ]
 
 TESTO_PROVA = (
@@ -117,7 +119,7 @@ def elenca_voci(chiave: str) -> list[dict[str, Any]]:
     return filtrate
 
 
-def scegli_quattro(voci: list[dict[str, Any]]) -> list[dict[str, Any]]:
+def scegli_voci(voci: list[dict[str, Any]]) -> list[dict[str, Any]]:
     """Mescola femminile e maschile, preferendo le voci note."""
     per_nome = {str(v.get("name")): v for v in voci}
     femmine = [v for v in voci if _genere_etichetta(v.get("ssmlGender")) == "femminile"]
@@ -129,21 +131,21 @@ def scegli_quattro(voci: list[dict[str, Any]]) -> list[dict[str, Any]]:
         return preferite + resto
 
     scelte: list[dict[str, Any]] = []
-    for lista in (femmine, maschi):
+    for lista, massimo in ((femmine, 4), (maschi, 2)):
         prese = 0
         for voce in ordina(lista):
-            if prese >= 2 or len(scelte) >= 4:
+            if prese >= massimo or len(scelte) >= 6:
                 break
             if voce not in scelte:
                 scelte.append(voce)
                 prese += 1
-    # Completa fino a 4 con le voci rimanenti (generi mancanti o elenco corto).
+    # Completa fino a 6 con le voci rimanenti (generi mancanti o elenco corto).
     for voce in ordina(list(voci)):
-        if len(scelte) >= 4:
+        if len(scelte) >= 6:
             break
         if voce not in scelte:
             scelte.append(voce)
-    return scelte[:4]
+    return scelte[:6]
 
 
 def sintetizza(chiave: str, voce: str) -> bytes:
@@ -251,7 +253,7 @@ def main() -> int:
         for voce in elenco:
             print(f"- {voce['nome']} ({voce['genere'] or 'genere sconosciuto'})")
 
-        scelte = scegli_quattro(voci)
+        scelte = scegli_voci(voci)
         if not scelte:
             raise ErroreProva("Nessuna voce selezionabile per i campioni.")
 
