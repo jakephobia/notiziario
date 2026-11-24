@@ -3,11 +3,11 @@
     {
       "data": "2026-11-24",
       "titolo": "Notiziario del 24 novembre 2026",
-      "descrizione": "Le ultime notizie dal mondo, dall'Italia, dall'economia e dalla tecnologia, con un focus sulle vicende giudiziarie di Nicolas Sarkozy e i nuovi dazi annunciati dall'amministrazione Trump. Chiudiamo con le buone notizie.",
+      "descrizione": "Il notiziario di oggi, martedì 24 novembre 2026, si apre con la notizia del reintegro di Jensen Huang alla guida di Nvidia, tra polemiche e indagini, e le accuse di insider trading rivolte a Donald Trump.",
       "filename": "notiziario-2026-11-24.mp3",
-      "descrizione_breve": "24 novembre 2026 - Sarkozy e Carla Bruni rinviati, Allarmi bomba nelle scuole in Danimarca, In Europa le immatricolazioni di auto, Apple vs, 25 anni di Buone Notizie.",
-      "durata_secondi": 402.269342,
-      "dimensione": 6437450,
+      "descrizione_breve": "24 novembre 2026 - Nvidia Huang dopo il reintegro, La Spagna vieta aromi e sapori, Boehringer punta 160 milioni sui principi, Standing ovation per John Travolta, Violenza economica.",
+      "durata_secondi": 540.902721,
+      "dimensione": 8655559,
       "modalita": "llm",
       "categorie": [
         "italia",
@@ -23,7 +23,7 @@
       "voce_label": "Kore â€” femminile, calda (Google Chirp 3 HD)",
       "velocita": 1.15,
       "tts_motore": "google",
-      "pubblicato": "2026-11-24T21:39:17.059173+00:00",
+      "pubblicato": "2026-11-24T21:47:20.905263+00:00",
       "guid": "notiziario-2026-11-24"
     },
     {

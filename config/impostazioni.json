@@ -4,7 +4,7 @@
   "durata_default": "completo",
   "nome_utente": "Jacopo",
   "tts_motore": "google",
-  "suono_transizione": "nessuno",
+  "suono_transizione": "ding",
   "suono_gain_db": 0,
   "outro": {
     "file": "config/outro.txt"
