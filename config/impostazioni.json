@@ -4,6 +4,15 @@
   "durata_default": "standard",
   "nome_utente": "Jacopo",
   "tts_motore": "google",
+  "suono_transizione": "ding",
+  "suono_gain_db": 0,
+  "outro": {
+    "file": "config/outro.txt"
+  },
+  "silenzio_iniziale_ms": 1000,
+  "tts_chunk_max_caratteri": 4500,
+  "llm_modello_riserva": "gemini-3.1-flash-lite",
+  "llm_modello_traduzione": "gemini-3.1-flash-lite",
   "preset": {
     "svelto": {
       "minuti": 4,
@@ -112,6 +121,12 @@
     "max_caratteri_chunk": 4500,
     "direzione": "Read aloud in a warm, lively, natural Italian female radio host voice, with varied pacing and clear pronunciation. Read only the Italian text below, not this instruction."
   },
+  "tts_google": {
+    "lingua": "it-IT",
+    "endpoint": "https://texttospeech.googleapis.com/v1/text:synthesize",
+    "max_caratteri_chunk": 3000,
+    "timeout": 90
+  },
   "tts": {
     "pausa_sezione": 0.8,
     "pausa_notizia": 0.5,
@@ -167,7 +182,9 @@
     "max_redirect": 3
   },
   "clustering": {
-    "soglia": 0.58
+    "soglia": 0.58,
+    "max_per_feed": 30,
+    "max_totale": 3000
   },
   "fetch": {
     "timeout": 15,
@@ -201,16 +218,7 @@
     "lingua": "it-it",
     "sito_url": "https://jakephobia.github.io/notiziario/",
     "base_url": "https://github.com/jakephobia/notiziario/releases/download",
-    "max_episodi": 60,
-    "copertina": "copertina.png"
-  },
-  "silenzio_iniziale_ms": 1000,
-  "tts_chunk_max_caratteri": 4500,
-  "llm_modello_riserva": "gemini-3.1-flash-lite",
-  "llm_modello_traduzione": "gemini-3.1-flash-lite",
-  "suono_transizione": "nessuno",
-  "suono_gain_db": 0,
-  "outro": {
-    "file": "config/outro.txt"
+    "copertina": "copertina.png",
+    "max_episodi": 60
   }
 }

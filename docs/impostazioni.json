@@ -2,16 +2,20 @@
   "categorie_attive": [
     "italia",
     "mondo",
+    "economia",
     "tecnologia",
     "scienza-salute",
+    "cultura",
     "ambiente",
     "buone-notizie"
   ],
   "categorie_label": [
     "Italia",
     "Mondo",
+    "Economia",
     "Tecnologia",
     "Scienza e salute",
+    "Cultura",
     "Ambiente",
     "Buone notizie"
   ],
@@ -27,10 +31,10 @@
   "motore_richiesto": "google",
   "data": "2026-11-24",
   "nome_utente": "Jacopo",
-  "suono": "nessuno",
+  "suono": "ding",
   "outro": "Queste erano le notizie di oggi. A domani con i principali eventi della giornata!",
   "fonti_totali": 96,
-  "fonti_attive": 62,
+  "fonti_attive": 73,
   "issue_url": "https://github.com/jakephobia/notiziario/issues/1",
   "repo_url": "https://github.com/jakephobia/notiziario",
   "fonti": [
@@ -56,7 +60,7 @@
       "nome": "ANSA",
       "url": "https://www.ansa.it/sito/notizie/economia/economia_rss.xml",
       "categoria": "economia",
-      "attivo": false
+      "attivo": true
     },
     {
       "nome": "ANSA",
@@ -68,7 +72,7 @@
       "nome": "ANSA",
       "url": "https://www.ansa.it/sito/notizie/cultura/cultura_rss.xml",
       "categoria": "cultura",
-      "attivo": false
+      "attivo": true
     },
     {
       "nome": "Repubblica",
@@ -98,7 +102,7 @@
       "nome": "Repubblica",
       "url": "https://www.repubblica.it/rss/economia/rss2.0.xml",
       "categoria": "economia",
-      "attivo": false
+      "attivo": true
     },
     {
       "nome": "Repubblica",
@@ -140,7 +144,7 @@
       "nome": "Il Post",
       "url": "https://www.ilpost.it/economia/feed/",
       "categoria": "economia",
-      "attivo": false
+      "attivo": true
     },
     {
       "nome": "Il Post",
@@ -182,7 +186,7 @@
       "nome": "Il Sole 24 Ore",
       "url": "https://www.ilsole24ore.com/rss/economia.xml",
       "categoria": "economia",
-      "attivo": false
+      "attivo": true
     },
     {
       "nome": "Il Sole 24 Ore",
@@ -194,7 +198,7 @@
       "nome": "Il Sole 24 Ore",
       "url": "https://www.ilsole24ore.com/rss/cultura.xml",
       "categoria": "cultura",
-      "attivo": false
+      "attivo": true
     },
     {
       "nome": "Il Sole 24 Ore",
@@ -290,19 +294,19 @@
       "nome": "MicroMega",
       "url": "https://www.micromega.net/feed/",
       "categoria": "cultura",
-      "attivo": false
+      "attivo": true
     },
     {
       "nome": "Il Tascabile",
       "url": "https://www.iltascabile.com/feed/",
       "categoria": "cultura",
-      "attivo": false
+      "attivo": true
     },
     {
       "nome": "doppiozero",
       "url": "https://www.doppiozero.com/feed",
       "categoria": "cultura",
-      "attivo": false
+      "attivo": true
     },
     {
       "nome": "Nazione Indiana",
@@ -482,7 +486,7 @@
       "nome": "The American Prospect",
       "url": "https://prospect.org/feed/",
       "categoria": "mondo",
-      "attivo": false
+      "attivo": true
     },
     {
       "nome": "Politico",
@@ -518,7 +522,7 @@
       "nome": "Buone Notizie",
       "url": "https://www.buonenotizie.it/feed/",
       "categoria": "buone-notizie",
-      "attivo": false
+      "attivo": true
     },
     {
       "nome": "Italia Che Cambia",

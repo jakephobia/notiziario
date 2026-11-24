@@ -2,12 +2,12 @@
   "episodi": [
     {
       "data": "2026-11-24",
-      "titolo": "Notiziario Radiofonico del 24 novembre 2026",
-      "descrizione": "Le principali notizie di oggi, martedì 24 novembre 2026, con un focus sul processo che coinvolge Nicolas Sarkozy e Carla Bruni, l'andamento delle borse europee, e altre notizie dall'Italia e dal mondo. In chiusura, le buone notizie della giornata.",
+      "titolo": "Notiziario del 24 novembre 2026",
+      "descrizione": "Le ultime notizie dal mondo, dall'Italia, dall'economia e dalla tecnologia, con un focus sulle vicende giudiziarie di Nicolas Sarkozy e i nuovi dazi annunciati dall'amministrazione Trump. Chiudiamo con le buone notizie.",
       "filename": "notiziario-2026-11-24.mp3",
-      "descrizione_breve": "24 novembre 2026 - Francia Sarkozy e Carla Bruni andranno, Il nuovo bonus da 300 euro, Allarmi bomba nelle scuole in Danimarca, Pma 56mila firme per cambiare.",
-      "durata_secondi": 486.199728,
-      "dimensione": 7780353,
+      "descrizione_breve": "24 novembre 2026 - Sarkozy e Carla Bruni rinviati, Allarmi bomba nelle scuole in Danimarca, In Europa le immatricolazioni di auto, Apple vs, 25 anni di Buone Notizie.",
+      "durata_secondi": 402.269342,
+      "dimensione": 6437450,
       "modalita": "llm",
       "categorie": [
         "italia",
@@ -23,7 +23,7 @@
       "voce_label": "Kore â€” femminile, calda (Google Chirp 3 HD)",
       "velocita": 1.15,
       "tts_motore": "google",
-      "pubblicato": "2026-11-24T20:32:26.302544+00:00",
+      "pubblicato": "2026-11-24T21:39:17.059173+00:00",
       "guid": "notiziario-2026-11-24"
     },
     {
