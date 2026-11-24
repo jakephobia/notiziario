@@ -1,10 +1,10 @@
 {
   "versione": 3,
   "orario_generazione": "07:00",
-  "durata_default": "standard",
+  "durata_default": "completo",
   "nome_utente": "Jacopo",
   "tts_motore": "google",
-  "suono_transizione": "ding",
+  "suono_transizione": "nessuno",
   "suono_gain_db": 0,
   "outro": {
     "file": "config/outro.txt"
@@ -75,7 +75,7 @@
   },
   "voce": {
     "nome": "Kore",
-    "velocita": 1.15,
+    "velocita": 1.1,
     "voci": [
       {
         "nome": "Kore",
