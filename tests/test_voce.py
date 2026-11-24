@@ -36,7 +36,7 @@ testo
 def test_issue_prevale_su_config():
     scelta = risolvi_voce(
         carica_impostazioni(),
-        corpo_issue="## Voce\nvoce: Puck\nvelocita: 1.1\n",
+        corpo_issue="## Voce\nvoce: Puck\nvelocita: 1.1\nmotore: gemini\n",
     )
     assert scelta.nome == "Puck"
     assert scelta.velocita == 1.1
@@ -47,7 +47,7 @@ def test_issue_prevale_su_config():
 def test_voce_o_velocita_invalida_limita_il_bordo():
     scelta = risolvi_voce(
         carica_impostazioni(),
-        corpo_issue="## Voce\nvoce: Isabella\nvelocita: 2.0\n",
+        corpo_issue="## Voce\nvoce: Isabella\nvelocita: 2.0\nmotore: gemini\n",
     )
     assert scelta.nome == "Kore"
     assert scelta.velocita == 1.25
@@ -67,15 +67,31 @@ def test_cli_prevale_e_edge_mappa_voce():
     assert any("non è disponibile" in a for a in scelta.avvisi)
 
 
-def test_motore_google_usa_voce_google():
+def test_motore_google_usa_kore_di_default():
     scelta = risolvi_voce(
         carica_impostazioni(),
         corpo_issue="## Voce\nmotore: google\nvelocita: 1.1\n",
     )
     assert scelta.motore == "google"
-    assert scelta.nome == "it-IT-Chirp3-HD-Achernar"
-    assert scelta.etichetta == "Google Chirp 3 HD — Achernar"
+    assert scelta.nome == "it-IT-Chirp3-HD-Kore"
+    assert "Kore" in scelta.etichetta
+    assert "Google" in scelta.etichetta
     assert scelta.fonte == "issue"
+
+
+def test_motore_google_mappa_leda_e_charon():
+    leda = risolvi_voce(
+        carica_impostazioni(),
+        corpo_issue="## Voce\nvoce: Leda\nmotore: google\n",
+    )
+    assert leda.nome == "it-IT-Chirp3-HD-Leda"
+    assert "Leda" in leda.etichetta
+    charon = risolvi_voce(
+        carica_impostazioni(),
+        corpo_issue="## Voce\nvoce: Charon\nmotore: google\n",
+    )
+    assert charon.nome == "it-IT-Chirp3-HD-Charon"
+    assert "Charon" in charon.etichetta
 
 
 def test_motore_google_voce_cli_completa():

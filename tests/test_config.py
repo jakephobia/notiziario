@@ -16,7 +16,7 @@ def test_impostazioni_reali_valide():
     assert set(impostazioni["preset"]) == {"svelto", "standard", "completo"}
     assert impostazioni["durata_default"] in impostazioni["preset"]
     assert impostazioni["orario_generazione"] == "07:00"
-    assert impostazioni["tts_motore"] == "gemini"
+    assert impostazioni["tts_motore"] == "google"
     assert impostazioni["voce"]["nome"] == "Kore"
     velocita = impostazioni["voce"]["velocita"]
     assert 0.75 <= velocita <= 1.25
@@ -28,10 +28,17 @@ def test_impostazioni_reali_valide():
     assert impostazioni["tts_google"]["max_caratteri_chunk"] == 3000
     assert impostazioni["tts_google"]["timeout"] == 90
     assert impostazioni["tts_google"]["endpoint"].startswith("https://")
-    assert impostazioni["voce"]["google"]["nome"] == "it-IT-Chirp3-HD-Achernar"
+    assert impostazioni["voce"]["google"]["nome"] == "it-IT-Chirp3-HD-Kore"
+    assert impostazioni["voce"]["google"]["voci"]["Leda"] == "it-IT-Chirp3-HD-Leda"
     assert impostazioni["llm_modello_riserva"]
+    assert impostazioni["llm_modello_traduzione"] == "gemini-3.1-flash-lite"
     assert impostazioni["voce"]["edge"]["nome"] == "it-IT-IsabellaNeural"
-    assert {v["nome"] for v in impostazioni["voce"]["voci"]} >= {"Kore", "Leda", "Charon", "Puck", "Orus"}
+    assert {v["nome"] for v in impostazioni["voce"]["voci"]} == {
+        "Kore",
+        "Leda",
+        "Charon",
+        "Puck",
+    }
     assert impostazioni["feed"]["max_episodi"] == 60
     assert "buone-notizie" in impostazioni["categorie_default"]
     assert impostazioni["nome_utente"] == "Jacopo"

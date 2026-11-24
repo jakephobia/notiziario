@@ -3,7 +3,7 @@
   "orario_generazione": "07:00",
   "durata_default": "completo",
   "nome_utente": "Jacopo",
-  "tts_motore": "gemini",
+  "tts_motore": "google",
   "preset": {
     "svelto": {
       "minuti": 4,
@@ -87,16 +87,22 @@
         "nome": "Puck",
         "genere": "M",
         "label": "Puck â€” maschile, vivace"
-      },
-      {
-        "nome": "Orus",
-        "genere": "M",
-        "label": "Orus â€” maschile, riserva"
       }
     ],
     "edge": {
       "nome": "it-IT-IsabellaNeural",
       "alternativa": "it-IT-ElsaNeural"
+    },
+    "google": {
+      "nome": "it-IT-Chirp3-HD-Kore",
+      "label": "Kore (Google Chirp 3 HD)",
+      "genere": "F",
+      "voci": {
+        "Kore": "it-IT-Chirp3-HD-Kore",
+        "Leda": "it-IT-Chirp3-HD-Leda",
+        "Charon": "it-IT-Chirp3-HD-Charon",
+        "Puck": "it-IT-Chirp3-HD-Puck"
+      }
     }
   },
   "tts_gemini": {
@@ -122,7 +128,18 @@
     "loudnorm": "loudnorm=I=-16:TP=-1.5:LRA=11",
     "sample_rate": 44100,
     "canali": 1,
-    "bitrate": "96k"
+    "bitrate": "96k",
+    "musica": {
+      "attivo": true,
+      "file": "assets/musica-sottofondo.mp3",
+      "volume_db": -15.0,
+      "ducking": true,
+      "ducking_threshold": 0.05,
+      "ducking_ratio": 4.0,
+      "fade_out_secondi": 3.0,
+      "silenzio_finale_secondi": 3.0,
+      "bitrate": "128k"
+    }
   },
   "llm": {
     "modello": "gemini-2.5-flash",

@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import base64
 import io
@@ -65,21 +65,21 @@ def test_sintesi_google_produce_mp3(monkeypatch, tmp_path):
     monkeypatch.setattr(tts_google.requests, "post", finto_post)
     uscita = tmp_path / "google.mp3"
     info = sintetizza_sezioni_google(
-        [("Ciao Jacopo, questa è una prova.", 0.0)],
+        [("Ciao Jacopo, questa Ã¨ una prova.", 0.0)],
         uscita,
         carica_impostazioni(),
         LOGGER,
     )
     assert uscita.exists()
     assert info["motore"] == "google"
-    assert info["voce"] == "it-IT-Chirp3-HD-Achernar"
+    assert info["voce"] == "it-IT-Chirp3-HD-Kore"
     assert info["durata"] > 1
     assert info["chiamate"] == 1
     assert info["limite_chunk_usato"] == 3000
     assert len(info["durate_sezioni"]) == 1
     assert info_audio(uscita)["codec"] == "mp3"
     assert catturato["headers"]["X-Goog-Api-Key"] == "chiave-test"
-    assert catturato["json"]["voice"]["name"] == "it-IT-Chirp3-HD-Achernar"
+    assert catturato["json"]["voice"]["name"] == "it-IT-Chirp3-HD-Kore"
     assert catturato["json"]["audioConfig"]["audioEncoding"] == "LINEAR16"
     assert "key" not in catturato["url"]
 
@@ -107,7 +107,7 @@ def test_retry_429_poi_successo(monkeypatch):
     monkeypatch.setattr(tts_google.requests, "post", finto_post)
     monkeypatch.setattr(tts_google.time, "sleep", lambda *_: None)
     audio = _chiama_google_tts(
-        "Ciao", "it-IT-Chirp3-HD-Achernar", carica_impostazioni(), "chiave", LOGGER
+        "Ciao", "it-IT-Chirp3-HD-Kore", carica_impostazioni(), "chiave", LOGGER
     )
     assert chiamate["n"] == 3
     assert audio[:4] == b"RIFF"
@@ -149,7 +149,7 @@ def test_dispatcher_google_usa_voce_google(monkeypatch, tmp_path):
         motore="google",
     )
     assert info["motore"] == "google"
-    assert catturato["voce"] == "it-IT-Chirp3-HD-Achernar"
+    assert catturato["voce"] == "it-IT-Chirp3-HD-Kore"
 
 
 def test_fallback_google_a_edge_non_usa_voce_google(monkeypatch, tmp_path):
@@ -183,3 +183,4 @@ def test_fallback_google_a_edge_non_usa_voce_google(monkeypatch, tmp_path):
     assert info["motore"] == "edge"
     assert "500" in info["motivo_fallback"]
     assert catturato["voce"] is None
+

@@ -550,7 +550,6 @@ _TEMPLATE_INDEX = r"""<!DOCTYPE html>
               <option value="Leda">Leda — femminile, luminosa</option>
               <option value="Charon">Charon — maschile, profonda</option>
               <option value="Puck">Puck — maschile, vivace</option>
-              <option value="Orus">Orus — maschile, riserva</option>
             </select>
           </label>
           <label>Motore TTS

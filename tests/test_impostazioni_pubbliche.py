@@ -121,7 +121,7 @@ def test_impostazioni_iniziali_esistono_e_sono_valide():
     assert dati["voce"] == "it-IT-IsabellaNeural"
     assert dati["velocita"] == carica_impostazioni()["voce"]["velocita"]
     assert dati["motore"] == "edge"
-    assert dati["motore_richiesto"] == "gemini"
+    assert dati["motore_richiesto"] == "google"
     assert dati["voce_configurata"] == "Kore"
     assert dati["durata_default"] in {"svelto", "standard", "completo"}
     assert dati["orario_generazione"] == "07:00"

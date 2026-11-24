@@ -280,7 +280,7 @@ La musica è configurata in `audio.musica`:
 {
   "attivo": true,
   "file": "assets/musica-sottofondo.mp3",
-  "volume_db": -18.0,
+  "volume_db": -15.0,
   "ducking": true,
   "ducking_threshold": 0.05,
   "ducking_ratio": 4.0,
@@ -294,7 +294,8 @@ La musica parte dopo l'intro, quindi dalla prima notizia, e continua fino alla
 fine. Sotto la voce viene abbassata con sidechain compression; negli ultimi
 3 secondi la voce tace e la musica sfuma. Se la puntata è più lunga del file,
 la traccia viene ripetuta. I campioni di prova sono in
-`docs/prove-musica/` con tre volumi diversi (-24, -18 e -12 dB).
+`docs/prove-musica/` con tre volumi diversi (-24, -18 e -12 dB); il valore
+scelto per il podcast è -15 dB.
 
 Anteprima:
 

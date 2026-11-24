@@ -138,27 +138,44 @@ def risolvi_voce(
         google = config_voce.get("google", {})
         if not isinstance(google, dict):
             google = {}
-        nome_google = str(google.get("nome") or "").strip()
-        if not nome_google:
-            nome_google = "it-IT-Chirp3-HD-Achernar"
-            avvisi.append(
-                "Voce Google non configurata: uso it-IT-Chirp3-HD-Achernar."
-            )
-        richiesta = (voce_cli or voce_issue or "").strip()
+        mappa = google.get("voci")
+        if not isinstance(mappa, dict):
+            mappa = {}
+        richiesta = (voce_cli or voce_issue or nome or "Kore").strip()
         if richiesta.startswith("it-IT-"):
             nome = richiesta
+            etichetta = str(google.get("label") or nome)
+            genere = str(google.get("genere", ""))
         else:
-            if richiesta:
-                avvisi.append(
-                    f"Voce '{richiesta}' non valida per Google: uso {nome_google}."
-                )
-            nome = nome_google
+            voce_scelta = _canonica(richiesta, voci)
+            if not voce_scelta:
+                voce_scelta = _canonica("Kore", voci) or {
+                    "nome": "Kore",
+                    "genere": "F",
+                    "label": "Kore",
+                }
+                if richiesta.casefold() != "kore":
+                    avvisi.append(
+                        f"Voce '{richiesta}' non valida per Google: uso Kore."
+                    )
+            chiave = str(voce_scelta["nome"])
+            cloud = str(
+                mappa.get(chiave) or google.get("nome") or ""
+            ).strip()
+            if not cloud:
+                cloud = "it-IT-Chirp3-HD-Kore"
+                avvisi.append("Voce Google non configurata: uso Kore.")
+            nome = cloud
+            etichetta = str(voce_scelta.get("label") or chiave)
+            if "Google" not in etichetta:
+                etichetta = f"{etichetta} (Google Chirp 3 HD)"
+            genere = str(voce_scelta.get("genere", ""))
         return VoceScelta(
             nome=nome,
             velocita=round(float(velocita), 2),
             motore=motore,
-            etichetta=str(google.get("label") or nome),
-            genere=str(google.get("genere", "")),
+            etichetta=etichetta,
+            genere=genere,
             avvisi=avvisi,
             fonte=fonte,
         )
