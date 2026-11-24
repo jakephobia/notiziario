@@ -152,3 +152,21 @@ def test_workflow_prove_voci_google():
     assert "output/voci-google.json" in upload["with"]["path"]
     assert "git push" not in testo
     assert "git commit" not in testo
+
+def test_dashboard_workflow_passa_taglio_e_durata():
+    percorso = ROOT / ".github" / "workflows" / "dashboard.yml"
+    dati = yaml.safe_load(percorso.read_text(encoding="utf-8"))
+    eventi = dati.get("on") or dati.get(True)
+    inputs = eventi["workflow_dispatch"]["inputs"]
+    config = json.loads(
+        (ROOT / "config" / "impostazioni.json").read_text(encoding="utf-8-sig")
+    )
+    assert inputs["durata"]["default"] == config["durata_default"]
+    assert "adesso" in inputs
+    passo = next(
+        p
+        for p in dati["jobs"]["applica"]["steps"]
+        if p.get("name") == "Avvia generazione"
+    )
+    assert "ADESSO" in passo["run"]
+    assert "-f adesso=" in passo["run"]

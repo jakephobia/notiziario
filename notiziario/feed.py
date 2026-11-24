@@ -534,6 +534,9 @@ _TEMPLATE_INDEX = r"""<!DOCTYPE html>
             <option value="svelto">Svelto</option><option value="standard">Standard</option><option value="completo">Completo</option>
           </select>
         </label>
+        <label>Notizie fino alle (opzionale)
+          <input id="taglio" name="taglio" type="time">
+        </label>
         <label>Orario di generazione (Europe/Rome)
           <select id="orario" name="orario"><option value="00:00">00:00</option><option value="01:00">01:00</option><option value="02:00">02:00</option><option value="03:00">03:00</option><option value="04:00">04:00</option><option value="05:00">05:00</option><option value="06:00">06:00</option><option value="07:00">07:00</option><option value="08:00">08:00</option><option value="09:00">09:00</option><option value="10:00">10:00</option><option value="11:00">11:00</option><option value="12:00">12:00</option><option value="13:00">13:00</option><option value="14:00">14:00</option><option value="15:00">15:00</option><option value="16:00">16:00</option><option value="17:00">17:00</option><option value="18:00">18:00</option><option value="19:00">19:00</option><option value="20:00">20:00</option><option value="21:00">21:00</option><option value="22:00">22:00</option><option value="23:00">23:00</option></select>
         </label>
@@ -684,6 +687,7 @@ _TEMPLATE_INDEX = r"""<!DOCTYPE html>
   const motoreNotaEl = document.getElementById("tts-motore-nota");
   const suonoEl = document.getElementById("suono");
   const durataEl = document.getElementById("durata");
+const taglioEl = document.getElementById("taglio");
   const orarioEl = document.getElementById("orario");
   const fontiLista = document.getElementById("fonti-lista");
   const fontiDettagli = document.getElementById("fonti-dettagli");
@@ -949,7 +953,7 @@ _TEMPLATE_INDEX = r"""<!DOCTYPE html>
   }
   function leggiToken() { try { return localStorage.getItem(TOKEN_KEY)||""; } catch (e) { return ""; } }
   function aggiornaTokenStato() { tokenStatoEl.textContent=leggiToken()?"Token presente nel browser. Non viene mostrato né registrato nei log.":"Nessun token salvato: il form resta leggibile, ma il salvataggio richiede il token."; }
-  function salvaToken() { const token=tokenEl.value.trim(); if (!token) { tokenStatoEl.textContent="Inserisci un token prima di salvarlo."; return; } try { localStorage.setItem(TOKEN_KEY,token); tokenEl.value=""; aggiornaTokenStato(); mostraStato("Token salvato nel browser."); } catch (e) { tokenStatoEl.textContent="Il browser non permette di salvare il token (modalità privata?)."; } }
+  function salvaToken() { const token=tokenEl.value.trim(); if (!token) { tokenStatoEl.textContent="Inserisci un token prima di salvarlo."; return; } try { localStorage.setItem(TOKEN_KEY,token); tokenEl.value=token; aggiornaTokenStato(); mostraStato("Token salvato nel browser."); } catch (e) { tokenStatoEl.textContent="Il browser non permette di salvare il token (modalità privata?)."; } }
   function dimenticaToken() { try { localStorage.removeItem(TOKEN_KEY); } catch (e) {} tokenEl.value=""; aggiornaTokenStato(); mostraStato("Token rimosso dal browser."); }
   function costruisciPayload() {
     const categorie=Array.from(categorieEl.querySelectorAll("input[type=checkbox]:checked")).map(function (e) { return e.value; });
@@ -1196,11 +1200,23 @@ _TEMPLATE_INDEX = r"""<!DOCTYPE html>
   bannerChiudiBtn.addEventListener("click", chiudiBanner);
 
   async function invia(genera) {
+    const tokenInserito=tokenEl.value.trim();
+    if (tokenInserito) { try { localStorage.setItem(TOKEN_KEY,tokenInserito); } catch (e) {} }
     let payload; try { payload=costruisciPayload(); validaPayload(payload); } catch (e) { mostraStato(e.message,true); return; }
-    const token=leggiToken(); if (!token) { mostraStato("Token mancante: salvalo nel browser oppure creane uno fine-grained dal link qui sopra.",true); return; }
+    const token=tokenInserito||leggiToken(); if (!token) { mostraStato("Token mancante: salvalo nel browser oppure creane uno fine-grained dal link qui sopra.",true); return; }
+    let adesso="";
+    if (taglioEl&&taglioEl.value) {
+      const parti=taglioEl.value.split(":"); const ore=Number(parti[0]); const minuti=Number(parti[1]);
+      if (Number.isFinite(ore)&&Number.isFinite(minuti)) {
+        const data=new Date(); data.setHours(ore,minuti,0,0);
+        // Il fetch considera "futuro" fino a +3h: arretro il riferimento
+        // per fermare le notizie esattamente all'ora scelta.
+        data.setHours(data.getHours()-3); adesso=data.toISOString();
+      }
+    }
     salvaBtn.disabled=true; salvaGeneraBtn.disabled=true; mostraStato("Invio delle impostazioni a GitHub…");
     try {
-      const r=await fetch(WORKFLOW_DISPATCH, {method: "POST", headers: {Authorization: "Bearer " + token, Accept: "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28", "Content-Type": "application/json"}, body: JSON.stringify({ref: "main", inputs: {payload: JSON.stringify(payload), genera: genera ? "true" : "false", durata: payload.durata}})});
+      const r=await fetch(WORKFLOW_DISPATCH, {method: "POST", headers: {Authorization: "Bearer " + token, Accept: "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28", "Content-Type": "application/json"}, body: JSON.stringify({ref: "main", inputs: {payload: JSON.stringify(payload), genera: genera ? "true" : "false", durata: payload.durata, adesso: adesso}})});
       if (r.status===204) { const link=document.createElement("a"); link.href=WORKFLOW_PAGE; link.target="_blank"; link.rel="noopener noreferrer"; link.textContent="Apri le run della dashboard"; statoSalvataggioEl.replaceChildren(document.createTextNode("Impostazioni inviate. "),link); statoSalvataggioEl.classList.remove("errore"); if (genera) statoSalvataggioEl.appendChild(document.createTextNode(" La generazione partirà dopo il commit.")); avviaPollingDashboard(token, genera); }
       else mostraStato(erroreHttp(r.status),true);
     } catch (e) { mostraStato("Errore di rete: impossibile raggiungere GitHub. Controlla la connessione.",true); }
@@ -1250,7 +1266,7 @@ _TEMPLATE_INDEX = r"""<!DOCTYPE html>
   importaInput.addEventListener("change",function () { if (importaInput.files&&importaInput.files[0]) importaFeedFile(importaInput.files[0]); });
   form.addEventListener("submit",function (evento) { evento.preventDefault(); });
   nuovaCategoriaEl.replaceChildren(); { const d=crea("option","","Da assegnare"); d.value="da-assegnare"; nuovaCategoriaEl.appendChild(d); for (const cat of CATEGORIE) { const o=crea("option","",cat.label); o.value=cat.id; nuovaCategoriaEl.appendChild(o); } }
-  aggiornaTokenStato(); modificaLink.href=ISSUE_URL; carica();
+    tokenEl.value=leggiToken(); aggiornaTokenStato(); modificaLink.href=ISSUE_URL; carica();
 })();
 </script>
 </body>

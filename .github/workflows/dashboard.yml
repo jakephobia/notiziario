@@ -15,12 +15,16 @@ on:
       durata:
         description: "Durata dell'episodio"
         required: true
-        default: standard
+        default: completo
         type: choice
         options:
           - svelto
           - standard
           - completo
+      adesso:
+        description: "Data/ora ISO di riferimento per il taglio delle notizie (opzionale)"
+        required: false
+        default: ""
 
 permissions:
   contents: write
@@ -71,4 +75,10 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DURATA: ${{ inputs.durata }}
-        run: gh workflow run notiziario.yml -f durata="$DURATA"
+          ADESSO: ${{ inputs.adesso }}
+        run: |
+          if [ -n "$ADESSO" ]; then
+            gh workflow run notiziario.yml -f durata="$DURATA" -f adesso="$ADESSO"
+          else
+            gh workflow run notiziario.yml -f durata="$DURATA"
+          fi
