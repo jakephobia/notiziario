@@ -4,7 +4,6 @@
     "mondo",
     "tecnologia",
     "scienza-salute",
-    "cultura",
     "ambiente",
     "buone-notizie"
   ],
@@ -13,7 +12,6 @@
     "Mondo",
     "Tecnologia",
     "Scienza e salute",
-    "Cultura",
     "Ambiente",
     "Buone notizie"
   ],
@@ -22,7 +20,7 @@
   "voce": "it-IT-IsabellaNeural",
   "voce_label": "it-IT-IsabellaNeural (edge-tts)",
   "voce_configurata": "Kore",
-  "durata_default": "completo",
+  "durata_default": "standard",
   "orario_generazione": "07:00",
   "velocita": 1.15,
   "motore": "edge",
@@ -32,7 +30,7 @@
   "suono": "ding",
   "outro": "Queste erano le notizie di oggi. A domani con i principali eventi della giornata!",
   "fonti_totali": 96,
-  "fonti_attive": 73,
+  "fonti_attive": 54,
   "issue_url": "https://github.com/jakephobia/notiziario/issues/1",
   "repo_url": "https://github.com/jakephobia/notiziario",
   "fonti": [
@@ -58,7 +56,7 @@
       "nome": "ANSA",
       "url": "https://www.ansa.it/sito/notizie/economia/economia_rss.xml",
       "categoria": "economia",
-      "attivo": true
+      "attivo": false
     },
     {
       "nome": "ANSA",
@@ -70,7 +68,7 @@
       "nome": "ANSA",
       "url": "https://www.ansa.it/sito/notizie/cultura/cultura_rss.xml",
       "categoria": "cultura",
-      "attivo": true
+      "attivo": false
     },
     {
       "nome": "Repubblica",
@@ -100,13 +98,13 @@
       "nome": "Repubblica",
       "url": "https://www.repubblica.it/rss/economia/rss2.0.xml",
       "categoria": "economia",
-      "attivo": true
+      "attivo": false
     },
     {
       "nome": "Repubblica",
       "url": "https://www.repubblica.it/rss/cultura/rss2.0.xml",
       "categoria": "cultura",
-      "attivo": true
+      "attivo": false
     },
     {
       "nome": "Repubblica",
@@ -160,7 +158,7 @@
       "nome": "Il Post",
       "url": "https://www.ilpost.it/cultura/feed/",
       "categoria": "cultura",
-      "attivo": true
+      "attivo": false
     },
     {
       "nome": "Il Post",
@@ -196,7 +194,7 @@
       "nome": "Il Sole 24 Ore",
       "url": "https://www.ilsole24ore.com/rss/cultura.xml",
       "categoria": "cultura",
-      "attivo": true
+      "attivo": false
     },
     {
       "nome": "Il Sole 24 Ore",
@@ -256,7 +254,7 @@
       "nome": "Valigia Blu",
       "url": "https://www.valigiablu.it/feed/",
       "categoria": "italia",
-      "attivo": true
+      "attivo": false
     },
     {
       "nome": "IRPI Media",
@@ -298,13 +296,13 @@
       "nome": "Il Tascabile",
       "url": "https://www.iltascabile.com/feed/",
       "categoria": "cultura",
-      "attivo": true
+      "attivo": false
     },
     {
       "nome": "doppiozero",
       "url": "https://www.doppiozero.com/feed",
       "categoria": "cultura",
-      "attivo": true
+      "attivo": false
     },
     {
       "nome": "Nazione Indiana",
@@ -400,13 +398,13 @@
       "nome": "Inside Over",
       "url": "https://www.insideover.com/feed/",
       "categoria": "mondo",
-      "attivo": true
+      "attivo": false
     },
     {
       "nome": "Eastjournal",
       "url": "https://www.eastjournal.net/feed/",
       "categoria": "mondo",
-      "attivo": true
+      "attivo": false
     },
     {
       "nome": "Eunews",
@@ -442,25 +440,25 @@
       "nome": "Responsible Statecraft",
       "url": "https://responsiblestatecraft.org/feed/",
       "categoria": "mondo",
-      "attivo": true
+      "attivo": false
     },
     {
       "nome": "Drop Site News",
       "url": "https://www.dropsitenews.com/feed",
       "categoria": "mondo",
-      "attivo": true
+      "attivo": false
     },
     {
       "nome": "The Nation",
       "url": "https://www.thenation.com/feed/?post_type=article",
       "categoria": "mondo",
-      "attivo": true
+      "attivo": false
     },
     {
       "nome": "The Intercept",
       "url": "https://theintercept.com/feed/?lang=en",
       "categoria": "mondo",
-      "attivo": true
+      "attivo": false
     },
     {
       "nome": "Jacobin",
@@ -484,7 +482,7 @@
       "nome": "The American Prospect",
       "url": "https://prospect.org/feed/",
       "categoria": "mondo",
-      "attivo": true
+      "attivo": false
     },
     {
       "nome": "Politico",
@@ -496,13 +494,13 @@
       "nome": "The Guardian US",
       "url": "https://www.theguardian.com/us-news/rss",
       "categoria": "mondo",
-      "attivo": true
+      "attivo": false
     },
     {
       "nome": "ProPublica",
       "url": "https://www.propublica.org/feeds/propublica/main",
       "categoria": "mondo",
-      "attivo": true
+      "attivo": false
     },
     {
       "nome": "Democracy Now",
@@ -520,7 +518,7 @@
       "nome": "Buone Notizie",
       "url": "https://www.buonenotizie.it/feed/",
       "categoria": "buone-notizie",
-      "attivo": true
+      "attivo": false
     },
     {
       "nome": "Italia Che Cambia",
