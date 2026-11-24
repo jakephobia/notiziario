@@ -5,7 +5,7 @@
     <link>https://jakephobia.github.io/notiziario/</link>
     <description>Le notizie del giorno scelte da Jacopo, lette in italiano. Un riassunto quotidiano delle notizie italiane e internazionali.</description>
     <language>it-it</language>
-    <lastBuildDate>Mon, 23 Nov 2026 12:18:07 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 24 Nov 2026 07:23:22 +0000</lastBuildDate>
     <itunes:author>Notiziario</itunes:author>
     <itunes:explicit>false</itunes:explicit>
     <itunes:summary>Le notizie del giorno scelte da Jacopo, lette in italiano. Un riassunto quotidiano delle notizie italiane e internazionali.</itunes:summary>
@@ -21,6 +21,22 @@
     <notiziario:voce_label>it-IT-IsabellaNeural (edge-tts)</notiziario:voce_label>
     <notiziario:velocita>1.15</notiziario:velocita>
     <notiziario:tts_motore>edge</notiziario:tts_motore>
+    <item>
+      <title>Notiziario del 24 novembre 2026</title>
+      <description>24 novembre 2026 - Ci sono stati allarmi bomba, Delitto del trapano, Zelensky rivendica gli attacchi a due, Bonus mobili e voucher, Parte l'offerta di Intesa Sanpaolo.</description>
+      <pubDate>Tue, 24 Nov 2026 07:23:22 +0000</pubDate>
+      <guid isPermaLink="false">notiziario-2026-11-24</guid>
+      <enclosure url="https://github.com/jakephobia/notiziario/releases/download/episodio-2026-11-24/notiziario-2026-11-24.mp3" length="10453616" type="audio/mpeg" />
+      <itunes:duration>00:14:31</itunes:duration>
+      <itunes:summary>24 novembre 2026 - Ci sono stati allarmi bomba, Delitto del trapano, Zelensky rivendica gli attacchi a due, Bonus mobili e voucher, Parte l'offerta di Intesa Sanpaolo.</itunes:summary>
+      <itunes:explicit>false</itunes:explicit>
+      <itunes:image href="https://jakephobia.github.io/notiziario/copertina.png" />
+      <notiziario:modalita>llm</notiziario:modalita>
+      <notiziario:voce>it-IT-IsabellaNeural</notiziario:voce>
+      <notiziario:voce_label>it-IT-IsabellaNeural (edge-tts)</notiziario:voce_label>
+      <notiziario:velocita>1.15</notiziario:velocita>
+      <notiziario:tts_motore>edge</notiziario:tts_motore>
+    </item>
     <item>
       <title>Notiziario del 23 novembre 2026</title>
       <description>23 novembre 2026 - Allarmi bomba nelle scuole in Danimarca, Dl cortei, Next lancia un avviso di cyber, Perché la I di Anthropic è, Commissione Covid.</description>

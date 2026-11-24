@@ -20,7 +20,7 @@
     "Buone notizie"
   ],
   "incipit_template": "Ciao, [NOME UTENTE]! Ecco le tue notizie del giorno. Oggi è il [DATA].",
-  "incipit_risolto": "Ciao, Jacopo! Ecco le tue notizie del giorno. Oggi è il 23 novembre.",
+  "incipit_risolto": "Ciao, Jacopo! Ecco le tue notizie del giorno. Oggi è il 24 novembre.",
   "voce": "it-IT-IsabellaNeural",
   "voce_label": "it-IT-IsabellaNeural (edge-tts)",
   "voce_configurata": "Kore",
@@ -29,7 +29,7 @@
   "velocita": 1.15,
   "motore": "edge",
   "motore_richiesto": "gemini",
-  "data": "2026-11-23",
+  "data": "2026-11-24",
   "nome_utente": "Jacopo",
   "suono": "ding",
   "outro": "Queste erano le notizie di oggi. A domani con i principali eventi della giornata!",

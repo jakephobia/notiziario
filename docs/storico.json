@@ -1,6 +1,32 @@
 {
   "episodi": [
     {
+      "data": "2026-11-24",
+      "titolo": "Notiziario del 24 novembre 2026",
+      "descrizione": "Le principali notizie di oggi, martedì 24 novembre 2026. Allarmi bomba in Germania e Danimarca, la condanna per il delitto del trapano a Genova e gli attacchi rivendicati da Zelensky in Libia. Inoltre, approfondimenti su economia, tecnologia, scienza e cultura, con un focus sulle buone notizie.",
+      "filename": "notiziario-2026-11-24.mp3",
+      "descrizione_breve": "24 novembre 2026 - Ci sono stati allarmi bomba, Delitto del trapano, Zelensky rivendica gli attacchi a due, Bonus mobili e voucher, Parte l'offerta di Intesa Sanpaolo.",
+      "durata_secondi": 871.059116,
+      "dimensione": 10453616,
+      "modalita": "llm",
+      "categorie": [
+        "italia",
+        "mondo",
+        "economia",
+        "tecnologia",
+        "scienza-salute",
+        "cultura",
+        "ambiente",
+        "buone-notizie"
+      ],
+      "voce": "it-IT-IsabellaNeural",
+      "voce_label": "it-IT-IsabellaNeural (edge-tts)",
+      "velocita": 1.15,
+      "tts_motore": "edge",
+      "pubblicato": "2026-11-24T07:23:22.535360+00:00",
+      "guid": "notiziario-2026-11-24"
+    },
+    {
       "data": "2026-11-23",
       "titolo": "Notiziario del 23 novembre 2026",
       "descrizione": "Le principali notizie del 23 novembre 2026: allarmi bomba in Danimarca e Germania, il suicidio di Gianni De Gennaro, le proposte della Lega sul DL cortei, il cyber-attacco a Next, la storia del logo Anthropic, il dibattito sui vaccini Covid, le riprese del film 'Casa d'altri' e le parole del.",
