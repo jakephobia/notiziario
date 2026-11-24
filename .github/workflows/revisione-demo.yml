@@ -1,0 +1,30 @@
+name: Prova revisione copione
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  revisione:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Installa dipendenze
+        run: pip install -r requirements.txt
+      - name: Esegui revisione demo
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python scripts/demo_revisione.py
+      - name: Carica risultato
+        uses: actions/upload-artifact@v4
+        with:
+          name: revisione-demo
+          path: |
+            output/revisione-demo.md
+            output/revisione-demo.json

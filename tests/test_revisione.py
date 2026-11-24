@@ -1,0 +1,530 @@
+from __future__ import annotations
+
+import json
+import logging
+from datetime import datetime
+
+import pytest
+
+from helpers import crea_articolo, crea_cluster
+from notiziario import copione as modulo_copione
+from notiziario import revisione as modulo_revisione
+from notiziario.config import carica_impostazioni
+from notiziario.revisione import pulisci_residui, rifinisci_copione
+from notiziario.selezione import NotiziaSelezionata
+from notiziario.tempo import ROMA
+
+
+LOGGER = logging.getLogger("test-revisione")
+
+
+def impostazioni_revisione() -> dict:
+    return {
+        "llm_revisione": {
+            "modello": "gemini-2.5-flash",
+            "temperatura": 0.15,
+            "max_output_tokens": 8192,
+        },
+        "llm_modello_riserva": "gemini-riserva",
+    }
+
+
+def copione_da_rivedere() -> dict:
+    return {
+        "titolo_episodio": "Notiziario di prova",
+        "descrizione": "Le notizie di prova.",
+        "descrizione_breve": "24 novembre 2026 - Sarkozy, sorveglianza",
+        "testo": (
+            "L'ex presidente della Repubblica. Nicolas Sarkozy.\n\n"
+            "Resta indietro la tutela contro la sorveglianza, art.\n\n"
+            "Per oggi è tutto. A domani."
+        ),
+        "notizie": [
+            {
+                "posizione": 1,
+                "titolo": "Sarkozy",
+                "categoria": "Mondo",
+                "fonti": ["ANSA"],
+                "testo": "L'ex presidente della Repubblica. Nicolas Sarkozy.",
+                "paragrafi": [
+                    "L'ex presidente della Repubblica. Nicolas Sarkozy."
+                ],
+            },
+            {
+                "posizione": 2,
+                "titolo": "Sorveglianza",
+                "categoria": "Italia",
+                "fonti": ["Repubblica"],
+                "testo": "Resta indietro la tutela contro la sorveglianza, art.",
+                "paragrafi": [
+                    "Resta indietro la tutela contro la sorveglianza, art."
+                ],
+            },
+        ],
+        "modalita": "llm",
+        "motivo_fallback": None,
+        "target_parole": 40,
+        "divario_parole": 21,
+        "parole": 19,
+    }
+
+
+def risposta_valida() -> str:
+    return json.dumps(
+        {
+            "chiusura": "Per oggi è tutto. A domani.",
+            "notizie": [
+                {
+                    "posizione": 1,
+                    "paragrafi": [
+                        "L'ex presidente della Repubblica, Nicolas Sarkozy."
+                    ],
+                },
+                {
+                    "posizione": 2,
+                    "paragrafi": [
+                        "Resta indietro la tutela contro la sorveglianza."
+                    ],
+                },
+            ],
+        },
+        ensure_ascii=False,
+    )
+
+
+def test_pulisci_residui_rimuove_placeholder():
+    assert pulisci_residui(
+        "Non ci sono notizie disponibili per la categoria Ambiente."
+    ) == ""
+    assert (
+        pulisci_residui(
+            "Il governo ha deciso. Non ci sono notizie disponibili per la "
+            "categoria Ambiente."
+        )
+        == "Il governo ha deciso."
+    )
+
+
+def test_pulisci_residui_rimuove_code_di_fonte():
+    assert (
+        pulisci_residui("Il ministro ha parlato. proviene da BuoneNotizie. It.")
+        == "Il ministro ha parlato."
+    )
+    assert pulisci_residui("Leggi anche: le altre notizie del giorno.") == ""
+    assert pulisci_residui("Fonte: ANSA.") == ""
+    assert pulisci_residui("© 2026 ANSA. Tutti i diritti riservati.") == ""
+    assert pulisci_residui("Riproduzione riservata.") == ""
+    assert pulisci_residui("Articolo correlato: il testo sulla manovra.") == ""
+    assert (
+        pulisci_residui("Il testo utile. Articolo correlato: la manovra.")
+        == "Il testo utile."
+    )
+
+
+def test_pulisci_residui_taglia_le_code_sospese():
+    assert (
+        pulisci_residui("Resta indietro la tutela contro la sorveglianza, art.")
+        == "Resta indietro la tutela contro la sorveglianza."
+    )
+    assert (
+        pulisci_residui("Il termine è previsto dall'art.")
+        == "Il termine è previsto."
+    )
+    assert (
+        pulisci_residui("Il governo ha approvato il piano e")
+        == "Il governo ha approvato il piano."
+    )
+    assert (
+        pulisci_residui("Il governo ha approvato il piano e,")
+        == "Il governo ha approvato il piano."
+    )
+    assert (
+        pulisci_residui("Prima frase completa. La seconda frase si interrompe di")
+        == "Prima frase completa."
+    )
+
+
+def test_pulisci_residui_non_tocca_art_legittimo():
+    # Una frase completa finisce con il numero, non con l'abbreviazione:
+    # "dall'art. 5." resta intatta, mentre "…, art." è un troncamento.
+    testo = "L'obbligo è previsto dall'art. 5."
+    assert pulisci_residui(testo) == testo
+    assert pulisci_residui("Il termine è fissato al 5 dicembre.") == (
+        "Il termine è fissato al 5 dicembre."
+    )
+
+
+def test_rifinisci_copione_applica_la_revisione_valida(monkeypatch):
+    monkeypatch.setenv("GEMINI_API_KEY", "chiave-di-prova")
+    chiamate: list[dict] = []
+
+    def finta(prompt, system, impostazioni, api_key, logger, **kwargs):
+        chiamate.append(kwargs)
+        return risposta_valida()
+
+    monkeypatch.setattr(modulo_revisione, "_chiama_gemini", finta)
+    originale = copione_da_rivedere()
+    risultato = rifinisci_copione(
+        originale, impostazioni_revisione(), LOGGER
+    )
+
+    assert risultato["revisione"]["applicata"] is True
+    assert risultato["revisione"]["modello"] == "gemini-2.5-flash"
+    assert risultato["revisione"]["parole_prima"] == 20
+    assert risultato["revisione"]["parole_dopo"] == 19
+    assert risultato["notizie"][0]["paragrafi"] == [
+        "L'ex presidente della Repubblica, Nicolas Sarkozy."
+    ]
+    assert risultato["notizie"][1]["paragrafi"] == [
+        "Resta indietro la tutela contro la sorveglianza."
+    ]
+    # Titoli, fonti e ordine restano quelli originali.
+    assert [n["titolo"] for n in risultato["notizie"]] == ["Sarkozy", "Sorveglianza"]
+    assert [n["fonti"] for n in risultato["notizie"]] == [["ANSA"], ["Repubblica"]]
+    assert risultato["testo"] == (
+        "L'ex presidente della Repubblica, Nicolas Sarkozy.\n\n"
+        "Resta indietro la tutela contro la sorveglianza.\n\n"
+        "Per oggi è tutto. A domani."
+    )
+    assert risultato["divario_parole"] == 21
+    assert risultato["parole"] == 19
+    assert risultato["titolo_episodio"] == originale["titolo_episodio"]
+    assert risultato["descrizione"] == originale["descrizione"]
+    # La revisione usa il modello e i parametri dedicati.
+    assert chiamate[0]["modello"] == "gemini-2.5-flash"
+    assert chiamate[0]["temperatura"] == 0.15
+    assert chiamate[0]["max_output_tokens"] == 8192
+
+
+def _risposta_non_valida(tipo: str) -> str:
+    base = {
+        "chiusura": "Per oggi è tutto. A domani.",
+        "notizie": [
+            {
+                "posizione": 1,
+                "paragrafi": [
+                    "L'ex presidente della Repubblica, Nicolas Sarkozy."
+                ],
+            },
+            {
+                "posizione": 2,
+                "paragrafi": [
+                    "Resta indietro la tutela contro la sorveglianza."
+                ],
+            },
+        ],
+    }
+    if tipo == "posizione_mancante":
+        base["notizie"] = base["notizie"][:1]
+    elif tipo == "posizione_duplicata":
+        base["notizie"][1]["posizione"] = 1
+    elif tipo == "paragrafo_vuoto":
+        base["notizie"][0]["paragrafi"] = [""]
+    elif tipo == "inglese":
+        base["notizie"][0]["paragrafi"] = ["The president said."]
+    elif tipo == "placeholder":
+        base["notizie"][0]["paragrafi"] = [
+            "Non ci sono notizie disponibili per la categoria Ambiente."
+        ]
+    elif tipo == "troppo_corta":
+        base["notizie"] = [
+            {"posizione": 1, "paragrafi": ["Nicolas Sarkozy."]},
+            {"posizione": 2, "paragrafi": ["Tutela ridotta."]},
+        ]
+    elif tipo == "chiusura_vuota":
+        base["chiusura"] = ""
+    return json.dumps(base, ensure_ascii=False)
+
+
+def _risposta_finta(tipo):
+    return lambda prompt, system, impostazioni, api_key, logger, **kwargs: (
+        _risposta_non_valida(tipo)
+    )
+
+
+@pytest.mark.parametrize(
+    "tipo,atteso",
+    [
+        ("posizione_mancante", "posizioni"),
+        ("posizione_duplicata", "duplicata"),
+        ("paragrafo_vuoto", "vuoto"),
+        ("inglese", "inglese"),
+        ("placeholder", "placeholder"),
+        ("troppo_corta", "lunghezza"),
+        ("chiusura_vuota", "vuoto"),
+    ],
+)
+def test_rifinisci_copione_scarta_risposte_non_valide(
+    monkeypatch, tipo, atteso
+):
+    monkeypatch.setenv("GEMINI_API_KEY", "chiave-di-prova")
+    monkeypatch.setattr(
+        modulo_revisione,
+        "_chiama_gemini",
+        _risposta_finta(tipo),
+    )
+    originale = copione_da_rivedere()
+    risultato = rifinisci_copione(
+        originale, impostazioni_revisione(), LOGGER
+    )
+
+    assert risultato["revisione"]["applicata"] is False
+    assert atteso.casefold() in risultato["revisione"]["motivo"].casefold()
+    # Nessuna modifica parziale: resta il copione pulito deterministicamente.
+    assert risultato["notizie"][1]["paragrafi"] == [
+        "Resta indietro la tutela contro la sorveglianza."
+    ]
+    assert risultato["testo"].rstrip().endswith("Per oggi è tutto. A domani.")
+    assert [n["titolo"] for n in risultato["notizie"]] == ["Sarkozy", "Sorveglianza"]
+    assert [n["fonti"] for n in risultato["notizie"]] == [["ANSA"], ["Repubblica"]]
+    assert originale["notizie"][1]["paragrafi"] == [
+        "Resta indietro la tutela contro la sorveglianza, art."
+    ]
+
+
+def test_rifinisci_copione_prova_la_riserva(monkeypatch):
+    monkeypatch.setenv("GEMINI_API_KEY", "chiave-di-prova")
+    modelli: list[str] = []
+
+    def finta(prompt, system, impostazioni, api_key, logger, *, modello=None, **kwargs):
+        modelli.append(modello)
+        if modello == "gemini-2.5-flash":
+            raise modulo_copione.LlmError("HTTP 429 quota")
+        return risposta_valida()
+
+    monkeypatch.setattr(modulo_revisione, "_chiama_gemini", finta)
+    risultato = rifinisci_copione(
+        copione_da_rivedere(), impostazioni_revisione(), LOGGER
+    )
+
+    assert modelli == ["gemini-2.5-flash", "gemini-riserva"]
+    assert risultato["revisione"]["applicata"] is True
+    assert risultato["revisione"]["modello"] == "gemini-riserva"
+
+
+def test_rifinisci_copione_non_solleva_se_tutti_i_modelli_falliscono(monkeypatch):
+    monkeypatch.setenv("GEMINI_API_KEY", "chiave-di-prova")
+
+    def finta(*args, **kwargs):
+        raise RuntimeError("quota esaurita")
+
+    monkeypatch.setattr(modulo_revisione, "_chiama_gemini", finta)
+    originale = copione_da_rivedere()
+    risultato = rifinisci_copione(
+        originale, impostazioni_revisione(), LOGGER
+    )
+
+    assert risultato["revisione"]["applicata"] is False
+    assert "RuntimeError" in risultato["revisione"]["motivo"]
+    assert risultato["notizie"][1]["paragrafi"] == [
+        "Resta indietro la tutela contro la sorveglianza."
+    ]
+    assert risultato["testo"].rstrip().endswith("Per oggi è tutto. A domani.")
+
+
+def test_rifinisci_copione_non_chiama_llm_senza_notizie(monkeypatch):
+    monkeypatch.setenv("GEMINI_API_KEY", "chiave-di-prova")
+    chiamate = {"n": 0}
+
+    def finta(*args, **kwargs):
+        chiamate["n"] += 1
+        return risposta_valida()
+
+    monkeypatch.setattr(modulo_revisione, "_chiama_gemini", finta)
+    copione = {
+        "testo": "Per oggi è tutto. A domani.",
+        "notizie": [],
+        "target_parole": 10,
+        "divario_parole": 4,
+    }
+    risultato = rifinisci_copione(
+        copione, impostazioni_revisione(), LOGGER
+    )
+    assert chiamate["n"] == 0
+    assert risultato["revisione"]["applicata"] is False
+    assert "nessuna notizia" in risultato["revisione"]["motivo"]
+
+
+def test_rifinisci_copione_rispetta_usa_llm_false(monkeypatch):
+    # Rete mai usata nei test: con l'LLM disattivato il revisore non parte.
+    monkeypatch.setenv("GEMINI_API_KEY", "chiave-di-prova")
+    chiamate = {"n": 0}
+
+    def finta(*args, **kwargs):
+        chiamate["n"] += 1
+        return risposta_valida()
+
+    monkeypatch.setattr(modulo_revisione, "_chiama_gemini", finta)
+    risultato = rifinisci_copione(
+        copione_da_rivedere(), impostazioni_revisione(), LOGGER, usa_llm=False
+    )
+    assert chiamate["n"] == 0
+    assert risultato["revisione"]["applicata"] is False
+    assert "disattivata" in risultato["revisione"]["motivo"]
+    assert risultato["notizie"][1]["paragrafi"] == [
+        "Resta indietro la tutela contro la sorveglianza."
+    ]
+
+
+def test_rifinisci_copione_senza_chiave_non_chiama_llm(monkeypatch):
+    monkeypatch.delenv("GEMINI_API_KEY", raising=False)
+    monkeypatch.setattr(
+        modulo_revisione,
+        "_chiama_gemini",
+        lambda *args, **kwargs: pytest.fail("il revisore non deve partire"),
+    )
+    risultato = rifinisci_copione(
+        copione_da_rivedere(), impostazioni_revisione(), LOGGER
+    )
+    assert risultato["revisione"]["applicata"] is False
+    assert "GEMINI_API_KEY" in risultato["revisione"]["motivo"]
+
+
+def test_genera_copione_integra_la_revisione(monkeypatch):
+    monkeypatch.setenv("GEMINI_API_KEY", "chiave-di-prova")
+    selezione = NotiziaSelezionata(
+        crea_cluster(
+            [
+                crea_articolo(
+                    "Il governo approva il piano per la scuola",
+                    sommario=(
+                        "Il consiglio dei ministri ha approvato il piano. "
+                        "Sono previsti fondi per i laboratori."
+                    ),
+                )
+            ]
+        ),
+        copertina=True,
+        ordine=1,
+        parole_target=120,
+    )
+    testo = " ".join(
+        ["Il governo ha approvato il piano per la scuola."] * 12
+    )
+    generazione = json.dumps(
+        {
+            "titolo_episodio": "Notiziario di prova",
+            "descrizione": "Le notizie di prova.",
+            "descrizione_breve": "22 novembre 2026 - Scuola, manovra",
+            "testo": testo,
+            "notizie": [
+                {
+                    "titolo": "Il governo approva il piano per la scuola",
+                    "categoria": "Italia",
+                    "fonti": ["ANSA"],
+                    "testo": "Il governo ha approvato il piano per la scuola.",
+                }
+            ],
+        },
+        ensure_ascii=False,
+    )
+    chiamate = {"generazione": 0, "revisione": 0}
+
+    def finta(prompt, system, impostazioni, api_key, logger, **kwargs):
+        if "Copione da rivedere:" in prompt:
+            chiamate["revisione"] += 1
+            dati = json.loads(prompt.split("Copione da rivedere:", 1)[1])
+            return json.dumps(
+                {
+                    "chiusura": dati["chiusura"],
+                    "notizie": [
+                        {
+                            "posizione": voce["posizione"],
+                            "paragrafi": voce["paragrafi"],
+                        }
+                        for voce in dati["notizie"]
+                    ],
+                },
+                ensure_ascii=False,
+            )
+        chiamate["generazione"] += 1
+        return generazione
+
+    monkeypatch.setattr(modulo_copione, "_chiama_gemini", finta)
+    copione = modulo_copione.genera_copione(
+        [selezione],
+        carica_impostazioni(),
+        datetime(2026, 11, 22, 7, 0, tzinfo=ROMA),
+        logger=LOGGER,
+    )
+
+    assert chiamate == {"generazione": 1, "revisione": 1}
+    assert copione["modalita"] == "llm"
+    assert copione["revisione"]["applicata"] is True
+    assert copione["notizie"][0]["titolo"] == (
+        "Il governo approva il piano per la scuola"
+    )
+    assert copione["notizie"][0]["fonti"] == ["ANSA"]
+    assert copione["target_parole"] > 0
+    # Il testo ricostruito contiene i paragrafi della notizia e la chiusura.
+    for paragrafo in copione["notizie"][0]["paragrafi"]:
+        assert paragrafo in copione["testo"]
+    assert copione["testo"].rstrip().endswith("A domani.")
+
+
+def test_chiama_gemini_usa_temperatura_e_token_di_revisione(monkeypatch):
+    catturato: dict = {}
+
+    class Risposta:
+        status_code = 200
+
+        def json(self):
+            return {
+                "candidates": [
+                    {"content": {"parts": [{"text": '{"ok": true}'}]}}
+                ]
+            }
+
+    def finto_post(url, json=None, headers=None, timeout=None, **kwargs):
+        catturato["payload"] = json
+        return Risposta()
+
+    monkeypatch.setattr(modulo_copione.requests, "post", finto_post)
+    testo = modulo_copione._chiama_gemini(
+        "prompt",
+        "system",
+        carica_impostazioni(),
+        "chiave-di-prova",
+        LOGGER,
+        modello="gemini-2.5-flash",
+        temperatura=0.15,
+        max_output_tokens=4096,
+    )
+    assert testo == '{"ok": true}'
+    configurazione = catturato["payload"]["generationConfig"]
+    assert configurazione["temperature"] == 0.15
+    assert configurazione["maxOutputTokens"] == 4096
+
+
+def test_chiama_gemini_default_invariati(monkeypatch):
+    catturato: dict = {}
+
+    class Risposta:
+        status_code = 200
+
+        def json(self):
+            return {
+                "candidates": [
+                    {"content": {"parts": [{"text": '{"ok": true}'}]}}
+                ]
+            }
+
+    def finto_post(url, json=None, headers=None, timeout=None, **kwargs):
+        catturato["payload"] = json
+        return Risposta()
+
+    monkeypatch.setattr(modulo_copione.requests, "post", finto_post)
+    impostazioni = carica_impostazioni()
+    modulo_copione._chiama_gemini(
+        "prompt",
+        "system",
+        impostazioni,
+        "chiave-di-prova",
+        LOGGER,
+    )
+    configurazione = catturato["payload"]["generationConfig"]
+    assert configurazione["temperature"] == impostazioni["llm"]["temperatura"]
+    assert (
+        configurazione["maxOutputTokens"]
+        == impostazioni["llm"]["max_output_tokens"]
+    )

@@ -258,7 +258,7 @@ def test_modello_riserva_usato_solo_dopo_errore(monkeypatch):
         ],
     }
 
-    def finto(prompt, system, impostazioni, api_key, logger, modello=None):
+    def finto(prompt, system, impostazioni, api_key, logger, modello=None, **kwargs):
         chiamate.append(modello)
         if modello == primario:
             raise modulo_copione.LlmError("HTTP 429 quota")
@@ -274,7 +274,9 @@ def test_modello_riserva_usato_solo_dopo_errore(monkeypatch):
     assert copione["modalita"] == "llm"
     assert copione["modello_usato"] == riserva
     assert "riserva" in (copione["motivo_modello"] or "")
-    assert chiamate == [primario, primario, riserva]
+    # Le prime tre chiamate sono i due tentativi del modello primario e la
+    # riserva; eventuali chiamate successive appartengono al layer di revisione.
+    assert chiamate[:3] == [primario, primario, riserva]
 
 
 def test_quota_429_poi_fallback(monkeypatch):

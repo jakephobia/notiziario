@@ -148,6 +148,11 @@
     "timeout": 60,
     "max_output_tokens": 16384
   },
+  "llm_revisione": {
+    "modello": "gemini-2.5-flash",
+    "temperatura": 0.15,
+    "max_output_tokens": 8192
+  },
   "arricchimento": {
     "attivo": true,
     "max_articoli": 20,

@@ -172,6 +172,11 @@ DEFAULT_SETTINGS: dict[str, Any] = {
         "timeout": 60,
         "max_output_tokens": 16384,
     },
+    "llm_revisione": {
+        "modello": "gemini-2.5-flash",
+        "temperatura": 0.15,
+        "max_output_tokens": 8192,
+    },
     "arricchimento": {
         "attivo": True,
         "max_articoli": 20,
@@ -348,6 +353,29 @@ def valida_impostazioni(impostazioni: dict[str, Any]) -> None:
     if not isinstance(traduzione_modello, str) or not traduzione_modello.strip():
         raise ConfigError(
             "llm_modello_traduzione deve essere una stringa non vuota."
+        )
+
+    revisione = impostazioni.get("llm_revisione", {})
+    if not isinstance(revisione, dict):
+        raise ConfigError("llm_revisione deve essere un oggetto.")
+    modello_revisione = revisione.get("modello")
+    if not isinstance(modello_revisione, str) or not modello_revisione.strip():
+        raise ConfigError("llm_revisione.modello deve essere una stringa non vuota.")
+    temperatura_revisione = revisione.get("temperatura")
+    if (
+        not isinstance(temperatura_revisione, (int, float))
+        or isinstance(temperatura_revisione, bool)
+        or not 0 <= float(temperatura_revisione) <= 2
+    ):
+        raise ConfigError("llm_revisione.temperatura deve essere tra 0 e 2.")
+    token_revisione = revisione.get("max_output_tokens")
+    if (
+        not isinstance(token_revisione, int)
+        or isinstance(token_revisione, bool)
+        or not 1000 <= token_revisione <= 65536
+    ):
+        raise ConfigError(
+            "llm_revisione.max_output_tokens deve essere un intero tra 1000 e 65536."
         )
 
     voce = impostazioni.get("voce", {})

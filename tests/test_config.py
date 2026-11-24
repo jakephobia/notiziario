@@ -1,11 +1,18 @@
 from __future__ import annotations
 
+import copy
 from pathlib import Path
 
+import pytest
 import yaml
 
 from notiziario.categorie import CATEGORIE_IDS
-from notiziario.config import carica_fonti, carica_impostazioni
+from notiziario.config import (
+    ConfigError,
+    carica_fonti,
+    carica_impostazioni,
+    valida_impostazioni,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -122,3 +129,27 @@ def test_preset_e_intervalli_coerenti():
         assert preset["secondarie"] <= preset["max_notizie"]
         assert preset["parole_copertina"] >= impostazioni["intervallo_copertina"][0]
         assert preset["parole_secondaria"] >= impostazioni["intervallo_secondaria"][0]
+
+
+def test_llm_revisione_valido_e_protetto():
+    impostazioni = carica_impostazioni()
+    revisione = impostazioni["llm_revisione"]
+    assert revisione["modello"] == "gemini-2.5-flash"
+    assert revisione["temperatura"] == 0.15
+    assert revisione["max_output_tokens"] == 8192
+    # Le chiavi storiche della traduzione non sono state toccate.
+    assert impostazioni["llm_modello_traduzione"] == "gemini-3.1-flash-lite"
+    assert impostazioni["llm_modello_riserva"] == "gemini-3.1-flash-lite"
+
+    for chiave, valore in (
+        ("modello", ""),
+        ("modello", 5),
+        ("temperatura", -0.1),
+        ("temperatura", 2.1),
+        ("max_output_tokens", 999),
+        ("max_output_tokens", 65537),
+    ):
+        rotto = copy.deepcopy(impostazioni)
+        rotto["llm_revisione"][chiave] = valore
+        with pytest.raises(ConfigError):
+            valida_impostazioni(rotto)

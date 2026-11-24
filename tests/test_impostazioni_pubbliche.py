@@ -118,9 +118,9 @@ def test_impostazioni_iniziali_esistono_e_sono_valide():
     percorso = Path("docs/impostazioni.json")
     assert percorso.exists()
     dati = json.loads(percorso.read_text(encoding="utf-8"))
-    assert dati["voce"] == "it-IT-IsabellaNeural"
+    assert dati["voce"] == "it-IT-Chirp3-HD-Kore"
     assert dati["velocita"] == carica_impostazioni()["voce"]["velocita"]
-    assert dati["motore"] == "edge"
+    assert dati["motore"] == "google"
     assert dati["motore_richiesto"] == "google"
     assert dati["voce_configurata"] == "Kore"
     assert dati["durata_default"] in {"svelto", "standard", "completo"}

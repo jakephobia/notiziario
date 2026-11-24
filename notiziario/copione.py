@@ -14,6 +14,7 @@ import requests
 
 from .categorie import CATEGORIE_IDS, label_categoria
 from .qualita import frase_per_esigenza, verifica_completezza
+from .revisione import rifinisci_copione
 from .selezione import NotiziaSelezionata
 from .stile import semplifica_slop
 from .testi import (
@@ -305,17 +306,29 @@ def _chiama_gemini(
     api_key: str,
     logger: logging.Logger,
     modello: str | None = None,
+    temperatura: float | None = None,
+    max_output_tokens: int | None = None,
 ) -> str:
     configurazione = impostazioni["llm"]
     modello = modello or configurazione["modello"]
     endpoint = configurazione["endpoint"].format(modello=modello)
+    valore_temperatura = float(
+        configurazione.get("temperatura", 0.6)
+        if temperatura is None
+        else temperatura
+    )
+    valore_token = int(
+        configurazione.get("max_output_tokens", 8192)
+        if max_output_tokens is None
+        else max_output_tokens
+    )
     payload = {
         "systemInstruction": {"parts": [{"text": system}]},
         "contents": [{"role": "user", "parts": [{"text": prompt}]}],
         "generationConfig": {
-            "temperature": float(configurazione.get("temperatura", 0.6)),
+            "temperature": valore_temperatura,
             "responseMimeType": "application/json",
-            "maxOutputTokens": int(configurazione.get("max_output_tokens", 8192)),
+            "maxOutputTokens": valore_token,
         },
     }
     headers = {
@@ -1590,6 +1603,24 @@ def _arricchisci_senza_fallire(
         return copione
 
 
+def _rifinisci_senza_fallire(
+    copione: dict[str, Any],
+    impostazioni: dict[str, Any],
+    logger: logging.Logger,
+    usa_llm: bool = True,
+) -> dict[str, Any]:
+    """Revisione finale del copione, senza mai bloccare la generazione."""
+    try:
+        return rifinisci_copione(
+            copione, impostazioni, logger, usa_llm=usa_llm
+        )
+    except Exception as exc:  # pragma: no cover - difesa finale
+        logger.warning(
+            "Revisione del copione non applicata (%s).", type(exc).__name__
+        )
+        return copione
+
+
 def _genera_fallback(
     selezioni: list[NotiziaSelezionata],
     data_riferimento: datetime,
@@ -1777,6 +1808,9 @@ def genera_copione(
                     raise LlmError(
                         "copione AI troppo corto rispetto al materiale arricchito"
                     )
+                copione = _rifinisci_senza_fallire(
+                    copione, impostazioni, logger, usa_llm=usa_llm
+                )
                 logger.info(
                     "Copione generato con Gemini: %d parole (target %d, divario %d).",
                     conta_parole(copione["testo"]),
@@ -1842,6 +1876,9 @@ def genera_copione(
                     raise LlmError(
                         "copione AI troppo corto rispetto al materiale arricchito"
                     )
+                copione = _rifinisci_senza_fallire(
+                    copione, impostazioni, logger, usa_llm=usa_llm
+                )
                 logger.info(
                     "Copione generato con modello di riserva %s: %d parole.",
                     modello_riserva,
@@ -1862,6 +1899,9 @@ def genera_copione(
         motivo,
         impostazioni=impostazioni,
         logger=logger,
+    )
+    copione = _rifinisci_senza_fallire(
+        copione, impostazioni, logger, usa_llm=usa_llm
     )
     logger.info(
         "Copione di fallback: %d parole (target %d, divario %d; %s).",
