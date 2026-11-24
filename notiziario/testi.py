@@ -351,13 +351,16 @@ def rimuovi_pubblicita(testo: str) -> str:
     return "\n\n".join(risultato).strip()
 
 
-def pulisci_html(valore: str | None) -> str:
+def pulisci_html(valore: str | None, *, rimuovi_titoli: bool = False) -> str:
     """Toglie tag, script e contenitori pubblicitari, mantenendo il testo."""
     if not valore:
         return ""
     soup = BeautifulSoup(str(valore), "html.parser")
     for tag in soup(["script", "style", "noscript", "iframe", "svg", "form"]):
         tag.decompose()
+    if rimuovi_titoli:
+        for tag in soup(["h1", "h2", "h3", "h4", "h5", "h6"]):
+            tag.decompose()
     rimuovi_elementi_pubblicitari(soup)
     testo = soup.get_text(" ")
     testo = html_module.unescape(testo)
@@ -370,11 +373,11 @@ def pulisci_testo(valore: str | None) -> str:
         return ""
     grezzo = str(valore)
     if _HTML_RE.search(grezzo):
-        testo = pulisci_html(grezzo)
+        testo = pulisci_html(grezzo, rimuovi_titoli=True)
         testo = rimuovi_pubblicita(testo)
     else:
         testo = rimuovi_pubblicita(grezzo)
-        testo = pulisci_html(testo)
+        testo = pulisci_html(testo, rimuovi_titoli=True)
         testo = rimuovi_pubblicita(testo)
     testo = _URL_RE.sub(" ", testo)
     testo = _EMAIL_RE.sub(" ", testo)

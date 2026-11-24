@@ -30,7 +30,12 @@ from notiziario.config import (
 from notiziario.anteprime import costruisci_anteprime
 from notiziario.arricchisci import arricchisci_selezioni
 from notiziario.traduzione import TraduzioneError, prepara_selezioni_italiane
-from notiziario.audio import AudioError, info_audio as leggi_info_audio, inserisci_suoni
+from notiziario.audio import (
+    AudioError,
+    aggiungi_musica_sottofondo,
+    info_audio as leggi_info_audio,
+    inserisci_suoni,
+)
 from notiziario.copione import (
     blocchi_per_tts,
     genera_copione,
@@ -844,6 +849,40 @@ def esegui(
                     info_audio["suono"] = suono
                 finally:
                     voce_temp.unlink(missing_ok=True)
+
+            conf_musica = impostazioni.get("audio", {}).get("musica", {})
+            if conf_musica.get("attivo"):
+                musica_path = Path(str(conf_musica.get("file", "")))
+                if not musica_path.is_absolute():
+                    musica_path = BASE / musica_path
+                if not musica_path.exists():
+                    logger.warning(
+                        "Musica sottofondo non trovata (%s): continuo senza.",
+                        musica_path,
+                    )
+                else:
+                    durate_voce = info_audio.get("durate_sezioni", [])
+                    inizio_musica = (
+                        float(impostazioni.get("silenzio_iniziale_ms", 1000)) / 1000
+                    )
+                    if copione.get("incipit") and durate_voce:
+                        inizio_musica += float(durate_voce[0])
+                    voce_con_musica = output / f".con-musica-{data_iso}.mp3"
+                    voce_con_musica.unlink(missing_ok=True)
+                    try:
+                        info_musica = aggiungi_musica_sottofondo(
+                            mp3_path,
+                            voce_con_musica,
+                            inizio_musica,
+                            impostazioni,
+                            logger,
+                        )
+                        voce_con_musica.replace(mp3_path)
+                        info_audio["durata"] = info_musica["durata"]
+                        info_audio["dimensione"] = mp3_path.stat().st_size
+                        info_audio["musica"] = info_musica
+                    finally:
+                        voce_con_musica.unlink(missing_ok=True)
         except (TTSError, AudioError) as exc:
             # Salvo comunque lo stato per diagnostica, poi esco con errore.
             stato = _stato(

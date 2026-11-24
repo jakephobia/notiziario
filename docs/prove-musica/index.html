@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prove musica di sottofondo — Notiziario</title>
+<style>
+  :root {
+    --bg: #101317;
+    --card: #191e24;
+    --testo: #edf1f5;
+    --tenue: #aab4bf;
+    --bordo: #2b333c;
+    --accento: #7cc4ff;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 24px;
+    background: var(--bg);
+    color: var(--testo);
+    font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  main { max-width: 760px; margin: 0 auto; }
+  h1 { font-size: 1.45rem; margin: 0 0 6px; }
+  p { color: var(--tenue); margin: 0 0 18px; }
+  .prova {
+    background: var(--card);
+    border: 1px solid var(--bordo);
+    border-radius: 14px;
+    padding: 16px;
+    margin: 0 0 14px;
+  }
+  .prova h2 { font-size: 1.05rem; margin: 0 0 4px; }
+  .prova small { color: var(--tenue); display: block; margin-bottom: 12px; }
+  audio { width: 100%; }
+  a { color: var(--accento); }
+  .nota { border-top: 1px solid var(--bordo); margin-top: 22px; padding-top: 16px; font-size: .92rem; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Musica di sottofondo: 3 prove</h1>
+  <p>Stesso estratto della prima notizia, stessa voce, stesso ducking. Cambia solo il volume della musica. Durata: 55 secondi.</p>
+
+  <section class="prova">
+    <h2>1. Molto soft</h2>
+    <small>Musica a -24 dB · quasi impercettibile, solo un tappeto</small>
+    <audio controls preload="metadata" src="prova-1-molto-soft.mp3"></audio>
+  </section>
+
+  <section class="prova">
+    <h2>2. Soft (default)</h2>
+    <small>Musica a -18 dB · leggera ma presente, ducking sotto la voce</small>
+    <audio controls preload="metadata" src="prova-2-soft.mp3"></audio>
+  </section>
+
+  <section class="prova">
+    <h2>3. Più presente</h2>
+    <small>Musica a -12 dB · si sente di più, sempre sotto la voce</small>
+    <audio controls preload="metadata" src="prova-3-presente.mp3"></audio>
+  </section>
+
+  <p class="nota">
+    Le prove partono dalla prima notizia e non hanno il finale: nella puntata completa la musica continua fino alla fine,
+    poi la voce tace per 3 secondi e la musica sfuma in fade-out. Il ducking abbassa la musica quando parla la voce.
+  </p>
+</main>
+</body>
+</html>

@@ -1,6 +1,7 @@
 ﻿from __future__ import annotations
 
 import copy
+import json
 from datetime import datetime, timedelta, timezone
 
 import pytest
@@ -24,7 +25,9 @@ HTML_LUNGO = """<html><body><article>
 <h1>Titolo della notizia</h1>
 <p>Questo è il primo paragrafo dell'articolo, con abbastanza testo per superare
 la soglia minima e verificare l'estrazione del contenuto completo.</p>
+<h2>Sottotitolo del primo paragrafo</h2>
 <p>Il secondo paragrafo aggiunge altri dettagli utili e resta nel testo finale.</p>
+<h3>Altro titolo di paragrafo</h3>
 <p>Il terzo paragrafo conclude la ricostruzione dei fatti con altre informazioni.</p>
 </article></body></html>"""
 
@@ -41,6 +44,36 @@ def test_estrazione_html_lungo():
     assert testo and "primo paragrafo" in testo
     assert parziale is False
     assert motivo == "ok"
+    assert "Sottotitolo del primo paragrafo" not in testo
+    assert "Altro titolo di paragrafo" not in testo
+
+
+def test_estrazione_bs4_ignora_titoli_paragrafo(monkeypatch):
+    monkeypatch.setattr(arricchisci, "_HA_TRAFILATURA", False)
+    testo, parziale, motivo = estrai_da_html(HTML_LUNGO, "Titolo", 100)
+    assert testo
+    assert motivo == "ok"
+    assert "primo paragrafo" in testo
+    assert "Sottotitolo del primo paragrafo" not in testo
+    assert "Altro titolo di paragrafo" not in testo
+
+
+def test_estrazione_bs4_mantiene_citazioni_senza_duplicarle(monkeypatch):
+    html = (
+        "<article>"
+        "<p>Primo paragrafo dell'articolo con testo sufficientemente lungo per la soglia minima.</p>"
+        "<blockquote><p>Citazione annidata che deve comparire una sola volta nel testo.</p></blockquote>"
+        "<blockquote>Citazione diretta che deve restare nel testo finale.</blockquote>"
+        "<p>Secondo paragrafo dell'articolo con altri dettagli utili al lettore.</p>"
+        "</article>"
+    )
+    monkeypatch.setattr(arricchisci, "_HA_TRAFILATURA", False)
+    testo, parziale, motivo = estrai_da_html(html, "Titolo", 50)
+    assert testo and motivo == "ok"
+    assert testo.count("Citazione annidata") == 1
+    assert testo.count("Citazione diretta") == 1
+    assert "Primo paragrafo" in testo
+    assert "Secondo paragrafo" in testo
 
 
 def test_estrazione_html_ignora_blocco_pubblicitario(monkeypatch):
@@ -125,6 +158,27 @@ def test_cache_ttl(tmp_path):
     assert leggi_cache("https://cache.test/a", impostazioni, vecchio) is not None
     futuro = now + timedelta(hours=25)
     assert leggi_cache("https://cache.test/a", impostazioni, futuro) is None
+
+
+def test_cache_vecchia_senza_versione_viene_ignorata(tmp_path):
+    impostazioni = impostazioni_tmp(tmp_path)
+    now = datetime(2026, 11, 22, 12, 0, tzinfo=timezone.utc)
+    url = "https://cache.test/vecchia"
+    percorso = arricchisci._cache_path(url, impostazioni)
+    percorso.parent.mkdir(parents=True, exist_ok=True)
+    percorso.write_text(
+        json.dumps(
+            {
+                "url": url,
+                "testo": "Sottotitolo vecchio Titolo del paragrafo",
+                "parziale": False,
+                "motivo": "ok",
+                "salvato": now.isoformat(),
+            }
+        ),
+        encoding="utf-8",
+    )
+    assert leggi_cache(url, impostazioni, now) is None
 
 
 def test_limiti_arricchimento_per_cluster_e_totale(tmp_path, monkeypatch):

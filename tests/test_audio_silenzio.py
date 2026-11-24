@@ -2,11 +2,13 @@
 
 import math
 import struct
+import subprocess
 import wave
 from pathlib import Path
 
 from notiziario.audio import (
     _punto_in_silenzio,
+    aggiungi_musica_sottofondo,
     concatena_wav,
     genera_silenzio_wav,
     info_audio,
@@ -184,3 +186,56 @@ def test_inserisci_suoni_confini_collassati_non_creano_segmenti_negativi(
     assert len(risultato["punti_regolati"]) == 1
     assert 0.0 <= risultato["punti_regolati"][0] <= 1.0
     assert info_audio(uscita)["durata"] > info_audio(voce)["durata"]
+
+
+def _mp3_tono(percorso: Path, secondi: float, frequenza: int) -> None:
+    subprocess.run(
+        [
+            "ffmpeg",
+            "-y",
+            "-hide_banner",
+            "-loglevel",
+            "error",
+            "-f",
+            "lavfi",
+            "-i",
+            f"sine=frequency={frequenza}:duration={secondi}",
+            "-ar",
+            "44100",
+            "-ac",
+            "1",
+            "-c:a",
+            "libmp3lame",
+            "-b:a",
+            "96k",
+            str(percorso),
+        ],
+        check=True,
+    )
+
+
+def test_musica_sottofondo_dura_e_fa_fade(tmp_path):
+    voce = tmp_path / "voce.mp3"
+    musica = tmp_path / "musica.mp3"
+    uscita = tmp_path / "episodio.mp3"
+    _mp3_tono(voce, 3.0, 220)
+    _mp3_tono(musica, 8.0, 440)
+
+    impostazioni = carica_impostazioni()
+    impostazioni["audio"]["musica"].update(
+        {
+            "attivo": True,
+            "file": str(musica),
+            "volume_db": -18,
+            "ducking": True,
+            "fade_out_secondi": 1.0,
+            "silenzio_finale_secondi": 2.0,
+            "bitrate": "96k",
+        }
+    )
+    info = aggiungi_musica_sottofondo(voce, uscita, 1.0, impostazioni)
+    assert uscita.exists()
+    assert info["dimensione"] > 0
+    assert info["inizio_musica"] == 1.0
+    assert abs(info["durata"] - 5.0) < 0.25
+    assert info_audio(uscita)["durata"] > info_audio(voce)["durata"] + 1.5

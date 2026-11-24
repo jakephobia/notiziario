@@ -18,6 +18,7 @@ import requests
 from .categorie import normalizza_testo, trova_categoria
 from .config import Fonte
 from .sicurezza import FetchHttpError, UrlRifiutato, fetch_con_limite
+from .tempo import ROMA
 from .testi import pulisci_testo, pulisci_titolo, tronca_a_frase
 
 
@@ -340,17 +341,26 @@ def _parse_feed(
             if not feed_senza_date or visti is None:
                 continue
             chiave = visti.chiave_entry(entry)
-            if visti.first_seen(chiave) is not None:
-                # Già in rubrica: è vecchio, non va ripetuto.
+            visto_il = visti.first_seen(chiave)
+            oggi = adesso.astimezone(ROMA).date()
+            stesso_giorno = bool(
+                visto_il is not None and visto_il.astimezone(ROMA).date() == oggi
+            )
+            if visto_il is not None and not stesso_giorno:
+                # Già in rubrica in un giorno precedente: non va ripetuto.
                 gia_visti += 1
                 continue
-            data = visti.registra(
-                chiave,
-                fonte.nome,
-                titolo,
-                adesso=adesso,
-                feed_url=fonte.url,
-            )
+            if visto_il is not None:
+                # Stessa giornata: una rigenerazione può riusare le stesse notizie.
+                data = visto_il
+            else:
+                data = visti.registra(
+                    chiave,
+                    fonte.nome,
+                    titolo,
+                    adesso=adesso,
+                    feed_url=fonte.url,
+                )
             data_stimata = True
             prima_vista = data
         elif data > limite_futuro:

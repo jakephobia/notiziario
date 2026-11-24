@@ -133,6 +133,17 @@ DEFAULT_SETTINGS: dict[str, Any] = {
         "sample_rate": 44100,
         "canali": 1,
         "bitrate": "96k",
+        "musica": {
+            "attivo": True,
+            "file": "assets/musica-sottofondo.mp3",
+            "volume_db": -18.0,
+            "ducking": True,
+            "ducking_threshold": 0.05,
+            "ducking_ratio": 4.0,
+            "fade_out_secondi": 3.0,
+            "silenzio_finale_secondi": 3.0,
+            "bitrate": "128k",
+        },
     },
     "llm": {
         "modello": "gemini-2.5-flash",
@@ -289,6 +300,25 @@ def valida_impostazioni(impostazioni: dict[str, Any]) -> None:
     silenzio = impostazioni.get("silenzio_iniziale_ms")
     if not isinstance(silenzio, int) or not 0 <= silenzio <= 5000:
         raise ConfigError("silenzio_iniziale_ms deve essere un intero tra 0 e 5000.")
+    musica = impostazioni.get("audio", {}).get("musica", {})
+    if not isinstance(musica, dict):
+        raise ConfigError("audio.musica deve essere un oggetto.")
+    if musica.get("attivo"):
+        if not str(musica.get("file", "")).strip():
+            raise ConfigError("audio.musica.file è mancante.")
+        volume = musica.get("volume_db")
+        if not isinstance(volume, (int, float)) or not -40 <= float(volume) <= 0:
+            raise ConfigError("audio.musica.volume_db deve essere tra -40 e 0 dB.")
+        if not isinstance(musica.get("ducking"), bool):
+            raise ConfigError("audio.musica.ducking deve essere true o false.")
+        for chiave in ("fade_out_secondi", "silenzio_finale_secondi"):
+            valore = musica.get(chiave)
+            if not isinstance(valore, (int, float)) or not 0 <= float(valore) <= 15:
+                raise ConfigError(
+                    f"audio.musica.{chiave} deve essere un numero tra 0 e 15."
+                )
+        if not str(musica.get("bitrate", "")).strip():
+            raise ConfigError("audio.musica.bitrate è mancante.")
     chunk_max = impostazioni.get("tts_chunk_max_caratteri")
     if not isinstance(chunk_max, int) or not 500 <= chunk_max <= 20000:
         raise ConfigError(

@@ -44,6 +44,10 @@ except ImportError:  # pragma: no cover - fallback documentato
 
 USER_AGENT = "NotiziarioBot/0.3 (lettore RSS personale)"
 _ROBOTS_CACHE: dict[str, tuple[RobotFileParser | None, str]] = {}
+# Cambiare versione invalida le cache create con estrazioni precedenti
+# (per esempio quelle che includevano i titoli dei paragrafi).
+_CACHE_VERSION = 2
+_TITOLI_PARAGRAFO_XPATH = ["//h1", "//h2", "//h3", "//h4", "//h5", "//h6"]
 
 
 def _cache_dir(impostazioni: dict[str, Any]) -> Path:
@@ -68,6 +72,8 @@ def leggi_cache(
         return None
     if dati.get("url") != url:
         return None
+    if dati.get("versione") != _CACHE_VERSION:
+        return None
     ttl = int(impostazioni.get("arricchimento", {}).get("ttl_ore", 24))
     salvato = parse_iso(dati.get("salvato", ""))
     if not salvato:
@@ -91,6 +97,7 @@ def scrivi_cache(
         json.dumps(
             {
                 "url": url,
+                "versione": _CACHE_VERSION,
                 "testo": testo,
                 "parziale": bool(parziale),
                 "motivo": motivo,
@@ -153,8 +160,14 @@ def _estrazione_bs4(html: str) -> str:
     for tag in soup(["script", "style", "noscript", "nav", "footer", "aside", "form"]):
         tag.decompose()
     rimuovi_elementi_pubblicitari(soup)
+    for tag in soup(["h1", "h2", "h3", "h4", "h5", "h6"]):
+        tag.decompose()
     paragrafi = []
-    for p in soup.find_all(["p", "h2", "h3", "li"]):
+    for p in soup.find_all(["p", "li", "blockquote"]):
+        # Una <blockquote> che contiene paragrafi verrebbe contata due volte:
+        # il testo dei <p> interni arriva già, nell'ordine del documento.
+        if p.name == "blockquote" and p.find(["p", "li", "blockquote"]):
+            continue
         testo = pulisci_testo(p.get_text(" "))
         if len(testo) >= 40:
             paragrafi.append(testo)
@@ -178,6 +191,7 @@ def estrai_da_html(
                 include_tables=False,
                 favor_recall=True,
                 output_format="txt",
+                prune_xpath=_TITOLI_PARAGRAFO_XPATH,
             ) or ""
         except Exception:
             testo = ""

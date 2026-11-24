@@ -213,7 +213,8 @@ def test_cold_start_solo_primi_cinque(tmp_path):
     assert visti.ha_visti_feed("SenzaData")
     visti.salva()
 
-    # I due item oltre i primi 5 vengono recuperati al passaggio successivo.
+    # Nello stesso giorno una rigenerazione rivede anche i primi 5, più i 2
+    # articoli che il cold start aveva lasciato fuori.
     articoli2, _, _, _ = fetch._parse_feed(
         _rss_senza_date(7),
         Fonte("SenzaData", "https://esempio.test/rss", "italia"),
@@ -222,13 +223,16 @@ def test_cold_start_solo_primi_cinque(tmp_path):
         LOGGER,
         visti=visti,
     )
-    assert len(articoli2) == 2
+    assert len(articoli2) == 7
+    assert {a.titolo for a in articoli2} == {f"Notizia senza data {i}" for i in range(7)}
+
+    # Il giorno dopo gli stessi articoli sono già stati fatti e vanno esclusi.
     import pytest
     with pytest.raises(FetchError):
         fetch._parse_feed(
             _rss_senza_date(7),
             Fonte("SenzaData", "https://esempio.test/rss", "italia"),
-            __import__("datetime").datetime(2026, 11, 22, 12, 0, tzinfo=__import__("datetime").timezone.utc),
+            __import__("datetime").datetime(2026, 11, 23, 12, 0, tzinfo=__import__("datetime").timezone.utc),
             24,
             LOGGER,
             visti=visti,
@@ -256,9 +260,23 @@ def test_feed_senza_novita_e_ok_senza_novita(monkeypatch, tmp_path):
         logger=LOGGER,
         visti=visti,
     )
-    assert articoli2 == []
-    assert esito.stato == "ok-senza-novita"
-    assert "novità" in (esito.errore or "").lower() or "novita" in (esito.errore or "").lower()
+    # Stesso giorno: la rigenerazione non deve escludere le notizie già viste.
+    assert len(articoli2) == 5
+    assert esito.stato == "ok"
+
+    # Il giorno dopo diventano "già fatte" e non vanno ripetute.
+    articoli3, esito3 = fetch.fetch_fonte(
+        fonte,
+        24,
+        15,
+        0,
+        adesso=adesso + timedelta(days=1),
+        logger=LOGGER,
+        visti=visti,
+    )
+    assert articoli3 == []
+    assert esito3.stato == "ok-senza-novita"
+    assert "novità" in (esito3.errore or "").lower() or "novita" in (esito3.errore or "").lower()
 
 
 def test_nuovo_articolo_senza_data_entra(tmp_path):
@@ -280,8 +298,14 @@ def test_nuovo_articolo_senza_data_entra(tmp_path):
         "<link>https://esempio.test/senza-data/nuova</link>"
         "<description>Questa è nuova.</description></item>"
     )
+    # Il giorno dopo le 5 notizie già fatte restano escluse, la nuova entra.
     articoli2, _, _, _ = fetch._parse_feed(
-        _rss_senza_date(5, extra), fonte, adesso, 24, LOGGER, visti=visti
+        _rss_senza_date(5, extra),
+        fonte,
+        adesso + timedelta(days=1),
+        24,
+        LOGGER,
+        visti=visti,
     )
     assert len(articoli2) == 1
     assert articoli2[0].titolo == "Notizia nuova"
@@ -368,6 +392,55 @@ def test_first_seen_europe_rome(tmp_path):
     quando = visti.registra("url:x", "Fonte", "Titolo")
     assert quando.isoformat().endswith("+01:00")
     assert quando.hour == 13
+
+
+def test_first_seen_a_cavallo_di_mezzanotte_roma(tmp_path):
+    from datetime import datetime, timezone
+
+    from notiziario.fetch import FeedSenzaNovita
+    from notiziario.tempo import ROMA
+    from notiziario.visti import Visti
+
+    fonte = Fonte("SenzaData", "https://esempio.test/rss", "italia")
+    visti = Visti(
+        tmp_path / "visti.json",
+        adesso=datetime(2026, 11, 23, 10, 0, tzinfo=timezone.utc),
+    )
+    # 23:30 UTC del 22/11 è già il 23/11 a Roma.
+    visto = visti.registra(
+        "url:https://esempio.test/senza-data/0",
+        "SenzaData",
+        "Notizia senza data 0",
+        adesso=datetime(2026, 11, 22, 23, 30, tzinfo=timezone.utc),
+        feed_url=fonte.url,
+    )
+    assert visto.astimezone(ROMA).date().isoformat() == "2026-11-23"
+
+    # Il 23/11 a Roma (stesso giorno) l'articolo si può riusare.
+    articoli, _, _, _ = fetch._parse_feed(
+        _rss_senza_date(1),
+        fonte,
+        datetime(2026, 11, 23, 10, 0, tzinfo=timezone.utc),
+        24,
+        LOGGER,
+        visti=visti,
+    )
+    assert len(articoli) == 1
+    assert articoli[0].data_stimata is True
+    assert articoli[0].prima_vista is not None
+
+    # Il 24/11 è un giorno diverso: l'articolo va escluso.
+    import pytest
+
+    with pytest.raises(FeedSenzaNovita):
+        fetch._parse_feed(
+            _rss_senza_date(1),
+            fonte,
+            datetime(2026, 11, 24, 10, 0, tzinfo=timezone.utc),
+            24,
+            LOGGER,
+            visti=visti,
+        )
 
 
 def test_scarica_rifiuta_feed_oltre_10mb(monkeypatch):

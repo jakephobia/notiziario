@@ -11,6 +11,8 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
+from .config import ROOT
+
 
 class AudioError(Exception):
     """Errore di ffmpeg/ffprobe con messaggio utile all'utente."""
@@ -624,6 +626,124 @@ def inserisci_suoni(
         raise AudioError(f"Inserimento suoni fallito: {exc}") from exc
     finally:
         shutil.rmtree(cartella, ignore_errors=True)
+
+
+def aggiungi_musica_sottofondo(
+    voce: str | Path,
+    uscita: str | Path,
+    inizio_musica: float,
+    impostazioni: dict[str, Any],
+    logger: logging.Logger | None = None,
+) -> dict[str, Any]:
+    """Mix leggero con ducking: parte dalla prima notizia e chiude in fade-out.
+
+    La voce viene allungata di ``silenzio_finale_secondi``; la musica parte da
+    ``inizio_musica`` (dopo l'intro), resta sotto la voce e sfuma negli ultimi
+    secondi. Il file musicale viene ripetuto se la puntata è più lunga.
+    """
+    logger = logger or logging.getLogger("notiziario")
+    conf = impostazioni.get("audio", {}).get("musica", {})
+    musica_path = Path(str(conf.get("file", "")))
+    if not musica_path.is_absolute():
+        musica_path = ROOT / musica_path
+    if not musica_path.exists():
+        raise AudioError(f"Musica di sottofondo mancante: {musica_path}")
+    voce_path = Path(voce)
+    uscita_path = Path(uscita)
+    if not voce_path.exists():
+        raise AudioError("Voce mancante per il sottofondo.")
+
+    durata_voce = info_audio(voce_path)["durata"]
+    inizio = max(0.0, min(float(inizio_musica), max(0.0, durata_voce - 0.1)))
+    silenzio_finale = max(0.0, float(conf.get("silenzio_finale_secondi", 3.0)))
+    fade = max(0.0, float(conf.get("fade_out_secondi", 3.0)))
+    durata_finale = durata_voce + silenzio_finale
+    durata_musica = max(0.1, durata_finale - inizio)
+    fade = min(fade, durata_musica)
+    fade_start = max(0.0, durata_musica - fade)
+    volume_db = float(conf.get("volume_db", -18.0))
+    bitrate = str(conf.get("bitrate", "128k"))
+    sample_rate = int(impostazioni.get("audio", {}).get("sample_rate", 44100))
+    ducking = bool(conf.get("ducking", True))
+    soglia = float(conf.get("ducking_threshold", 0.05))
+    ratio = float(conf.get("ducking_ratio", 4.0))
+
+    pad = (
+        f"apad=pad_dur={silenzio_finale:.3f},"
+        if silenzio_finale > 0
+        else ""
+    )
+    fade_filtro = (
+        f",afade=t=out:st={fade_start:.3f}:d={fade:.3f}" if fade > 0 else ""
+    )
+    filtro = (
+        f"[0:a]{pad}asplit=2[voce][side];"
+        f"[1:a]atrim=start={inizio:.3f}:duration={durata_musica:.3f},"
+        f"asetpts=PTS-STARTPTS,volume={volume_db:.2f}dB{fade_filtro}[musica];"
+    )
+    if ducking:
+        filtro += (
+            f"[musica][side]sidechaincompress=threshold={soglia:.4f}:"
+            f"ratio={ratio:.2f}:attack=20:release=500[duck];"
+            "[voce][duck]amix=inputs=2:duration=first:normalize=0[out]"
+        )
+    else:
+        filtro += (
+            "[voce][musica]amix=inputs=2:duration=first:normalize=0[out]"
+        )
+
+    ffmpeg = _strumento("ffmpeg")
+    _esegui(
+        [
+            ffmpeg,
+            "-y",
+            "-hide_banner",
+            "-loglevel",
+            "error",
+            "-i",
+            str(voce_path),
+            "-stream_loop",
+            "-1",
+            "-i",
+            str(musica_path),
+            "-filter_complex",
+            filtro,
+            "-map",
+            "[out]",
+            "-ar",
+            str(sample_rate),
+            "-ac",
+            "2",
+            "-c:a",
+            "libmp3lame",
+            "-b:a",
+            bitrate,
+            "-id3v2_version",
+            "3",
+            "-map_metadata",
+            "-1",
+            str(uscita_path),
+        ]
+    )
+    info = info_audio(uscita_path)
+    logger.info(
+        "Musica sottofondo: da %.1fs a %.1fs, volume %.1f dB, ducking %s, "
+        "fade %.1fs.",
+        inizio,
+        durata_finale,
+        volume_db,
+        "sì" if ducking else "no",
+        fade,
+    )
+    return {
+        "durata": info["durata"],
+        "dimensione": uscita_path.stat().st_size,
+        "inizio_musica": inizio,
+        "volume_db": volume_db,
+        "ducking": ducking,
+        "fade_out_secondi": fade,
+        "silenzio_finale_secondi": silenzio_finale,
+    }
 
 
 def ffmpeg_disponibile() -> bool:

@@ -272,6 +272,30 @@ nulla. I confini non si deducono dalla punteggiatura: il copione espone
 `notizie[].paragrafi`, e il TTS usa intro, paragrafi per notizia e outro come
 blocchi strutturati.
 
+### Musica di sottofondo
+
+La musica è configurata in `audio.musica`:
+
+```json
+{
+  "attivo": true,
+  "file": "assets/musica-sottofondo.mp3",
+  "volume_db": -18.0,
+  "ducking": true,
+  "ducking_threshold": 0.05,
+  "ducking_ratio": 4.0,
+  "fade_out_secondi": 3.0,
+  "silenzio_finale_secondi": 3.0,
+  "bitrate": "128k"
+}
+```
+
+La musica parte dopo l'intro, quindi dalla prima notizia, e continua fino alla
+fine. Sotto la voce viene abbassata con sidechain compression; negli ultimi
+3 secondi la voce tace e la musica sfuma. Se la puntata è più lunga del file,
+la traccia viene ripetuta. I campioni di prova sono in
+`docs/prove-musica/` con tre volumi diversi (-24, -18 e -12 dB).
+
 Anteprima:
 
 ```powershell

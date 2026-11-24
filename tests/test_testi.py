@@ -44,9 +44,28 @@ def test_pulisci_testo_toglia_boilerplate_link_e_spazi():
     assert "  " not in pulito
 
 
+def test_pulisci_testo_rimuove_titoli_paragrafo():
+    html = (
+        "<p>Primo paragrafo con la notizia.</p>"
+        "<h2>Sottotitolo del paragrafo</h2>"
+        "<p>Secondo paragrafo con i dettagli.</p>"
+    )
+    pulito = pulisci_testo(html)
+    assert "Primo paragrafo" in pulito
+    assert "Secondo paragrafo" in pulito
+    assert "Sottotitolo del paragrafo" not in pulito
+
+
 def test_pulisci_titolo_toglie_suffisso_testata():
     assert pulisci_titolo("Titolo della notizia - ANSA.it") == "Titolo della notizia"
     assert pulisci_titolo("Titolo <b>forte</b>") == "Titolo forte"
+
+
+def test_pulisci_titolo_mantiene_h1_e_pulisci_html_resta_invariato():
+    assert pulisci_titolo("<h1>Titolo forte</h1>") == "Titolo forte"
+    html = "<h1>Titolo</h1><p>Corpo</p>"
+    assert "Titolo" in pulisci_html(html)
+    assert "Titolo" not in pulisci_html(html, rimuovi_titoli=True)
 
 
 def test_tronca_a_frase():
