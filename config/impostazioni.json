@@ -1,7 +1,7 @@
 {
   "versione": 3,
   "orario_generazione": "07:00",
-  "durata_default": "completo",
+  "durata_default": "standard",
   "nome_utente": "Jacopo",
   "tts_motore": "google",
   "preset": {

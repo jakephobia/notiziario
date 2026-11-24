@@ -22,7 +22,7 @@
   "voce": "it-IT-Chirp3-HD-Kore",
   "voce_label": "Kore â€” femminile, calda (Google Chirp 3 HD)",
   "voce_configurata": "Kore",
-  "durata_default": "completo",
+  "durata_default": "standard",
   "orario_generazione": "07:00",
   "velocita": 1.15,
   "motore": "google",
