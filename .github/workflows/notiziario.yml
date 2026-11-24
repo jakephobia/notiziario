@@ -15,6 +15,10 @@ on:
           - svelto
           - standard
           - completo
+      adesso:
+        description: "Data/ora ISO di riferimento (opzionale, es. 2026-11-24T11:00:00+01:00)"
+        required: false
+        default: ""
 
 permissions:
   contents: write
@@ -71,10 +75,16 @@ jobs:
           GITHUB_ISSUE_CATEGORIE: ${{ vars.GITHUB_ISSUE_CATEGORIE }}
         run: |
           DURATA="${{ github.event.inputs.durata || 'completo' }}"
-          python main.py \
-            --durata "$DURATA" \
-            --feed-base-url "https://github.com/${{ github.repository }}/releases/download" \
+          ADESSO="${{ github.event.inputs.adesso }}"
+          ARGS=(
+            --durata "$DURATA"
+            --feed-base-url "https://github.com/${{ github.repository }}/releases/download"
             --feed-site-url "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/"
+          )
+          if [ -n "$ADESSO" ]; then
+            ARGS+=(--adesso "$ADESSO")
+          fi
+          python main.py "${ARGS[@]}"
 
       - name: Pubblica release con mp3
         if: ${{ github.event_name == 'workflow_dispatch' || steps.orario.outputs.run == 'true' }}

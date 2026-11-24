@@ -74,7 +74,7 @@ from notiziario.incipit import (
 from notiziario.positivita import filtra_buone_notizie
 from notiziario.selezione import NotiziaSelezionata, seleziona
 from notiziario.stile import registra_avvisi
-from notiziario.tempo import adesso_roma, data_iso_roma
+from notiziario.tempo import adesso_roma, data_iso_roma, parse_iso
 from notiziario.testi import (
     conta_parole,
     data_in_italiano,
@@ -130,6 +130,14 @@ def costruisci_parser() -> argparse.ArgumentParser:
         "--durata",
         choices=("svelto", "standard", "completo"),
         help="Durata dell'episodio (default dal file impostazioni.json).",
+    )
+    parser.add_argument(
+        "--adesso",
+        help=(
+            "Data/ora ISO di riferimento per il taglio delle notizie "
+            "(es. 2026-11-24T11:00:00+01:00). Utile per rigenerare una "
+            "puntata con notizie fino a un'ora precisa."
+        ),
     )
     parser.add_argument(
         "--ore",
@@ -1341,6 +1349,15 @@ def main(argv: list[str] | None = None) -> int:
         return 1
 
     data_riferimento = adesso_roma()
+    if args.adesso:
+        riferimento = parse_iso(args.adesso)
+        if riferimento is None:
+            print(
+                f"Data/ora di riferimento non valida: {args.adesso!r}",
+                file=sys.stderr,
+            )
+            return 2
+        data_riferimento = riferimento
     logger = configura_logging(BASE / "logs", data_iso_roma(data_riferimento))
     logger.info("================ Notiziario ================")
 
