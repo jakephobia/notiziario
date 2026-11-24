@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 from pathlib import Path
 
@@ -22,7 +22,7 @@ def test_workflow_dashboard_valido_e_input():
     assert inputs["genera"]["type"] == "boolean"
     assert inputs["genera"]["default"] is True
     assert inputs["durata"]["type"] == "choice"
-    assert inputs["durata"]["default"] == "completo"
+    assert inputs["durata"]["default"] == "standard"
     assert inputs["durata"]["options"] == ["svelto", "standard", "completo"]
     assert inputs["adesso"]["required"] is False
     assert dati["permissions"] == {"contents": "write", "actions": "write"}

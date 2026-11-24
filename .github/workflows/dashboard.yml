@@ -1,4 +1,4 @@
-name: Dashboard impostazioni
+﻿name: Dashboard impostazioni
 
 on:
   workflow_dispatch:
@@ -15,7 +15,7 @@ on:
       durata:
         description: "Durata dell'episodio"
         required: true
-        default: completo
+        default: standard
         type: choice
         options:
           - svelto
