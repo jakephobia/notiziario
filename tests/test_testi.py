@@ -3,8 +3,10 @@ from __future__ import annotations
 from datetime import datetime
 
 from notiziario.testi import (
+    categoria_da_url,
     conta_parole,
     data_in_italiano,
+    e_promozionale,
     elenco_naturale,
     formatta_durata,
     normalizza_mesi,
@@ -235,3 +237,132 @@ def test_rimuovi_pubblicita_rimuove_cta_a_inizio_frase():
         "Offerta limitata: approfitta subito."
     )
     assert rimuovi_pubblicita(testo) == ""
+
+
+def test_categoria_da_url_ansa_post_sole():
+    assert (
+        categoria_da_url(
+            "https://www.ansa.it/sito/notizie/cultura/2026/11/24/travolta.html"
+        )
+        == "cultura"
+    )
+    assert (
+        categoria_da_url(
+            "https://www.ansa.it/sito/notizie/spettacoli/2026/11/24/travolta.html"
+        )
+        == "cultura"
+    )
+    assert (
+        categoria_da_url(
+            "https://www.ansa.it/sito/notizie/economia/2026/11/24/manovra.html"
+        )
+        == "economia"
+    )
+    assert (
+        categoria_da_url(
+            "https://www.ilpost.it/economia/2026/11/24/lavoro-intelligenza-artificiale/"
+        )
+        == "economia"
+    )
+    assert (
+        categoria_da_url(
+            "https://www.ilpost.it/2026/11/24/notizia-senza-categoria/"
+        )
+        is None
+    )
+    assert (
+        categoria_da_url(
+            "https://www.ilsole24ore.com/economia/2026/11/24/mercati.html"
+        )
+        == "economia"
+    )
+    assert (
+        categoria_da_url(
+            "https://www.ilsole24ore.com/art/2026/11/24/finanza.html"
+        )
+        is None
+    )
+    assert (
+        categoria_da_url(
+            "https://www.ilsole24ore.com/finanza/2026/11/24/mercati.html"
+        )
+        == "economia"
+    )
+
+
+def test_categoria_da_url_altre_categorie_e_none():
+    assert categoria_da_url("https://esempio.test/sport/2026/11/24/x/") == "sport"
+    assert categoria_da_url("https://esempio.test/tech/2026/11/24/x/") == "tecnologia"
+    assert (
+        categoria_da_url("https://esempio.test/salute/2026/11/24/x/")
+        == "scienza-salute"
+    )
+    assert categoria_da_url("https://esempio.test/green/2026/11/24/x/") == "ambiente"
+    assert categoria_da_url("https://esempio.test/esteri/2026/11/24/x/") == "mondo"
+    assert categoria_da_url("https://esempio.test/cronaca/2026/11/24/x/") == "italia"
+    assert categoria_da_url("https://esempio.test/articolo/2026/11/24/x/") is None
+    assert categoria_da_url("") is None
+
+
+def test_e_promozionale_esempi_reali():
+    assert e_promozionale(
+        "25 anni di Buone Notizie. Silvio Malvolti, il suo ideatore, si racconta",
+        fonte="Buone Notizie",
+        link="https://www.buonenotizie.it/2026/11/24/25-anni/",
+    )
+    assert e_promozionale(
+        "Scienze della vita e longevità: Innovit porta le aziende nella Silicon Valley",
+        fonte="Il Sole 24 Ore",
+        link="https://www.ilsole24ore.com/2026/11/24/innovit/",
+    )
+
+
+def test_e_promozionale_non_esclude_notizie_legittime():
+    assert not e_promozionale(
+        "Nobel Medicina 2026 all'optogenetica, svolta contro malattie oggi incurabili",
+        fonte="ANSA",
+        link="https://www.ansa.it/sito/notizie/scienza/2026/11/24/nobel.html",
+    )
+    assert not e_promozionale(
+        "Le offerte di lavoro sono crollate a causa dell'intelligenza artificiale",
+        fonte="Il Post",
+        link="https://www.ilpost.it/economia/2026/11/24/offerte-lavoro/",
+    )
+    assert not e_promozionale(
+        "Boehringer punta 160 milioni sui principi attivi",
+        fonte="Il Sole 24 Ore",
+        link="https://www.ilsole24ore.com/economia/2026/11/24/boehringer/",
+    )
+    # Esclusa solo dalla categoria cultura ANSA, non perché promozionale.
+    assert not e_promozionale(
+        "Standing ovation per John Travolta al TFF",
+        fonte="ANSA",
+        link="https://www.ansa.it/sito/notizie/cultura/2026/11/24/travolta.html",
+    )
+
+
+def test_e_promozionale_segnali_forti_e_combinazioni():
+    assert e_promozionale(
+        "Un titolo qualunque", sommario="Contenuto sponsorizzato: scopri il prodotto."
+    )
+    assert e_promozionale(
+        "Un titolo qualunque",
+        link="https://esempio.test/comunicati-stampa/2026/11/24/azienda/",
+    )
+    assert e_promozionale(
+        "Un titolo qualunque",
+        link="https://esempio.test/press-release/2026/11/24/azienda/",
+    )
+    assert e_promozionale(
+        "Un titolo qualunque",
+        link="https://esempio.test/partner/2026/11/24/azienda/",
+    )
+    assert e_promozionale(
+        "Un titolo qualunque",
+        link="https://esempio.test/promo/2026/11/24/prodotto/",
+    )
+    assert e_promozionale("Codice sconto per acquistare il nuovo modello")
+    assert e_promozionale("Sconto e promozione per i lettori")
+    # Un solo segnale debole non basta.
+    assert not e_promozionale("Il governo vara lo sconto sulle bollette")
+    assert not e_promozionale("Le offerte di lavoro crescono")

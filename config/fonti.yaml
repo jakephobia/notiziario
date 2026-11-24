@@ -20,6 +20,7 @@ fonti:
   - nome: "ANSA"
     url: "https://www.ansa.it/sito/notizie/economia/economia_rss.xml"
     categoria: "economia"
+    attivo: false
 
   - nome: "ANSA"
     url: "https://www.ansa.it/sito/notizie/sport/sport_rss.xml"
@@ -29,6 +30,7 @@ fonti:
   - nome: "ANSA"
     url: "https://www.ansa.it/sito/notizie/cultura/cultura_rss.xml"
     categoria: "cultura"
+    attivo: false
 
   - nome: "Repubblica"
     url: "https://www.repubblica.it/rss/homepage/rss2.0.xml"
@@ -49,6 +51,7 @@ fonti:
   - nome: "Repubblica"
     url: "https://www.repubblica.it/rss/economia/rss2.0.xml"
     categoria: "economia"
+    attivo: false
 
   - nome: "Repubblica"
     url: "https://www.repubblica.it/rss/cultura/rss2.0.xml"
@@ -77,6 +80,7 @@ fonti:
   - nome: "Il Post"
     url: "https://www.ilpost.it/economia/feed/"
     categoria: "economia"
+    attivo: false
 
   - nome: "Il Post"
     url: "https://www.ilpost.it/tecnologia/feed/"
@@ -106,6 +110,7 @@ fonti:
   - nome: "Il Sole 24 Ore"
     url: "https://www.ilsole24ore.com/rss/economia.xml"
     categoria: "economia"
+    attivo: false
 
   - nome: "Il Sole 24 Ore"
     url: "https://www.ilsole24ore.com/rss/tecnologia.xml"
@@ -114,6 +119,7 @@ fonti:
   - nome: "Il Sole 24 Ore"
     url: "https://www.ilsole24ore.com/rss/cultura.xml"
     categoria: "cultura"
+    attivo: false
 
   - nome: "Il Sole 24 Ore"
     url: "https://www.ilsole24ore.com/rss/salute.xml"
@@ -178,14 +184,17 @@ fonti:
   - nome: "MicroMega"
     url: "https://www.micromega.net/feed/"
     categoria: "cultura"
+    attivo: false
 
   - nome: "Il Tascabile"
     url: "https://www.iltascabile.com/feed/"
     categoria: "cultura"
+    attivo: false
 
   - nome: "doppiozero"
     url: "https://www.doppiozero.com/feed"
     categoria: "cultura"
+    attivo: false
 
   - nome: "Nazione Indiana"
     url: "https://www.nazioneindiana.com/feed/"
@@ -313,6 +322,7 @@ fonti:
   - nome: "The American Prospect"
     url: "https://prospect.org/feed/"
     categoria: "mondo"
+    attivo: false
 
   - nome: "Politico"
     url: "https://rss.politico.com/politics-news.xml"
@@ -337,6 +347,8 @@ fonti:
   - nome: "Buone Notizie"
     url: "https://www.buonenotizie.it/feed/"
     categoria: "buone-notizie"
+    attivo: false
+    attivo: false
 
   - nome: "Italia Che Cambia"
     url: "https://www.italiachecambia.org/feed/"

@@ -611,7 +611,12 @@ def esegui(
     output.mkdir(parents=True, exist_ok=True)
     errori_non_bloccanti: list[str] = []
 
-    fonti = carica_fonti(_percorso_fonti(args))
+    percorso_fonti = _percorso_fonti(args)
+    fonti = carica_fonti(percorso_fonti)
+    try:
+        tutte_fonti = carica_fonti_tutte(percorso_fonti)
+    except Exception:
+        tutte_fonti = list(fonti)
     logger.info(
         "Avvio del %s: %d fonti attive, preset %s.",
         data_in_italiano(data_riferimento),
@@ -702,6 +707,7 @@ def esegui(
         logger=logger,
         adesso=data_riferimento,
         visti=visti,
+        tutte_fonti=tutte_fonti,
     )
     if not risultato_fetch.articoli:
         if _solo_senza_novita(risultato_fetch):
@@ -953,14 +959,8 @@ def esegui(
     )
     motore_pub = str(info_audio.get("motore", voce_scelta.motore)) if info_audio else voce_scelta.motore
     velocita_pub = float(info_audio.get("velocita", voce_scelta.velocita)) if info_audio else voce_scelta.velocita
-    tutte_fonti = fonti
-    try:
-        tutte_fonti = carica_fonti_tutte(_percorso_fonti(args))
-        fonti_totali = len(tutte_fonti)
-        fonti_attive = sum(1 for f in tutte_fonti if f.attivo)
-    except Exception:
-        fonti_totali = len(fonti)
-        fonti_attive = len(fonti)
+    fonti_totali = len(tutte_fonti)
+    fonti_attive = sum(1 for f in tutte_fonti if f.attivo)
     impostazioni_pubbliche = {
         "categorie_attive": categorie_attive,
         "incipit_template": modello_incipit,

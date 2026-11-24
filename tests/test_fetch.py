@@ -6,7 +6,15 @@ from email.utils import format_datetime
 
 from notiziario import fetch
 from notiziario.config import Fonte
-from notiziario.fetch import FetchError, fetch_all, fetch_fonte, inferisci_categoria, normalizza_url
+from notiziario.fetch import (
+    Article,
+    FetchError,
+    fetch_all,
+    fetch_fonte,
+    filtra_articoli,
+    inferisci_categoria,
+    normalizza_url,
+)
 
 
 LOGGER = logging.getLogger("test-notiziario")
@@ -500,3 +508,160 @@ def test_parse_feed_categorizza_articolo_sport_da_url(adesso):
         LOGGER,
     )
     assert articoli[0].categoria == "sport"
+
+
+def _articolo(titolo, link, fonte, adesso, sommario="Testo della notizia."):
+    return Article(
+        titolo=titolo,
+        link=link,
+        sommario=sommario,
+        pubblicato=adesso,
+        fonte=fonte,
+        categoria="italia",
+    )
+
+
+def _fonti_ansa(cultura_attiva: bool) -> list[Fonte]:
+    return [
+        Fonte(
+            "ANSA",
+            "https://www.ansa.it/sito/notizie/topnews/topnews_rss.xml",
+            "italia",
+            attivo=True,
+        ),
+        Fonte(
+            "ANSA",
+            "https://www.ansa.it/sito/notizie/cultura/cultura_rss.xml",
+            "cultura",
+            attivo=cultura_attiva,
+        ),
+    ]
+
+
+def test_filtra_articoli_scarta_cultura_da_feed_generale_disattivata(adesso):
+    articoli = [
+        _articolo(
+            "Standing ovation per John Travolta al TFF",
+            "https://www.ansa.it/sito/notizie/cultura/2026/11/24/travolta.html",
+            "ANSA",
+            adesso,
+        ),
+        _articolo(
+            "Incidente sulla tangenziale",
+            "https://www.ansa.it/sito/notizie/cronaca/2026/11/24/incidente.html",
+            "ANSA",
+            adesso,
+        ),
+    ]
+    tenuti, contatori = filtra_articoli(articoli, _fonti_ansa(False), LOGGER)
+    assert [a.titolo for a in tenuti] == ["Incidente sulla tangenziale"]
+    assert contatori["fonti_disattivate"] == 1
+    assert contatori["promozionali"] == 0
+    assert contatori["tenuti"] == 1
+
+
+def test_filtra_articoli_tiene_cultura_se_almeno_un_feed_e_attivo(adesso):
+    articoli = [
+        _articolo(
+            "Standing ovation per John Travolta al TFF",
+            "https://www.ansa.it/sito/notizie/cultura/2026/11/24/travolta.html",
+            "ANSA",
+            adesso,
+        )
+    ]
+    tenuti, contatori = filtra_articoli(articoli, _fonti_ansa(True), LOGGER)
+    assert len(tenuti) == 1
+    assert contatori["fonti_disattivate"] == 0
+
+
+def test_filtra_articoli_tiene_se_la_categoria_non_e_mappata(adesso):
+    articoli = [
+        _articolo(
+            "Le offerte di lavoro crollano",
+            "https://www.ilpost.it/economia/2026/11/24/lavoro/",
+            "Il Post",
+            adesso,
+        )
+    ]
+    tutte_fonti = [
+        Fonte("Il Post", "https://www.ilpost.it/italia/feed/", "italia", attivo=True)
+    ]
+    tenuti, contatori = filtra_articoli(articoli, tutte_fonti, LOGGER)
+    assert len(tenuti) == 1
+    assert contatori["fonti_disattivate"] == 0
+
+
+def test_filtra_articoli_scarta_promozionali_e_tiene_notizie(adesso):
+    articoli = [
+        _articolo(
+            "Codice sconto: acquista il nuovo prodotto",
+            "https://esempio.test/articolo/1",
+            "Esempio",
+            adesso,
+        ),
+        _articolo(
+            "Nobel Medicina 2026 all'optogenetica",
+            "https://esempio.test/scienza/2",
+            "ANSA",
+            adesso,
+        ),
+        _articolo(
+            "Le offerte di lavoro sono crollate",
+            "https://esempio.test/economia/3",
+            "Il Post",
+            adesso,
+        ),
+    ]
+    tenuti, contatori = filtra_articoli(articoli, [], LOGGER)
+    assert [a.titolo for a in tenuti] == [
+        "Nobel Medicina 2026 all'optogenetica",
+        "Le offerte di lavoro sono crollate",
+    ]
+    assert contatori["promozionali"] == 1
+    assert contatori["fonti_disattivate"] == 0
+    assert contatori["tenuti"] == 2
+
+
+def test_fetch_all_applica_il_filtro_categorie(monkeypatch, adesso):
+    def data(ore_fa: float) -> str:
+        return format_datetime(adesso - timedelta(hours=ore_fa))
+
+    xml = f"""<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0"><channel>
+  <title>ANSA</title><link>https://www.ansa.it/</link><description>x</description>
+  <item>
+    <title>Standing ovation per John Travolta al TFF</title>
+    <link>https://www.ansa.it/sito/notizie/cultura/2026/11/24/travolta.html</link>
+    <description>Cinema.</description>
+    <pubDate>{data(1)}</pubDate>
+  </item>
+  <item>
+    <title>Incidente sulla tangenziale</title>
+    <link>https://www.ansa.it/sito/notizie/cronaca/2026/11/24/incidente.html</link>
+    <description>Cronaca.</description>
+    <pubDate>{data(2)}</pubDate>
+  </item>
+</channel></rss>""".encode("utf-8")
+    monkeypatch.setattr(fetch, "_scarica", lambda *a, **k: xml)
+
+    fonti = [
+        Fonte(
+            "ANSA",
+            "https://www.ansa.it/sito/notizie/topnews/topnews_rss.xml",
+            "italia",
+        )
+    ]
+    tutte_fonti = _fonti_ansa(False)
+    risultato = fetch_all(
+        fonti,
+        ore=24,
+        timeout=1,
+        retry=0,
+        max_workers=1,
+        logger=LOGGER,
+        adesso=adesso,
+        tutte_fonti=tutte_fonti,
+    )
+    assert [a.titolo for a in risultato.articoli] == [
+        "Incidente sulla tangenziale"
+    ]

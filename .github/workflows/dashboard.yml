@@ -15,7 +15,7 @@ on:
       durata:
         description: "Durata dell'episodio"
         required: true
-        default: standard
+        default: completo
         type: choice
         options:
           - svelto
@@ -29,6 +29,7 @@ on:
 permissions:
   contents: write
   actions: write
+  issues: write
 
 jobs:
   applica:
@@ -69,6 +70,14 @@ jobs:
             fi
             git push
           fi
+
+      - name: Allinea issue impostazioni
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p output
+          python -m notiziario.dashboard --genera-corpo --out output/issue-dashboard.md
+          gh issue edit 1 --body-file output/issue-dashboard.md
 
       - name: Avvia generazione
         if: ${{ inputs.genera }}

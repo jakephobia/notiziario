@@ -22,10 +22,14 @@ def test_workflow_dashboard_valido_e_input():
     assert inputs["genera"]["type"] == "boolean"
     assert inputs["genera"]["default"] is True
     assert inputs["durata"]["type"] == "choice"
-    assert inputs["durata"]["default"] == "standard"
+    assert inputs["durata"]["default"] == "completo"
     assert inputs["durata"]["options"] == ["svelto", "standard", "completo"]
     assert inputs["adesso"]["required"] is False
-    assert dati["permissions"] == {"contents": "write", "actions": "write"}
+    assert dati["permissions"] == {
+        "contents": "write",
+        "actions": "write",
+        "issues": "write",
+    }
 
 
 def test_workflow_ordine_applica_commit_dispatch():
@@ -33,7 +37,8 @@ def test_workflow_ordine_applica_commit_dispatch():
     steps = dati["jobs"]["applica"]["steps"]
     nomi = [s.get("name") for s in steps]
     assert nomi.index("Applica payload") < nomi.index("Salva configurazione")
-    assert nomi.index("Salva configurazione") < nomi.index("Avvia generazione")
+    assert nomi.index("Salva configurazione") < nomi.index("Allinea issue impostazioni")
+    assert nomi.index("Allinea issue impostazioni") < nomi.index("Avvia generazione")
 
     applica = steps[nomi.index("Applica payload")]
     assert applica["env"]["PAYLOAD"] == "${{ inputs.payload }}"
@@ -56,6 +61,11 @@ def test_workflow_ordine_applica_commit_dispatch():
     assert dispatch["env"]["ADESSO"] == "${{ inputs.adesso }}"
     assert 'gh workflow run notiziario.yml -f durata="$DURATA"' in dispatch["run"]
     assert '-f adesso="$ADESSO"' in dispatch["run"]
+
+    issue = steps[nomi.index("Allinea issue impostazioni")]
+    assert issue["env"]["GH_TOKEN"] == "${{ secrets.GITHUB_TOKEN }}"
+    assert "--genera-corpo --out output/issue-dashboard.md" in issue["run"]
+    assert "gh issue edit 1 --body-file" in issue["run"]
 
 
 def test_workflow_senza_chiavi_o_segreti_hardcoded():

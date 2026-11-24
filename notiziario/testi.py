@@ -7,6 +7,7 @@ import re
 import unicodedata
 from datetime import datetime
 from difflib import SequenceMatcher
+from urllib.parse import urlsplit
 
 from bs4 import BeautifulSoup
 
@@ -891,3 +892,226 @@ def durata_umana(secondi: float | int | None) -> str:
     totale = max(0, int(round(float(secondi))))
     minuti, sec = divmod(totale, 60)
     return f"{minuti} min {sec} s"
+
+
+# ---------------------------------------------------------------------------
+# Categoria dedotta dall'URL e contenuti promozionali.
+# ---------------------------------------------------------------------------
+
+# Marcatori di categoria nel path dell'articolo. L'ordine conta quando un
+# path contiene più marcatori: vince il primo riconosciuto.
+_CATEGORIE_DA_URL: tuple[tuple[str, tuple[str, ...]], ...] = (
+    ("sport", ("sport",)),
+    ("cultura", ("cultura", "spettacoli", "spettacolo")),
+    ("economia", ("economia", "economia-e-finanza", "finanza", "mercati")),
+    ("tecnologia", ("tecnologia", "tech")),
+    ("scienza-salute", ("salute", "scienze", "scienza", "medicina")),
+    ("ambiente", ("ambiente", "green", "clima")),
+    ("mondo", ("mondo", "esteri", "world")),
+    ("italia", ("italia", "politica", "cronaca")),
+)
+
+
+def categoria_da_url(url: str) -> str | None:
+    """Deduce la categoria dal path dell'articolo; None se non riconosce.
+
+    Guarda solo i segmenti interi del path: ``/sport/`` sì,
+    ``/sport-e-business/`` no. Un articolo ``/cultura/...`` pubblicato sul
+    feed generale ANSA viene quindi ricondotto a ``cultura``.
+    """
+    if not url:
+        return None
+    try:
+        path = urlsplit(str(url)).path.casefold()
+    except ValueError:
+        return None
+    segmenti = {segmento for segmento in path.split("/") if segmento}
+    for categoria, marcatori in _CATEGORIE_DA_URL:
+        if segmenti.intersection(marcatori):
+            return categoria
+    return None
+
+
+# Segnali forti: da soli bastano a scartare l'articolo. I marcatori URL
+# valgono solo come segmento intero del path, non come sottostringa.
+_PROMO_PATH_FORTI = frozenset(
+    {
+        "advertorial",
+        "comunicati-stampa",
+        "press-release",
+        "sponsor",
+        "promo",
+        "partner",
+    }
+)
+
+_PROMO_FRASI_FORTI = (
+    r"\bcontenut[oi]\s+sponsorizzat[oi]\b",
+    r"\barticol[oi]\s+sponsorizzat[oi]\b",
+    r"\badvertorial\b",
+    r"\bcomunicato\s+stampa\b",
+    r"\bufficio\s+stampa\b",
+    r"\bpartner\s+ufficiale\b",
+    r"\bleader\s+del\s+settore\b",
+    r"\beccellenza\s+italiana\b",
+    r"\bsoluzione\s+innovativa\b",
+)
+_PROMO_FRASI_DEBOLI = (r"\bin\s+collaborazione\s+con\b",)
+_PROMO_FRASI_FORTI_RE = re.compile("|".join(_PROMO_FRASI_FORTI), re.IGNORECASE)
+
+_PROMO_TITOLO_FORTI = (
+    r"\bsponsorizzat[oi]\b",
+    r"\badvertorial\b",
+    r"\bcodice\s+sconto\b",
+    r"\bporta\s+le\s+aziende\b",
+    r"\bpresenta\s+il\s+nuovo\b",
+    r"\blancia\s+il\s+nuovo\b",
+)
+_PROMO_TITOLO_DEBOLI = (
+    r"\bpromozione\b",
+    r"\bsconto\b",
+    # "offerta" singolare: "offerte di lavoro" non è promozionale.
+    r"\bofferta\b",
+    r"\bacquista\b",
+    r"\babbonati\b",
+    r"\bconcorso\b",
+    r"\bregalo\b",
+    r"\bgadget\b",
+)
+_PROMO_TITOLO_FORTI_RE = re.compile("|".join(_PROMO_TITOLO_FORTI), re.IGNORECASE)
+_PROMO_TITOLO_DEBOLI_RES = tuple(
+    re.compile(pattern, re.IGNORECASE) for pattern in _PROMO_TITOLO_DEBOLI
+)
+_PROMO_FRASI_DEBOLI_RES = tuple(
+    re.compile(pattern, re.IGNORECASE) for pattern in _PROMO_FRASI_DEBOLI
+)
+
+# Parole che, insieme al nome della testata nel titolo, indicano
+# autopromozione (anniversari, storie della testata, festeggiamenti).
+_AUTOPROMO_PAROLE_RE = re.compile(
+    r"\b(?:anni|anniversari\w*|compleann\w*|stori[ae]|si\s+racconta|"
+    r"ideator[ei]|fest[ae]|celebr\w*|festeggi\w*)\b",
+    re.IGNORECASE,
+)
+
+# Parole troppo comuni per valere come "token forte" del nome della testata.
+_TOKEN_FONTE_GENERICI = frozenset(
+    {
+        "il",
+        "lo",
+        "la",
+        "i",
+        "gli",
+        "le",
+        "di",
+        "del",
+        "della",
+        "dei",
+        "delle",
+        "notizie",
+        "news",
+        "post",
+        "sole",
+        "ore",
+        "oggi",
+        "domani",
+        "italia",
+        "quotidiano",
+        "giornale",
+        "web",
+        "online",
+        "tv",
+        "radio",
+        "magazine",
+        "open",
+        "left",
+        "fatto",
+        "buone",
+    }
+)
+_ARTICOLI_INIZIALI = frozenset({"il", "lo", "la", "i", "gli", "le"})
+
+
+def _normalizza_promo(testo: str) -> str:
+    """Minuscolo, senza accenti, con la punteggiatura ridotta a spazi."""
+    normalizzato = _senza_accenti(str(testo or "")).casefold()
+    normalizzato = re.sub(r"[^a-z0-9]+", " ", normalizzato)
+    return re.sub(r"\s+", " ", normalizzato).strip()
+
+
+def _frasi_fonte(fonte: str) -> list[str]:
+    """Nomi con cui una testata può comparire nel titolo.
+
+    Il nome intero vale sempre; se inizia con un articolo, vale anche la
+    variante senza articolo ("Il Sole 24 Ore" -> "sole 24 ore"). I nomi di
+    una sola parola valgono solo se distintivi: evita che "post" faccia
+    scattare l'autopromozione su un titolo qualsiasi.
+    """
+    nome = _normalizza_promo(fonte)
+    if not nome:
+        return []
+    parole = nome.split()
+    if len(parole) == 1:
+        if len(nome) >= 4 and nome not in _TOKEN_FONTE_GENERICI:
+            return [nome]
+        return []
+    frasi = [nome]
+    if len(parole) > 2 and parole[0] in _ARTICOLI_INIZIALI:
+        frasi.append(" ".join(parole[1:]))
+    return frasi
+
+
+def _titolo_autopromozionale(titolo: str, fonte: str) -> bool:
+    """Nome della testata + parola da anniversario/autopresentazione."""
+    if not titolo or not fonte:
+        return False
+    titolo_norm = _normalizza_promo(titolo)
+    if not _AUTOPROMO_PAROLE_RE.search(titolo_norm):
+        return False
+    riempito = f" {titolo_norm} "
+    return any(f" {frase} " in riempito for frase in _frasi_fonte(fonte))
+
+
+def e_promozionale(
+    titolo: str,
+    sommario: str = "",
+    contenuto: str = "",
+    fonte: str = "",
+    link: str = "",
+) -> bool:
+    """Vero per contenuti promozionali, PR o autopromozionali.
+
+    Regola prudente: un segnale forte basta, altrimenti servono almeno due
+    segnali deboli. Una singola parola ambigua ("offerta", "sconto",
+    "promozione") non esclude la notizia.
+    """
+    titolo = str(titolo or "")
+    titolo_norm = _senza_accenti(titolo).casefold()
+    testo_norm = _senza_accenti(
+        " ".join(str(parte or "") for parte in (titolo, sommario, contenuto))
+    ).casefold()
+
+    segmenti: set[str] = set()
+    if link:
+        try:
+            path = urlsplit(str(link)).path.casefold()
+        except ValueError:
+            path = ""
+        segmenti = {segmento for segmento in path.split("/") if segmento}
+    if segmenti & _PROMO_PATH_FORTI:
+        return True
+
+    deboli = 0
+    if _PROMO_FRASI_FORTI_RE.search(testo_norm):
+        return True
+    deboli += sum(
+        1 for regex in _PROMO_FRASI_DEBOLI_RES if regex.search(testo_norm)
+    )
+    if _PROMO_TITOLO_FORTI_RE.search(titolo_norm):
+        return True
+    deboli += sum(
+        1 for regex in _PROMO_TITOLO_DEBOLI_RES if regex.search(titolo_norm)
+    )
+    if _titolo_autopromozionale(titolo, fonte):
+        return True
+    return deboli >= 2

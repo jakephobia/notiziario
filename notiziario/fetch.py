@@ -19,7 +19,13 @@ from .categorie import normalizza_testo, trova_categoria
 from .config import Fonte
 from .sicurezza import FetchHttpError, UrlRifiutato, fetch_con_limite
 from .tempo import ROMA
-from .testi import pulisci_testo, pulisci_titolo, tronca_a_frase
+from .testi import (
+    categoria_da_url as categoria_da_url_articolo,
+    e_promozionale,
+    pulisci_testo,
+    pulisci_titolo,
+    tronca_a_frase,
+)
 
 
 USER_AGENT = (
@@ -491,6 +497,74 @@ def fetch_fonte(
     return articoli, esito
 
 
+def _nome_fonte_normalizzato(nome: str) -> str:
+    return re.sub(r"\s+", " ", str(nome or "").strip().casefold())
+
+
+def filtra_articoli(
+    articoli: list[Article],
+    tutte_fonti: list[Fonte],
+    logger: logging.Logger | None = None,
+) -> tuple[list[Article], dict[str, int]]:
+    """Scarta categorie disattivate per la fonte e contenuti promozionali.
+
+    La mappa ``(fonte, categoria) -> attivo`` parte da ``tutte_fonti``, incluse
+    le fonti spente: così un articolo di cultura arrivato dal feed generale
+    ANSA viene escluso se *tutti* i feed ANSA di cultura sono disattivati.
+    Se la categoria non è mappata per quella fonte, l'articolo resta.
+    """
+    logger = logger or logging.getLogger("notiziario")
+
+    attive: dict[tuple[str, str], bool] = {}
+    for fonte in tutte_fonti or []:
+        chiave = (_nome_fonte_normalizzato(fonte.nome), fonte.categoria)
+        attive[chiave] = attive.get(chiave, False) or bool(fonte.attivo)
+
+    tenuti: list[Article] = []
+    fonti_disattivate = 0
+    promozionali = 0
+    for articolo in articoli:
+        categoria = categoria_da_url_articolo(articolo.link)
+        if categoria:
+            chiave = (_nome_fonte_normalizzato(articolo.fonte), categoria)
+            if chiave in attive and not attive[chiave]:
+                fonti_disattivate += 1
+                continue
+        if e_promozionale(
+            articolo.titolo,
+            sommario=articolo.sommario,
+            contenuto=articolo.contenuto or "",
+            fonte=articolo.fonte,
+            link=articolo.link,
+        ):
+            promozionali += 1
+            continue
+        tenuti.append(articolo)
+
+    contatori = {
+        "tenuti": len(tenuti),
+        "fonti_disattivate": fonti_disattivate,
+        "promozionali": promozionali,
+    }
+    if fonti_disattivate:
+        logger.warning(
+            "Filtro fonti disattivate: %d articoli scartati per categoria "
+            "spenta sulla fonte.",
+            fonti_disattivate,
+        )
+    if promozionali:
+        logger.info(
+            "Filtro promozionali: %d articoli scartati.", promozionali
+        )
+    logger.info(
+        "Filtro articoli: %d tenuti, %d categorie disattivate, %d promozionali.",
+        contatori["tenuti"],
+        fonti_disattivate,
+        promozionali,
+    )
+    return tenuti, contatori
+
+
 def fetch_all(
     fonti: list[Fonte],
     ore: int,
@@ -500,8 +574,14 @@ def fetch_all(
     logger: logging.Logger | None = None,
     adesso: datetime | None = None,
     visti=None,
+    tutte_fonti: list[Fonte] | None = None,
 ) -> RisultatoFetch:
-    """Scarica tutte le fonti in parallelo e deduplica per URL."""
+    """Scarica tutte le fonti in parallelo, deduplica per URL e filtra.
+
+    ``tutte_fonti`` contiene anche le fonti spente; serve al filtro per
+    categoria. Se manca, il filtro usa le sole fonti attive (nessuna categoria
+    risulta disattivata) ma continua a scartare i contenuti promozionali.
+    """
     logger = logger or logging.getLogger("notiziario")
     adesso = adesso or datetime.now(timezone.utc)
     risultato = RisultatoFetch()
@@ -538,10 +618,18 @@ def fetch_all(
         visti_url.add(chiave)
         unici.append(articolo)
     risultato.articoli = unici
+    riferimento_fonti = tutte_fonti if tutte_fonti is not None else fonti
+    risultato.articoli, contatori = filtra_articoli(
+        unici, riferimento_fonti, logger=logger
+    )
     logger.info(
-        "Fetch completato: %d fonti OK, %d KO, %d articoli unici.",
+        "Fetch completato: %d fonti OK, %d KO, %d articoli unici, "
+        "%d tenuti dopo i filtri (%d categorie disattivate, %d promozionali).",
         risultato.ok,
         risultato.ko,
         len(unici),
+        contatori["tenuti"],
+        contatori["fonti_disattivate"],
+        contatori["promozionali"],
     )
     return risultato
