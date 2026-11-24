@@ -46,6 +46,7 @@ DEFAULT_SETTINGS: dict[str, Any] = {
     "silenzio_iniziale_ms": 1000,
     "tts_chunk_max_caratteri": 4500,
     "llm_modello_riserva": "gemini-3.1-flash-lite",
+    "llm_modello_traduzione": "gemini-3.1-flash-lite",
     "preset": {
         "svelto": {
             "minuti": 4,
@@ -338,6 +339,11 @@ def valida_impostazioni(impostazioni: dict[str, Any]) -> None:
     riserva = impostazioni.get("llm_modello_riserva")
     if not isinstance(riserva, str):
         raise ConfigError("llm_modello_riserva deve essere una stringa.")
+    traduzione_modello = impostazioni.get("llm_modello_traduzione")
+    if not isinstance(traduzione_modello, str) or not traduzione_modello.strip():
+        raise ConfigError(
+            "llm_modello_traduzione deve essere una stringa non vuota."
+        )
 
     voce = impostazioni.get("voce", {})
     if not isinstance(voce, dict) or not voce.get("nome"):

@@ -65,6 +65,33 @@ def test_traduzione_disponibile_rende_italiane_le_notizie(monkeypatch):
     assert materiale[0]["articoli"][0]["testo"] == "Il governo ha parlato delle elezioni."
 
 
+def test_traduzione_usa_flash_lite_con_fallback_al_primario(monkeypatch):
+    monkeypatch.setenv("GEMINI_API_KEY", "chiave-di-prova")
+    risposta = {
+        "traduzioni": [
+            {"id": 1, "titolo_it": "Politica australiana", "testo_it": "Il governo ha parlato delle elezioni."},
+            {"id": 2, "titolo_it": "Incendio nel sito turistico", "testo_it": "I soccorritori sono arrivati sul posto."},
+            {"id": 3, "titolo_it": "Presunto caso Huang", "testo_it": "L'azienda non ha commentato la notizia."},
+        ]
+    }
+    modelli: list[str | None] = []
+
+    def finta(prompt, sistema, impostazioni, chiave, logger, modello=None):
+        modelli.append(modello)
+        if len(modelli) == 1:
+            raise RuntimeError("quota flash lite")
+        return json.dumps(risposta)
+
+    monkeypatch.setattr(modulo_traduzione, "_chiama_gemini", finta)
+    impostazioni = carica_impostazioni()
+    selezioni, disponibile, _ = modulo_traduzione.traduci_selezioni(
+        inglesi(), impostazioni
+    )
+    assert disponibile is True
+    assert modelli == ["gemini-3.1-flash-lite", "gemini-2.5-flash"]
+    assert all(s.titolo_tradotto and s.testo_tradotto for s in selezioni)
+
+
 def test_senza_chiave_filtra_e_tiene_solo_italiane(monkeypatch):
     monkeypatch.delenv("GEMINI_API_KEY", raising=False)
     tutte = inglesi() + italiane()

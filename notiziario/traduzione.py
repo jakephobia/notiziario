@@ -118,8 +118,19 @@ def traduci_selezioni(
         "Sei un traduttore editoriale italiano. Rispondi solo con JSON valido, "
         "senza markdown e senza testo fuori dal JSON."
     )
+    modello_traduzione = (
+        str(impostazioni.get("llm_modello_traduzione", "")).strip()
+        or "gemini-3.1-flash-lite"
+    )
+    modello_primario = str(
+        impostazioni.get("llm", {}).get("modello", "")
+    ).strip()
+    modelli = [modello_traduzione]
+    if modello_primario and modello_primario != modello_traduzione:
+        modelli.append(modello_primario)
+
     mappa: dict[int, tuple[str, str]] = {}
-    for tentativo in (1, 2):
+    for indice, modello in enumerate(modelli, start=1):
         try:
             risposta = _chiama_gemini(
                 prompt,
@@ -127,16 +138,23 @@ def traduci_selezioni(
                 impostazioni,
                 chiave,
                 logger,
+                modello=modello,
             )
             mappa = _traduzioni_da_risposta(risposta)
             if mappa:
+                logger.info("Pre-traduzione completata con %s.", modello)
                 break
         except Exception as exc:
             logger.warning(
-                "Pre-traduzione tentativo %d non riuscito: %s.",
-                tentativo,
+                "Pre-traduzione con %s non riuscita (%s).",
+                modello,
                 type(exc).__name__,
             )
+            if indice < len(modelli):
+                logger.info(
+                    "Provo la pre-traduzione con il modello primario %s.",
+                    modelli[indice],
+                )
     if not mappa:
         avvisi.append("Pre-traduzione non disponibile: filtro le notizie non italiane.")
         return selezioni, False, avvisi

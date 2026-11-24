@@ -185,10 +185,10 @@
   "silenzio_iniziale_ms": 1000,
   "tts_chunk_max_caratteri": 4500,
   "llm_modello_riserva": "gemini-3.1-flash-lite",
+  "llm_modello_traduzione": "gemini-3.1-flash-lite",
   "suono_transizione": "ding",
   "suono_gain_db": 0,
   "outro": {
     "file": "config/outro.txt"
   }
 }
-
