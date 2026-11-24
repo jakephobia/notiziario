@@ -796,6 +796,37 @@ form e nel payload `orario`; lo script lo valida come `HH:00` e lo salva in
 configurazione. L'ora legale è gestita da `zoneinfo`; GitHub può ritardare le
 run schedulate, quindi il controllo non richiede più l'ora esatta.
 
+### Se una run schedulata non parte
+
+Le schedule di GitHub Actions sono “best effort”: possono essere ritardate o
+saltate, soprattutto sui runner gratuiti. Non garantiscono l'ora esatta. Il 24
+novembre 2026, per esempio, GitHub ha consegnato solo le run schedulate delle
+05:23 e delle 16:09 (ora di Roma): quella delle 07:00 non è mai arrivata. Alle
+08:17 l'episodio è stato generato da un dispatch manuale; la run delle 16:09 è
+stata saltata perché l'episodio esisteva già.
+
+Per avere l'ora precisa serve un trigger esterno che chiami il dispatch del
+workflow. Con cron-job.org (gratuito):
+
+1. crea un token GitHub fine-grained limitato a `jakephobia/notiziario` con
+   permesso **Actions: write**;
+2. su cron-job.org crea un job giornaliero alle **07:00** con fuso
+   `Europe/Rome`;
+3. metodo **POST**, URL
+   `https://api.github.com/repos/jakephobia/notiziario/actions/workflows/notiziario.yml/dispatches`;
+4. header:
+   - `Authorization: Bearer <TOKEN>`
+   - `Accept: application/vnd.github+json`
+   - `X-GitHub-Api-Version: 2022-11-28`
+   - `Content-Type: application/json`
+5. body:
+   ```json
+   {"ref":"main","inputs":{"durata":"standard"}}
+   ```
+
+Il dispatch manuale salta il controllo orario e parte subito. La schedule GitHub
+resta come backup: se l'episodio esiste già, le run successive non fanno nulla.
+
 Nello step **Aggiorna feed, sito e stato nel repository**, dopo il commit
 locale viene eseguito `git pull --rebase` prima del push. Se il rebase trova
 conflitti, il workflow stampa un errore, esegue `git rebase --abort` ed esce
