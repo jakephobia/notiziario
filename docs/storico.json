@@ -2,12 +2,12 @@
   "episodi": [
     {
       "data": "2026-11-24",
-      "titolo": "Notiziario del 24 novembre 2026",
-      "descrizione": "Le principali notizie di oggi, martedì 24 novembre 2026. Allarmi bomba in Germania e Danimarca, la condanna per il delitto del trapano a Genova e gli attacchi rivendicati da Zelensky in Libia. Inoltre, approfondimenti su economia, tecnologia, scienza e cultura, con un focus sulle buone notizie.",
+      "titolo": "Notiziario Radiofonico",
+      "descrizione": "Oggi, martedì 24 novembre 2026, apriamo con l'ondata di allarmi bomba che ha interessato scuole in Germania e Danimarca. In Italia, una condanna a trenta anni per il 'delitto del trapano' a Genova dopo trentuno anni. Dalle istituzioni europee, si discute della presidenza della BCE e del bilancio UE.",
       "filename": "notiziario-2026-11-24.mp3",
-      "descrizione_breve": "24 novembre 2026 - Ci sono stati allarmi bomba, Delitto del trapano, Zelensky rivendica gli attacchi a due, Bonus mobili e voucher, Parte l'offerta di Intesa Sanpaolo.",
-      "durata_secondi": 871.059116,
-      "dimensione": 10453616,
+      "descrizione_breve": "24 novembre 2026 - Allarmi bomba nelle scuole in Danimarca, Delitto del trapano, Costa ai 27, Costa chiama i Ventisette a Bruxelles, La tecnologia migliore dell'anno tra cuffie.",
+      "durata_secondi": 611.454807,
+      "dimensione": 7338357,
       "modalita": "llm",
       "categorie": [
         "italia",
@@ -23,7 +23,7 @@
       "voce_label": "it-IT-IsabellaNeural (edge-tts)",
       "velocita": 1.15,
       "tts_motore": "edge",
-      "pubblicato": "2026-11-24T07:23:22.535360+00:00",
+      "pubblicato": "2026-11-24T10:22:12.623065+00:00",
       "guid": "notiziario-2026-11-24"
     },
     {

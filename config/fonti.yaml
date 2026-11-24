@@ -20,7 +20,6 @@ fonti:
   - nome: "ANSA"
     url: "https://www.ansa.it/sito/notizie/economia/economia_rss.xml"
     categoria: "economia"
-    attivo: false
 
   - nome: "ANSA"
     url: "https://www.ansa.it/sito/notizie/sport/sport_rss.xml"
@@ -30,7 +29,6 @@ fonti:
   - nome: "ANSA"
     url: "https://www.ansa.it/sito/notizie/cultura/cultura_rss.xml"
     categoria: "cultura"
-    attivo: false
 
   - nome: "Repubblica"
     url: "https://www.repubblica.it/rss/homepage/rss2.0.xml"
@@ -51,12 +49,10 @@ fonti:
   - nome: "Repubblica"
     url: "https://www.repubblica.it/rss/economia/rss2.0.xml"
     categoria: "economia"
-    attivo: false
 
   - nome: "Repubblica"
     url: "https://www.repubblica.it/rss/cultura/rss2.0.xml"
     categoria: "cultura"
-    attivo: false
 
   - nome: "Repubblica"
     url: "https://www.repubblica.it/rss/tecnologia/rss2.0.xml"
@@ -93,7 +89,6 @@ fonti:
   - nome: "Il Post"
     url: "https://www.ilpost.it/cultura/feed/"
     categoria: "cultura"
-    attivo: false
 
   - nome: "Il Post"
     url: "https://www.ilpost.it/sport/feed/"
@@ -119,7 +114,6 @@ fonti:
   - nome: "Il Sole 24 Ore"
     url: "https://www.ilsole24ore.com/rss/cultura.xml"
     categoria: "cultura"
-    attivo: false
 
   - nome: "Il Sole 24 Ore"
     url: "https://www.ilsole24ore.com/rss/salute.xml"
@@ -160,7 +154,6 @@ fonti:
   - nome: "Valigia Blu"
     url: "https://www.valigiablu.it/feed/"
     categoria: "italia"
-    attivo: false
 
   - nome: "IRPI Media"
     url: "https://irpimedia.irpi.eu/feed/"
@@ -189,12 +182,10 @@ fonti:
   - nome: "Il Tascabile"
     url: "https://www.iltascabile.com/feed/"
     categoria: "cultura"
-    attivo: false
 
   - nome: "doppiozero"
     url: "https://www.doppiozero.com/feed"
     categoria: "cultura"
-    attivo: false
 
   - nome: "Nazione Indiana"
     url: "https://www.nazioneindiana.com/feed/"
@@ -266,12 +257,10 @@ fonti:
   - nome: "Inside Over"
     url: "https://www.insideover.com/feed/"
     categoria: "mondo"
-    attivo: false
 
   - nome: "Eastjournal"
     url: "https://www.eastjournal.net/feed/"
     categoria: "mondo"
-    attivo: false
 
   - nome: "Eunews"
     url: "https://www.eunews.it/feed/"
@@ -296,22 +285,18 @@ fonti:
   - nome: "Responsible Statecraft"
     url: "https://responsiblestatecraft.org/feed/"
     categoria: "mondo"
-    attivo: false
 
   - nome: "Drop Site News"
     url: "https://www.dropsitenews.com/feed"
     categoria: "mondo"
-    attivo: false
 
   - nome: "The Nation"
     url: "https://www.thenation.com/feed/?post_type=article"
     categoria: "mondo"
-    attivo: false
 
   - nome: "The Intercept"
     url: "https://theintercept.com/feed/?lang=en"
     categoria: "mondo"
-    attivo: false
 
   - nome: "Jacobin"
     url: "https://jacobin.com/feed"
@@ -328,7 +313,6 @@ fonti:
   - nome: "The American Prospect"
     url: "https://prospect.org/feed/"
     categoria: "mondo"
-    attivo: false
 
   - nome: "Politico"
     url: "https://rss.politico.com/politics-news.xml"
@@ -337,12 +321,10 @@ fonti:
   - nome: "The Guardian US"
     url: "https://www.theguardian.com/us-news/rss"
     categoria: "mondo"
-    attivo: false
 
   - nome: "ProPublica"
     url: "https://www.propublica.org/feeds/propublica/main"
     categoria: "mondo"
-    attivo: false
 
   - nome: "Democracy Now"
     url: "https://www.democracynow.org/democracynow.rss"
@@ -355,7 +337,6 @@ fonti:
   - nome: "Buone Notizie"
     url: "https://www.buonenotizie.it/feed/"
     categoria: "buone-notizie"
-    attivo: false
 
   - nome: "Italia Che Cambia"
     url: "https://www.italiachecambia.org/feed/"
