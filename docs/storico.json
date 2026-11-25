@@ -3,11 +3,11 @@
     {
       "data": "2026-11-25",
       "titolo": "Notiziario del 25 novembre 2026",
-      "descrizione": "Il notiziario odierno si apre con l'accordo commerciale tra Unione Europea e Indonesia sul nichel. Seguono le notizie sulla polemica giudiziaria riguardante Berlusconi e la mafia, la crisi diplomatica nel Sahara Occidentale e il rapporto ONU sui femminicidi.",
+      "descrizione": "Il bollettino odierno riporta l'allerta meteo per neve e piogge, l'indagine su un cittadino italiano coinvolto in attività di mercenariato in Ucraina, il rinvio a giudizio di Nicolas Sarkozy per i fondi libici, gli appelli per la giornata contro la violenza sulle donne, i rischi legati al.",
       "filename": "notiziario-2026-11-25.mp3",
-      "descrizione_breve": "25 novembre 2026 - L'Indonesia ha svenduto la sua leva, Berlusconi Cancemi la mafia, Sahara Occidentale, Boehringer punta 160 milioni sui principi, A Dublino il quinto Forum.",
-      "durata_secondi": 240.539433,
-      "dimensione": 3849865,
+      "descrizione_breve": "25 novembre 2026 - Due giorni di neve abbondante, L'italiano in Ucraina indagato come mercenario, Francia Sarkozy e Carla Bruni andranno, Giornata contro la violenza sulle donne.",
+      "durata_secondi": 451.001383,
+      "dimensione": 7216944,
       "modalita": "llm",
       "categorie": [
         "italia",
@@ -21,7 +21,7 @@
       "voce_label": "Kore - femminile, calda (Google Chirp 3 HD)",
       "velocita": 1.1,
       "tts_motore": "google",
-      "pubblicato": "2026-11-25T06:08:39.051346+00:00",
+      "pubblicato": "2026-11-25T11:37:06.690295+00:00",
       "guid": "notiziario-2026-11-25"
     },
     {

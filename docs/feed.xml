@@ -5,7 +5,7 @@
     <link>https://jakephobia.github.io/notiziario/</link>
     <description>Le notizie del giorno scelte da Jacopo, lette in italiano. Un riassunto quotidiano delle notizie italiane e internazionali.</description>
     <language>it-it</language>
-    <lastBuildDate>Wed, 25 Nov 2026 06:08:39 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 25 Nov 2026 11:37:06 +0000</lastBuildDate>
     <itunes:author>Notiziario</itunes:author>
     <itunes:explicit>false</itunes:explicit>
     <itunes:summary>Le notizie del giorno scelte da Jacopo, lette in italiano. Un riassunto quotidiano delle notizie italiane e internazionali.</itunes:summary>
@@ -23,12 +23,12 @@
     <notiziario:tts_motore>google</notiziario:tts_motore>
     <item>
       <title>Notiziario del 25 novembre 2026</title>
-      <description>25 novembre 2026 - L'Indonesia ha svenduto la sua leva, Berlusconi Cancemi la mafia, Sahara Occidentale, Boehringer punta 160 milioni sui principi, A Dublino il quinto Forum.</description>
-      <pubDate>Wed, 25 Nov 2026 06:08:39 +0000</pubDate>
+      <description>25 novembre 2026 - Due giorni di neve abbondante, L'italiano in Ucraina indagato come mercenario, Francia Sarkozy e Carla Bruni andranno, Giornata contro la violenza sulle donne.</description>
+      <pubDate>Wed, 25 Nov 2026 11:37:06 +0000</pubDate>
       <guid isPermaLink="false">notiziario-2026-11-25</guid>
-      <enclosure url="https://github.com/jakephobia/notiziario/releases/download/episodio-2026-11-25/notiziario-2026-11-25.mp3" length="3849865" type="audio/mpeg" />
-      <itunes:duration>00:04:01</itunes:duration>
-      <itunes:summary>25 novembre 2026 - L'Indonesia ha svenduto la sua leva, Berlusconi Cancemi la mafia, Sahara Occidentale, Boehringer punta 160 milioni sui principi, A Dublino il quinto Forum.</itunes:summary>
+      <enclosure url="https://github.com/jakephobia/notiziario/releases/download/episodio-2026-11-25/notiziario-2026-11-25.mp3" length="7216944" type="audio/mpeg" />
+      <itunes:duration>00:07:31</itunes:duration>
+      <itunes:summary>25 novembre 2026 - Due giorni di neve abbondante, L'italiano in Ucraina indagato come mercenario, Francia Sarkozy e Carla Bruni andranno, Giornata contro la violenza sulle donne.</itunes:summary>
       <itunes:explicit>false</itunes:explicit>
       <itunes:image href="https://jakephobia.github.io/notiziario/copertina.png" />
       <notiziario:modalita>llm</notiziario:modalita>
