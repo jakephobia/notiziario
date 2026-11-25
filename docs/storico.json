@@ -1,6 +1,30 @@
 {
   "episodi": [
     {
+      "data": "2026-11-25",
+      "titolo": "Notiziario del 25 novembre 2026",
+      "descrizione": "Il notiziario odierno si apre con l'accordo commerciale tra Unione Europea e Indonesia sul nichel. Seguono le notizie sulla polemica giudiziaria riguardante Berlusconi e la mafia, la crisi diplomatica nel Sahara Occidentale e il rapporto ONU sui femminicidi.",
+      "filename": "notiziario-2026-11-25.mp3",
+      "descrizione_breve": "25 novembre 2026 - L'Indonesia ha svenduto la sua leva, Berlusconi Cancemi la mafia, Sahara Occidentale, Boehringer punta 160 milioni sui principi, A Dublino il quinto Forum.",
+      "durata_secondi": 240.539433,
+      "dimensione": 3849865,
+      "modalita": "llm",
+      "categorie": [
+        "italia",
+        "mondo",
+        "tecnologia",
+        "scienza-salute",
+        "ambiente",
+        "buone-notizie"
+      ],
+      "voce": "it-IT-Chirp3-HD-Kore",
+      "voce_label": "Kore - femminile, calda (Google Chirp 3 HD)",
+      "velocita": 1.1,
+      "tts_motore": "google",
+      "pubblicato": "2026-11-25T06:08:39.051346+00:00",
+      "guid": "notiziario-2026-11-25"
+    },
+    {
       "data": "2026-11-24",
       "titolo": "Notiziario del 24 novembre 2026",
       "descrizione": "Il notiziario di martedì 24 novembre 2026 tratta delle vicende giudiziarie internazionali, gli allarmi bomba in Europa, le politiche interne italiane e le novità scientifiche.",

@@ -16,7 +16,7 @@
     "Buone notizie"
   ],
   "incipit_template": "Ciao, [NOME UTENTE]! Ecco le tue notizie del giorno. Oggi è il [DATA].",
-  "incipit_risolto": "Ciao, Jacopo! Ecco le tue notizie del giorno. Oggi è il 24 novembre.",
+  "incipit_risolto": "Ciao, Jacopo! Ecco le tue notizie del giorno. Oggi è il 25 novembre.",
   "voce": "it-IT-Chirp3-HD-Kore",
   "voce_label": "Kore - femminile, calda (Google Chirp 3 HD)",
   "voce_configurata": "Kore",
@@ -25,7 +25,7 @@
   "velocita": 1.1,
   "motore": "google",
   "motore_richiesto": "google",
-  "data": "2026-11-24",
+  "data": "2026-11-25",
   "nome_utente": "Jacopo",
   "suono": "ding",
   "outro": "Queste erano le notizie di oggi. A domani con i principali eventi della giornata!",

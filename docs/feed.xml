@@ -5,7 +5,7 @@
     <link>https://jakephobia.github.io/notiziario/</link>
     <description>Le notizie del giorno scelte da Jacopo, lette in italiano. Un riassunto quotidiano delle notizie italiane e internazionali.</description>
     <language>it-it</language>
-    <lastBuildDate>Tue, 24 Nov 2026 22:20:52 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 25 Nov 2026 06:08:39 +0000</lastBuildDate>
     <itunes:author>Notiziario</itunes:author>
     <itunes:explicit>false</itunes:explicit>
     <itunes:summary>Le notizie del giorno scelte da Jacopo, lette in italiano. Un riassunto quotidiano delle notizie italiane e internazionali.</itunes:summary>
@@ -18,9 +18,25 @@
     <notiziario:categorie>Italia, Mondo, Tecnologia, Scienza e salute, Ambiente, Buone notizie</notiziario:categorie>
     <notiziario:modalita>llm</notiziario:modalita>
     <notiziario:voce>it-IT-Chirp3-HD-Kore</notiziario:voce>
-    <notiziario:voce_label>Kore â€” femminile, calda (Google Chirp 3 HD)</notiziario:voce_label>
+    <notiziario:voce_label>Kore - femminile, calda (Google Chirp 3 HD)</notiziario:voce_label>
     <notiziario:velocita>1.1</notiziario:velocita>
     <notiziario:tts_motore>google</notiziario:tts_motore>
+    <item>
+      <title>Notiziario del 25 novembre 2026</title>
+      <description>25 novembre 2026 - L'Indonesia ha svenduto la sua leva, Berlusconi Cancemi la mafia, Sahara Occidentale, Boehringer punta 160 milioni sui principi, A Dublino il quinto Forum.</description>
+      <pubDate>Wed, 25 Nov 2026 06:08:39 +0000</pubDate>
+      <guid isPermaLink="false">notiziario-2026-11-25</guid>
+      <enclosure url="https://github.com/jakephobia/notiziario/releases/download/episodio-2026-11-25/notiziario-2026-11-25.mp3" length="3849865" type="audio/mpeg" />
+      <itunes:duration>00:04:01</itunes:duration>
+      <itunes:summary>25 novembre 2026 - L'Indonesia ha svenduto la sua leva, Berlusconi Cancemi la mafia, Sahara Occidentale, Boehringer punta 160 milioni sui principi, A Dublino il quinto Forum.</itunes:summary>
+      <itunes:explicit>false</itunes:explicit>
+      <itunes:image href="https://jakephobia.github.io/notiziario/copertina.png" />
+      <notiziario:modalita>llm</notiziario:modalita>
+      <notiziario:voce>it-IT-Chirp3-HD-Kore</notiziario:voce>
+      <notiziario:voce_label>Kore - femminile, calda (Google Chirp 3 HD)</notiziario:voce_label>
+      <notiziario:velocita>1.1</notiziario:velocita>
+      <notiziario:tts_motore>google</notiziario:tts_motore>
+    </item>
     <item>
       <title>Notiziario del 24 novembre 2026</title>
       <description>24 novembre 2026 - Francia Sarkozy e Carla Bruni andranno, Notiziario del 24 novembre 2026, Allarmi bomba nelle scuole in Danimarca, Il nuovo bonus da 300 euro, Piano di investimenti Petrobras da 122.</description>
@@ -33,7 +49,7 @@
       <itunes:image href="https://jakephobia.github.io/notiziario/copertina.png" />
       <notiziario:modalita>llm</notiziario:modalita>
       <notiziario:voce>it-IT-Chirp3-HD-Kore</notiziario:voce>
-      <notiziario:voce_label>Kore â€” femminile, calda (Google Chirp 3 HD)</notiziario:voce_label>
+      <notiziario:voce_label>Kore - femminile, calda (Google Chirp 3 HD)</notiziario:voce_label>
       <notiziario:velocita>1.1</notiziario:velocita>
       <notiziario:tts_motore>google</notiziario:tts_motore>
     </item>
