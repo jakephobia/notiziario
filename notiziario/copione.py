@@ -35,6 +35,7 @@ from .testi import (
     normalizza_titolo,
     pulisci_titolo,
     similarita_titoli,
+    estrai_nomi_propri,
     spezza_frasi_lunghe,
     tronca_a_frase,
 )
@@ -1109,6 +1110,23 @@ def _minuscola_dopo_secondo(testo: str) -> str:
     return testo
 
 
+def _entita_frase(frase: str) -> set[str]:
+    entita = {
+        " ".join(nome).casefold()
+        for nome in estrai_nomi_propri(frase)
+    }
+    entita.update(re.findall(r"\b\d+(?:[.,]\d+)?\b", frase))
+    return entita
+
+
+def _simile_alla_testa(frase: str, testa: str, entita_testa: set[str]) -> bool:
+    similarita = similarita_testi(frase, testa)
+    if similarita >= 0.55:
+        return True
+    condivise = entita_testa & _entita_frase(frase)
+    return len(condivise) >= 2 and similarita >= 0.3
+
+
 def _frasi_cluster(
     cluster,
     visti: set[str] | None = None,
@@ -1127,8 +1145,15 @@ def _frasi_cluster(
             for articolo in cluster.ordina_articoli()
         ]
     )
-    for testo_fonte, fonte_fonte in sorgenti:
-        for frase in estrai_frasi(testo_fonte):
+    testa = ""
+    entita_testa: set[str] = set()
+    for indice_fonte, (testo_fonte, fonte_fonte) in enumerate(sorgenti):
+        frasi_fonte = estrai_frasi(testo_fonte)
+        if indice_fonte > 0:
+            # Le fonti aggiuntive spesso ripartono con un lead equivalente:
+            # salta le prime due frasi e usa solo i dettagli successivi.
+            frasi_fonte = frasi_fonte[2:]
+        for frase in frasi_fonte:
             frase = re.sub(r"\s+", " ", frase).strip().strip('"“”')
             if len(frase.split()) < 5:
                 continue
@@ -1157,6 +1182,11 @@ def _frasi_cluster(
                 similarita_testi(frase, vista) >= 0.85 for vista in visti
             ):
                 continue
+            if testa and _simile_alla_testa(frase, testa, entita_testa):
+                continue
+            if not testa:
+                testa = frase
+                entita_testa = _entita_frase(frase)
             visti.add(chiave)
             if frase[0].islower():
                 frase = frase[0].upper() + frase[1:]
@@ -1240,6 +1270,21 @@ def _attribuzione(fonti: list[str], indice: int) -> str:
     return pool[indice % len(pool)]
 
 
+def _deduplica_testa(testo: str) -> str:
+    """Toglie le riformulazioni della stessa apertura dentro la notizia."""
+    frasi = estrai_frasi(testo)
+    if len(frasi) < 3:
+        return testo
+    testa = " ".join(frasi[:2])
+    entita_testa = _entita_frase(testa)
+    tenute = list(frasi[:2])
+    for frase in frasi[2:]:
+        if _simile_alla_testa(frase, testa, entita_testa):
+            continue
+        tenute.append(frase)
+    return " ".join(tenute)
+
+
 def _paragrafo_notizia(
     selezione: NotiziaSelezionata,
     transizione: str,
@@ -1263,7 +1308,7 @@ def _paragrafo_notizia(
         _aggiungi_frasi(parti, frasi[1:], selezione.parole_target)
     else:
         parti.append(f"La notizia è riportata da {fonti}.")
-    return " ".join(p for p in parti if p).strip()
+    return _deduplica_testa(" ".join(p for p in parti if p).strip())
 
 
 def _paragrafo_copertina(selezione: NotiziaSelezionata, indice: int) -> str:

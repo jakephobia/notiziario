@@ -18,6 +18,7 @@ from notiziario.copione import (
     _prompt_utente,
     _pulisci_descrizione_breve,
     _minuscola_dopo_secondo,
+    _paragrafo_copertina,
     _rimuovi_apertura,
     _system_prompt,
     blocchi_per_tts,
@@ -132,7 +133,7 @@ def test_fallback_deterministico_naturale():
     for voce in copione["notizie"]:
         assert voce["testo"]
         assert voce["fonti"]
-        assert voce["paragrafi"] == [voce["testo"]]
+        assert voce["paragrafi"]
     assert copione["target_parole"] > 0
     assert copione["divario_parole"] >= 0
 

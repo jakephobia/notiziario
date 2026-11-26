@@ -331,6 +331,13 @@ def seleziona(
             continue
         if cluster.categoria in per_categoria:
             per_categoria[cluster.categoria].append(cluster)
+    # Per le secondarie meglio partire dai cluster con più materiale:
+    # evita notizie di 30-40 parole quando esistono alternative più ricche.
+    for lista in per_categoria.values():
+        lista.sort(
+            key=lambda cluster: (cluster.numero_fonti, len(cluster.sommario)),
+            reverse=True,
+        )
 
     target_parole = int(preset.get("minuti", 0)) * max(1, parole_per_minuto)
     parole_fisse = (
