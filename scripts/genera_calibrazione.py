@@ -629,6 +629,13 @@ def main() -> int:
     riusa = "--riusa" in sys.argv
     if riusa and DATI.exists():
         dati = json.loads(DATI.read_text(encoding="utf-8"))
+        for articolo in dati:
+            for chiave in ("titolo", "fonte", "categoria_base", "sommario"):
+                articolo[chiave] = _ripara_testo(articolo.get(chiave, ""))
+        DATI.write_text(
+            json.dumps(dati, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
         LOGGER.info("Riuso %d articoli da %s.", len(dati), DATI)
     else:
         fonti = _fonti_uniche()
