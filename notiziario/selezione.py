@@ -347,7 +347,7 @@ def seleziona(
     # Buffer per coprire notizie estere non traducibili e varianza del modello:
     # meglio una notizia in più che una puntata troppo corta.
     minuti = int(preset.get("minuti", 0))
-    buffer_secondarie = 4 if minuti >= 15 else 2
+    buffer_secondarie = 8 if minuti >= 15 else 2
     posti = max(0, limite - len(copertine) - len(positive))
     posti_secondarie = min(posti, calcolate + buffer_secondarie)
     if posti_secondarie == 0 and posti > 0 and target_parole > parole_fisse:
