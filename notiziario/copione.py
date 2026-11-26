@@ -517,11 +517,12 @@ def _lunghezza_ai_adeguata(
     selezioni: list[NotiziaSelezionata],
     target: int,
 ) -> bool:
-    """Con materiale abbondante, un copione AI troppo corto non è accettabile."""
+    """Un copione AI troppo corto non è accettabile: riprova o usa il fallback."""
     materiale = _materiale_caratteri(selezioni)
-    if materiale < max(2000, target * 4):
-        return True
-    return conta_parole(copione["testo"]) >= max(150, int(target * 0.5))
+    minimo = max(150, int(target * 0.7))
+    if materiale < 1500:
+        minimo = min(minimo, 200)
+    return conta_parole(copione["testo"]) >= minimo
 
 
 _CHIUSURA_RE = re.compile(
