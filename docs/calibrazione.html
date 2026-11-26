@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Calibrazione — Notiziario</title>
+<style>
+  :root { --bg:#0f1318; --card:#181f27; --testo:#eef3f8; --tenue:#a8b5c2; --bordo:#2c3946; --accento:#7cc4ff; }
+  * { box-sizing:border-box; }
+  body { margin:0; padding:24px; background:var(--bg); color:var(--testo); font:16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif; }
+  main { max-width:760px; margin:0 auto; }
+  h1 { font-size:1.45rem; margin:0 0 6px; }
+  p { color:var(--tenue); margin:0 0 18px; }
+  .card { display:block; text-decoration:none; color:var(--testo); background:var(--card); border:1px solid var(--bordo); border-radius:16px; padding:18px; margin:0 0 14px; }
+  .card:hover { border-color:var(--accento); }
+  .card h2 { margin:0 0 4px; font-size:1.15rem; }
+  .card small { color:var(--tenue); display:block; }
+  .stato { color:var(--accento); margin-top:8px; font-size:.9rem; }
+  .nota { border-top:1px solid var(--bordo); margin-top:22px; padding-top:16px; font-size:.9rem; color:var(--tenue); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Calibrazione</h1>
+  <p>Prima calibra il contenuto, poi personalizza l'interesse. Le risposte restano nel browser e si esportano alla fine di ogni pagina.</p>
+  <a class="card" href="calibrazione-contenuto.html">
+    <h2>1. Contenuto</h2>
+    <small>Categoria della notizia + flag PR/promozione.</small>
+    <div class="stato" id="stato-contenuto">0 risposte</div>
+  </a>
+  <a class="card" href="calibrazione-interesse.html">
+    <h2>2. Interesse</h2>
+    <small>Quanto ti interessa: zero, poco, normale, tanto.</small>
+    <div class="stato" id="stato-interesse">0 risposte</div>
+  </a>
+  <p class="nota">Alla fine di ogni pagina trovi Esporta JSON e Esporta CSV.</p>
+</main>
+<script>
+function conta(chiave) {
+  try {
+    const dati = JSON.parse(localStorage.getItem(chiave) || "null");
+    return dati && dati.risposte ? Object.keys(dati.risposte).length : 0;
+  } catch (e) { return 0; }
+}
+document.getElementById("stato-contenuto").textContent = conta("notiziario.calibrazione.contenuto.v1") + " risposte";
+document.getElementById("stato-interesse").textContent = conta("notiziario.calibrazione.interesse.v1") + " risposte";
+</script>
+</body>
+</html>
