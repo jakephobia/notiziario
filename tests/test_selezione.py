@@ -92,7 +92,7 @@ def test_se_non_ci_sono_multi_completa_con_singoli_recenti():
     scelte = seleziona(clusters, preset, ["italia"])
     assert scelte[0].copertina is True
     assert scelte[0].titolo == "Recente"
-    assert len([s for s in scelte if s.copertina]) == 1
+    assert len([s for s in scelte if s.copertina]) == 2
     assert len(scelte) <= preset["max_notizie"]
 
 

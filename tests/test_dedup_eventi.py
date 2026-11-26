@@ -302,9 +302,9 @@ def test_assorbimento_rispetta_limiti_e_ordine_dei_blocchi():
     )
     assert len(scelte) == 6
     assert [s.blocco for s in scelte] == (
-        ["copertina"] + ["secondaria"] * 3 + ["buone-notizie"] * 2
+        ["copertina"] * 2 + ["secondaria"] * 2 + ["buone-notizie"] * 2
     )
-    assert sum(1 for s in scelte if s.copertina) == 1
+    assert sum(1 for s in scelte if s.copertina) == 2
     assert (
         sum(1 for s in scelte if s.blocco == "secondaria")
         <= preset["secondarie"]
@@ -314,10 +314,10 @@ def test_assorbimento_rispetta_limiti_e_ordine_dei_blocchi():
         <= preset["buone_notizie"]
     )
     assert {s.categoria for s in scelte if s.blocco == "secondaria"} == {
-        "mondo",
         "economia",
         "cultura",
     }
+    assert "mondo" in {s.categoria for s in scelte if s.copertina}
     paragrafi_evento = [
         s for s in scelte if any(a.id in eventi for a in s.cluster.articoli)
     ]

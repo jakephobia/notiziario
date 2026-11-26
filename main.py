@@ -750,6 +750,7 @@ def esegui(
         max_notizie=args.notizie,
         logger=logger,
         buone_notizie=esito_buone.notizie,
+        parole_per_minuto=int(impostazioni.get("parole_per_minuto", 145)),
     )
     if not selezioni:
         raise ErroreBloccante(

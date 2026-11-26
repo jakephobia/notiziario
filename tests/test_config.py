@@ -49,9 +49,9 @@ def test_impostazioni_reali_valide():
     assert impostazioni["feed"]["max_episodi"] == 60
     assert "buone-notizie" in impostazioni["categorie_default"]
     assert impostazioni["nome_utente"] == "Jacopo"
-    assert impostazioni["preset"]["svelto"]["max_notizie"] == 6
-    assert impostazioni["preset"]["standard"]["max_notizie"] == 12
-    assert impostazioni["preset"]["completo"]["max_notizie"] == 16
+    assert impostazioni["preset"]["svelto"]["max_notizie"] == 12
+    assert impostazioni["preset"]["standard"]["max_notizie"] == 18
+    assert impostazioni["preset"]["completo"]["max_notizie"] == 24
     assert impostazioni["preset"]["standard"]["buone_notizie"] == 2
     assert impostazioni["controllo_feed"]["min_caratteri_testo"] == 40
     assert impostazioni["arricchimento"]["attivo"] is True

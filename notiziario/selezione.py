@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+import math
 import re
 from dataclasses import dataclass
 
@@ -242,6 +243,7 @@ def seleziona(
     logger: logging.Logger | None = None,
     soglia_duplicati: float = 0.8,
     buone_notizie: list[Cluster] | None = None,
+    parole_per_minuto: int = 145,
 ) -> list[NotiziaSelezionata]:
     """Sceglie la scaletta.
 
@@ -279,6 +281,10 @@ def seleziona(
 
     limite = int(max_notizie if max_notizie is not None else preset["max_notizie"])
     limite = max(1, limite)
+    parole_copertina = int(preset["parole_copertina"])
+    parole_secondaria = int(preset["parole_secondaria"])
+    # Le buone notizie durano a metà tra una copertina e una secondaria.
+    parole_buona = max(1, (parole_copertina + parole_secondaria) // 2)
     attive = [c for c in CATEGORIE_IDS if c in set(categorie_attive)]
     generali = [c for c in attive if c != "buone-notizie"]
 
@@ -326,8 +332,31 @@ def seleziona(
         if cluster.categoria in per_categoria:
             per_categoria[cluster.categoria].append(cluster)
 
-    posti_secondarie = max(0, limite - len(copertine) - len(positive))
-    posti_secondarie = min(posti_secondarie, int(preset["secondarie"]))
+    target_parole = int(preset.get("minuti", 0)) * max(1, parole_per_minuto)
+    parole_fisse = (
+        len(copertine) * parole_copertina
+        + len(positive) * parole_buona
+        + 60
+    )
+    restanti = max(0, target_parole - parole_fisse)
+    calcolate = (
+        math.ceil(restanti / max(1, parole_secondaria))
+        if restanti
+        else 0
+    )
+    posti = max(0, limite - len(copertine) - len(positive))
+    posti_secondarie = min(posti, calcolate)
+    if posti_secondarie == 0 and posti > 0 and target_parole > parole_fisse:
+        posti_secondarie = 1
+    logger.info(
+        "Target %d parole (%d minuti): %d copertine, %d secondarie calcolate, "
+        "%d buone notizie.",
+        target_parole,
+        int(preset.get("minuti", 0)),
+        len(copertine),
+        posti_secondarie,
+        len(positive),
+    )
     secondarie: list[Cluster] = []
     while len(secondarie) < posti_secondarie:
         progresso = False
@@ -384,7 +413,7 @@ def seleziona(
                 cluster=cluster,
                 copertina=False,
                 ordine=len(selezionate) + 1,
-                parole_target=int(preset.get("parole_buona_notizia", 100)),
+                parole_target=parole_buona,
                 blocco="buone-notizie",
                 categoria_origine=categorie_origine.get(id(cluster), ""),
             )
