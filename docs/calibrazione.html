@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>Calibrazione — Notiziario</title>
+<title>Calibrazione - Notiziario</title>
 <style>
   :root { --bg:#0f1318; --card:#181f27; --testo:#eef3f8; --tenue:#a8b5c2; --bordo:#2c3946; --accento:#7cc4ff; }
   * { box-sizing:border-box; }
@@ -26,7 +26,7 @@
   <p>Prima calibra il contenuto, poi personalizza l'interesse. Le risposte restano nel browser e si esportano alla fine di ogni pagina.</p>
   <a class="card" href="calibrazione-contenuto.html">
     <h2>1. Contenuto</h2>
-    <small>Categoria della notizia + flag PR/promozione.</small>
+    <small>Categorie (anche più di una), notiziabilità 1–5 e flag PR/promozione.</small>
     <div class="stato" id="stato-contenuto">0 risposte</div>
   </a>
   <a class="card" href="calibrazione-interesse.html">
@@ -43,7 +43,7 @@ function conta(chiave) {
     return dati && dati.risposte ? Object.keys(dati.risposte).length : 0;
   } catch (e) { return 0; }
 }
-document.getElementById("stato-contenuto").textContent = conta("notiziario.calibrazione.contenuto.v1") + " risposte";
+document.getElementById("stato-contenuto").textContent = conta("notiziario.calibrazione.contenuto.v2") + " risposte";
 document.getElementById("stato-interesse").textContent = conta("notiziario.calibrazione.interesse.v1") + " risposte";
 </script>
 </body>

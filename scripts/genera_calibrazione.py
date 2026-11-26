@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import html as html_lib
 import json
 import logging
 import random
@@ -43,6 +44,7 @@ CATEGORIE = [
     ("altro", "Altro"),
 ]
 INTERESSI = [("zero", "Zero"), ("poco", "Poco"), ("normale", "Normale"), ("tanto", "Tanto")]
+NOTIZIABILITA = [(str(i), str(i)) for i in range(1, 6)]
 
 
 def _fonti_uniche() -> list:
@@ -144,6 +146,17 @@ def _scegli_articoli(articoli: list) -> list:
     return scelti
 
 
+def _ripara_testo(testo: str) -> str:
+    """Ripara entità HTML e i casi più comuni di doppia codifica UTF-8."""
+    testo = html_lib.unescape(str(testo or ""))
+    if any(marcatore in testo for marcatore in ("\u00c3", "\u00e2\u20ac", "\u00c2")):
+        try:
+            testo = testo.encode("latin-1").decode("utf-8")
+        except (UnicodeEncodeError, UnicodeDecodeError):
+            pass
+    return testo
+
+
 def _articoli_json(articoli: list) -> list[dict]:
     risultato = []
     for indice, articolo in enumerate(articoli, start=1):
@@ -151,10 +164,10 @@ def _articoli_json(articoli: list) -> list[dict]:
         risultato.append(
             {
                 "id": f"a{indice}",
-                "titolo": articolo.titolo,
-                "fonte": articolo.fonte,
-                "categoria_base": articolo.categoria,
-                "sommario": sommario[:900],
+                "titolo": _ripara_testo(articolo.titolo),
+                "fonte": _ripara_testo(articolo.fonte),
+                "categoria_base": _ripara_testo(articolo.categoria),
+                "sommario": _ripara_testo(sommario[:900]),
                 "link": articolo.link,
                 "pubblicato": articolo.pubblicato.isoformat(),
             }
@@ -169,7 +182,7 @@ def _indice() -> str:
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>Calibrazione — Notiziario</title>
+<title>Calibrazione - Notiziario</title>
 <style>
   :root { --bg:#0f1318; --card:#181f27; --testo:#eef3f8; --tenue:#a8b5c2; --bordo:#2c3946; --accento:#7cc4ff; }
   * { box-sizing:border-box; }
@@ -191,7 +204,7 @@ def _indice() -> str:
   <p>Prima calibra il contenuto, poi personalizza l'interesse. Le risposte restano nel browser e si esportano alla fine di ogni pagina.</p>
   <a class="card" href="calibrazione-contenuto.html">
     <h2>1. Contenuto</h2>
-    <small>Categoria della notizia + flag PR/promozione.</small>
+    <small>Categorie (anche più di una), notiziabilità 1–5 e flag PR/promozione.</small>
     <div class="stato" id="stato-contenuto">0 risposte</div>
   </a>
   <a class="card" href="calibrazione-interesse.html">
@@ -208,7 +221,7 @@ function conta(chiave) {
     return dati && dati.risposte ? Object.keys(dati.risposte).length : 0;
   } catch (e) { return 0; }
 }
-document.getElementById("stato-contenuto").textContent = conta("notiziario.calibrazione.contenuto.v1") + " risposte";
+document.getElementById("stato-contenuto").textContent = conta("notiziario.calibrazione.contenuto.v2") + " risposte";
 document.getElementById("stato-interesse").textContent = conta("notiziario.calibrazione.interesse.v1") + " risposte";
 </script>
 </body>
@@ -220,6 +233,7 @@ def _html(articoli: list[dict], modo: str = "contenuto") -> str:
     dati = json.dumps(articoli, ensure_ascii=False)
     categorie = json.dumps(CATEGORIE, ensure_ascii=False)
     interessi = json.dumps(INTERESSI, ensure_ascii=False)
+    notiziabilita = json.dumps(NOTIZIABILITA, ensure_ascii=False)
     titolo_modo = "Contenuto" if modo == "contenuto" else "Interesse"
     return f"""<!doctype html>
 <html lang="it">
@@ -227,7 +241,7 @@ def _html(articoli: list[dict], modo: str = "contenuto") -> str:
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>Calibrazione {titolo_modo} — Notiziario</title>
+<title>Calibrazione {titolo_modo} - Notiziario</title>
 <style>
   :root {{
     --bg:#0f1318; --card:#181f27; --card2:#202a34; --testo:#eef3f8;
@@ -292,12 +306,18 @@ def _html(articoli: list[dict], modo: str = "contenuto") -> str:
 
   <section class="card" id="scheda">
     <div class="meta" id="meta"></div>
-    <h2 id="titolo">Caricamentoâ€¦</h2>
+    <h2 id="titolo">Caricamento...</h2>
     <div class="sommario" id="sommario"></div>
 
 <div class="sezione solo-contenuto">
-      <h3>Categoria</h3>
+      <h3>Categorie (puoi sceglierne più di una)</h3>
       <div class="opzioni" id="categorie"></div>
+    </div>
+
+    <div class="sezione solo-contenuto">
+      <h3>Notiziabilità (1 = non è una notizia, 5 = apertura)</h3>
+      <div class="opzioni meter" id="notiziabilita"></div>
+      <div class="nota" id="notiziabilita-label">Scegli un valore da 1 a 5.</div>
     </div>
 
     <div class="sezione interesse solo-interesse">
@@ -311,10 +331,10 @@ def _html(articoli: list[dict], modo: str = "contenuto") -> str:
     </div>
 
     <div class="azioni">
-      <button id="indietro" type="button">â† Indietro</button>
+      <button id="indietro" type="button">Indietro</button>
       <button id="salta" type="button">Salta</button>
       <span class="spazio"></span>
-      <button class="primario" id="avanti" type="button">Salva e avanti â†’</button>
+      <button class="primario" id="avanti" type="button">Salva e avanti</button>
     </div>
     <div class="nota" id="stato"></div>
   </section>
@@ -342,10 +362,11 @@ def _html(articoli: list[dict], modo: str = "contenuto") -> str:
 const ARTICOLI = {dati};
 const CATEGORIE = {categorie};
 const INTERESSI = {interessi};
+const NOTIZIABILITA = {notiziabilita};
 const PR = [["no", "No"], ["si", "Sì"]];
 const MODO = "{modo}";
 const CHIAVE = MODO === "contenuto"
-  ? "notiziario.calibrazione.contenuto.v1"
+  ? "notiziario.calibrazione.contenuto.v2"
   : "notiziario.calibrazione.interesse.v1";
 let stato = {{ indice: 0, risposte: {{}} }};
 try {{
@@ -359,6 +380,8 @@ const sommario = $("sommario");
 const meta = $("meta");
 const categorieEl = $("categorie");
 const interessiEl = $("interessi");
+const notiziabilitaEl = $("notiziabilita");
+const notiziabilitaLabel = $("notiziabilita-label");
 const prEl = $("pr");
 const avanti = $("avanti");
 const indietro = $("indietro");
@@ -390,12 +413,13 @@ function aggiornaRiepilogo() {{
 
 function creaBottoni(contenitore, voci, valore, suScelta) {{
   contenitore.replaceChildren();
+  const scelti = new Set(Array.isArray(valore) ? valore : (valore ? [valore] : []));
   for (const [id, label] of voci) {{
     const bottone = document.createElement("button");
     bottone.type = "button";
     bottone.textContent = label;
     bottone.dataset.valore = id;
-    if (valore === id) bottone.classList.add("scelto");
+    if (scelti.has(id)) bottone.classList.add("scelto");
     bottone.addEventListener("click", () => suScelta(id));
     contenitore.appendChild(bottone);
   }}
@@ -430,9 +454,17 @@ function mostra() {{
   }}
 
   function scegliCategoria(valore) {{
-    stato.risposte[articolo.id] = {{ ...risposta(articolo.id), categoria: valore }};
+    const attuali = new Set(
+      Array.isArray(risposta(articolo.id).categorie)
+        ? risposta(articolo.id).categorie
+        : []
+    );
+    if (attuali.has(valore)) attuali.delete(valore);
+    else attuali.add(valore);
+    const nuove = [...attuali];
+    stato.risposte[articolo.id] = {{ ...risposta(articolo.id), categorie: nuove }};
     salva();
-    creaBottoni(categorieEl, CATEGORIE, valore, scegliCategoria);
+    creaBottoni(categorieEl, CATEGORIE, nuove, scegliCategoria);
     aggiornaRiepilogo();
     aggiornaAvanti();
   }}
@@ -450,10 +482,39 @@ function mostra() {{
     aggiornaRiepilogo();
     aggiornaAvanti();
   }}
+  function aggiornaLabelNotiziabilita(valore) {{
+    const etichette = {{
+      1: "Non è una notizia",
+      2: "Bassa",
+      3: "Media",
+      4: "Alta",
+      5: "Da apertura",
+    }};
+    notiziabilitaLabel.textContent =
+      "Notiziabilita " + valore + "/5 - " + (etichette[valore] || "");
+  }}
+  function scegliNotiziabilita(valore) {{
+    const numero = Number(valore);
+    stato.risposte[articolo.id] = {{
+      ...risposta(articolo.id),
+      notiziabilita: numero,
+    }};
+    salva();
+    creaBottoni(notiziabilitaEl, NOTIZIABILITA, String(numero), scegliNotiziabilita);
+    aggiornaLabelNotiziabilita(numero);
+    aggiornaRiepilogo();
+    aggiornaAvanti();
+  }}
   const prScelto = r.pr === true ? "si" : r.pr === false ? "no" : undefined;
-  creaBottoni(categorieEl, CATEGORIE, r.categoria, scegliCategoria);
+  const categorieScelte = Array.isArray(r.categorie) ? r.categorie : [];
+  const notiziabilitaScelta =
+    typeof r.notiziabilita === "number" ? String(r.notiziabilita) : undefined;
+  creaBottoni(categorieEl, CATEGORIE, categorieScelte, scegliCategoria);
   creaBottoni(interessiEl, INTERESSI, r.interesse, scegliInteresse);
+  creaBottoni(notiziabilitaEl, NOTIZIABILITA, notiziabilitaScelta, scegliNotiziabilita);
   creaBottoni(prEl, PR, prScelto, scegliPr);
+  if (notiziabilitaScelta) aggiornaLabelNotiziabilita(Number(notiziabilitaScelta));
+  else notiziabilitaLabel.textContent = "Scegli un valore da 1 a 5.";
 
   statoEl.textContent = "";
   statoEl.className = "nota";
@@ -466,7 +527,9 @@ function aggiornaAvanti() {{
   const articolo = ARTICOLI[stato.indice];
   const r = risposta(articolo.id);
   avanti.disabled = MODO === "contenuto"
-    ? !(r.categoria && typeof r.pr === "boolean")
+    ? !(Array.isArray(r.categorie) && r.categorie.length > 0
+        && typeof r.pr === "boolean"
+        && typeof r.notiziabilita === "number")
     : !r.interesse;
 }}
 
@@ -489,24 +552,33 @@ function esportaJson() {{
     return {{
       id: a.id, titolo: a.titolo, fonte: a.fonte,
       categoria_base: a.categoria_base,
-      categoria: r.categoria || "", interesse: r.interesse || "",
+      categorie: Array.isArray(r.categorie) ? r.categorie : [],
+      notiziabilita: typeof r.notiziabilita === "number" ? r.notiziabilita : "",
+      interesse: r.interesse || "",
       pr: r.pr === true ? "si" : r.pr === false ? "no" : "",
       link: a.link, sommario: a.sommario
     }};
   }}).filter(r => MODO === "contenuto"
-    ? (r.categoria || typeof r.pr === "boolean")
+    ? ((Array.isArray(r.categorie) && r.categorie.length > 0)
+        || typeof r.pr === "boolean"
+        || typeof r.notiziabilita === "number")
     : r.interesse);
   const dati = {{ generato: new Date().toISOString(), modo: MODO, totale: ARTICOLI.length, risposte }};
   scarica("calibrazione-" + MODO + ".json", JSON.stringify(dati, null, 2), "application/json");
 }}
 
 function esportaCsv() {{
-  const righe = [["id","titolo","fonte","categoria_base","categoria","interesse","pr","link"]];
+  const righe = [["id","titolo","fonte","categoria_base","categorie","notiziabilita","interesse","pr","link"]];
   for (const a of ARTICOLI) {{
     const r = risposta(a.id);
     const pr = r.pr === true ? "si" : r.pr === false ? "no" : "";
-    if (MODO === "contenuto" ? (!r.categoria && !pr) : !r.interesse) continue;
-    righe.push([a.id, a.titolo, a.fonte, a.categoria_base, r.categoria || "", r.interesse || "", pr, a.link]);
+    const categorie = Array.isArray(r.categorie) ? r.categorie.join(";") : "";
+    const notiziabilita = typeof r.notiziabilita === "number" ? r.notiziabilita : "";
+    const valida = MODO === "contenuto"
+      ? (categorie || pr || notiziabilita !== "")
+      : !!r.interesse;
+    if (!valida) continue;
+    righe.push([a.id, a.titolo, a.fonte, a.categoria_base, categorie, notiziabilita, r.interesse || "", pr, a.link]);
   }}
   const csv = righe.map(riga => riga.map(v => '"' + String(v ?? "").replaceAll('"','""') + '"').join(",")).join("\\n");
   scarica("calibrazione-" + MODO + ".csv", csv, "text/csv");
@@ -527,8 +599,15 @@ $("copia").addEventListener("click", async () => {{
   const risposte = ARTICOLI.map(a => {{
     const r = risposta(a.id);
     const pr = r.pr === true ? "si" : r.pr === false ? "no" : "";
-    const valida = MODO === "contenuto" ? (r.categoria || pr) : r.interesse;
-    return valida ? {{ id:a.id, titolo:a.titolo, fonte:a.fonte, categoria:r.categoria||"", interesse:r.interesse||"", pr }} : null;
+    const categorie = Array.isArray(r.categorie) ? r.categorie : [];
+    const notiziabilita = typeof r.notiziabilita === "number" ? r.notiziabilita : "";
+    const valida = MODO === "contenuto"
+      ? (categorie.length > 0 || pr || notiziabilita !== "")
+      : r.interesse;
+    return valida ? {{
+      id:a.id, titolo:a.titolo, fonte:a.fonte,
+      categorie, notiziabilita, interesse:r.interesse||"", pr
+    }} : null;
   }}).filter(Boolean);
   await navigator.clipboard.writeText(JSON.stringify({{ risposte }}, null, 2));
   statoEl.textContent = "JSON copiato negli appunti.";
