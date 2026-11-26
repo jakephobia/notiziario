@@ -11,6 +11,7 @@ from dataclasses import dataclass
 from .clustering import Cluster
 from .copione import LlmError, _chiama_gemini, _estrai_json, _redigi
 from .categorie import label_categoria
+from .testi import e_promozionale
 
 
 # Parole che rendono un titolo inadatto al blocco, anche se l'AI sbagliasse.
@@ -20,9 +21,8 @@ _NEGATIVI = re.compile(
     r"catastrofe|alluvione|terremoto|incendio|violenza|stupro|arrestat[oaie]|"
     r"indagat[oaie]|condannat[oaie]|crisi|fallimento|fallita|disastro|"
     r"emergenza|allerta|vittime|ferit[oaie]|sfratt|licenziam|disoccupazione|"
-    r"povertà|carestia|epidemia|pandemia|contagi|prognosi|abusi|corruzione|"
-    r"scandalo|protesta|scontro|tensione|minaccia|pericolo|inquinamento|"
-    r"siccità|carestia"
+    r"carestia|epidemia|pandemia|contagi|prognosi|abusi|corruzione|"
+    r"scandalo|protesta|scontro|tensione|minaccia|pericolo|inquinamento"
     r")\b",
     re.IGNORECASE,
 )
@@ -34,14 +34,58 @@ _NON_POSITIVE = re.compile(
     re.IGNORECASE,
 )
 
+_IMPORTANZA = re.compile(
+    r"\b(?:"
+    r"scopert\w*|stud(?:io|i)\b|ricerc\w*|terapi\w*|cur[ae]\b|vaccin\w*|"
+    r"farmac\w*|trapiant\w*|genetic\w*|malatti\w*|tumor\w*|alzheimer|"
+    r"parkinson|hiv|malaria|tubercolosi|epatite|diabete|obesit\w*|"
+    r"prevenzion\w*|diagnos\w*|screening|sopravvivenza|salva\w*|"
+    r"povert\w*|istruzion\w*|alfabetizz\w*|scuol\w*|bambin\w*|donne|"
+    r"diritt\w*|parit\w*|rinnovabil\w*|solar\w*|eolic\w*|energia|"
+    r"emission\w*|clima\w*|carbon\w*|ricicl\w*|rifiut\w*|acqua|potabile|"
+    r"siccit\w*|specie|biodivers\w*|conservazion\w*|forest\w*|alber\w*|"
+    r"ocean\w*|estinzion\w*|reintrod\w*|rifug\w*|pace|accord\w*|"
+    r"trattat\w*|legge|riform\w*|access\w*|inclus\w*|disabilit\w*|"
+    r"protes\w*|nobel|oms|onu|banca mondiale|eurostat|istat|iea|"
+    r"nature|science|lancet|nejm|riduc\w*|riduzion\w*|aument\w*|"
+    r"cresc\w*|calo\b|miglior\w*"
+    r")\b",
+    re.IGNORECASE,
+)
+
+_SCALA = re.compile(
+    r"(?:\b\d[\d.,]*\b|\bmilioni?\b|\bmiliardi?\b|\bpercent\w*\b|%|"
+    r"\bpaesi\b|\bnazionale\b|\bglobale\b|\bmondiale\b|\beurope\w*\b|"
+    r"\binternazionale\b|\bminimi storici\b|\bdimezzat\w*\b|\brecord\b)",
+    re.IGNORECASE,
+)
+
+_LOCALE = re.compile(
+    r"\b(?:quartiere|parco|ragazzi|studenti|volontari|raccolta fondi|"
+    r"iniziativa|festa|concerto|mostra d'arte|mostra fotografica|"
+    r"sport|squadra|partita|influencer|gossip|ville|vacanza|masseria|"
+    r"startup|assum\w*|centro commerciale|gadget|offerta|sconto|"
+    r"record di visualizzazioni|evento locale|evento di quartiere|"
+    r"evento benefico)\b",
+    re.IGNORECASE,
+)
+
+_ISTITUZIONI = re.compile(
+    r"\b(?:oms|onu|unicef|unesco|ue|commissione europea|banca mondiale|"
+    r"eurostat|istat|iea|ocse|fao|nobel|nature|science|lancet|nejm)\b",
+    re.IGNORECASE,
+)
+
 _SYSTEM = (
     "Sei un selettore editoriale di buone notizie italiane. Scegli solo "
-    "notizie con esito positivo o incoraggiante: scoperte, progressi concreti, "
-    "soluzioni, comunità, diritti, ambiente che migliora. Escludi cronaca nera, "
+    "notizie di rilievo nazionale o globale: scoperte scientifiche/mediche, "
+    "studi clinici, statistiche positive su povertà, salute o istruzione, "
+    "progressi ambientali, conservazione, diritti. Escludi cronaca nera, "
     "tragedie, guerre, catastrofi, politica conflittuale e notizie costruite "
-    "sul conteggio delle vittime. Escludi curiosità, costume, gossip, acquisti "
-    "immobiliari, ville, vacanze e storie su CEO senza impatto positivo "
-    "concreto e verificabile. Non inventare nulla. Rispondi solo con JSON."
+    "sul conteggio delle vittime. Escludi storie di quartiere, volontariato "
+    "locale, iniziative di ragazzi, PR, prodotti, offerte, anniversari, "
+    "autopromozione, gossip, sport, spettacolo, record di visualizzazioni, "
+    "assunzioni e startup. Non inventare nulla. Rispondi solo con JSON."
 )
 
 
@@ -52,6 +96,7 @@ class EsitoBuoneNotizie:
     motivo: str
     candidati: int = 0
     scartate_negative: int = 0
+    scartate_poco_rilevanti: int = 0
 
 
 def titolo_negativo(titolo: str) -> bool:
@@ -60,6 +105,38 @@ def titolo_negativo(titolo: str) -> bool:
 def non_positiva(cluster: Cluster) -> bool:
     testo = f"{cluster.titolo} {cluster.sommario}"
     return titolo_negativo(cluster.titolo) or bool(_NON_POSITIVE.search(testo))
+
+
+def buona_notizia_importante(cluster: Cluster) -> bool:
+    """Vero solo per notizie positive di rilievo, non storie locali o PR."""
+    testo = f"{cluster.titolo} {cluster.sommario}"
+    if non_positiva(cluster):
+        return False
+    articolo = cluster.ordina_articoli()[0] if cluster.articoli else None
+    if articolo is not None and e_promozionale(
+        cluster.titolo,
+        cluster.sommario,
+        "",
+        articolo.fonte,
+        articolo.link,
+    ):
+        return False
+
+    importanza = {
+        trovato.group(0).casefold()
+        for trovato in _IMPORTANZA.finditer(testo)
+    }
+    scala = bool(_SCALA.search(testo))
+    locale = bool(_LOCALE.search(testo))
+    istituzione = bool(_ISTITUZIONI.search(testo))
+
+    if locale and not scala and not istituzione:
+        return False
+    if not importanza:
+        return False
+    if len(importanza) >= 2:
+        return True
+    return scala
 
 
 def _prompt(candidati: list[Cluster]) -> str:
@@ -106,9 +183,13 @@ def filtra_buone_notizie(
     dedicate: list[Cluster] = []
     generaliste: list[Cluster] = []
     scartate = 0
+    poco_rilevanti = 0
     for cluster in clusters:
         if non_positiva(cluster):
             scartate += 1
+            continue
+        if not buona_notizia_importante(cluster):
+            poco_rilevanti += 1
             continue
         if cluster.categoria == "buone-notizie":
             dedicate.append(cluster)
@@ -125,13 +206,19 @@ def filtra_buone_notizie(
             if dedicate
             else "nessuna notizia positiva nei feed dedicati"
         )
-        logger.info("Buone notizie: %s; %d scartate per titolo negativo.", motivo, scartate)
+        logger.info(
+            "Buone notizie: %s; %d negative, %d poco rilevanti.",
+            motivo,
+            scartate,
+            poco_rilevanti,
+        )
         return EsitoBuoneNotizie(
             notizie=dedicate[:3],
             usato_ai=False,
             motivo=motivo,
             candidati=len(dedicate),
             scartate_negative=scartate,
+            scartate_poco_rilevanti=poco_rilevanti,
         )
 
     massimo = int(impostazioni.get("buone_notizie", {}).get("max_candidati", 30))
@@ -142,6 +229,7 @@ def filtra_buone_notizie(
             usato_ai=True,
             motivo="nessun candidato positivo",
             scartate_negative=scartate,
+            scartate_poco_rilevanti=poco_rilevanti,
         )
     try:
         primario = str(impostazioni["llm"]["modello"])
@@ -180,7 +268,7 @@ def filtra_buone_notizie(
             if not isinstance(indice, int) or not 0 <= indice < len(pool):
                 continue
             cluster = pool[indice]
-            if non_positiva(cluster):
+            if not buona_notizia_importante(cluster):
                 continue
             if cluster.id not in {c.id for c in scelte}:
                 scelte.append(cluster)
@@ -192,6 +280,7 @@ def filtra_buone_notizie(
             motivo=motivo,
             candidati=len(pool),
             scartate_negative=scartate,
+            scartate_poco_rilevanti=poco_rilevanti,
         )
     except Exception as exc:
         motivo = f"filtro AI non riuscito ({_redigi(exc)}); uso i feed dedicati"
@@ -202,4 +291,5 @@ def filtra_buone_notizie(
             motivo=motivo,
             candidati=len(dedicate),
             scartate_negative=scartate,
+            scartate_poco_rilevanti=poco_rilevanti,
         )
