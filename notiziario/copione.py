@@ -519,9 +519,9 @@ def _lunghezza_ai_adeguata(
 ) -> bool:
     """Un copione AI troppo corto non è accettabile: riprova o usa il fallback."""
     materiale = _materiale_caratteri(selezioni)
+    if materiale < 800:
+        return True
     minimo = max(150, int(target * 0.7))
-    if materiale < 1500:
-        minimo = min(minimo, 200)
     return conta_parole(copione["testo"]) >= minimo
 
 
