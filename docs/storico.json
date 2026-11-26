@@ -2,13 +2,13 @@
   "episodi": [
     {
       "data": "2026-11-26",
-      "titolo": "Notiziario di giovedì 26 novembre 2026",
-      "descrizione": "Le notizie del 26 novembre 2026: Stefano Barigelli nuovo direttore del Corriere della Sera, la scelta dalla Gazzetta dello Sport. Luciano Fontana lascia dopo 11 anni; Cellule di 80 anni tornano giovani come a 20, svolta nella ricerca sulla longevità; “La Terra chiamò”: il 5 dicembre a Roma una...",
+      "titolo": "Notiziario del 26 novembre 2026",
+      "descrizione": "Le notizie principali di giovedì 26 novembre 2026, con approfondimenti sulla politica europea, le nuove regolamentazioni sull'intelligenza artificiale, le tensioni internazionali e gli sviluppi scientifici.",
       "filename": "notiziario-2026-11-26.mp3",
-      "descrizione_breve": "26 novembre 2026 - Stefano Barigelli nuovo direttore del Corriere, Cellule di 80 anni tornano giovani, La Terra chiamò, Caccia il ddl sparatutto arriva, La rabbia arriva dall'oceano.",
-      "durata_secondi": 713.526757,
-      "dimensione": 11417434,
-      "modalita": "fallback",
+      "descrizione_breve": "26 novembre 2026 - Caccia la Commissione Ue della Camera, Caccia il ddl sparatutto arriva, Cellule di 80 anni tornano giovani, La Terra chiamò, Tariffe di rete.",
+      "durata_secondi": 643.546281,
+      "dimensione": 10297721,
+      "modalita": "llm",
       "categorie": [
         "italia",
         "mondo",
@@ -21,7 +21,7 @@
       "voce_label": "Kore - femminile, calda (Google Chirp 3 HD)",
       "velocita": 1.1,
       "tts_motore": "google",
-      "pubblicato": "2026-11-26T17:25:46.112256+00:00",
+      "pubblicato": "2026-11-26T17:36:54.395001+00:00",
       "guid": "notiziario-2026-11-26"
     },
     {

@@ -5,7 +5,7 @@
     <link>https://jakephobia.github.io/notiziario/</link>
     <description>Le notizie del giorno scelte da Jacopo, lette in italiano. Un riassunto quotidiano delle notizie italiane e internazionali.</description>
     <language>it-it</language>
-    <lastBuildDate>Thu, 26 Nov 2026 17:25:46 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 26 Nov 2026 17:36:54 +0000</lastBuildDate>
     <itunes:author>Notiziario</itunes:author>
     <itunes:explicit>false</itunes:explicit>
     <itunes:summary>Le notizie del giorno scelte da Jacopo, lette in italiano. Un riassunto quotidiano delle notizie italiane e internazionali.</itunes:summary>
@@ -16,22 +16,22 @@
     </image>
     <itunes:image href="https://jakephobia.github.io/notiziario/copertina.png" />
     <notiziario:categorie>Italia, Mondo, Tecnologia, Scienza e salute, Ambiente, Buone notizie</notiziario:categorie>
-    <notiziario:modalita>fallback</notiziario:modalita>
+    <notiziario:modalita>llm</notiziario:modalita>
     <notiziario:voce>it-IT-Chirp3-HD-Kore</notiziario:voce>
     <notiziario:voce_label>Kore - femminile, calda (Google Chirp 3 HD)</notiziario:voce_label>
     <notiziario:velocita>1.1</notiziario:velocita>
     <notiziario:tts_motore>google</notiziario:tts_motore>
     <item>
-      <title>Notiziario di giovedì 26 novembre 2026</title>
-      <description>26 novembre 2026 - Stefano Barigelli nuovo direttore del Corriere, Cellule di 80 anni tornano giovani, La Terra chiamò, Caccia il ddl sparatutto arriva, La rabbia arriva dall'oceano.</description>
-      <pubDate>Thu, 26 Nov 2026 17:25:46 +0000</pubDate>
+      <title>Notiziario del 26 novembre 2026</title>
+      <description>26 novembre 2026 - Caccia la Commissione Ue della Camera, Caccia il ddl sparatutto arriva, Cellule di 80 anni tornano giovani, La Terra chiamò, Tariffe di rete.</description>
+      <pubDate>Thu, 26 Nov 2026 17:36:54 +0000</pubDate>
       <guid isPermaLink="false">notiziario-2026-11-26</guid>
-      <enclosure url="https://github.com/jakephobia/notiziario/releases/download/episodio-2026-11-26/notiziario-2026-11-26.mp3" length="11417434" type="audio/mpeg" />
-      <itunes:duration>00:11:54</itunes:duration>
-      <itunes:summary>26 novembre 2026 - Stefano Barigelli nuovo direttore del Corriere, Cellule di 80 anni tornano giovani, La Terra chiamò, Caccia il ddl sparatutto arriva, La rabbia arriva dall'oceano.</itunes:summary>
+      <enclosure url="https://github.com/jakephobia/notiziario/releases/download/episodio-2026-11-26/notiziario-2026-11-26.mp3" length="10297721" type="audio/mpeg" />
+      <itunes:duration>00:10:44</itunes:duration>
+      <itunes:summary>26 novembre 2026 - Caccia la Commissione Ue della Camera, Caccia il ddl sparatutto arriva, Cellule di 80 anni tornano giovani, La Terra chiamò, Tariffe di rete.</itunes:summary>
       <itunes:explicit>false</itunes:explicit>
       <itunes:image href="https://jakephobia.github.io/notiziario/copertina.png" />
-      <notiziario:modalita>fallback</notiziario:modalita>
+      <notiziario:modalita>llm</notiziario:modalita>
       <notiziario:voce>it-IT-Chirp3-HD-Kore</notiziario:voce>
       <notiziario:voce_label>Kore - femminile, calda (Google Chirp 3 HD)</notiziario:voce_label>
       <notiziario:velocita>1.1</notiziario:velocita>

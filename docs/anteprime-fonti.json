@@ -1,5 +1,5 @@
 {
-  "generato": "2026-11-26T17:25:46+00:00",
+  "generato": "2026-11-26T17:36:54+00:00",
   "fonti": {
     "https://www.ansa.it/sito/notizie/topnews/topnews_rss.xml": {
       "nome": "ANSA",
@@ -44,6 +44,18 @@
       "attivo": true,
       "articoli": [
         {
+          "titolo": "La Cassazione respinge il ricorso del carcere, Cospito può comprare libri e cd",
+          "sommario": "Il reclamo dell'istituto di Sassari è stato inviato a due indirizzi pec sbagliati",
+          "link": "https://www.ansa.it/sito/notizie/cronaca/2026/11/26/la-cassazione-respinge-il-ricorso-del-carcere-cospito-puo-comprare-libri-e-cd_4b216736-4ea3-4112-94a1-4e275751351b.html",
+          "pubblicato": "2026-11-26T17:11:50+00:00"
+        },
+        {
+          "titolo": "Famiglia De Gennaro, rendere pubblica integralmente la sua lettera aperta",
+          "sommario": "'Non divulgate quelle destinate ai familiari'",
+          "link": "https://www.ansa.it/sito/notizie/cronaca/2026/11/26/famiglia-de-gennaro-rendere-pubblica-integralmente-la-sua-lettera-aperta_b1ff977b-3066-48d3-b6d6-ab4dd64197bf.html",
+          "pubblicato": "2026-11-26T17:09:28+00:00"
+        },
+        {
           "titolo": "La lettera di De Gennaro sul Corriere: 'Io, condannato a morte'. Meloni: 'Fare chiarezza, vicenda che mi ha scioccato'",
           "sommario": "'Questo è il mio testamento morale. Non ho mai chiesto nulla per me'. La famiglia ne chiede la pubblicazione integrale. Il presidente della Repubblica Mattarella parteciperà ai funerali",
           "link": "https://www.ansa.it/sito/notizie/cronaca/2026/11/26/la-lettera-di-de-gennaro-sul-corriere-io-condannato-a-morte_8d506c3b-6d62-4d78-a4a7-2c6bed64af4a.html",
@@ -60,18 +72,6 @@
           "sommario": "Rinvio chiesto da legali per l'enorme mole di atti depositati",
           "link": "https://www.ansa.it/sito/notizie/cronaca/2026/11/26/rinviata-al-17-dicembre-ludienza-del-riesame-per-i-coindagati-di-de-gennaro_d160294a-e780-4474-86dd-77c75c629c15.html",
           "pubblicato": "2026-11-26T15:49:58+00:00"
-        },
-        {
-          "titolo": "Crolla solaio in sede universitaria Bari, nessun ferito, struttura evacuata",
-          "sommario": "Nella palazzina 'Vecchi Istituti Biologici' del Campus, lezioni sospese",
-          "link": "https://www.ansa.it/sito/notizie/cronaca/2026/11/26/crolla-solaio-in-sede-universitaria-bari-nessun-ferito-struttura-evacuata_74a8a1d6-8ef5-4b11-848c-8ead7fa29903.html",
-          "pubblicato": "2026-11-26T15:14:51+00:00"
-        },
-        {
-          "titolo": "Uccide la compagna poi si getta dal viadotto, lo stesso cavalcavia di Lorena Isceri",
-          "sommario": "Il femminicidio è avvenuto nel Pistoiese. La vittima aveva 24 anni. L'allarme è stato dato dallo stesso omicida",
-          "link": "https://www.ansa.it/sito/notizie/cronaca/2026/11/26/uccide-compagna-poi-si-getta-dal-viadotto-lo-stesso-cavalcavia-di-lorena-isceri_6f905f2b-8704-4a58-90da-00838cbf4689.html",
-          "pubblicato": "2026-11-26T15:04:03+00:00"
         }
       ]
     },
@@ -176,7 +176,7 @@
           "titolo": "De Gennaro, Meloni: “No ai giochi delle tifoserie”. Mattarella parteciperà ai funerali",
           "sommario": "Confermata la presenza del capo dello Stato alle esequie. La premier per la prima volta si sofferma sulla morte dell’ex capo della polizia: “Scioccata. I funerali? Non so ancora se andrò – fa sapere – ci sarà Mantovano”",
           "link": "https://www.repubblica.it/politica/2026/11/26/news/meloni_de_gennaro_procure_mantovano_funerale-425751775/?rss",
-          "pubblicato": "2026-11-26T15:36:19+00:00"
+          "pubblicato": "2026-11-26T17:24:50+00:00"
         },
         {
           "titolo": "Meloni avverte sul bilancio Ue: “Così non firmo”. E a Zelensky: non allarghi guerra al Mediterraneo",
@@ -213,7 +213,7 @@
           "titolo": "Attacco con droni in Kuwait, chi sono i due tecnici italiani rimasti uccisi",
           "sommario": "Antonio Saccoccio e Emanuele Lo Russo erano due tecnici esperti della fabbrica Rheinmetall. Abituati alle trasferte, erano in missione per un’operazione di manutenzione. La Fiom chiede il rientro di tutti i lavoratori impiegati in zone di guerra",
           "link": "https://www.repubblica.it/cronaca/2026/11/26/news/attacco_con_droni_kuwait_chi_sono_tecnici_italiani_uccisi-425752764/?rss",
-          "pubblicato": "2026-11-26T17:01:28+00:00"
+          "pubblicato": "2026-11-26T17:27:28+00:00"
         },
         {
           "titolo": "In edicola la guida di Repubblica \"Teatro Italia. Musica e prosa, le scene delle meraviglie\"",
@@ -250,7 +250,7 @@
           "titolo": "Attacco in Kuwait: morti Saccoccio e Lo Russo, tecnici italiani della Rheinmetall. Tajani accusa l’Iran, ma Teheran nega",
           "sommario": "Le vittime, di 65 e 36 anni, erano impegnate nella manutenzione dei sistemi antidrone Skyguard. Il cordoglio di Meloni. Il ministro degli Esteri: “Ci lamenteremo con Teheran, invitiamo tutti alla prudenza”.",
           "link": "https://www.repubblica.it/esteri/2026/11/26/news/attacco_iraniano_in_kuwait_due_italiani_feriti_gravi_condizioni-425752146/?rss",
-          "pubblicato": "2026-11-26T17:06:18+00:00"
+          "pubblicato": "2026-11-26T17:16:40+00:00"
         },
         {
           "titolo": "Francia, Depardieu rinviato a giudizio per lo stupro dell’attrice Charlotte Arnould",
@@ -411,12 +411,6 @@
           "sommario": "In cui si difende dalle accuse senza fare grandi rivelazioni: l'ha pubblicato il Corriere della Sera",
           "link": "https://www.ilpost.it/2026/11/26/de-gennaro-lettera/",
           "pubblicato": "2026-11-26T06:33:34+00:00"
-        },
-        {
-          "titolo": "L’ong Sea-Watch dice che la sua portavoce in Italia è stata spiata con uno spyware sul cellulare",
-          "sommario": "",
-          "link": "https://www.ilpost.it/2026/11/25/sea-watch-spyware-paragon/",
-          "pubblicato": "2026-11-25T17:27:34+00:00"
         }
       ]
     },
@@ -679,6 +673,12 @@
       "attivo": true,
       "articoli": [
         {
+          "titolo": "Cliff Booth, il film di David Fincher riapre il dibattito sull’AI",
+          "sommario": "Le prime proiezioni di Le nuove disavventure di Cliff Booth hanno acceso una discussione sull’ eventuale uso dell’intelligenza artificiale generativa nel film di David Fincher, sfociate in alcuni caso in polemica.",
+          "link": "https://www.hdblog.it/altadefinizione/articoli/n678285/cliff-booth-david-fincher-dibattito-intelligenza-artificiale-netflix/",
+          "pubblicato": "2026-11-26T16:25:00+00:00"
+        },
+        {
           "titolo": "Su Windows 11 Pro si può sbloccare un PC virtuale segreto",
           "sommario": "Gli utenti di Windows 11 Pro hanno a disposizione uno strumento poco conosciuto, ma molto utile quando si tratta di testare programmi scaricati da Internet.",
           "link": "https://www.hdblog.it/hardware/articoli/n678405/windows-11-pro-pc-virtuale-segreto-sandbox/",
@@ -701,12 +701,6 @@
           "sommario": "A dicembre 2026 su Paramount+ arrivano Frisco King, con Samuel L. Jackson nei panni di un gangster che si trasferisce in Texas, e Knockout – Botte da comici, il torneo di comicità condotto da Diletta Leotta e Costantino della Gherardesca.",
           "link": "https://www.hdblog.it/altadefinizione/guide/n678255/paramount-plus-novita-dicembre-2026/",
           "pubblicato": "2026-11-26T15:55:00+00:00"
-        },
-        {
-          "titolo": "Citizen Attesa Ever Since, titanio e fasi lunari per 2.400 esemplari",
-          "sommario": "Il Citizen Attesa Ever Since è in vendita negli Stati Uniti dopo il lancio in Giappone, e vi diciamo subito che il nostro paese potrebbe dover attendere. Ma il modello è davvero interessante, ecco perché ne vogliamo parlare in attesa del suo arrivo.",
-          "link": "https://www.hdblog.it/indossabili/articoli/n678325/citizen-attesa-ever-since-by1000-69l-titanio-fasi-lunari/",
-          "pubblicato": "2026-11-26T15:45:00+00:00"
         }
       ]
     },
@@ -790,6 +784,18 @@
       "attivo": true,
       "articoli": [
         {
+          "titolo": "Crolla una tenda del liceo, due studenti feriti. Gli alunni si riuniscono in assemblea e la preside minaccia di sanzionarli. Un genitore: “Si rifugia dietro la burocrazia”",
+          "sommario": "Da anni denunciano le condizioni fatiscenti della scuola, tra problemi strutturali, aule piccole e sovraffollate e manutenzione carente. Nella mattinata di mercoledì 25 novembre, al liceo Plinio Seniore di Roma, l’ultimo episodio.",
+          "link": "https://www.ilfattoquotidiano.it/2026/11/26/crollo-scuola-plinio-seniore-roma-notizie/8584567/",
+          "pubblicato": "2026-11-26T17:26:07+00:00"
+        },
+        {
+          "titolo": "Francesco Cavazza, il pugile sinto con il gancio sinistro da KO: “Ho casa ma dormo in giardino nella roulotte, preferisco così. Lavoro in macelleria e mi alleno la sera, voglio combattere in America”",
+          "sommario": "L’ultimo match, il terzo da professionista, è durato pochissimo. Neanche il tempo di sedersi a bordo ring che Francesco Cavazza con un gancio sinistro aveva steso l’avversario. Al momento il record del 24enne recita tre vittorie su altrettanti incontri.",
+          "link": "https://www.ilfattoquotidiano.it/2026/11/26/francesco-cavazza-pugile-sinto-verona-intervista-dormo-giardino-roulotte-lavoro-macelleria-sogno-america/8584903/",
+          "pubblicato": "2026-11-26T17:18:53+00:00"
+        },
+        {
           "titolo": "Roma, travolge la folla con un Suv dopo una lite per un parcheggio. Tre feriti e diverse auto distrutte",
           "sommario": "Una lite per un parcheggio si è trasformata in un’ aggressione nella zona di Ponte Milvio, a Roma. Il protagonista è un uomo di 35 anni che, al volante di un Range Rover, ha prima danneggiato diverse auto in sosta e poi investito alcune persone.",
           "link": "https://www.ilfattoquotidiano.it/2026/11/26/roma-travolge-la-folla-con-un-suv-dopo-una-lite-per-un-parcheggio-tre-feriti-e-diverse-auto-distrutte/8584650/",
@@ -806,18 +812,6 @@
           "sommario": "Un insulto sessista contro la sindaca di Genova Silvia Salis, scritto con spray bianco su un portone privato, è comparso nella notte tra il 24 e il 25 novembre, Giornata internazionale contro la violenza sulle donne in via V Maggio, nel quartiere di Quarto, a.",
           "link": "https://www.ilfattoquotidiano.it/2026/11/26/scritta-sessista-silvia-salis-genova-notizie/8584742/",
           "pubblicato": "2026-11-26T16:53:51+00:00"
-        },
-        {
-          "titolo": "Il presidente Mattarella parteciperà lunedì ai funerali di De Gennaro. Meloni: “Non so se andrò, ma ci sarà Mantovano”",
-          "sommario": "Il presidente della Repubblica Sergio Mattarella parteciperà ai funerali di Gianni De Gennaro previsti per lunedì prossi nella basilica di Santa Maria degli Angeli a Roma.",
-          "link": "https://www.ilfattoquotidiano.it/2026/11/26/funerali-de-gennaro-mattarella-meloni-notizie/8584834/",
-          "pubblicato": "2026-11-26T16:43:20+00:00"
-        },
-        {
-          "titolo": "Ci sono serie tv che pretendono di spiegare pagine tragiche di storia, ma sembrano solo sciatte operazioni di marketing",
-          "sommario": "di Ilaria Muggianu Scano Non troppo tempo fa tutte le comunità italiane rivendicavano il proprio santo, beato o venerabile.",
-          "link": "https://www.ilfattoquotidiano.it/2026/11/26/177-giorni-farouk-kassam-serie-sardegna-sciatta-marketing-commento/8584822/",
-          "pubblicato": "2026-11-26T16:35:32+00:00"
         }
       ]
     },
@@ -1163,16 +1157,16 @@
       "attivo": true,
       "articoli": [
         {
+          "titolo": "Dallo Skyguard ai Patriot, come si difende il Kuwait",
+          "sommario": "AGI - Cannoni antiaerei e missili a corto raggio per proteggere singole installazioni, Patriot per la difesa a più lunga distanza e n uovi sistemi Nasams per la fascia intermedia. La difesa aerea del Kuwait si articola su più livelli.",
+          "link": "https://www.agi.it/estero/news/2026-11-26/kuwait-iran-italiani-rheinmetall-40205321/",
+          "pubblicato": "2026-11-26T17:22:23+00:00"
+        },
+        {
           "titolo": "Kuwait: uccisi due tecnici italiani in un attacco di \"droni dall'Iran\"",
           "sommario": "AGI - Due tecnici italiani sono rimasti uccisi in un attacco di droni iraniani sul Kuwait. Lo ha confermato il vicepremier e ministro degli Esteri, Antonio Tajani.",
           "link": "https://www.agi.it/estero/news/2026-11-26/iran-kuwait-italiani-morti-40202166/",
           "pubblicato": "2026-11-26T17:07:17+00:00"
-        },
-        {
-          "titolo": "Dallo Skyguard ai Patriot, come si difende il Kuwait",
-          "sommario": "AGI - Cannoni antiaerei e missili a corto raggio per proteggere singole installazioni, Patriot per la difesa a più lunga distanza e n uovi sistemi Nasams per la fascia intermedia. La difesa aerea del Kuwait si articola su più livelli.",
-          "link": "https://www.agi.it/estero/news/2026-11-26/kuwait-iran-italiani-rheinmetall-40205321/",
-          "pubblicato": "2026-11-26T16:45:10+00:00"
         },
         {
           "titolo": "Petroliera capovolta a Ibiza, chiazza oleosa di quasi 5 km in mare: \"Serbatoi intatti\"",
@@ -1329,7 +1323,38 @@
       "nome": "Eunews",
       "url": "https://www.eunews.it/feed/",
       "attivo": true,
-      "articoli": []
+      "articoli": [
+        {
+          "titolo": "Tariffe di rete: principio di sussidiarietà e indipendenza delle autorità di regolazione dell’energia",
+          "sommario": "La Commissione ha proposto di modificare l’articolo 18 del regolamento 2019/943 sulle tariffe di rete e il dialogo tra le istituzioni è avviato.",
+          "link": "https://www.eunews.it/2026/11/26/tariffe-di-rete-principio-di-sussidiarieta-e-indipendenza-delle-autorita-di-regolazione-dellenergia/",
+          "pubblicato": "2026-11-26T16:30:21+00:00"
+        },
+        {
+          "titolo": "Corrado (PD) plaude all’UE: “Bene il suo no al documento finale della COP31”",
+          "sommario": "Bruxelles – “Prepararci agli eventi meteorologici estremi senza smettere di bruciare combustibili fossili è come curare una ferita mentre ti stanno ancora pugnalando”.",
+          "link": "https://www.eunews.it/2026/11/26/corrado-pd-plaude-allue-bene-il-suo-no-al-documento-finale-della-cop31/",
+          "pubblicato": "2026-11-26T16:05:08+00:00"
+        },
+        {
+          "titolo": "Bilancio UE, l’allarme di Confagricoltura: senza un’agricoltura forte non c’è futuro per l’Europa",
+          "sommario": "Bruxelles – La difesa dell’Unione passa da un’agricoltura forte e quindi da un adeguato stanziamento di risorse per il settore primario.",
+          "link": "https://www.eunews.it/2026/11/26/bilancio-ue-lallarme-di-confagricoltura-senza-unagricoltura-forte-non-ce-futuro-per-leuropa/",
+          "pubblicato": "2026-11-26T15:51:10+00:00"
+        },
+        {
+          "titolo": "Coldiretti protesta contro i tagli di Costa al bilancio UE. Prandini: “Non si creino agricolture di serie A e di serie B”",
+          "sommario": "Bruxelles – I tagli al Quadro finanziario pluriennale europeo 2028-2034 proposti dal presidente del Consiglio europeo, António Costa, non piacciono a nessuno.",
+          "link": "https://www.eunews.it/2026/11/26/coldiretti-protesta-contro-i-tagli-di-costa-al-bilancio-ue-prandini-non-si-creino-agricolture-di-serie-a-e-di-serie-b/",
+          "pubblicato": "2026-11-26T15:00:45+00:00"
+        },
+        {
+          "titolo": "BCE, la presidenza alla Spagna. I leader definiscono subito il post-Lagarde",
+          "sommario": "Bruxelles – La presidenza della Banca centrale europea andrà alla Spagna.",
+          "link": "https://www.eunews.it/2026/11/26/bce-spagna-leader-post-lagarde/",
+          "pubblicato": "2026-11-26T13:31:28+00:00"
+        }
+      ]
     },
     "https://voxeurop.eu/it/feed/": {
       "nome": "Voxeurop",
