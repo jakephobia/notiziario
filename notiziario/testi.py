@@ -726,11 +726,211 @@ def _migliaia(match: re.Match[str]) -> str:
     return match.group(0).replace(".", "")
 
 
+# --- Regole di lettura per orari, temperature, unità, numeri e valute. ---
+# Ogni regola lavora su una forma ancora "grezza": gli orari vanno risolti
+# prima della virgola decimale e dei simboli, le date prima dei trattini.
+
+_ORA_COLON_RE = re.compile(r"\b(\d{1,2}):([0-5]\d)\b")
+
+# "8.30" è un orario solo con un contesto esplicito: "alle 8.30", "ore 8.30",
+# oppure "8.30 di mattina". Senza contesto resta un decimale.
+_ORA_PUNTO_RE = re.compile(
+    r"(?P<prima>(?:\b(?:ore|alle|dalle|verso\s+le|intorno\s+alle|"
+    r"entro\s+le|fino\s+alle)\s+)?)"
+    r"(?P<ora>\d{1,2})\.(?P<minuti>[0-5]\d)\b"
+    r"(?P<dopo>(?:\s+(?:di\s+mattina|del\s+mattino|di\s+sera|"
+    r"del\s+pomeriggio|di\s+notte))?)",
+    re.IGNORECASE,
+)
+
+
+def _converti_ora_colon(match: re.Match[str]) -> str:
+    ora, minuti = int(match.group(1)), int(match.group(2))
+    if not 0 <= ora <= 23:
+        return match.group(0)
+    return f"{ora} e {minuti}"
+
+
+def _converti_ora_punto(match: re.Match[str]) -> str:
+    prima = match.group("prima") or ""
+    dopo = match.group("dopo") or ""
+    if not prima and not dopo:
+        return match.group(0)
+    ora = int(match.group("ora"))
+    if not 0 <= ora <= 23:
+        return match.group(0)
+    return f"{prima}{ora} e {int(match.group('minuti'))}{dopo}"
+
+
+# Il segno fa parte della temperatura: "-5°C" -> "meno 5 gradi".
+_TEMPERATURA_RE = re.compile(
+    r"(?<![\w.,])(?P<segno>[-−+])?(?P<numero>\d+(?:[.,]\d+)?)\s*°"
+    r"(?:\s*(?P<unita>[CF])\b)?",
+    re.IGNORECASE,
+)
+
+# "16 gradi C" è già scritto a parole: basta togliere la C finale. La C
+# minuscola è ammessa, ma non se è l'articolo "c'" ("16 gradi c'è").
+_GRADI_C_RE = re.compile(
+    r"(?<![\w.,])(?P<numero>\d+(?:[.,]\d+)?)\s+gradi\s+[Cc](?![’'\w])"
+)
+
+
+def _converti_temperatura(match: re.Match[str]) -> str:
+    segno = match.group("segno") or ""
+    prefisso = ""
+    if segno in ("-", "−"):
+        prefisso = "meno "
+    elif segno == "+":
+        prefisso = "più "
+    unita = (match.group("unita") or "").upper()
+    suffisso = " gradi Fahrenheit" if unita == "F" else " gradi"
+    return f"{prefisso}{match.group('numero')}{suffisso} "
+
+
+def _converti_gradi_c(match: re.Match[str]) -> str:
+    return f"{match.group('numero')} gradi"
+
+
+# Unità ambigue di una lettera ("l", "t", "ha"): non convertire quando il
+# numero è un anno, altrimenti "Nel 2026 ha detto" diventerebbe "2026 ettari".
+_ANNO_RE = re.compile(r"^(?:19|20)\d{2}$")
+
+
+def _convertitore_unita(nome: str, *, ambigua: bool = False):
+    def _converti(match: re.Match[str]) -> str:
+        numero = match.group("numero")
+        if ambigua and _ANNO_RE.fullmatch(numero):
+            return match.group(0)
+        return f"{numero} {nome}"
+
+    return _converti
+
+
+def _pattern_unita(
+    corpo: str, *, flags: int = 0, finale: str = r"\b"
+) -> re.Pattern[str]:
+    """Unità preceduta da un numero; il numero viene catturato e conservato."""
+    return re.compile(
+        rf"(?<![\w.,])(?P<numero>\d+(?:[.,]\d+)?)\s*{corpo}{finale}",
+        flags,
+    )
+
+
+# L'ordine conta: "km/h" prima di "km", "kWh" prima di "kW", "ml" prima di "l".
+_UNITA_TTS = (
+    (
+        _pattern_unita(r"km/h", flags=re.IGNORECASE),
+        _convertitore_unita("chilometri orari"),
+    ),
+    (
+        _pattern_unita(r"m/s", flags=re.IGNORECASE),
+        _convertitore_unita("metri al secondo"),
+    ),
+    (_pattern_unita(r"kWh"), _convertitore_unita("chilowattora")),
+    (_pattern_unita(r"kW"), _convertitore_unita("chilowatt")),
+    (_pattern_unita(r"MW"), _convertitore_unita("megawatt")),
+    (_pattern_unita(r"GW"), _convertitore_unita("gigawatt")),
+    (
+        _pattern_unita(r"km", flags=re.IGNORECASE),
+        _convertitore_unita("chilometri"),
+    ),
+    (
+        _pattern_unita(r"kg", flags=re.IGNORECASE),
+        _convertitore_unita("chilogrammi"),
+    ),
+    (
+        _pattern_unita(r"cm", flags=re.IGNORECASE),
+        _convertitore_unita("centimetri"),
+    ),
+    (
+        _pattern_unita(r"mm", flags=re.IGNORECASE),
+        _convertitore_unita("millimetri"),
+    ),
+    (_pattern_unita(r"m²"), _convertitore_unita("metri quadrati")),
+    (
+        _pattern_unita(r"mq", flags=re.IGNORECASE),
+        _convertitore_unita("metri quadrati"),
+    ),
+    (_pattern_unita(r"m³"), _convertitore_unita("metri cubi")),
+    (
+        _pattern_unita(r"mc", flags=re.IGNORECASE),
+        _convertitore_unita("metri cubi"),
+    ),
+    (
+        _pattern_unita(r"ml", flags=re.IGNORECASE),
+        _convertitore_unita("millilitri"),
+    ),
+    (
+        _pattern_unita(r"cl", flags=re.IGNORECASE),
+        _convertitore_unita("centilitri"),
+    ),
+    (
+        _pattern_unita(r"(?:l|L)", finale=r"(?![’'\w])"),
+        _convertitore_unita("litri", ambigua=True),
+    ),
+    (
+        _pattern_unita(r"t", flags=re.IGNORECASE, finale=r"(?![’'\w])"),
+        _convertitore_unita("tonnellate", ambigua=True),
+    ),
+    (
+        _pattern_unita(r"ha", flags=re.IGNORECASE, finale=r"(?![’'\w])"),
+        _convertitore_unita("ettari", ambigua=True),
+    ),
+)
+
+# Punteggi sportivi: "2-1" -> "2 a 1", non "da 2 a 1".
+_RISULTATO_PRIMA_RE = re.compile(
+    r"(?P<prima>\b(?:risultato|punteggio|partita|incontro|set|gol|"
+    r"vittoria|sconfitta|pareggio)\b[^.\n]{0,30}?)"
+    r"(?P<a>\d{1,2})\s*[-–]\s*(?P<b>\d{1,2})(?![\d.,])",
+    re.IGNORECASE,
+)
+_RISULTATO_DOPO_RE = re.compile(
+    r"(?P<a>\d{1,2})\s*[-–]\s*(?P<b>\d{1,2})(?![\d.,])"
+    r"(?P<dopo>\s+(?:il\s+)?(?:risultato|punteggio|alla\s+fine|"
+    r"nel\s+finale|per\s+\d|tra|contro)\b)",
+    re.IGNORECASE,
+)
+
+# Intervallo numerico: "8-10" -> "da 8 a 10". Anni ("2025-2026") e codici
+# ("COVID-19") non sono intervalli: quattro cifre o lettere adiacenti li escludono.
+_INTERVALLO_RE = re.compile(
+    r"(?<![\w.,-])(?P<da>\d{1,3})\s*[-–]\s*(?P<a>\d{1,3})(?![\w,-]|\.\d)"
+)
+
+# Meno matematico davanti a un numero: non tocca trattini dentro le parole.
+_NUMERO_NEGATIVO_RE = re.compile(r"(?<![\w.,])[-−](?=\d)")
+
+# Decimale col punto (dopo migliaia e orari): "8.30" -> "8,30". Il controllo
+# finale evita le sequenze con più punti ("1.2.3"), non il punto di fine frase.
+_DECIMALE_RE = re.compile(
+    r"(?<![\w.,])(?P<intero>\d+)\.(?P<decimali>\d+)(?!\.\d)"
+)
+
+
+def _converti_risultato_prima(match: re.Match[str]) -> str:
+    return f"{match.group('prima')}{match.group('a')} a {match.group('b')}"
+
+
+def _converti_risultato_dopo(match: re.Match[str]) -> str:
+    return f"{match.group('a')} a {match.group('b')}{match.group('dopo')}"
+
+
+def _converti_intervallo(match: re.Match[str]) -> str:
+    return f"da {match.group('da')} a {match.group('a')}"
+
+
+def _converti_decimale(match: re.Match[str]) -> str:
+    return f"{match.group('intero')},{match.group('decimali')}"
+
+
 def normalizza_per_tts(testo: str) -> str:
     """Rende il testo adatto alla lettura ad alta voce.
 
-    Non riscrive i fatti: cambia solo la forma di date, percentuali, simboli,
-    parentesi, markdown e separatori delle migliaia.
+    Non riscrive i fatti: cambia solo la forma di date, orari, temperature,
+    unità di misura, numeri, percentuali, valute, simboli, parentesi,
+    markdown e separatori delle migliaia.
     """
     if not testo:
         return ""
@@ -742,14 +942,43 @@ def normalizza_per_tts(testo: str) -> str:
     t = _URL_RE.sub(" ", t)
     t = _EMAIL_RE.sub(" ", t)
 
-    # Date prima dei separatori delle migliaia.
+    # Date prima dei trattini e dei separatori delle migliaia: "2026-11-26"
+    # non è una sottrazione e "2025-2026" non è una data.
     t = re.sub(r"\b(\d{1,2})/(\d{1,2})/(\d{4})\b", _converti_data_italiana, t)
     t = re.sub(r"\b(\d{1,2})[-.](\d{1,2})[-.](\d{4})\b", _converti_data_italiana, t)
     t = re.sub(r"\b(\d{4})-(\d{2})-(\d{2})\b", _converti_data_iso, t)
 
+    # Orari prima della virgola decimale e dei simboli.
+    t = _ORA_COLON_RE.sub(_converti_ora_colon, t)
+    t = _ORA_PUNTO_RE.sub(_converti_ora_punto, t)
+
+    # Temperature prima del simbolo "°" generico.
+    t = _TEMPERATURA_RE.sub(_converti_temperatura, t)
+    t = _GRADI_C_RE.sub(_converti_gradi_c, t)
+
+    # Migliaia prima di unità e intervalli: "1.000 km" -> "1000 chilometri".
+    t = re.sub(r"\b\d{1,3}(?:\.\d{3})+\b", _migliaia, t)
+
+    # Unità di misura solo quando precedute da un numero. Vengono prima
+    # degli intervalli per leggere anche "8-10km" come "da 8 a 10 chilometri".
+    for pattern, converti in _UNITA_TTS:
+        t = pattern.sub(converti, t)
+
+    # Punteggi sportivi prima degli intervalli.
+    t = _RISULTATO_PRIMA_RE.sub(_converti_risultato_prima, t)
+    t = _RISULTATO_DOPO_RE.sub(_converti_risultato_dopo, t)
+
+    # Intervalli prima del segno meno.
+    t = _INTERVALLO_RE.sub(_converti_intervallo, t)
+
     t = re.sub(r"(\d+(?:[.,]\d+)?)\s*%", r"\1 per cento", t)
     t = t.replace("€", " euro ").replace("$", " dollari ").replace("£", " sterline ")
-    t = re.sub(r"\b\d{1,3}(?:\.\d{3})+\b", _migliaia, t)
+
+    # Meno davanti a un numero, senza toccare date, intervalli o parole.
+    t = _NUMERO_NEGATIVO_RE.sub("meno ", t)
+
+    # Decimali superstiti: "8.30" senza contesto -> "8,30".
+    t = _DECIMALE_RE.sub(_converti_decimale, t)
 
     # Markdown ed elenchi.
     t = re.sub(r"[*_#`~]+", " ", t)
