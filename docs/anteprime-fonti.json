@@ -1,11 +1,23 @@
 {
-  "generato": "2026-11-26T11:41:44+00:00",
+  "generato": "2026-11-26T11:49:09+00:00",
   "fonti": {
     "https://www.ansa.it/sito/notizie/topnews/topnews_rss.xml": {
       "nome": "ANSA",
       "url": "https://www.ansa.it/sito/notizie/topnews/topnews_rss.xml",
       "attivo": true,
       "articoli": [
+        {
+          "titolo": "Meloni, 'Anm? Sulla questione degli stipendi non torno indietro'",
+          "sommario": "'Non saprei come giustificarlo agli italiani'",
+          "link": "https://www.ansa.it/sito/notizie/topnews/2026/11/26/meloni-anm-sulla-questione-degli-stipendi-non-torno-indietro_258a448b-1265-4cc0-b737-d85f7381f11d.html",
+          "pubblicato": "2026-11-26T11:39:05+00:00"
+        },
+        {
+          "titolo": "Usa, 'centinaia di voli cancellati per maltempo nel Giorno del Ringraziamento'",
+          "sommario": "Lo riferisce Cnn. Due tempeste su entrambe le coste degli Stati Uniti",
+          "link": "https://www.ansa.it/sito/notizie/topnews/2026/11/26/usa-centinaia-di-voli-cancellati-per-maltempo-nel-giorno-del-ringraziamento_61030127-30ad-4a28-b1da-ba51c0baed97.html",
+          "pubblicato": "2026-11-26T11:32:49+00:00"
+        },
         {
           "titolo": "Temu si adegua alle norme Ue, stop a falsi sconti e recensioni",
           "sommario": "Impegni accettati dalle autorità, in caso di violazioni multe del 4% del fatturato o più",
@@ -23,18 +35,6 @@
           "sommario": "Le sue parole ci colpiscono molto.",
           "link": "https://www.ansa.it/sito/notizie/topnews/2026/11/26/meloni-su-vicenda-de-gennaro-il-gioco-delle-tifoserie-non-aiuta_db5b199b-fba3-4ca0-ac18-f34f852b3e62.html",
           "pubblicato": "2026-11-26T11:19:30+00:00"
-        },
-        {
-          "titolo": "Meloni, 'sul bilancio Ue siamo a anni luce da una soluzione'",
-          "sommario": "'Accordo a dicembre? Non è la tempistica che ci fa decidere ma le nostre condizioni'",
-          "link": "https://www.ansa.it/sito/notizie/topnews/2026/11/26/meloni-sul-bilancio-ue-siamo-a-anni-luce-da-una-soluzione_79a0cb04-4647-4937-9e41-a8a380a30f91.html",
-          "pubblicato": "2026-11-26T11:17:00+00:00"
-        },
-        {
-          "titolo": "Meloni, 'faremo ciò che serve per migliorare manovra ma ci sono tempi da rispettare'",
-          "sommario": "'Sul superbonus stiamo ancora lavorando'",
-          "link": "https://www.ansa.it/sito/notizie/topnews/2026/11/26/meloni-faremo-cio-che-serve-per-migliorare-manovra-ma-ci-sono-tempi_7759dbde-d5e7-42f3-9cc1-be6e7d712a67.html",
-          "pubblicato": "2026-11-26T11:16:35+00:00"
         }
       ]
     },
@@ -43,6 +43,18 @@
       "url": "https://www.ansa.it/sito/notizie/cronaca/cronaca_rss.xml",
       "attivo": true,
       "articoli": [
+        {
+          "titolo": "Uccide la compagna poi si getta dal viadotto, lo stesso cavalcavia di Lorena Isceri",
+          "sommario": "Il femminicidio è avvenuto nel Pistoiese. La vittima aveva 24 anni",
+          "link": "https://www.ansa.it/sito/notizie/cronaca/2026/11/26/uccide-compagna-poi-si-getta-dal-viadotto-lo-stesso-cavalcavia-di-lorena-isceri_6f905f2b-8704-4a58-90da-00838cbf4689.html",
+          "pubblicato": "2026-11-26T11:38:22+00:00"
+        },
+        {
+          "titolo": "Uccise un anziano in carrozzina, Martinez chiede di patteggiare un anno",
+          "sommario": "Il portiere dell'Inter ha investito l'81enne nell'ottobre 2025 in provincia di Como",
+          "link": "https://www.ansa.it/sito/notizie/cronaca/2026/11/26/uccise-un-anziano-in-carrozzina-martinez-chiede-di-patteggiare-un-anno_5ba3f51c-fcf7-40f0-9916-a233188eff5f.html",
+          "pubblicato": "2026-11-26T11:28:28+00:00"
+        },
         {
           "titolo": "Trovato cadavere nell'ex Città del rugby a Roma, indaga la polizia",
           "sommario": "Il corpo non è ancora stato identificato",
@@ -60,18 +72,6 @@
           "sommario": "In occasione delle 13/a Giornata della serie A e delle 14/a della Bkt",
           "link": "https://www.ansa.it/sito/notizie/cronaca/2026/11/26/il-mondo-del-calcio-con-lega-serie-a-e-lega-serie-b-scende-in-campo_e4ece7dd-b788-4630-8d09-1ca87343df47.html",
           "pubblicato": "2026-11-26T10:56:57+00:00"
-        },
-        {
-          "titolo": "Incendio in un palazzo a Bologna, 14 feriti di cui tre gravi",
-          "sommario": "Cinquanta evacuati, anche bambini piccoli intossicati",
-          "link": "https://www.ansa.it/sito/notizie/cronaca/2026/11/26/incendio-in-un-palazzo-a-bologna-14-feriti-di-cui-tre-gravi_edfa33c7-df53-47be-af98-e3f5bb5ab7b6.html",
-          "pubblicato": "2026-11-26T10:53:00+00:00"
-        },
-        {
-          "titolo": "Scossa di terremoto 2.3 nei Campi Flegrei, abitanti svegliati da un boato",
-          "sommario": "Sisma con epicentro nei pressi di Pozzuoli, nessun danno",
-          "link": "https://www.ansa.it/sito/notizie/cronaca/2026/11/26/scossa-di-terremoto-2.3-nei-campi-flegrei-abitanti-svegliati-da-un-boato_a6683bf1-9bd7-4983-b85e-bb385affb0de.html",
-          "pubblicato": "2026-11-26T10:49:18+00:00"
         }
       ]
     },
@@ -148,21 +148,21 @@
           "pubblicato": "2026-11-26T09:22:52+00:00"
         },
         {
+          "titolo": "Manifestazione unitaria del centrosinistra in stand-by, Pd e Avs in pressing ma i 5s non rispondono",
+          "sommario": "A rischio l’appuntamento unitario annunciato dai leader delle opposizioni a fine ottobre. Non si sa ancora nulla.",
+          "link": "https://www.repubblica.it/politica/2026/11/26/news/manifestazione_unitaria_pd_m5s_avs_campo_largo-425751291/",
+          "pubblicato": "2026-11-26T08:38:48+00:00"
+        },
+        {
           "titolo": "Travolta: “Il mio ballo migliore è stato alla Casa Bianca con Lady Diana: mi seguiva magnificamente”",
           "sommario": "Bagno di folla per il divo italo-americano, al Torino Film Festival con due film: il primo da regista e quello di Joffé sull’ipotesi di un ruolo della criminalità organizzata nell’assassinio di JFK.",
           "link": "https://www.repubblica.it/spettacoli/cinema/2026/11/26/news/john_travolta_torino_film_festival_assassinio_kennedy_lady_diana-425749984/",
           "pubblicato": "2026-11-26T04:00:00+00:00"
         },
         {
-          "titolo": "Il traguardo di Federica Brignone, la scelta della leggerezza contro la retorica del dolore",
-          "sommario": "La leggenda azzurra dello sci ha annunciato il ritiro. A febbraio l’impresa dei due ori olimpici",
-          "link": "https://www.repubblica.it/sport/sci/2026/11/26/news/federica_brignone_addio_leggerezza_dolore_sci-425750450/",
-          "pubblicato": "2026-11-26T00:00:00+00:00"
-        },
-        {
-          "titolo": "Ninna Quario: “A Cervinia Federica mi aveva detto ‘mamma, se non ce la faccio la pianto lì”",
-          "sommario": "Intervista alla madre di Brignone. “Fino all’ultimo ci ha provato. Con Alberto Tomba scherzeremo sempre sul numero di podi, per 3 resterà davanti lui”.",
-          "link": "https://www.repubblica.it/sport/sci/2026/11/26/news/ninna_quario_intervista_federica_brignone_cervinia_tomba-425750407/",
+          "titolo": "Antimafia, rinvio sul depistaggio. Pd e 5S: “Si parli della pista nera”",
+          "sommario": "Colosimo insiste su mafia e appalti: 500 pagine entro Natale. FdI fredda con il pm nisseno De Luca. Musumeci: “Non abbiamo scheletri",
+          "link": "https://www.repubblica.it/politica/2026/11/26/news/antimafia_rinvio_de_gennaro_colosimo_pd_5s_pista_nera-425750582/",
           "pubblicato": "2026-11-26T00:00:00+00:00"
         }
       ]
@@ -174,9 +174,9 @@
       "articoli": [
         {
           "titolo": "Meloni su De Gennaro: “Scioccata, è il momento di aiutare le procure, no a giochi delle tifoserie”",
-          "sommario": "La premier per la prima volta si sofferma sulla morte dell’ex capo della polizia: “I funerali? Non o ancora se andrò – fa sapere – ci sarà Mantovano”",
+          "sommario": "La premier per la prima volta si sofferma sulla morte dell’ex capo della polizia: “I funerali? Non so ancora se andrò – fa sapere – ci sarà Mantovano”",
           "link": "https://www.repubblica.it/politica/2026/11/26/news/meloni_de_gennaro_procure_mantovano_funerale-425751775/?rss",
-          "pubblicato": "2026-11-26T11:26:03+00:00"
+          "pubblicato": "2026-11-26T11:37:42+00:00"
         },
         {
           "titolo": "Dl scuola approvato alla Camera: è legge. Protestano le opposizioni: “In classe nessuno è straniero”",
@@ -526,6 +526,12 @@
       "attivo": true,
       "articoli": [
         {
+          "titolo": "Temu adegua le sue pratiche commerciali alle norme Ue: stop a sconti ingannevoli e recensioni false",
+          "sommario": "Stop a falsi sconti, false recensioni, tecniche di vendita aggressive e giochi obbligatori per accedere alla piattaforma, più trasparenza sui prezzi e rimborsi entro 14 giorni: Temu si è impegnata.",
+          "link": "https://www.ilsole24ore.com/art/temu-adegua-sue-pratiche-commerciali-norme-ue-stop-sconti-ingannevoli-e-recensioni-false-AJvGuQTC",
+          "pubblicato": "2026-11-26T11:38:31+00:00"
+        },
+        {
           "titolo": "Musk: «Due azioni SpaceX per ogni bambino Usa»",
           "sommario": "Elon Musk, l’uomo più ricco del mondo, si è impegnato a donare a ogni bambino degli Stati Uniti due azioni di SpaceX, l’azienda spaziale e di intelligenza artificiale che dirige,.",
           "link": "https://www.ilsole24ore.com/art/musk-due-azioni-spacex-ogni-bambino-usa-AJVAYGTC",
@@ -548,12 +554,6 @@
           "sommario": "BRUXELLES – Anche l’Unione europea vuole cavalcare la tecnologia quantistica, un mercato in crescita e dalle generose prospettive economiche. La Commissione europea ha presentato ieri una proposta di regolamento con.",
           "link": "https://www.ilsole24ore.com/art/un-fondo-50-miliardi-gli-investimenti-tech-quantum-act-varato-ue-AJRzYMSC",
           "pubblicato": "2026-11-26T07:30:00+00:00"
-        },
-        {
-          "titolo": "Trump rilancia i dazi: Cina, Ue e altri 12 Paesi nel mirino",
-          "sommario": "Dal nostro corrispondente L’amministrazione Trump lancia una nuova offensiva economica internazionale a colpi di dazi, contro 14 grandi partner o rivali dall’Unione europea alla Cina. Tutti accusati di danneggiare gli.",
-          "link": "https://www.ilsole24ore.com/art/trump-rilancia-dazi-cina-ue-e-altri-12-paesi-mirino-AJVWr3SC",
-          "pubblicato": "2026-11-26T05:56:00+00:00"
         }
       ]
     },
@@ -606,6 +606,18 @@
       "attivo": true,
       "articoli": [
         {
+          "titolo": "X risponde alle critiche sulla sicurezza con un nuovo sistema di controllo parentale",
+          "sommario": "Su X è stato finalmente introdotto un sistema di controllo parentale pensato per gli adolescenti fra 13 e 17 anni.",
+          "link": "https://www.hdblog.it/smartphone/articoli/n678366/twitter-x-controllo-parentale/",
+          "pubblicato": "2026-11-26T10:40:00+00:00"
+        },
+        {
+          "titolo": "Google ha finalmente risolto il consumo anomalo di RAM di Gemini Web in Chrome",
+          "sommario": "Pare che Google abbia finalmente risolto il problema di consumo esagerato di RAM della versione Web di Gemini su Chrome, naturalmente per sistemi desktop: alcuni utenti segnalavano che solo quella scheda arrivava a occupare oltre 5 GB di RAM, e c’è stato.",
+          "link": "https://www.hdblog.it/google/articoli/n678379/google-chrome-consumo-ram-gemini-web/",
+          "pubblicato": "2026-11-26T10:35:00+00:00"
+        },
+        {
           "titolo": "Black Friday Amazon 2026: tutte le offerte e sconti in tempo reale | Live",
           "sommario": "Nonostante il Black Friday Amazon sia già partito dal 19 novembre, domani sarà una giornata importante, domani è Black Friday! Su HDblog riattiveremo da stasera, 26 novembre, alle 23.30 la nostra Live offerte aggiornata in tempo reale.",
           "link": "https://www.hdblog.it/amazon/offerte/n676463/black-friday-amazon-2026-offerte-sconti-live/",
@@ -622,18 +634,6 @@
           "sommario": "Offrire prodotti di qualità ai consumatori richiede dati. E la loro elaborazione non può ormai più prescindere dalle tecnologie avanzate, dall'intelligenza artificiale ai sensori intelligenti sino alla robotica.",
           "link": "https://www.hdblog.it/business/articoli/n678358/nestle-ai-sensori-smart-produzione-innovazione/",
           "pubblicato": "2026-11-26T10:10:00+00:00"
-        },
-        {
-          "titolo": "Pluto TV, arriva Cine Peplum: grandi classici in streaming gratis",
-          "sommario": "Pluto TV sa come attirare l'attenzione, e così in questi giorni potrete ritrovare classici del cinema come Ercole e Maciste, facendo zapping, esattamente come quando questi film passavano in televisione il pomeriggio.Roba da Generazione X, ma forse anche i.",
-          "link": "https://www.hdblog.it/altadefinizione/articoli/n678369/pluto-tv-cine-peplum-canale-gratis-ercole-maciste/",
-          "pubblicato": "2026-11-26T10:05:00+00:00"
-        },
-        {
-          "titolo": "Tesla con il FSD punta alla mobilità degli anziani",
-          "sommario": "Tesla punta sugli automobilisti della terza età per promuovere la sua guida assistita, ma tra uno spot promozionale e l’uso quotidiano emerge una contraddizione che preoccupa avvocati ed esperti di sicurezza.",
-          "link": "https://www.hdmotori.it/tesla-fsd-mobilita-anziani/",
-          "pubblicato": "2026-11-26T10:00:20+00:00"
         }
       ]
     },
@@ -754,6 +754,12 @@
       "attivo": true,
       "articoli": [
         {
+          "titolo": "Svolta sul caso dell’83enne morta tra le fiamme: arrestato il vicino. Avrebbe cosparso il divano di benzina prima di appiccare l’incendio – Il video",
+          "sommario": "Il 52enne accusato di aver appiccato due roghi dolosi a Milano l'11 e il 26 ottobre: nel secondo morì l'anziana donna con disabilità L'articolo Svolta sul caso dell’83enne morta tra le fiamme: arrestato il vicino.",
+          "link": "https://www.open.online/2026/11/26/milano-anziana-morta-incendio-casa-arresto-vicino/",
+          "pubblicato": "2026-11-26T11:40:25+00:00"
+        },
+        {
           "titolo": "Salvini contro Zelensky sulla Libia: «Ci porta la guerra in casa, non si permetta». Meloni: «Ma continuiamo a sostenere Kiev»",
           "sommario": "«Zelensky non si deve permettere di portare la guerra sulla porta di casa nostra, perché il Mediterraneo è casa nostra, è il cuore dell'Europa, la Libia è vicina a casa nostra, a poche centinaia di chilometri da casa nostra».",
           "link": "https://www.open.online/2026/11/26/ue-ucraina-fondi-guerra-libia-meloni-salvini/",
@@ -776,12 +782,6 @@
           "sommario": "Ieri Autostrade aveva installato una panchina rossa sul tratto per ricordarla L'articolo Femminicidio nel Pistoiese: uccide la compagna e si butta dal viadotto dove fu ammazzata Lorena Isceri proviene da Open.",
           "link": "https://www.open.online/2026/11/26/femminicidio-autostrada-viadotto-lorena-isceri/",
           "pubblicato": "2026-11-26T09:49:13+00:00"
-        },
-        {
-          "titolo": "«Molti italiani sono innamorati della Russia, non capiscono che Putin è una minaccia»",
-          "sommario": "L'ex ministro degli Esteri ucraino Kuleba: le trattative di pace sono un gioco. Nessuno si faccia illusioni L'articolo «Molti italiani sono innamorati della Russia, non capiscono che Putin è una minaccia» proviene da Open.",
-          "link": "https://www.open.online/2026/11/26/ucraina-kuleba-italiani-russia-putin/",
-          "pubblicato": "2026-11-26T09:24:59+00:00"
         }
       ]
     },
@@ -1288,6 +1288,12 @@
       "attivo": true,
       "articoli": [
         {
+          "titolo": "Are Trump’s tariffs aimed at securing US-friendly trade deals?",
+          "sommario": "New US policy threatens further tariff hikes on China, India, Vietnam if trade negotiations fall through.",
+          "link": "https://www.aljazeera.com/news/2026/11/26/are-trumps-tariffs-aimed-at-securing-us-friendly-trade-deals?traffic_source=rss",
+          "pubblicato": "2026-11-26T11:07:30+00:00"
+        },
+        {
           "titolo": "Thanksgiving dinner costs rise, putting pressure on US households",
           "sommario": "Turkeys see a 26-percent price rise, forcing families to reconsider hosting and opt for potluck-style celebrations.",
           "link": "https://www.aljazeera.com/economy/2026/11/26/thanksgiving-dinner-costs-rise-putting-pressure-on-us-households?traffic_source=rss",
@@ -1310,12 +1316,6 @@
           "sommario": "Russian forces launch ballistic missile attack on Ukrainian capital Kyiv, hitting a shopping centre and other buildings.",
           "link": "https://www.aljazeera.com/news/2026/11/26/ukraine-drone-attack-kills-five-in-russian-occupied-zaporizhia?traffic_source=rss",
           "pubblicato": "2026-11-26T10:02:09+00:00"
-        },
-        {
-          "titolo": "Ex-Cricket Australia boss James Sutherland defends ‘Sandpapergate’ probe",
-          "sommario": "Meanwhile, David Warner denies a broadcaster's claim that he used superglue and grit to tamper with the ball.",
-          "link": "https://www.aljazeera.com/sports/2026/11/26/sandpapergate-cricket-australia-ceo-sutherland-david-warner-ball-tampering-2018?traffic_source=rss",
-          "pubblicato": "2026-11-26T09:52:36+00:00"
         }
       ]
     },
@@ -1399,12 +1399,6 @@
       "url": "https://www.thenation.com/feed/?post_type=article",
       "attivo": true,
       "articoli": [
-        {
-          "titolo": "FDR’s Thanksgiving Proclamations Made the Moral Case for Taming Capitalism",
-          "sommario": "John Nichols When Abdul El-Sayed attacks the “corporate capture of our politics,” he recalls Roosevelt’s rejections of “greed and selfishness and striving for undue riches.” The post FDR’s Thanksgiving Proclamations Made the Moral Case for Taming Capitalism.",
-          "link": "https://www.thenation.com/article/politics/fdr-thanksgiving-capitalism-abdul-el-sayed/",
-          "pubblicato": "2026-11-26T10:00:00+00:00"
-        },
         {
           "titolo": "There’s Nothing “Crazy” About Wanting to Abolish Prisons",
           "sommario": "Dave Zirin A recent “New York Times” article argued that “wokeness,” including calls for prison abolition, is a political liability. That’s simply not the case. The post There’s Nothing “Crazy” About Wanting to Abolish Prisons appeared first on The Nation.",
@@ -1512,34 +1506,34 @@
       "attivo": true,
       "articoli": [
         {
-          "titolo": "How to Bat Down Your Uncle Frank’s Stupid MAGA Thanksgiving Arguments",
-          "sommario": "Well, it’s Thanksgiving again, which, in addition to all the usual excess, brings for some of you the now-decade-old tradition of having to sit there and endure your MAGA uncle bleating on about immigrants and wokery and Sleepy Joe.",
-          "link": "https://newrepublic.com/article/218383/stupid-maga-thanksgiving-arguments-come-prepared",
-          "pubblicato": "2026-11-26T11:00:00+00:00"
+          "titolo": "Trump Blames Voters for Stock Market Tanking",
+          "sommario": "President Trump is blaming the voters—not AI anxiety or his own tariffs—on the stock market’s poor performance. “Stocks are down sharply because of the November Third Election results,” Trump wrote Wednesday on Truth Social.",
+          "link": "https://newrepublic.com/post/218380/trump-blames-voters-stock-market-tanking",
+          "pubblicato": "2026-11-25T19:12:06+00:00"
         },
         {
-          "titolo": "Water Bear",
-          "sommario": "",
-          "link": "https://newrepublic.com/article/217990/water-bear",
-          "pubblicato": "2026-11-26T11:00:00+00:00"
+          "titolo": "Ukraine Diplomat Issues Grave Warning About Starlink Restrictions",
+          "sommario": "SpaceX’s Starshield lapses have created a “vicious cycle” in Ukraine, according to that country’s top diplomat.",
+          "link": "https://newrepublic.com/post/218377/ukraine-warning-starlink-restrictions-donald-trump-elon-musk",
+          "pubblicato": "2026-11-25T18:25:00+00:00"
         },
         {
-          "titolo": "They Voted to Get Rid of Flock Cameras. Now Comes the Hard Part.",
-          "sommario": "In mid-August, dozens gathered outside of Wilmington, North Carolina’s New Hanover County Courthouse to protest the more than three dozen Flock Safety Automated License Plate Reader cameras that had been installed in their communities the previous year.",
-          "link": "https://newrepublic.com/article/217929/flock-cameras-contracts-surveillance-communities-revolt",
-          "pubblicato": "2026-11-26T11:00:00+00:00"
+          "titolo": "DOJ Forced to Apologize for Lying About Detail in Ilhan Omar Case",
+          "sommario": "A major misstep by the Justice Department has forced the nation’s top law enforcement agency to grovel before a federal judge. An errata court filing submitted to the D.C. District Court Tuesday by U.S.",
+          "link": "https://newrepublic.com/post/218368/department-justice-apologize-lying-detail-ilhan-omar-case",
+          "pubblicato": "2026-11-25T16:53:18+00:00"
         },
         {
-          "titolo": "Harry Truman, 1946",
-          "sommario": "My guess is, it’s a flower, Truman said to the living and the dead and those of us some year to come. And only for the bad guys, this test we’ll do, bombing the bungalow out of Bikini— Science! Following the same star that put Washington and Teddy R.",
-          "link": "https://newrepublic.com/article/217815/harry-truman-1946",
-          "pubblicato": "2026-11-26T11:00:00+00:00"
+          "titolo": "Watch the Pentagon’s Weird Iowa Lead Explosion Video",
+          "sommario": "The U.S. Army posted a hype video for the 10,000 pounds of toxic lead azide it blew up in Iowa on Wednesday. “U.S.",
+          "link": "https://newrepublic.com/post/218374/watch-pentagon-iowa-lead-explosion-video-us-army",
+          "pubblicato": "2026-11-25T16:49:09+00:00"
         },
         {
-          "titolo": "Could Democrats Lock Up Elon Musk? It’s Not as Crazy as It Sounds.",
-          "sommario": "Imagine, for a minute, Elon Musk.",
-          "link": "https://newrepublic.com/series/83/democrats-elon-musk-congress-contempt",
-          "pubblicato": "2026-11-26T11:00:00+00:00"
+          "titolo": "To Get Justice, Kilmar Ábrego García Had to Leave Trump’s America",
+          "sommario": "In the end, Kilmar Ábrego García ’s extraordinary 20-month struggle against Donald Trump’s crazed persecution and vilification campaign against him concluded with a single, quiet gesture.",
+          "link": "https://newrepublic.com/article/218371/kilmar-abrego-garcia-video-leaves-trump-america",
+          "pubblicato": "2026-11-25T16:30:36+00:00"
         }
       ]
     },
