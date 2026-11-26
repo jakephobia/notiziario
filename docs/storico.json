@@ -3,11 +3,11 @@
     {
       "data": "2026-11-26",
       "titolo": "Notiziario del 26 novembre 2026",
-      "descrizione": "Le principali notizie di giovedì 26 novembre 2026. Il Presidente Mattarella all'ANCI parla di coesione sociale e sicurezza, mentre il movimento Non una di meno mobilita per l'autodeterminazione. In Italia, le ultime rivelazioni dalle lettere di Gianni De Gennaro prima del suicidio.",
+      "descrizione": "Il notiziario di giovedì 26 novembre 2026 apre con la cronaca di un femminicidio nel Pistoiese e un tragico incendio a Milano. Spazio anche all'economia globale con l'annuncio di Elon Musk sulle azioni SpaceX e il punto sulle assunzioni nel settore culturale italiano.",
       "filename": "notiziario-2026-11-26.mp3",
-      "descrizione_breve": "26 novembre 2026 - Mattarella all'Anci, Non una di meno convoca, Il memoriale di De Gennaro, APEC 2026, La Corte dei conti UE.",
-      "durata_secondi": 504.212494,
-      "dimensione": 8068327,
+      "descrizione_breve": "26 novembre 2026 - Femminicidio nel Pistoiese, Anziana di 83 anni morta, Mattarella all'Anci, Gb chiede a 100 mila riservisti, Pluto TV.",
+      "durata_secondi": 471.091837,
+      "dimensione": 7538354,
       "modalita": "llm",
       "categorie": [
         "italia",
@@ -21,7 +21,7 @@
       "voce_label": "Kore - femminile, calda (Google Chirp 3 HD)",
       "velocita": 1.1,
       "tts_motore": "google",
-      "pubblicato": "2026-11-26T06:13:12.710838+00:00",
+      "pubblicato": "2026-11-26T11:12:58.873587+00:00",
       "guid": "notiziario-2026-11-26"
     },
     {

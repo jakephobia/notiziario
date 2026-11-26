@@ -5,7 +5,7 @@
     <link>https://jakephobia.github.io/notiziario/</link>
     <description>Le notizie del giorno scelte da Jacopo, lette in italiano. Un riassunto quotidiano delle notizie italiane e internazionali.</description>
     <language>it-it</language>
-    <lastBuildDate>Thu, 26 Nov 2026 06:13:12 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 26 Nov 2026 11:12:58 +0000</lastBuildDate>
     <itunes:author>Notiziario</itunes:author>
     <itunes:explicit>false</itunes:explicit>
     <itunes:summary>Le notizie del giorno scelte da Jacopo, lette in italiano. Un riassunto quotidiano delle notizie italiane e internazionali.</itunes:summary>
@@ -23,12 +23,12 @@
     <notiziario:tts_motore>google</notiziario:tts_motore>
     <item>
       <title>Notiziario del 26 novembre 2026</title>
-      <description>26 novembre 2026 - Mattarella all'Anci, Non una di meno convoca, Il memoriale di De Gennaro, APEC 2026, La Corte dei conti UE.</description>
-      <pubDate>Thu, 26 Nov 2026 06:13:12 +0000</pubDate>
+      <description>26 novembre 2026 - Femminicidio nel Pistoiese, Anziana di 83 anni morta, Mattarella all'Anci, Gb chiede a 100 mila riservisti, Pluto TV.</description>
+      <pubDate>Thu, 26 Nov 2026 11:12:58 +0000</pubDate>
       <guid isPermaLink="false">notiziario-2026-11-26</guid>
-      <enclosure url="https://github.com/jakephobia/notiziario/releases/download/episodio-2026-11-26/notiziario-2026-11-26.mp3" length="8068327" type="audio/mpeg" />
-      <itunes:duration>00:08:24</itunes:duration>
-      <itunes:summary>26 novembre 2026 - Mattarella all'Anci, Non una di meno convoca, Il memoriale di De Gennaro, APEC 2026, La Corte dei conti UE.</itunes:summary>
+      <enclosure url="https://github.com/jakephobia/notiziario/releases/download/episodio-2026-11-26/notiziario-2026-11-26.mp3" length="7538354" type="audio/mpeg" />
+      <itunes:duration>00:07:51</itunes:duration>
+      <itunes:summary>26 novembre 2026 - Femminicidio nel Pistoiese, Anziana di 83 anni morta, Mattarella all'Anci, Gb chiede a 100 mila riservisti, Pluto TV.</itunes:summary>
       <itunes:explicit>false</itunes:explicit>
       <itunes:image href="https://jakephobia.github.io/notiziario/copertina.png" />
       <notiziario:modalita>llm</notiziario:modalita>
