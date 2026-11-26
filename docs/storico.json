@@ -2,12 +2,12 @@
   "episodi": [
     {
       "data": "2026-11-26",
-      "titolo": "Notiziario del 26 novembre 2026",
-      "descrizione": "Il notiziario di giovedì 26 novembre 2026 apre con la cronaca di un femminicidio nel Pistoiese e un tragico incendio a Milano. Spazio anche all'economia globale con l'annuncio di Elon Musk sulle azioni SpaceX e il punto sulle assunzioni nel settore culturale italiano.",
+      "titolo": "Notiziario radiofonico del 26 novembre 2026",
+      "descrizione": "Le principali notizie del giorno, con aggiornamenti dall'Italia e dal mondo, scienza e tecnologia, e le buone notizie.",
       "filename": "notiziario-2026-11-26.mp3",
-      "descrizione_breve": "26 novembre 2026 - Femminicidio nel Pistoiese, Anziana di 83 anni morta, Mattarella all'Anci, Gb chiede a 100 mila riservisti, Pluto TV.",
-      "durata_secondi": 471.091837,
-      "dimensione": 7538354,
+      "descrizione_breve": "26 novembre 2026 - Femminicidio nel Pistoiese, Anziana di 83 anni morta, Mattarella all'Anci, Meloni 'sul bilancio Ue siamo, GTA VI.",
+      "durata_secondi": 545.09127,
+      "dimensione": 8722433,
       "modalita": "llm",
       "categorie": [
         "italia",
@@ -21,7 +21,7 @@
       "voce_label": "Kore - femminile, calda (Google Chirp 3 HD)",
       "velocita": 1.1,
       "tts_motore": "google",
-      "pubblicato": "2026-11-26T11:12:58.873587+00:00",
+      "pubblicato": "2026-11-26T11:31:56.212337+00:00",
       "guid": "notiziario-2026-11-26"
     },
     {
