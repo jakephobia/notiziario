@@ -1,5 +1,5 @@
 {
-  "generato": "2026-11-26T11:49:09+00:00",
+  "generato": "2026-11-26T11:57:35+00:00",
   "fonti": {
     "https://www.ansa.it/sito/notizie/topnews/topnews_rss.xml": {
       "nome": "ANSA",
@@ -148,21 +148,21 @@
           "pubblicato": "2026-11-26T09:22:52+00:00"
         },
         {
-          "titolo": "Manifestazione unitaria del centrosinistra in stand-by, Pd e Avs in pressing ma i 5s non rispondono",
-          "sommario": "A rischio l’appuntamento unitario annunciato dai leader delle opposizioni a fine ottobre. Non si sa ancora nulla.",
-          "link": "https://www.repubblica.it/politica/2026/11/26/news/manifestazione_unitaria_pd_m5s_avs_campo_largo-425751291/",
-          "pubblicato": "2026-11-26T08:38:48+00:00"
-        },
-        {
           "titolo": "Travolta: “Il mio ballo migliore è stato alla Casa Bianca con Lady Diana: mi seguiva magnificamente”",
           "sommario": "Bagno di folla per il divo italo-americano, al Torino Film Festival con due film: il primo da regista e quello di Joffé sull’ipotesi di un ruolo della criminalità organizzata nell’assassinio di JFK.",
           "link": "https://www.repubblica.it/spettacoli/cinema/2026/11/26/news/john_travolta_torino_film_festival_assassinio_kennedy_lady_diana-425749984/",
           "pubblicato": "2026-11-26T04:00:00+00:00"
         },
         {
-          "titolo": "Antimafia, rinvio sul depistaggio. Pd e 5S: “Si parli della pista nera”",
-          "sommario": "Colosimo insiste su mafia e appalti: 500 pagine entro Natale. FdI fredda con il pm nisseno De Luca. Musumeci: “Non abbiamo scheletri",
-          "link": "https://www.repubblica.it/politica/2026/11/26/news/antimafia_rinvio_de_gennaro_colosimo_pd_5s_pista_nera-425750582/",
+          "titolo": "Nobili, brigatisti e spie, Palazzo Caetani crocevia di misteri",
+          "sommario": "A pochi metri dalla residenza che ospitava l’ufficio di De Gennaro fu ritrovato il corpo di Moro",
+          "link": "https://www.repubblica.it/cronaca/2026/11/26/news/de_gennaro_palazzo_caetani-425750479/",
+          "pubblicato": "2026-11-26T00:00:00+00:00"
+        },
+        {
+          "titolo": "Matrimoni in terrazza nella casa museo di Pertini con il barone officiante: “Offesa alla memoria”",
+          "sommario": "Roma, l’ente privato che la gestisce propone promesse di nozze a 350 euro. Ma arriva la diffida della Fondazione: “Basta, e gli arredi non sono originali”. Ivan Drogo Inglese di San Giacomo del Pantano: “Fermeremo questa iniziativa, ma respingiamo le accuse”",
+          "link": "https://genova.repubblica.it/cronaca/2026/11/26/news/matrimoni_in_terrazza_casa_museo_trevi_pertini_voltolina_con_il_barone_drogo_fondazione_pierri_offesa_alla_memoria-425750381/",
           "pubblicato": "2026-11-26T00:00:00+00:00"
         }
       ]
@@ -489,6 +489,12 @@
       "attivo": true,
       "articoli": [
         {
+          "titolo": "Meloni: «Sul bilancio Ue siamo a anni luce da una soluzione»",
+          "sommario": "Per la premier, la manovra «si può migliorare, ma ci sono tempi da rispettare». E su De Gennaro: «Le tifoserie non aiutano a dipanare la nebbia su Via D’Amelio».",
+          "link": "https://www.ilsole24ore.com/art/meloni-sul-bilancio-ue-siamo-anni-luce-una-soluzione-AJSe9OTC",
+          "pubblicato": "2026-11-26T11:51:00+00:00"
+        },
+        {
           "titolo": "Pensioni 2027, nuovi calcoli: da 102 a 1.723 euro in meno l’anno, ecco chi perde di più",
           "sommario": "In manovra il governo Meloni ha introdotto un nuovo meccanismo di indicizzazione delle pensioni basato su sei fasce d’importo, con aliquote inferiori rispetto al sistema attuale basato su tre scaglioni di importo.",
           "link": "https://www.ilsole24ore.com/art/pensioni-2027-nuova-perequazione-102-1723-euro-meno-l-anno-ecco-chi-perde-piu-AJix9FTC",
@@ -511,12 +517,6 @@
           "sommario": "Dal 1° gennaio 2027 le pensioni saranno rivalutate del 3,2%. Mentre per il 2026 la perequazione definitiva delle pensioni è stata confermata all’1,4%, senza necessità di procedere a.",
           "link": "https://www.ilsole24ore.com/art/pensioni-conti-rifare-l-inflazione-aumenta-spesa-pubblica-e-tagli-AJLLlXSC",
           "pubblicato": "2026-11-26T06:07:00+00:00"
-        },
-        {
-          "titolo": "De Gennaro, la lettera prima del suicidio: la difesa dell’onore, i rapporti con i premier e gli hard disk",
-          "sommario": "Nel testamento morale l’ex capo della Polizia chiama in causa Prodi, Amato, Enrico Letta, Conte e Gianni Letta. La sua versione sugli archivi informatici cercati dagli inquirenti. L’anticipazione sul Corriere della Sera",
-          "link": "https://www.ilsole24ore.com/art/de-gennaro-lettera-prima-suicidio-difesa-dell-onore-rapporti-i-premier-e-hard-disk-AJuqZ1SC",
-          "pubblicato": "2026-11-26T05:24:22+00:00"
         }
       ]
     },
@@ -606,6 +606,12 @@
       "attivo": true,
       "articoli": [
         {
+          "titolo": "Hellbender, ecco la videocamera di sorveglianza con AI in locale",
+          "sommario": "Hellbender ha presentato Tendryl, una videocamera di sorveglianza compatta equipaggiata per eseguire applicazioni di computer vision e intelligenza artificiale in locale.",
+          "link": "https://www.hdblog.it/domotica/articoli/n678385/hellbender-videocamera-sorveglianza-ai-locale/",
+          "pubblicato": "2026-11-26T10:45:00+00:00"
+        },
+        {
           "titolo": "X risponde alle critiche sulla sicurezza con un nuovo sistema di controllo parentale",
           "sommario": "Su X è stato finalmente introdotto un sistema di controllo parentale pensato per gli adolescenti fra 13 e 17 anni.",
           "link": "https://www.hdblog.it/smartphone/articoli/n678366/twitter-x-controllo-parentale/",
@@ -628,12 +634,6 @@
           "sommario": "Non è vero che per automatizzare in modo efficace molte delle operazioni che si svolgono, ripetitive, ogni giorno sui computer Windows è necessario rivolgersi ad app di terze parti.",
           "link": "https://www.hdblog.it/microsoft/articoli/n678373/windows-11-automazioni-come-fare-utilita/",
           "pubblicato": "2026-11-26T10:15:00+00:00"
-        },
-        {
-          "titolo": "La macchina del caffè si adatta ai gusti dell'utente: la rivoluzione di sensori e AI",
-          "sommario": "Offrire prodotti di qualità ai consumatori richiede dati. E la loro elaborazione non può ormai più prescindere dalle tecnologie avanzate, dall'intelligenza artificiale ai sensori intelligenti sino alla robotica.",
-          "link": "https://www.hdblog.it/business/articoli/n678358/nestle-ai-sensori-smart-produzione-innovazione/",
-          "pubblicato": "2026-11-26T10:10:00+00:00"
         }
       ]
     },
@@ -717,6 +717,12 @@
       "attivo": true,
       "articoli": [
         {
+          "titolo": "Egonu e Velasco contro la nuova riforma dei calendari: “Non si riesce a starci dietro, siamo esseri umani”; “Un danno anche per le nazionali”",
+          "sommario": "L’introduzione di due finestre dedicate alle Nazionali nel mezzo della stagione dei club, con probabili interruzioni dei campionati nazionali tra novembre e dicembre per gli uomini e tra gennaio e febbraio per le donne, la conferma dei Mondiali con cadenza.",
+          "link": "https://www.ilfattoquotidiano.it/2026/11/26/riforma-calendari-fivb-egonu-velasco-critiche-siamo-esseri-umani-non-si-riesce-a-starci-dietro/8584401/",
+          "pubblicato": "2026-11-26T11:51:12+00:00"
+        },
+        {
           "titolo": "“Si sono arrampicati sui tubi di scarico, hanno forzato la finestra della cabina armadio di William e Kate e hanno rubato gioielli e un orologio”: arrestati due 30enni, è caccia al terzo complice",
           "sommario": "La polizia inglese ha fermato un 34enne e un 32enne di origine albanese, che sono accusati di essersi introdotti ad Anmer Hall, nella tenuta di Sandringham, la sera del 23 novembre scorso.",
           "link": "https://www.ilfattoquotidiano.it/2026/11/26/si-sono-arrampicati-sui-tubi-di-scarico-hanno-forzato-la-finestra-della-cabina-armadio-di-william-e-kate-e-hanno-rubato-gioielli-e-un-orologio-arrestati-due-30enni-e-caccia-al-terzo-complice/8584432/",
@@ -739,12 +745,6 @@
           "sommario": "Carys Douglas è la figlia di Michael Douglas e Catherine Zeta-Jones e la sua vita ha a che fare con il mondo dello spettacolo da prima ancora che nascesse.",
           "link": "https://www.ilfattoquotidiano.it/2026/11/26/avere-un-padre-anziano-e-un-dono-enorme-eppure-a-volte-vorrei-che-non-avesse-82-anni-la-danza-a-13-anni-ho-subito-un-intervento-alla-colonna-vertebrale-parla-carys-douglas/8584280/",
           "pubblicato": "2026-11-26T11:25:33+00:00"
-        },
-        {
-          "titolo": "De Gennaro, Travaglio a La7: “Colosimo vuole riscrivere la storia delle stragi con la fesseria su Mafia-Appalti. Una vergogna più grave di ‘Ruby nipote di Mubarak'”",
-          "sommario": "“ La presidente della commissione Antimafia, Chiara Colosimo, vuole andare dritta come un fuso sulla pista Mafia-Appalti per scrivere, a nome del Parlamento italiano, una cosa che farebbe vergogna almeno quanto la mozione ‘Ruby nipote di Mubarak’, anche.",
-          "link": "https://www.ilfattoquotidiano.it/2026/11/26/de-gennaro-travaglio-a-la7-colosimo-vuole-riscrivere-la-storia-delle-stragi-con-la-fesseria-su-mafia-appalti-una-vergogna-piu-grave-di-ruby-nipote-di-mubarak/8584133/",
-          "pubblicato": "2026-11-26T11:21:44+00:00"
         }
       ]
     },
@@ -753,6 +753,12 @@
       "url": "https://www.open.online/feed/",
       "attivo": true,
       "articoli": [
+        {
+          "titolo": "Nella caccia a Totò Riina La Barbera aveva l’indirizzo giusto ma cercava nella città sbagliata: il dettaglio emerso dall’inchiesta su De Gennaro",
+          "sommario": "Il 19 luglio 1992, giorno della strage di via D'Amelio, il capo della Squadra mobile di Palermo era a Montecatini Terme sulle tracce del boss. Sei mesi dopo Riina sarebbe stato catturato nella stessa via, ma a Palermo.",
+          "link": "https://www.open.online/2026/11/26/la-barbera-ricerca-riina-via-bernini-montecatini-citta-sbagliata/",
+          "pubblicato": "2026-11-26T11:45:27+00:00"
+        },
         {
           "titolo": "Svolta sul caso dell’83enne morta tra le fiamme: arrestato il vicino. Avrebbe cosparso il divano di benzina prima di appiccare l’incendio – Il video",
           "sommario": "Il 52enne accusato di aver appiccato due roghi dolosi a Milano l'11 e il 26 ottobre: nel secondo morì l'anziana donna con disabilità L'articolo Svolta sul caso dell’83enne morta tra le fiamme: arrestato il vicino.",
@@ -776,12 +782,6 @@
           "sommario": "Le fiamme sono divampate nella notte al piano terra di un condominio di via di Corticella. L'intero stabile è stato interdetto.",
           "link": "https://www.open.online/2026/11/26/incendio-palazzo-bologna-intossicati/",
           "pubblicato": "2026-11-26T10:48:24+00:00"
-        },
-        {
-          "titolo": "Femminicidio nel Pistoiese: uccide la compagna e si butta dal viadotto dove fu ammazzata Lorena Isceri",
-          "sommario": "Ieri Autostrade aveva installato una panchina rossa sul tratto per ricordarla L'articolo Femminicidio nel Pistoiese: uccide la compagna e si butta dal viadotto dove fu ammazzata Lorena Isceri proviene da Open.",
-          "link": "https://www.open.online/2026/11/26/femminicidio-autostrada-viadotto-lorena-isceri/",
-          "pubblicato": "2026-11-26T09:49:13+00:00"
         }
       ]
     },
@@ -915,12 +915,6 @@
           "sommario": "AGI - Coesione sociale e sicurezza sono due temi inscindibili.",
           "link": "https://www.agi.it/politica/news/2026-11-25/mattarella-anci-italie-40190656/",
           "pubblicato": "2026-11-25T19:52:08+00:00"
-        },
-        {
-          "titolo": "Giornata contro la violenza sulle donne, Mattarella: \"Agire sulle cause culturali\". Meloni...",
-          "sommario": "AGI - Una giornata per sensibilizzare e ricordare.",
-          "link": "https://www.agi.it/politica/news/2026-11-25/donne-giornata-contro-violenza-40182457/",
-          "pubblicato": "2026-11-25T11:50:54+00:00"
         }
       ]
     },
@@ -1218,38 +1212,7 @@
       "nome": "Eunews",
       "url": "https://www.eunews.it/feed/",
       "attivo": true,
-      "articoli": [
-        {
-          "titolo": "Energia, l’Europa resta prigioniera delle fonti fossili",
-          "sommario": "Bruxelles – L’Europa ha cambiato fornitori, ma non si è liberata dalla dipendenza dai combustibili fossili.",
-          "link": "https://www.eunews.it/2026/11/26/energia-leuropa-resta-prigioniera-delle-fonti-fossili/",
-          "pubblicato": "2026-11-26T11:02:55+00:00"
-        },
-        {
-          "titolo": "Bilancio pluriennale, i leader in coro: “Non ci siamo”. E gli uffici del Consiglio europeo già ragionano su un altro vertice straordinario",
-          "sommario": "Bruxelles – “Non ci siamo”. E’ questa l’espressione più utilizzata dai capi di Stato e di governo dell’UE per riassumere il negoziato sul prossimo bilancio pluriennale (MFF 2028-20234).",
-          "link": "https://www.eunews.it/2026/11/26/bilancio-pluriennale-i-leader-in-coro-non-ci-siamo-e-gli-uffici-del-consiglio-europeo-gia-ragionano-su-un-altro-vertice-straordinario/",
-          "pubblicato": "2026-11-26T10:00:57+00:00"
-        },
-        {
-          "titolo": "L’Eurocamera insiste: l’UE faccia di più per tutelare la giustizia internazionale",
-          "sommario": "Bruxelles – Dopo le svariate minacce da parte dell’Amministrazione Trump nei confronti della Corte penale internazionale (CPI), il Parlamento europeo prende una posizione netta a favore della giustizia internazionale.",
-          "link": "https://www.eunews.it/2026/11/25/leurocamera-insiste-lue-faccia-di-piu-per-tutelare-la-giustizia-internazionale/",
-          "pubblicato": "2026-11-25T17:43:41+00:00"
-        },
-        {
-          "titolo": "La Corte dei conti UE: “Le obbligazioni verdi di NextGenerationEU non sono sempre ‘green'”",
-          "sommario": "Bruxelles – I ‘green bond’ europei emessi per finanziare la ripresa dell’UE e dei suoi Stati membri dopo la pandemia di COVID19 hanno racimolato soldi usati per attività che verdi e sostenibili non sono.",
-          "link": "https://www.eunews.it/2026/11/25/la-corte-dei-conti-ue-le-obbligazioni-verdi-di-nextgenerationeu-non-sono-sempre-green/",
-          "pubblicato": "2026-11-25T17:20:32+00:00"
-        },
-        {
-          "titolo": "Dagli USA minacce di nuovi dazi, la Commissione risponde: “La sovraccapacità ci colpisce, non ne siamo causa”",
-          "sommario": "Bruxelles – L’Unione europea respingono fermamente il presupposto degli Stati Uniti d’America secondo cui l’Europa sarebbe una fonte di sovraccapacità strutturale, tale da giustificare ulteriori dazi commerciali.",
-          "link": "https://www.eunews.it/2026/11/25/dagli-usa-minacce-di-nuovi-dazi-la-commissione-risponde-la-sovraccapacita-ci-colpisce-non-ne-siamo-causa/",
-          "pubblicato": "2026-11-25T16:04:15+00:00"
-        }
-      ]
+      "articoli": []
     },
     "https://voxeurop.eu/it/feed/": {
       "nome": "Voxeurop",
@@ -1288,34 +1251,34 @@
       "attivo": true,
       "articoli": [
         {
+          "titolo": "LeBron James becomes oldest NBA player to post triple-double as 76ers win",
+          "sommario": "James posted 25 points, 12 assists and 10 rebounds as Philadelphia snapped Miami's seven-game winning streak.",
+          "link": "https://www.aljazeera.com/sports/2026/11/26/lebron-james-nba-oldest-player-triple-double-philadelphia-76ers?traffic_source=rss",
+          "pubblicato": "2026-11-26T11:38:20+00:00"
+        },
+        {
+          "titolo": "Iraq denies reports of troop movements towards Kurdish region",
+          "sommario": "Government says there is 'no truth' to media reports that Iraqi army units were moving towards the Kurdistan region.",
+          "link": "https://www.aljazeera.com/news/2026/11/26/iraq-denies-reports-of-troop-movements-towards-kurdish-region?traffic_source=rss",
+          "pubblicato": "2026-11-26T11:23:29+00:00"
+        },
+        {
+          "titolo": "Highway explosion in Giza: How deadly are Egypt’s roads and railways?",
+          "sommario": "Egypt has suffered another tragedy as a deadly road explosion kills 31 and injures dozens.",
+          "link": "https://www.aljazeera.com/news/2026/11/26/highway-explosion-in-giza-how-deadly-are-egypts-roads-and-railways?traffic_source=rss",
+          "pubblicato": "2026-11-26T11:22:59+00:00"
+        },
+        {
+          "titolo": "‘Proscribing free speech’: Why a Jewish group is challenging UK’s Hamas ban",
+          "sommario": "The Jewish Network for Palestine says the complete ban on Hamas was being used to stifle free speech.",
+          "link": "https://www.aljazeera.com/news/2026/11/26/proscribing-free-speech-why-a-jewish-group-is-challenging-uks-hamas-ban?traffic_source=rss",
+          "pubblicato": "2026-11-26T11:16:03+00:00"
+        },
+        {
           "titolo": "Are Trump’s tariffs aimed at securing US-friendly trade deals?",
           "sommario": "New US policy threatens further tariff hikes on China, India, Vietnam if trade negotiations fall through.",
           "link": "https://www.aljazeera.com/news/2026/11/26/are-trumps-tariffs-aimed-at-securing-us-friendly-trade-deals?traffic_source=rss",
           "pubblicato": "2026-11-26T11:07:30+00:00"
-        },
-        {
-          "titolo": "Thanksgiving dinner costs rise, putting pressure on US households",
-          "sommario": "Turkeys see a 26-percent price rise, forcing families to reconsider hosting and opt for potluck-style celebrations.",
-          "link": "https://www.aljazeera.com/economy/2026/11/26/thanksgiving-dinner-costs-rise-putting-pressure-on-us-households?traffic_source=rss",
-          "pubblicato": "2026-11-26T10:30:00+00:00"
-        },
-        {
-          "titolo": "Palestine coach says team represents suffering but also offers hope",
-          "sommario": "Despite navigating personal hardships, Ihab Abu Jazar calls it a 'badge of honour' to coach the Palestine football team.",
-          "link": "https://www.aljazeera.com/sports/2026/11/26/palestine-national-football-team-coach-suffering-hope?traffic_source=rss",
-          "pubblicato": "2026-11-26T10:28:51+00:00"
-        },
-        {
-          "titolo": "Kenya gov’t violated constitution with Ebola quarantine site, court says",
-          "sommario": "Kenya's High Court orders halt to ⁠further works at quarantine facility until details of deal with US are disclosed.",
-          "link": "https://www.aljazeera.com/news/2026/11/26/kenya-govt-violated-constitution-with-ebola-quarantine-site-court-says?traffic_source=rss",
-          "pubblicato": "2026-11-26T10:20:05+00:00"
-        },
-        {
-          "titolo": "Ukraine drone attack kills five in Russian-occupied Zaporizhia",
-          "sommario": "Russian forces launch ballistic missile attack on Ukrainian capital Kyiv, hitting a shopping centre and other buildings.",
-          "link": "https://www.aljazeera.com/news/2026/11/26/ukraine-drone-attack-kills-five-in-russian-occupied-zaporizhia?traffic_source=rss",
-          "pubblicato": "2026-11-26T10:02:09+00:00"
         }
       ]
     },
