@@ -15,34 +15,34 @@
   "llm_modello_traduzione": "gemini-3.1-flash-lite",
   "preset": {
     "svelto": {
-      "minuti": 4,
+      "minuti": 5,
       "copertine": 1,
-      "secondarie": 4,
+      "secondarie": 3,
       "max_notizie": 6,
       "buone_notizie": 2,
-      "parole_copertina": 240,
+      "parole_copertina": 220,
       "parole_secondaria": 95,
-      "parole_buona_notizia": 100
+      "parole_buona_notizia": 95
     },
     "standard": {
-      "minuti": 7,
+      "minuti": 10,
       "copertine": 2,
       "secondarie": 6,
-      "max_notizie": 10,
+      "max_notizie": 12,
       "buone_notizie": 2,
-      "parole_copertina": 240,
-      "parole_secondaria": 100,
-      "parole_buona_notizia": 100
-    },
-    "completo": {
-      "minuti": 12,
-      "copertine": 3,
-      "secondarie": 8,
-      "max_notizie": 14,
-      "buone_notizie": 3,
       "parole_copertina": 260,
       "parole_secondaria": 110,
-      "parole_buona_notizia": 100
+      "parole_buona_notizia": 105
+    },
+    "completo": {
+      "minuti": 15,
+      "copertine": 3,
+      "secondarie": 8,
+      "max_notizie": 16,
+      "buone_notizie": 3,
+      "parole_copertina": 280,
+      "parole_secondaria": 125,
+      "parole_buona_notizia": 110
     }
   },
   "parole_per_minuto": 145,

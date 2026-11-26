@@ -79,9 +79,9 @@ dell'mp3, percorso del copione e avvisi di stile.
 
 | Comando | Cosa fa |
 |---|---|
-| `.\scripts\esegui.ps1 --durata svelto` | Episodio breve, circa 4 minuti. |
-| `.\scripts\esegui.ps1 --durata standard` | Formato predefinito, circa 7 minuti. |
-| `.\scripts\esegui.ps1 --durata completo` | Episodio lungo, circa 12 minuti. |
+| `.\scripts\esegui.ps1 --durata svelto` | Episodio breve, circa 5 minuti. |
+| `.\scripts\esegui.ps1 --durata standard` | Formato predefinito, circa 10 minuti. |
+| `.\scripts\esegui.ps1 --durata completo` | Episodio lungo, circa 15 minuti. |
 | `.\scripts\esegui.ps1 --notizie 5` | Massimo 5 notizie, qualunque sia il preset. |
 | `.\scripts\esegui.ps1 --ore 12` | Guarda solo le ultime 12 ore (default 24). |
 | `.\scripts\esegui.ps1 --senza-audio` | Crea copione e stato, senza TTS. |
@@ -106,9 +106,9 @@ I preset sono in `config/impostazioni.json`:
 
 | Preset | Minuti indicativi | Copertine | Secondarie | Max notizie |
 |---|---:|---:|---:|---:|
-| `svelto` | 4 | 1 | 4 | 6 |
-| `standard` | 7 | 2 | 6 | 10 |
-| `completo` | 12 | 3 | 8 | 14 |
+| `svelto` | 5 | 1 | 3 | 6 |
+| `standard` | 10 | 2 | 6 | 12 |
+| `completo` | 15 | 3 | 8 | 16 |
 
 Le copertine restano 1/2/3. Il valore `secondarie` del preset è un limite
 effettivo, non decorativo; il massimo notizie comprende anche il blocco

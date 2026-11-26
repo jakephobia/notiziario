@@ -184,7 +184,8 @@ def test_buone_notizie_in_chiusura_e_riducono_le_secondarie():
         ["italia", "mondo", "economia", "cultura", "buone-notizie"],
         buone_notizie=positive,
     )
-    assert len(scelte) == preset["max_notizie"] == 10
+    assert len(scelte) == 10
+    assert len(scelte) <= preset["max_notizie"]
     assert sum(1 for s in scelte if s.copertina) == 2
     positive_scelte = [s for s in scelte if s.blocco == "buone-notizie"]
     assert len(positive_scelte) == 2

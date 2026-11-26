@@ -15,7 +15,23 @@
 
 const REPO = "jakephobia/notiziario";
 const WORKFLOW = "notiziario.yml";
-const DURATA = "standard";
+const DURATA_DEFAULT = "completo";
+
+function durataConfigurata() {
+  try {
+    const risposta = UrlFetchApp.fetch(
+      "https://raw.githubusercontent.com/" + REPO + "/main/docs/impostazioni.json",
+      { muteHttpExceptions: true }
+    );
+    if (risposta.getResponseCode() === 200) {
+      const dati = JSON.parse(risposta.getContentText() || "{}");
+      return String(dati.durata_default || DURATA_DEFAULT);
+    }
+  } catch (errore) {
+    Logger.log("Durata non leggibile dalla configurazione: " + errore);
+  }
+  return DURATA_DEFAULT;
+}
 
 function triggerNotiziario() {
   const props = PropertiesService.getScriptProperties();
@@ -50,6 +66,7 @@ function triggerNotiziario() {
     }
   }
 
+  const durata = durataConfigurata();
   const url =
     "https://api.github.com/repos/" +
     REPO +
@@ -66,7 +83,7 @@ function triggerNotiziario() {
     },
     payload: JSON.stringify({
       ref: "main",
-      inputs: { durata: DURATA },
+      inputs: { durata: durata },
     }),
     muteHttpExceptions: true,
   });
