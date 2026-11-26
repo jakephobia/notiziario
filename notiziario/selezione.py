@@ -344,17 +344,23 @@ def seleziona(
         if restanti
         else 0
     )
+    # Buffer per coprire notizie estere non traducibili e varianza del modello:
+    # meglio una notizia in più che una puntata troppo corta.
+    minuti = int(preset.get("minuti", 0))
+    buffer_secondarie = 4 if minuti >= 15 else 2
     posti = max(0, limite - len(copertine) - len(positive))
-    posti_secondarie = min(posti, calcolate)
+    posti_secondarie = min(posti, calcolate + buffer_secondarie)
     if posti_secondarie == 0 and posti > 0 and target_parole > parole_fisse:
         posti_secondarie = 1
     logger.info(
-        "Target %d parole (%d minuti): %d copertine, %d secondarie calcolate, "
-        "%d buone notizie.",
+        "Target %d parole (%d minuti): %d copertine, %d secondarie "
+        "(calcolate %d + buffer %d), %d buone notizie.",
         target_parole,
-        int(preset.get("minuti", 0)),
+        minuti,
         len(copertine),
         posti_secondarie,
+        calcolate,
+        buffer_secondarie,
         len(positive),
     )
     secondarie: list[Cluster] = []
