@@ -57,6 +57,22 @@ class Cluster:
         return next(iter(candidate))
 
     @property
+    def categorie(self) -> set[str]:
+        """Categoria base più le etichette sovrapposte (cronaca, PR, ...)."""
+        # Import locale: classificazione usa i campi del cluster e non deve
+        # creare un ciclo all'import del modulo.
+        from .classificazione import categorie_cluster
+
+        return categorie_cluster(self)
+
+    @property
+    def notiziabilita(self) -> int:
+        """Punteggio strutturale 1-5, senza entità specifiche del ciclo news."""
+        from .classificazione import notiziabilita_cluster
+
+        return notiziabilita_cluster(self)
+
+    @property
     def id(self) -> str:
         base = "|".join(sorted(a.id for a in self.articoli))
         return hashlib.sha1(base.encode("utf-8")).hexdigest()[:16]

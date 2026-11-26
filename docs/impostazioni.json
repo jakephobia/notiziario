@@ -2,6 +2,8 @@
   "categorie_attive": [
     "italia",
     "mondo",
+    "cronaca",
+    "approfondimento",
     "tecnologia",
     "scienza-salute",
     "ambiente",
@@ -10,6 +12,8 @@
   "categorie_label": [
     "Italia",
     "Mondo",
+    "Cronaca",
+    "Approfondimento",
     "Tecnologia",
     "Scienza e salute",
     "Ambiente",

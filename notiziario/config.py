@@ -86,10 +86,10 @@ DEFAULT_SETTINGS: dict[str, Any] = {
     "categorie_default": [
         "italia",
         "mondo",
-        "economia",
+        "cronaca",
+        "approfondimento",
         "tecnologia",
         "scienza-salute",
-        "cultura",
         "ambiente",
         "buone-notizie",
     ],

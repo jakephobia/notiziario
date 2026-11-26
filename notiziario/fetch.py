@@ -156,6 +156,7 @@ class Article:
     contenuto: str | None = None
     contenuto_parziale: bool = False
     arricchito: bool = False
+    paywall: bool = False
 
     @property
     def id(self) -> str:

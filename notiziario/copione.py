@@ -75,8 +75,13 @@ def prepara_materiale(selezioni: list[NotiziaSelezionata]) -> list[dict[str, Any
         else:
             frasi_viste: list[str] = []
             for articolo in selezione.cluster.ordina_articoli():
+                testo_articolo = (
+                    articolo.sommario
+                    if articolo.paywall
+                    else (articolo.contenuto or articolo.sommario)
+                )
                 testo = deduplica_paragrafi(
-                    rimuovi_pubblicita(articolo.contenuto or articolo.sommario)
+                    rimuovi_pubblicita(testo_articolo)
                 )
                 frasi = []
                 for frase in estrai_frasi(testo):

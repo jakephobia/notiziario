@@ -48,6 +48,13 @@ def test_impostazioni_reali_valide():
     }
     assert impostazioni["feed"]["max_episodi"] == 60
     assert "buone-notizie" in impostazioni["categorie_default"]
+    assert "cronaca" in impostazioni["categorie_default"]
+    assert "approfondimento" in impostazioni["categorie_default"]
+    assert "cronaca-nera" not in impostazioni["categorie_default"]
+    assert "promozione" not in impostazioni["categorie_default"]
+    assert "economia" not in impostazioni["categorie_default"]
+    assert "cultura" not in impostazioni["categorie_default"]
+    assert "sport" not in impostazioni["categorie_default"]
     assert impostazioni["nome_utente"] == "Jacopo"
     assert impostazioni["preset"]["svelto"]["max_notizie"] == 12
     assert impostazioni["preset"]["standard"]["max_notizie"] == 18

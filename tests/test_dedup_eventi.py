@@ -75,7 +75,7 @@ def _cluster_de_gennaro() -> list[Cluster]:
 
 def test_tre_notizie_sullo_stesso_evento_selezionata_una_sola():
     preset = carica_impostazioni()["preset"]["svelto"]
-    scelte = seleziona(_cluster_de_gennaro(), preset, ["italia"], max_notizie=10)
+    scelte = seleziona(_cluster_de_gennaro(), preset, ["italia", "cronaca"], max_notizie=10)
     assert len(scelte) == 1
     selezione = scelte[0]
     assert _menziona(selezione, "Gennaro")
@@ -97,7 +97,7 @@ def test_duplicati_assorbiti_anche_come_secondarie():
         "max_notizie": 1,
     }
     scelte = seleziona(
-        _cluster_de_gennaro()[:2], preset, ["italia"], max_notizie=1
+        _cluster_de_gennaro()[:2], preset, ["italia", "cronaca"], max_notizie=1
     )
     assert len(scelte) == 1
     assert scelte[0].blocco == "secondaria"
@@ -118,7 +118,7 @@ def test_duplicato_positivo_assorbito_nella_copertina():
     scelte = seleziona(
         [generale],
         preset,
-        ["italia", "buone-notizie"],
+        ["italia", "cronaca", "approfondimento", "buone-notizie"],
         max_notizie=6,
         buone_notizie=[positivo],
     )
@@ -153,7 +153,7 @@ def test_duplicato_generale_assorbito_nella_buona_notizia_selezionata_prima():
     scelte = seleziona(
         [generale],
         preset,
-        ["italia", "buone-notizie"],
+        ["italia", "cronaca", "approfondimento", "buone-notizie"],
         max_notizie=2,
         buone_notizie=[positivo],
     )
@@ -181,7 +181,7 @@ def test_duplicato_di_categoria_inattiva_non_cambia_la_categoria():
         categoria="sport",
         ore_fa=0.5,
     )
-    scelte = seleziona([generale, sportivo], preset, ["italia"], max_notizie=10)
+    scelte = seleziona([generale, sportivo], preset, ["italia", "cronaca"], max_notizie=10)
     assert len(scelte) == 1
     assert scelte[0].blocco == "copertina"
     assert scelte[0].categoria == "italia"
@@ -209,7 +209,9 @@ def test_duplicato_di_categoria_attiva_non_cambia_la_categoria_secondaria():
         categoria="mondo",
         ore_fa=0.5,
     )
-    scelte = seleziona([italia, mondo], preset, ["italia", "mondo"], max_notizie=2)
+    scelte = seleziona(
+        [italia, mondo], preset, ["italia", "mondo", "cronaca"], max_notizie=2
+    )
     assert len(scelte) == 1
     assert scelte[0].blocco == "secondaria"
     assert scelte[0].categoria == "italia"
@@ -221,7 +223,7 @@ def test_cluster_selezionato_resta_dopo_il_cambio_di_id():
     preset = carica_impostazioni()["preset"]["svelto"]
     clusters = _cluster_de_gennaro()
     id_iniziale = clusters[0].id
-    scelte = seleziona(clusters, preset, ["italia"], max_notizie=10)
+    scelte = seleziona(clusters, preset, ["italia", "cronaca"], max_notizie=10)
     assert len(scelte) == 1
     assert scelte[0].cluster is clusters[0]
     assert scelte[0].cluster.id != id_iniziale
@@ -240,7 +242,7 @@ def test_buone_notizie_inattive_duplicato_positivo_non_blocca_la_generale():
     scelte = seleziona(
         [generale],
         preset,
-        ["italia"],
+        ["italia", "cronaca"],
         max_notizie=6,
         buone_notizie=[positivo],
     )
@@ -296,7 +298,7 @@ def test_assorbimento_rispetta_limiti_e_ordine_dei_blocchi():
     scelte = seleziona(
         clusters,
         preset,
-        ["italia", "mondo", "economia", "cultura", "buone-notizie"],
+        ["italia", "mondo", "economia", "cultura", "cronaca", "buone-notizie"],
         max_notizie=6,
         buone_notizie=positivi,
     )
@@ -331,7 +333,7 @@ def test_copione_e_md_elencano_le_fonti_assorbite(tmp_path):
 
     impostazioni = carica_impostazioni()
     preset = impostazioni["preset"]["svelto"]
-    scelte = seleziona(_cluster_de_gennaro(), preset, ["italia"], max_notizie=10)
+    scelte = seleziona(_cluster_de_gennaro(), preset, ["italia", "cronaca"], max_notizie=10)
     data = datetime(2026, 11, 23, 7, 0, tzinfo=timezone.utc)
     copione = genera_copione(scelte, impostazioni, data, usa_llm=False)
     sezioni, transizioni = sezioni_tts_strutturate(copione)

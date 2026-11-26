@@ -62,7 +62,7 @@ def test_copertine_rispettano_categorie_attive():
     copertine = [s for s in scelte if s.copertina]
     secondarie = [s for s in scelte if not s.copertina]
     assert len(copertine) == 2
-    assert {s.categoria for s in copertine} == {"cultura", "italia"}
+    assert {s.categoria for s in copertine} == {"italia", "mondo"}
     assert all(s.categoria in attive for s in scelte)
     assert len(scelte) <= preset["max_notizie"]
     assert len(secondarie) == 4
@@ -181,7 +181,7 @@ def test_buone_notizie_in_chiusura_e_riducono_le_secondarie():
     scelte = seleziona(
         clusters,
         preset,
-        ["italia", "mondo", "economia", "cultura", "buone-notizie"],
+        ["italia", "mondo", "economia", "cultura", "cronaca", "buone-notizie"],
         buone_notizie=positive,
     )
     assert len(scelte) == 12
@@ -218,6 +218,37 @@ def test_buone_notizie_inattive_non_entrano():
         buone_notizie=positive,
     )
     assert all(s.blocco != "buone-notizie" for s in scelte)
+
+
+def test_buona_notizia_generalista_resta_nel_blocco_finale():
+    preset = {
+        **carica_impostazioni()["preset"]["standard"],
+        "copertine": 0,
+        "secondarie": 1,
+        "max_notizie": 2,
+        "buone_notizie": 1,
+    }
+    positiva = crea_cluster(
+        [
+            crea_articolo(
+                "Volontari ripuliscono il parco",
+                categoria="italia",
+                fonte="ANSA",
+            )
+        ]
+    )
+    scelte = seleziona(
+        [positiva],
+        preset,
+        ["italia", "buone-notizie"],
+        max_notizie=2,
+        buone_notizie=[positiva],
+    )
+    assert len(scelte) == 1
+    assert scelte[0].blocco == "buone-notizie"
+    assert scelte[0].categoria == "buone-notizie"
+    assert "italia" in scelte[0].categorie
+    assert scelte[0].notiziabilita > 0
 
 
 def test_solo_categorie_attive_per_le_secondarie():
@@ -259,4 +290,118 @@ def test_live_blog_unico_non_viene_selezionato():
         crea_cluster([crea_articolo("Politica australiana in diretta", categoria="mondo")])
     ]
     assert seleziona(clusters, preset, ["mondo"]) == []
+
+
+def test_copertine_scelte_per_notiziabilita_non_per_fonti():
+    preset = {**carica_impostazioni()["preset"]["standard"], "copertine": 1}
+    cultura = multi(
+        "Premio Strega, la dozzina",
+        ["ANSA", "Repubblica", "Il Post"],
+        "cultura",
+        1,
+    )
+    italia = crea_cluster(
+        [crea_articolo("Governo approva la manovra", categoria="italia", ore_fa=5)]
+    )
+    scelte = seleziona(
+        [cultura, italia],
+        preset,
+        ["italia", "cultura", "cronaca"],
+        max_notizie=3,
+    )
+    assert scelte[0].copertina
+    assert scelte[0].titolo == "Governo approva la manovra"
+    assert scelte[0].notiziabilita == 4
+
+
+def test_secondarie_escludono_notiziabilita_uno():
+    preset = {
+        **carica_impostazioni()["preset"]["standard"],
+        "copertine": 0,
+        "secondarie": 2,
+        "max_notizie": 2,
+        "buone_notizie": 0,
+    }
+    promozionale = crea_cluster(
+        [
+            crea_articolo(
+                "Esce in libreria il nuovo romanzo",
+                categoria="cultura",
+                sommario="Presentazione del libro in libreria.",
+                ore_fa=1,
+            )
+        ]
+    )
+    normale = crea_cluster(
+        [
+            crea_articolo(
+                "Il governo approva la manovra",
+                categoria="italia",
+                ore_fa=2,
+            )
+        ]
+    )
+    scelte = seleziona(
+        [promozionale, normale],
+        preset,
+        ["italia", "cultura", "cronaca", "promozione"],
+        max_notizie=2,
+    )
+    assert scelte
+    assert all(s.notiziabilita > 1 for s in scelte)
+    assert all(s.titolo != "Esce in libreria il nuovo romanzo" for s in scelte)
+
+
+def test_hard_exclusion_delle_etichette_disattivate():
+    preset = {
+        **carica_impostazioni()["preset"]["standard"],
+        "copertine": 1,
+        "max_notizie": 4,
+        "buone_notizie": 0,
+    }
+    nera = crea_cluster(
+        [
+            crea_articolo(
+                "Femminicidio a Roma, uomo arrestato: ha ucciso la compagna",
+                categoria="italia",
+            )
+        ]
+    )
+    assert seleziona([nera], preset, ["italia", "cronaca"]) == []
+    scelte = seleziona(
+        [nera], preset, ["italia", "cronaca", "cronaca-nera"], max_notizie=4
+    )
+    assert len(scelte) == 1
+    assert "cronaca-nera" in scelte[0].categorie
+
+    promozionale = crea_cluster(
+        [
+            crea_articolo(
+                "Esce in libreria il nuovo romanzo",
+                categoria="cultura",
+                sommario="Presentazione del libro in libreria.",
+            )
+        ]
+    )
+    assert seleziona([promozionale], preset, ["cultura"]) == []
+
+
+def test_notizia_selezionata_espone_le_etichette_multiple():
+    preset = carica_impostazioni()["preset"]["svelto"]
+    guerra = crea_cluster(
+        [
+            crea_articolo(
+                "Guerra in Medio Oriente, nuova offensiva",
+                categoria="mondo",
+            )
+        ]
+    )
+    scelte = seleziona(
+        [guerra], preset, ["mondo", "cronaca"], max_notizie=2
+    )
+    assert len(scelte) == 1
+    selezione = scelte[0]
+    assert selezione.categoria == "mondo"
+    assert {"mondo", "cronaca"} <= selezione.categorie
+    assert selezione.notiziabilita == 4
 

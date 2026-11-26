@@ -19,6 +19,10 @@ DEFAULT = [
     "cultura",
     "ambiente",
     "buone-notizie",
+    "cronaca",
+    "cronaca-nera",
+    "approfondimento",
+    "promozione",
 ]
 
 
@@ -33,8 +37,18 @@ def test_categorie_fisse():
         "sport",
         "ambiente",
         "buone-notizie",
+        "cronaca",
+        "cronaca-nera",
+        "approfondimento",
+        "promozione",
     )
     assert [c.label for c in CATEGORIE][4] == "Scienza e salute"
+    assert [c.label for c in CATEGORIE][-4:] == [
+        "Cronaca",
+        "Cronaca nera",
+        "Approfondimento",
+        "Promozione/PR",
+    ]
 
 
 def test_parse_issue_con_checkbox_miste():
@@ -57,6 +71,10 @@ def test_parse_issue_con_checkbox_miste():
         "cultura",
         "ambiente",
         "buone-notizie",
+        "cronaca",
+        "cronaca-nera",
+        "approfondimento",
+        "promozione",
     ]
     assert avvisi == []
 
@@ -117,6 +135,11 @@ def test_checked_e_unchecked_stessa_categoria():
         ("Ambiente", "ambiente"),
         ("Buone notizie", "buone-notizie"),
         ("buone-notizie", "buone-notizie"),
+        ("Cronaca", "cronaca"),
+        ("Cronaca nera", "cronaca-nera"),
+        ("Approfondimento", "approfondimento"),
+        ("Promozione/PR", "promozione"),
+        ("promozione", "promozione"),
         ("Sportivo", None),
         ("Trasporti", None),
         ("", None),
@@ -145,3 +168,11 @@ def test_sezione_categorie_assente_usa_default():
     assert attive == DEFAULT
     assert "sport" not in attive
     assert any("assente" in a for a in avvisi)
+
+
+def test_checkbox_cronaca_nera_non_attiva_cronaca():
+    corpo = "## Categorie\n- [ ] Cronaca\n- [x] Cronaca nera"
+    attive, avvisi = parse_issue_body(corpo, ["italia"])
+    assert "cronaca" not in attive
+    assert "cronaca-nera" in attive
+    assert avvisi == []

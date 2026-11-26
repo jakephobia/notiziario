@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import copy
 import logging
 import os
 from datetime import datetime
@@ -7,8 +8,10 @@ from datetime import datetime
 import pytest
 
 from helpers import crea_articolo, crea_cluster
+from notiziario import arricchisci as modulo_arricchisci
 from notiziario import copione as modulo_copione
 from notiziario.config import carica_impostazioni
+
 from notiziario.copione import (
     _accorcia_titolo_breve,
     _contiene_stopword_inglese,
@@ -102,7 +105,65 @@ def test_prepara_materiale():
     assert materiale[0]["articoli"][0]["sommario"]
 
 
+def test_materiale_da_articolo_paywall_usa_il_sommario(tmp_path, monkeypatch):
+    impostazioni = copy.deepcopy(carica_impostazioni())
+    impostazioni["arricchimento"]["cache_dir"] = str(tmp_path / "cache")
+    articolo = crea_articolo(
+        "Titolo riservato",
+        link="https://paywall.test/articolo",
+        sommario="Il sommario RSS racconta i fatti principali della notizia.",
+    )
+    html = (
+        '<html><body><div class="paywall">'
+        "<p>Contenuto riservato agli abbonati. Per leggere l'articolo completo "
+        "serve un abbonamento.</p></div></body></html>"
+    )
+    monkeypatch.setattr(
+        modulo_arricchisci, "robots_consenti", lambda *a, **k: True
+    )
+    monkeypatch.setattr(
+        modulo_arricchisci, "valida_url_pubblica", lambda *a, **k: None
+    )
+    monkeypatch.setattr(
+        modulo_arricchisci,
+        "fetch_con_limite",
+        lambda *a, **k: (html.encode("utf-8"), articolo.link, 200),
+    )
+
+    assert modulo_arricchisci.arricchisci_articolo(
+        articolo, impostazioni
+    ) is False
+    assert articolo.contenuto == ""
+    selezione = NotiziaSelezionata(crea_cluster([articolo]), True, 1, 100)
+    materiale = prepara_materiale([selezione])
+    testo = materiale[0]["articoli"][0]["testo"]
+    assert "Il sommario RSS racconta i fatti principali" in testo
+    assert "riservato agli abbonati" not in testo.casefold()
+    assert "per leggere l'articolo completo" not in testo.casefold()
+
+
+def test_materiale_paywall_ignora_un_contenuto_residuo():
+    articolo = crea_articolo(
+        "Titolo riservato",
+        sommario="Sommario RSS con i fatti principali.",
+    )
+    articolo.paywall = True
+    articolo.contenuto = (
+        "Contenuto riservato agli abbonati: per leggere l'articolo completo "
+        "serve un abbonamento."
+    )
+    articolo.contenuto_parziale = True
+    articolo.arricchito = True
+    selezione = NotiziaSelezionata(crea_cluster([articolo]), True, 1, 100)
+    materiale = prepara_materiale([selezione])
+    testo = materiale[0]["articoli"][0]["testo"]
+    assert "Sommario RSS con i fatti principali" in testo
+    assert "riservato agli abbonati" not in testo.casefold()
+    assert "per leggere l'articolo completo" not in testo.casefold()
+
+
 def test_fallback_deterministico_naturale():
+
     copione = genera_copione(
         selezioni_finte(),
         carica_impostazioni(),

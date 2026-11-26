@@ -9,6 +9,7 @@ import pytest
 from helpers import crea_articolo, crea_cluster
 from notiziario import arricchisci
 from notiziario.arricchisci import (
+    _rileva_paywall,
     arricchisci_articolo,
     arricchisci_selezioni,
     estrai_da_html,
@@ -30,6 +31,19 @@ la soglia minima e verificare l'estrazione del contenuto completo.</p>
 <h3>Altro titolo di paragrafo</h3>
 <p>Il terzo paragrafo conclude la ricostruzione dei fatti con altre informazioni.</p>
 </article></body></html>"""
+
+HTML_PAYWALL_JSONLD = (
+    '<html><head><script type="application/ld+json">'
+    '{"@type": "NewsArticle", "isAccessibleForFree": "False"}'
+    "</script></head><body>"
+    "<p>Un testo qualsiasi senza altri segnali di blocco.</p>"
+    "</body></html>"
+)
+
+HTML_PAYWALL_DIV = (
+    '<html><body><div class="paywall"><p>Testo nascosto.</p></div>'
+    "<p>Un altro testo qualsiasi.</p></body></html>"
+)
 
 
 def impostazioni_tmp(tmp_path):
@@ -102,6 +116,128 @@ def test_paywall_breve_fallback():
     assert testo is None
     assert parziale is True
     assert motivo in {"paywall", "estratto troppo corto"}
+
+
+@pytest.mark.parametrize(
+    ("html", "link"),
+    [
+        (HTML_PAYWALL_JSONLD, "https://paywall.test/jsonld"),
+        (HTML_PAYWALL_DIV, "https://paywall.test/div"),
+    ],
+    ids=["jsonld", "div"],
+)
+def test_arricchisci_paywall_usa_sommario_e_cache(
+    tmp_path, monkeypatch, html, link
+):
+    impostazioni = impostazioni_tmp(tmp_path)
+    now = datetime(2026, 11, 22, 12, 0, tzinfo=timezone.utc)
+    articolo = crea_articolo(
+        "Titolo con paywall",
+        link=link,
+        sommario="Il sommario RSS racconta i fatti principali.",
+    )
+    monkeypatch.setattr(arricchisci, "robots_consenti", lambda *a, **k: True)
+    monkeypatch.setattr(arricchisci, "valida_url_pubblica", lambda *a, **k: None)
+    monkeypatch.setattr(
+        arricchisci,
+        "fetch_con_limite",
+        lambda *a, **k: (html.encode("utf-8"), link, 200),
+    )
+
+    assert arricchisci_articolo(articolo, impostazioni, adesso=now) is False
+    assert articolo.paywall is True
+    assert articolo.contenuto == ""
+    assert articolo.contenuto_parziale is True
+    assert articolo.arricchito is True
+
+    cache = leggi_cache(link, impostazioni, now)
+    assert cache is not None
+    assert cache["paywall"] is True
+    assert cache["motivo"] == "paywall"
+    assert cache["testo"] is None
+    assert cache["parziale"] is True
+    assert cache["versione"] == 3
+
+
+def test_abbonamento_in_frase_normale_non_e_paywall():
+    html = (
+        "<html><body><article><p>L'abbonamento annuale alla rivista costa "
+        "ottanta euro e gli abbonati ricevono anche l'archivio digitale.</p>"
+        "</article></body></html>"
+    )
+    testo = (
+        "L'abbonamento annuale alla rivista costa ottanta euro e gli abbonati "
+        "ricevono anche l'archivio digitale."
+    )
+    assert _rileva_paywall(html, testo) is False
+
+
+def test_frase_paywall_con_apostrofo_tipografico():
+    assert (
+        _rileva_paywall("", "Per leggere l’articolo completo serve un abbonamento.")
+        is True
+    )
+
+
+def test_marcatore_subscription_nel_markup():
+    html = (
+        '<html><body><div class="subscription-wall">Testo qualsiasi.</div>'
+        "</body></html>"
+    )
+    assert _rileva_paywall(html, "Testo qualsiasi.") is True
+
+
+def test_cache_paywall_non_ripresenta_il_testo(tmp_path, monkeypatch):
+    impostazioni = impostazioni_tmp(tmp_path)
+    now = datetime(2026, 11, 22, 12, 0, tzinfo=timezone.utc)
+    link = "https://paywall.test/cache"
+    scrivi_cache(
+        link,
+        impostazioni,
+        "Testo riservato che non deve riemergere",
+        True,
+        "paywall",
+        now,
+        paywall=True,
+    )
+    articolo = crea_articolo(
+        "Titolo in cache", link=link, sommario="Sommario RSS."
+    )
+
+    def fetch_non_atteso(*args, **kwargs):
+        raise AssertionError("fetch non atteso")
+
+    monkeypatch.setattr(arricchisci, "fetch_con_limite", fetch_non_atteso)
+    assert arricchisci_articolo(articolo, impostazioni, adesso=now) is False
+    assert articolo.paywall is True
+    assert articolo.contenuto == ""
+    assert articolo.contenuto_parziale is True
+    assert articolo.arricchito is True
+
+
+def test_riepilogo_arricchimento_conta_paywall(tmp_path, monkeypatch):
+    impostazioni = impostazioni_tmp(tmp_path)
+    articolo = crea_articolo(
+        "Titolo paywall", link="https://paywall.test/riepilogo"
+    )
+    selezione = NotiziaSelezionata(crea_cluster([articolo]), True, 1, 100)
+
+    def finto_paywall(articolo, *args, **kwargs):
+        articolo.paywall = True
+        articolo.contenuto = ""
+        articolo.contenuto_parziale = True
+        articolo.arricchito = True
+        return False
+
+    monkeypatch.setattr(arricchisci, "arricchisci_articolo", finto_paywall)
+    riepilogo = arricchisci_selezioni(
+        [selezione],
+        impostazioni,
+        adesso=datetime(2026, 11, 22, 12, 0, tzinfo=timezone.utc),
+    )
+    assert riepilogo["paywall"] == 1
+    assert riepilogo["parziali"] == 1
+    assert riepilogo["arricchiti"] == 0
 
 
 def test_robots_disallow():

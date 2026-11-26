@@ -25,6 +25,10 @@ CATEGORIE: tuple[Categoria, ...] = (
     Categoria("sport", "Sport"),
     Categoria("ambiente", "Ambiente"),
     Categoria("buone-notizie", "Buone notizie"),
+    Categoria("cronaca", "Cronaca"),
+    Categoria("cronaca-nera", "Cronaca nera"),
+    Categoria("approfondimento", "Approfondimento"),
+    Categoria("promozione", "Promozione/PR"),
 )
 
 CATEGORIE_IDS: tuple[str, ...] = tuple(c.id for c in CATEGORIE)
@@ -55,18 +59,20 @@ def trova_categoria(testo: str) -> str | None:
     normale = normalizza_testo(testo)
     if not normale:
         return None
-    trovati: list[tuple[int, str]] = []
+    trovati: list[tuple[int, int, str]] = []
     imbottito = f" {normale} "
     for categoria in CATEGORIE:
         for chiave in (categoria.id, categoria.label):
             chiave_norm = normalizza_testo(chiave)
             posizione = imbottito.find(f" {chiave_norm} ")
             if posizione >= 0:
-                trovati.append((posizione, categoria.id))
+                # A parità di posizione vince la chiave più specifica:
+                # "Cronaca nera" non deve attivare "Cronaca".
+                trovati.append((posizione, -len(chiave_norm), categoria.id))
     if not trovati:
         return None
     trovati.sort()
-    return trovati[0][1]
+    return trovati[0][2]
 
 
 _RIGA_CHECKBOX = re.compile(
@@ -95,7 +101,11 @@ def parse_issue_body(
     """
     default = [c for c in CATEGORIE_IDS if c in set(categorie_default)]
     if not default:
-        default = [c.id for c in CATEGORIE if c.id != "sport"]
+        default = [
+            c.id
+            for c in CATEGORIE
+            if c.id not in {"sport", "cronaca-nera", "promozione"}
+        ]
 
     avvisi: list[str] = []
     if not corpo or not corpo.strip():

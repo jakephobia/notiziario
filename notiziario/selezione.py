@@ -5,9 +5,11 @@ from __future__ import annotations
 import logging
 import math
 import re
-from dataclasses import dataclass
+from collections import Counter
+from dataclasses import dataclass, field
 
 from .categorie import CATEGORIE_IDS, label_categoria
+from .classificazione import CATEGORIE_OVERLAY_SET
 from .clustering import Cluster
 from .testi import (
     estrai_nomi_propri,
@@ -28,6 +30,8 @@ class NotiziaSelezionata:
     titolo_tradotto: str = ""
     testo_tradotto: str = ""
     categoria_origine: str = ""
+    categorie: set[str] = field(default_factory=set)
+    notiziabilita: int = 3
 
     @property
     def titolo(self) -> str:
@@ -207,27 +211,51 @@ def _assorbi_duplicati(
     return assorbiti
 
 
+def _cluster_ammesso(
+    base: str,
+    etichette: set[str],
+    attive: set[str],
+    basi_ammesse: set[str] | None = None,
+) -> bool:
+    """Base attiva e nessuna etichetta sovrapposta disattivata."""
+    if base not in attive:
+        return False
+    if basi_ammesse is not None and base not in basi_ammesse:
+        return False
+    overlay = etichette & CATEGORIE_OVERLAY_SET
+    return overlay <= attive
+
+
 def _seleziona_copertine(
     clusters: list[Cluster],
-    categorie_attive: list[str],
+    basi_ammesse: set[str],
+    attive: set[str],
     quante: int,
     soglia: float,
+    categorie: dict[int, str],
+    etichette: dict[int, set[str]],
+    notiziabilita: dict[int, int],
 ) -> list[Cluster]:
-    """Copertine solo da categorie attive, multi-fonte prima, poi freschezza."""
-    multi = [
-        c for c in clusters if c.multi_fonte and c.categoria in categorie_attive
+    """Copertine per notiziabilità, poi fonti, poi freschezza."""
+    candidati = [
+        cluster
+        for cluster in clusters
+        if _cluster_ammesso(
+            categorie.get(id(cluster), cluster.categoria),
+            etichette.get(id(cluster), set()),
+            attive,
+            basi_ammesse,
+        )
     ]
-    singoli = sorted(
-        (
-            c
-            for c in clusters
-            if not c.multi_fonte and c.categoria in categorie_attive
-        ),
-        key=lambda c: c.freschezza,
-        reverse=True,
+    candidati.sort(
+        key=lambda cluster: (
+            -notiziabilita.get(id(cluster), cluster.notiziabilita),
+            -cluster.numero_fonti,
+            -cluster.freschezza.timestamp(),
+        )
     )
     copertine: list[Cluster] = []
-    for cluster in multi + singoli:
+    for cluster in candidati:
         if len(copertine) >= quante:
             break
         if _compatibile(cluster, copertine, soglia):
@@ -275,9 +303,15 @@ def seleziona(
             visti_identita.add(id(cluster))
     consumati: set[str] = set()
     assorbiti = 0
-    # La categoria va letta prima dell'assorbimento: aggiungere articoli può
-    # cambiare la categoria derivata del cluster.
-    categorie_origine = {id(cluster): cluster.categoria for cluster in tutti_candidati}
+    # Categorie, etichette e notiziabilità vanno lette prima dell'assorbimento:
+    # aggiungere articoli può cambiare la categoria derivata del cluster.
+    categorie_origine: dict[int, str] = {}
+    etichette_origine: dict[int, set[str]] = {}
+    notiziabilita_origine: dict[int, int] = {}
+    for cluster in tutti_candidati:
+        categorie_origine[id(cluster)] = cluster.categoria
+        etichette_origine[id(cluster)] = set(cluster.categorie)
+        notiziabilita_origine[id(cluster)] = cluster.notiziabilita
 
     limite = int(max_notizie if max_notizie is not None else preset["max_notizie"])
     limite = max(1, limite)
@@ -286,11 +320,20 @@ def seleziona(
     # Le buone notizie durano a metà tra una copertina e una secondaria.
     parole_buona = max(1, (parole_copertina + parole_secondaria) // 2)
     attive = [c for c in CATEGORIE_IDS if c in set(categorie_attive)]
+    attive_set = set(attive)
     generali = [c for c in attive if c != "buone-notizie"]
+    generali_set = set(generali)
 
     copertine_desiderate = min(int(preset["copertine"]), limite)
     copertine = _seleziona_copertine(
-        clusters, generali, copertine_desiderate, soglia_duplicati
+        clusters,
+        generali_set,
+        attive_set,
+        copertine_desiderate,
+        soglia_duplicati,
+        categorie_origine,
+        etichette_origine,
+        notiziabilita_origine,
     )
     scelti: list[Cluster] = list(copertine)
     for cluster in copertine:
@@ -299,13 +342,19 @@ def seleziona(
         )
 
     positive: list[Cluster] = []
-    if "buone-notizie" in attive and buone_notizie:
+    if "buone-notizie" in attive_set and buone_notizie:
         posti = max(0, limite - len(copertine))
         quante = min(int(preset.get("buone_notizie", 2)), posti)
         for cluster in buone_notizie:
             if len(positive) >= quante:
                 break
             if cluster.id in consumati:
+                continue
+            if not _cluster_ammesso(
+                categorie_origine.get(id(cluster), cluster.categoria),
+                etichette_origine.get(id(cluster), set()),
+                attive_set,
+            ):
                 continue
             duplicato = _duplicato_di(cluster, scelti, soglia_duplicati)
             if duplicato is not None:
@@ -329,14 +378,27 @@ def seleziona(
             or cluster.id in ids_positive
         ):
             continue
-        if cluster.categoria in per_categoria:
-            per_categoria[cluster.categoria].append(cluster)
-    # Per le secondarie meglio partire dai cluster con più materiale:
-    # evita notizie di 30-40 parole quando esistono alternative più ricche.
+        if not _cluster_ammesso(
+            categorie_origine.get(id(cluster), cluster.categoria),
+            etichette_origine.get(id(cluster), set()),
+            attive_set,
+            generali_set,
+        ):
+            continue
+        if notiziabilita_origine.get(id(cluster), cluster.notiziabilita) <= 1:
+            continue
+        base = categorie_origine.get(id(cluster), cluster.categoria)
+        if base in per_categoria:
+            per_categoria[base].append(cluster)
+    # Per le secondarie meglio partire dalle notizie più rilevanti; il numero
+    # di fonti e il materiale disponibile rompono la parità.
     for lista in per_categoria.values():
         lista.sort(
-            key=lambda cluster: (cluster.numero_fonti, len(cluster.sommario)),
-            reverse=True,
+            key=lambda cluster: (
+                -notiziabilita_origine.get(id(cluster), cluster.notiziabilita),
+                -cluster.numero_fonti,
+                -len(cluster.sommario),
+            )
         )
 
     target_parole = int(preset.get("minuti", 0)) * max(1, parole_per_minuto)
@@ -407,6 +469,10 @@ def seleziona(
                 parole_target=int(preset["parole_copertina"]),
                 blocco="copertina",
                 categoria_origine=categorie_origine.get(id(cluster), ""),
+                categorie=set(etichette_origine.get(id(cluster), set())),
+                notiziabilita=notiziabilita_origine.get(
+                    id(cluster), cluster.notiziabilita
+                ),
             )
         )
     for cluster in secondarie:
@@ -418,9 +484,15 @@ def seleziona(
                 parole_target=int(preset["parole_secondaria"]),
                 blocco="secondaria",
                 categoria_origine=categorie_origine.get(id(cluster), ""),
+                categorie=set(etichette_origine.get(id(cluster), set())),
+                notiziabilita=notiziabilita_origine.get(
+                    id(cluster), cluster.notiziabilita
+                ),
             )
         )
     for cluster in positive:
+        etichette = set(etichette_origine.get(id(cluster), set()))
+        etichette.add("buone-notizie")
         selezionate.append(
             NotiziaSelezionata(
                 cluster=cluster,
@@ -429,6 +501,10 @@ def seleziona(
                 parole_target=parole_buona,
                 blocco="buone-notizie",
                 categoria_origine=categorie_origine.get(id(cluster), ""),
+                categorie=etichette,
+                notiziabilita=notiziabilita_origine.get(
+                    id(cluster), cluster.notiziabilita
+                ),
             )
         )
 
@@ -438,6 +514,27 @@ def seleziona(
         len(secondarie),
         len(positive),
         ", ".join(label_categoria(c) for c in attive) or "nessuna",
+    )
+    conteggi_notiziabilita = Counter(s.notiziabilita for s in selezionate)
+    logger.info(
+        "Notiziabilità selezionate: %s.",
+        ", ".join(
+            f"{punteggio}: {conteggi_notiziabilita.get(punteggio, 0)}"
+            for punteggio in range(5, 0, -1)
+        ),
+    )
+    conteggi_categorie: Counter[str] = Counter()
+    for selezione in selezionate:
+        conteggi_categorie.update(selezione.categorie)
+    logger.info(
+        "Categorie selezionate: %s.",
+        ", ".join(
+            f"{label_categoria(categoria)}: {numero}"
+            for categoria, numero in sorted(
+                conteggi_categorie.items(), key=lambda voce: (-voce[1], voce[0])
+            )
+        )
+        or "nessuna",
     )
     if assorbiti:
         logger.info(
