@@ -318,6 +318,29 @@ def test_minuscola_dopo_secondo_solo_parole_comuni():
     assert _minuscola_dopo_secondo("GTA 6 è uscito") == "GTA 6 è uscito"
 
 
+def test_fallback_non_ripete_il_titolo_nella_prima_frase_fonte():
+    cluster = crea_cluster(
+        [
+            crea_articolo(
+                "Stefano Barigelli è il nuovo direttore del Corriere della Sera",
+                fonte="Il Fatto Quotidiano",
+                categoria="italia",
+                sommario=(
+                    "Stefano Barigelli è il nome scelto per la direzione del "
+                    "Corriere della Sera, designato all'unanimità dal consiglio "
+                    "di amministrazione di Rcs MediaGroup."
+                ),
+            )
+        ]
+    )
+    selezione = NotiziaSelezionata(
+        cluster, copertina=True, ordine=1, parole_target=120
+    )
+    testo = _paragrafo_copertina(selezione, 0)
+    assert "nome scelto" not in testo
+    assert testo.count("Barigelli") == 1
+
+
 def test_fallback_buone_notizie_in_chiusura():
     positiva = crea_cluster(
         [

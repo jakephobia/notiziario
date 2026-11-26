@@ -1270,6 +1270,21 @@ def _attribuzione(fonti: list[str], indice: int) -> str:
     return pool[indice % len(pool)]
 
 
+def _ripete_titolo(frase: str, titolo: str) -> bool:
+    """Vero se la frase di apertura è solo il titolo raccontato di nuovo."""
+    if similarita_titoli(frase, titolo) >= 0.5:
+        return True
+    parole_titolo = set(normalizza_titolo(titolo).split())
+    if len(parole_titolo) >= 3:
+        parole_frase = set(normalizza_titolo(frase).split())
+        coperte = len(parole_titolo & parole_frase) / len(parole_titolo)
+        if coperte >= 0.6:
+            return True
+    entita_titolo = _entita_frase(titolo)
+    condivise = entita_titolo & _entita_frase(frase)
+    return len(condivise) >= 2 and similarita_titoli(frase, titolo) >= 0.15
+
+
 def _deduplica_testa(testo: str) -> str:
     """Toglie le riformulazioni della stessa apertura dentro la notizia."""
     frasi = estrai_frasi(testo)
@@ -1302,6 +1317,8 @@ def _paragrafo_notizia(
         testo_tradotto=selezione.testo_tradotto,
         fonte_tradotta=selezione.fonti[0] if selezione.fonti else "",
     )
+    while frasi and _ripete_titolo(frasi[0][0], titolo):
+        frasi.pop(0)
     if frasi:
         prima = _minuscola_dopo_secondo(frasi[0][0])
         parti.append(f"{_attribuzione(selezione.fonti, selezione.ordine)} {prima}")
