@@ -1,11 +1,23 @@
 {
-  "generato": "2026-11-26T11:31:56+00:00",
+  "generato": "2026-11-26T11:41:44+00:00",
   "fonti": {
     "https://www.ansa.it/sito/notizie/topnews/topnews_rss.xml": {
       "nome": "ANSA",
       "url": "https://www.ansa.it/sito/notizie/topnews/topnews_rss.xml",
       "attivo": true,
       "articoli": [
+        {
+          "titolo": "Temu si adegua alle norme Ue, stop a falsi sconti e recensioni",
+          "sommario": "Impegni accettati dalle autorità, in caso di violazioni multe del 4% del fatturato o più",
+          "link": "https://www.ansa.it/sito/notizie/topnews/2026/11/26/temu-si-adegua-alle-norme-ue-stop-a-falsi-sconti-e-recensioni_fb1da041-cbf5-4dac-97f1-6b286d48170d.html",
+          "pubblicato": "2026-11-26T11:31:22+00:00"
+        },
+        {
+          "titolo": "Mattarella, IA presenta prospettive suggestive ma anche rischio di arretramento",
+          "sommario": "Lo ha denunciato con grande rigore da Sua Santità, nell'enciclica 'Magnifica humanitas'",
+          "link": "https://www.ansa.it/sito/notizie/topnews/2026/11/26/mattarella-ia-presenta-prospettive-suggestive-ma-anche-rischio-di-arretramento_92ae5b87-0686-4e7f-889f-1270883dd04c.html",
+          "pubblicato": "2026-11-26T11:22:28+00:00"
+        },
         {
           "titolo": "Meloni, 'su vicenda De Gennaro il gioco delle tifoserie non aiuta'",
           "sommario": "Le sue parole ci colpiscono molto.",
@@ -23,18 +35,6 @@
           "sommario": "'Sul superbonus stiamo ancora lavorando'",
           "link": "https://www.ansa.it/sito/notizie/topnews/2026/11/26/meloni-faremo-cio-che-serve-per-migliorare-manovra-ma-ci-sono-tempi_7759dbde-d5e7-42f3-9cc1-be6e7d712a67.html",
           "pubblicato": "2026-11-26T11:16:35+00:00"
-        },
-        {
-          "titolo": "Meloni, 'la guerra non si deve allargare al Mediterraneo'",
-          "sommario": "'Dobbiamo essere molto chiari con gli amici ucraini e con i nostri partner'",
-          "link": "https://www.ansa.it/sito/notizie/topnews/2026/11/26/meloni-la-guerra-non-si-deve-allargare-al-mediterraneo_96ce7474-c79e-4af8-a0ff-4ba509fd1ae0.html",
-          "pubblicato": "2026-11-26T11:15:41+00:00"
-        },
-        {
-          "titolo": "Gb chiede a 100 mila riservisti di tenersi pronti in caso di guerra",
-          "sommario": "Il ministro della Difesa, 'precauzione necessaria'. Non accadeva dalla Guerra Fredda",
-          "link": "https://www.ansa.it/sito/notizie/topnews/2026/11/26/gb-chiede-a-100-mila-riservisti-di-tenersi-pronti-in-caso-di-guerra_4b154dd8-847f-4ce0-8258-632e7c1d028d.html",
-          "pubblicato": "2026-11-26T11:04:56+00:00"
         }
       ]
     },
@@ -154,15 +154,15 @@
           "pubblicato": "2026-11-26T04:00:00+00:00"
         },
         {
-          "titolo": "Nobili, brigatisti e spie, Palazzo Caetani crocevia di misteri",
-          "sommario": "A pochi metri dalla residenza che ospitava l’ufficio di De Gennaro fu ritrovato il corpo di Moro",
-          "link": "https://www.repubblica.it/cronaca/2026/11/26/news/de_gennaro_palazzo_caetani-425750479/",
+          "titolo": "Il traguardo di Federica Brignone, la scelta della leggerezza contro la retorica del dolore",
+          "sommario": "La leggenda azzurra dello sci ha annunciato il ritiro. A febbraio l’impresa dei due ori olimpici",
+          "link": "https://www.repubblica.it/sport/sci/2026/11/26/news/federica_brignone_addio_leggerezza_dolore_sci-425750450/",
           "pubblicato": "2026-11-26T00:00:00+00:00"
         },
         {
-          "titolo": "Gino Cecchettin: “Che tristezza gli slogan di sedicenti politici: bisogna ascoltare i ragazzi”",
-          "sommario": "Il 25 novembre si discute di una mozione così e non di problemi reali. Ho dei video in cui Elena ha il burqa, realizzati da loro",
-          "link": "https://milano.repubblica.it/cronaca/2026/11/26/news/gino_cecchettin_slogan_politici_tristezza-425750618/",
+          "titolo": "Ninna Quario: “A Cervinia Federica mi aveva detto ‘mamma, se non ce la faccio la pianto lì”",
+          "sommario": "Intervista alla madre di Brignone. “Fino all’ultimo ci ha provato. Con Alberto Tomba scherzeremo sempre sul numero di podi, per 3 resterà davanti lui”.",
+          "link": "https://www.repubblica.it/sport/sci/2026/11/26/news/ninna_quario_intervista_federica_brignone_cervinia_tomba-425750407/",
           "pubblicato": "2026-11-26T00:00:00+00:00"
         }
       ]
@@ -174,9 +174,9 @@
       "articoli": [
         {
           "titolo": "Meloni su De Gennaro: “Scioccata, è il momento di aiutare le procure, no a giochi delle tifoserie”",
-          "sommario": "La premier per la prima volta si sofferma sulla morte dell’ex capo della polizia: “Non andrò al funerale – fa sapere – ci sarà Mantovano”",
+          "sommario": "La premier per la prima volta si sofferma sulla morte dell’ex capo della polizia: “I funerali? Non o ancora se andrò – fa sapere – ci sarà Mantovano”",
           "link": "https://www.repubblica.it/politica/2026/11/26/news/meloni_de_gennaro_procure_mantovano_funerale-425751775/?rss",
-          "pubblicato": "2026-11-26T11:20:16+00:00"
+          "pubblicato": "2026-11-26T11:26:03+00:00"
         },
         {
           "titolo": "Dl scuola approvato alla Camera: è legge. Protestano le opposizioni: “In classe nessuno è straniero”",
@@ -296,6 +296,12 @@
       "attivo": true,
       "articoli": [
         {
+          "titolo": "Il dibattito che agita la Silicon Valley: se l’IA ci supera, avremo ancora il diritto di decidere?",
+          "sommario": "Un saggio pubblicato da OpenAI denuncia il rischio che gli esseri umani rinuncino volontariamente al proprio potere decisionale quando le macchine diventeranno più intelligenti.",
+          "link": "https://www.repubblica.it/tecnologia/2026/11/26/news/superintelligenza-libero-arbitrio-dibattito-silicon-valley-425751832/?rss",
+          "pubblicato": "2026-11-26T11:28:31+00:00"
+        },
+        {
           "titolo": "GTA VI, i comandi nascosti: da interagire con i passanti alla guida automatica",
           "sommario": "Come lanciare oggetti, aprire le portiere in corsa, raddrizzare una macchina e fare tante altre cose che Rockstar ha lasciato scoprire ai giocatori. I tasti per PS5 e Xbo",
           "link": "https://www.repubblica.it/tecnologia/2026/11/26/news/gta_vi_comandi_nascosti-425751743/?rss",
@@ -318,12 +324,6 @@
           "sommario": "Il governo ha approvato la nuova Strategia Cloud Italia, ma la proposta di regolamento europeo lascia aperta ai colossi americani gran parte degli acquisti pubblici. E in Parlamento la linea non è una sola",
           "link": "https://www.repubblica.it/tecnologia/2026/11/25/news/cloud_sovrano_italia_autonomia_bruxelles-425749463/?rss",
           "pubblicato": "2026-11-25T14:47:56+00:00"
-        },
-        {
-          "titolo": "Con il Quantum Act, l’Ue punta a produrre tecnologie quantistiche in Europa",
-          "sommario": "Bruxelles punta a un fondo da 50 miliardi di euro per le tecnologie strategiche. Il piano prevede di coordinare la ricerca, rivedere gli appalti e proteggere i dati dai rischi legati ai futuri computer quantistici",
-          "link": "https://www.repubblica.it/tecnologia/2026/11/25/news/quantum_act_ue_tecnologie_quantistiche_europa-425749324/?rss",
-          "pubblicato": "2026-11-25T14:02:02+00:00"
         }
       ]
     },
@@ -606,6 +606,12 @@
       "attivo": true,
       "articoli": [
         {
+          "titolo": "Black Friday Amazon 2026: tutte le offerte e sconti in tempo reale | Live",
+          "sommario": "Nonostante il Black Friday Amazon sia già partito dal 19 novembre, domani sarà una giornata importante, domani è Black Friday! Su HDblog riattiveremo da stasera, 26 novembre, alle 23.30 la nostra Live offerte aggiornata in tempo reale.",
+          "link": "https://www.hdblog.it/amazon/offerte/n676463/black-friday-amazon-2026-offerte-sconti-live/",
+          "pubblicato": "2026-11-26T10:27:00+00:00"
+        },
+        {
           "titolo": "Windows 11 ha già tutto ciò che serve per automatizzare molte attività",
           "sommario": "Non è vero che per automatizzare in modo efficace molte delle operazioni che si svolgono, ripetitive, ogni giorno sui computer Windows è necessario rivolgersi ad app di terze parti.",
           "link": "https://www.hdblog.it/microsoft/articoli/n678373/windows-11-automazioni-come-fare-utilita/",
@@ -628,12 +634,6 @@
           "sommario": "Tesla punta sugli automobilisti della terza età per promuovere la sua guida assistita, ma tra uno spot promozionale e l’uso quotidiano emerge una contraddizione che preoccupa avvocati ed esperti di sicurezza.",
           "link": "https://www.hdmotori.it/tesla-fsd-mobilita-anziani/",
           "pubblicato": "2026-11-26T10:00:20+00:00"
-        },
-        {
-          "titolo": "Huawei Osta O1 potrebbe arrivare presto, ecco come sarà",
-          "sommario": "Qualche giorno fa Huawei ha inaugurato come promesso il suo nuovo sub-brand di smartphone Osta con un primo dispositivo, chiamato O1 Pro, a cui starebbe per fare seguito un secondo modello “liscio”.",
-          "link": "https://www.hdblog.it/smartphone/articoli/n678371/huawei-osta-o1-mate-90-air/",
-          "pubblicato": "2026-11-26T09:55:00+00:00"
         }
       ]
     },
@@ -717,6 +717,24 @@
       "attivo": true,
       "articoli": [
         {
+          "titolo": "“Si sono arrampicati sui tubi di scarico, hanno forzato la finestra della cabina armadio di William e Kate e hanno rubato gioielli e un orologio”: arrestati due 30enni, è caccia al terzo complice",
+          "sommario": "La polizia inglese ha fermato un 34enne e un 32enne di origine albanese, che sono accusati di essersi introdotti ad Anmer Hall, nella tenuta di Sandringham, la sera del 23 novembre scorso.",
+          "link": "https://www.ilfattoquotidiano.it/2026/11/26/si-sono-arrampicati-sui-tubi-di-scarico-hanno-forzato-la-finestra-della-cabina-armadio-di-william-e-kate-e-hanno-rubato-gioielli-e-un-orologio-arrestati-due-30enni-e-caccia-al-terzo-complice/8584432/",
+          "pubblicato": "2026-11-26T11:30:52+00:00"
+        },
+        {
+          "titolo": "Perché l’Europa è allo sbando nelle trattative per l’Ucraina",
+          "sommario": "di Stefano Briganti “C’è troppo odio” è l’affermazione di Trump riferendosi ad un accordo tra Ucraina e Russia.",
+          "link": "https://www.ilfattoquotidiano.it/2026/11/26/guerra-russia-ucraina-europa-trattative-garanzie-sicurezza-opinione/8583358/",
+          "pubblicato": "2026-11-26T11:29:20+00:00"
+        },
+        {
+          "titolo": "Luca Barbarossa: “Scrivere su Gaza per dovere? Riduttivo. Se uno canta solo del Rolex e della Ferrari a me non me ne frega niente. Dopo tante rivoluzioni tradite è ora di credere nei cambiamenti”",
+          "sommario": "“Pepita e la rivoluzione” è il nuovo disco di inediti di Luca Barbarossa, in uscita il 27 novembre. È un album dal suono caldo e “umano”, registrato con tutti i musicisti nello stesso studio, nato dall’amore per il jazz trasmesso dal padre.",
+          "link": "https://www.ilfattoquotidiano.it/2026/11/26/luca-barbarossa-scrivere-su-gaza-per-dovere-riduttivo-se-uno-canta-solo-del-rolex-e-della-ferrari-a-me-non-me-ne-frega-niente/8584416/",
+          "pubblicato": "2026-11-26T11:27:59+00:00"
+        },
+        {
           "titolo": "“Avere un padre anziano è un dono enorme. Eppure, a volte vorrei che non avesse 82 anni. La danza? A 13 anni ho subito un intervento alla colonna vertebrale, non ballo più da professionista”: parla Carys Douglas",
           "sommario": "Carys Douglas è la figlia di Michael Douglas e Catherine Zeta-Jones e la sua vita ha a che fare con il mondo dello spettacolo da prima ancora che nascesse.",
           "link": "https://www.ilfattoquotidiano.it/2026/11/26/avere-un-padre-anziano-e-un-dono-enorme-eppure-a-volte-vorrei-che-non-avesse-82-anni-la-danza-a-13-anni-ho-subito-un-intervento-alla-colonna-vertebrale-parla-carys-douglas/8584280/",
@@ -727,24 +745,6 @@
           "sommario": "“ La presidente della commissione Antimafia, Chiara Colosimo, vuole andare dritta come un fuso sulla pista Mafia-Appalti per scrivere, a nome del Parlamento italiano, una cosa che farebbe vergogna almeno quanto la mozione ‘Ruby nipote di Mubarak’, anche.",
           "link": "https://www.ilfattoquotidiano.it/2026/11/26/de-gennaro-travaglio-a-la7-colosimo-vuole-riscrivere-la-storia-delle-stragi-con-la-fesseria-su-mafia-appalti-una-vergogna-piu-grave-di-ruby-nipote-di-mubarak/8584133/",
           "pubblicato": "2026-11-26T11:21:44+00:00"
-        },
-        {
-          "titolo": "“Sono ancora in gran forma, il mio corpo risponde sempre in modo positivo. L’omicidio di Kennedy? Già da bambino capii che erte cose non tornavano affatto”: così John Travolta al Torino Film Festival",
-          "sommario": "Dalle scarpe bianche di Sanremo ai guanti neri del 44esimo Torino Film Festival. Deve essere l’aria delle Alpi a suggerire a John Travolta questi testacoda cromatici.",
-          "link": "https://www.ilfattoquotidiano.it/2026/11/26/sono-ancora-in-gran-forma-il-mio-corpo-risponde-sempre-in-modo-positivo-lomicidio-di-kennedy-gia-da-bambino-capii-che-erte-cose-non-tornavano-affatto-cosi-john-travolta-al-tori/8584405/",
-          "pubblicato": "2026-11-26T11:17:44+00:00"
-        },
-        {
-          "titolo": "De Gennaro, Travaglio a La7: “Perché passò a Repubblica i verbali sui soldi di Berlusconi a Cosa nostra? L’Antimafia si occupi di questo invece di inseguire favolette”",
-          "sommario": "“Questa è proprio la lettera rubata di Edgar Allan Poe che sta al centro della stanza e tutti fingono di non vederla, andando a cercare nei nascondigli strani. La lettera è lì in mezzo, nel posto più insospettabile, dove tutti la vedono e nessuno la vede ”.",
-          "link": "https://www.ilfattoquotidiano.it/2026/11/26/de-gennaro-travaglio-a-la7-perche-passo-a-repubblica-i-verbali-sui-soldi-di-berlusconi-a-cosa-nostra-lantimafia-si-occupi-di-questo-invece-di-inseguire-favolette/8584109/",
-          "pubblicato": "2026-11-26T11:17:25+00:00"
-        },
-        {
-          "titolo": "“Alcune cose sono davvero difficili da dire”: Justin Timberlake a nudo su Britney Spears, Janet Jackson e l’arresto del 2024 nella nuova docuserie",
-          "sommario": "Justin Timberlake non ci gira intorno: “Ci sono cose davvero difficili da raccontare”.",
-          "link": "https://www.ilfattoquotidiano.it/2026/11/26/alcune-cose-sono-davvero-difficili-da-dire-justin-timberlake-a-nudo-su-britney-spears-janet-jackson-e-larresto-del-2024-nella-nuova-docuserie/8584325/",
-          "pubblicato": "2026-11-26T11:02:52+00:00"
         }
       ]
     },
@@ -1400,6 +1400,12 @@
       "attivo": true,
       "articoli": [
         {
+          "titolo": "FDR’s Thanksgiving Proclamations Made the Moral Case for Taming Capitalism",
+          "sommario": "John Nichols When Abdul El-Sayed attacks the “corporate capture of our politics,” he recalls Roosevelt’s rejections of “greed and selfishness and striving for undue riches.” The post FDR’s Thanksgiving Proclamations Made the Moral Case for Taming Capitalism.",
+          "link": "https://www.thenation.com/article/politics/fdr-thanksgiving-capitalism-abdul-el-sayed/",
+          "pubblicato": "2026-11-26T10:00:00+00:00"
+        },
+        {
           "titolo": "There’s Nothing “Crazy” About Wanting to Abolish Prisons",
           "sommario": "Dave Zirin A recent “New York Times” article argued that “wokeness,” including calls for prison abolition, is a political liability. That’s simply not the case. The post There’s Nothing “Crazy” About Wanting to Abolish Prisons appeared first on The Nation.",
           "link": "https://www.thenation.com/article/society/we-dont-need-to-join-the-political-establishments-exhausting-war-on-woke/",
@@ -1506,34 +1512,34 @@
       "attivo": true,
       "articoli": [
         {
-          "titolo": "Trump Blames Voters for Stock Market Tanking",
-          "sommario": "President Trump is blaming the voters—not AI anxiety or his own tariffs—on the stock market’s poor performance. “Stocks are down sharply because of the November Third Election results,” Trump wrote Wednesday on Truth Social.",
-          "link": "https://newrepublic.com/post/218380/trump-blames-voters-stock-market-tanking",
-          "pubblicato": "2026-11-25T19:12:06+00:00"
+          "titolo": "How to Bat Down Your Uncle Frank’s Stupid MAGA Thanksgiving Arguments",
+          "sommario": "Well, it’s Thanksgiving again, which, in addition to all the usual excess, brings for some of you the now-decade-old tradition of having to sit there and endure your MAGA uncle bleating on about immigrants and wokery and Sleepy Joe.",
+          "link": "https://newrepublic.com/article/218383/stupid-maga-thanksgiving-arguments-come-prepared",
+          "pubblicato": "2026-11-26T11:00:00+00:00"
         },
         {
-          "titolo": "Ukraine Diplomat Issues Grave Warning About Starlink Restrictions",
-          "sommario": "SpaceX’s Starshield lapses have created a “vicious cycle” in Ukraine, according to that country’s top diplomat.",
-          "link": "https://newrepublic.com/post/218377/ukraine-warning-starlink-restrictions-donald-trump-elon-musk",
-          "pubblicato": "2026-11-25T18:25:00+00:00"
+          "titolo": "Water Bear",
+          "sommario": "",
+          "link": "https://newrepublic.com/article/217990/water-bear",
+          "pubblicato": "2026-11-26T11:00:00+00:00"
         },
         {
-          "titolo": "DOJ Forced to Apologize for Lying About Detail in Ilhan Omar Case",
-          "sommario": "A major misstep by the Justice Department has forced the nation’s top law enforcement agency to grovel before a federal judge. An errata court filing submitted to the D.C. District Court Tuesday by U.S.",
-          "link": "https://newrepublic.com/post/218368/department-justice-apologize-lying-detail-ilhan-omar-case",
-          "pubblicato": "2026-11-25T16:53:18+00:00"
+          "titolo": "They Voted to Get Rid of Flock Cameras. Now Comes the Hard Part.",
+          "sommario": "In mid-August, dozens gathered outside of Wilmington, North Carolina’s New Hanover County Courthouse to protest the more than three dozen Flock Safety Automated License Plate Reader cameras that had been installed in their communities the previous year.",
+          "link": "https://newrepublic.com/article/217929/flock-cameras-contracts-surveillance-communities-revolt",
+          "pubblicato": "2026-11-26T11:00:00+00:00"
         },
         {
-          "titolo": "Watch the Pentagon’s Weird Iowa Lead Explosion Video",
-          "sommario": "The U.S. Army posted a hype video for the 10,000 pounds of toxic lead azide it blew up in Iowa on Wednesday. “U.S.",
-          "link": "https://newrepublic.com/post/218374/watch-pentagon-iowa-lead-explosion-video-us-army",
-          "pubblicato": "2026-11-25T16:49:09+00:00"
+          "titolo": "Harry Truman, 1946",
+          "sommario": "My guess is, it’s a flower, Truman said to the living and the dead and those of us some year to come. And only for the bad guys, this test we’ll do, bombing the bungalow out of Bikini— Science! Following the same star that put Washington and Teddy R.",
+          "link": "https://newrepublic.com/article/217815/harry-truman-1946",
+          "pubblicato": "2026-11-26T11:00:00+00:00"
         },
         {
-          "titolo": "To Get Justice, Kilmar Ábrego García Had to Leave Trump’s America",
-          "sommario": "In the end, Kilmar Ábrego García ’s extraordinary 20-month struggle against Donald Trump’s crazed persecution and vilification campaign against him concluded with a single, quiet gesture.",
-          "link": "https://newrepublic.com/article/218371/kilmar-abrego-garcia-video-leaves-trump-america",
-          "pubblicato": "2026-11-25T16:30:36+00:00"
+          "titolo": "Could Democrats Lock Up Elon Musk? It’s Not as Crazy as It Sounds.",
+          "sommario": "Imagine, for a minute, Elon Musk.",
+          "link": "https://newrepublic.com/series/83/democrats-elon-musk-congress-contempt",
+          "pubblicato": "2026-11-26T11:00:00+00:00"
         }
       ]
     },

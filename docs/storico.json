@@ -2,13 +2,13 @@
   "episodi": [
     {
       "data": "2026-11-26",
-      "titolo": "Notiziario radiofonico del 26 novembre 2026",
-      "descrizione": "Le principali notizie del giorno, con aggiornamenti dall'Italia e dal mondo, scienza e tecnologia, e le buone notizie.",
+      "titolo": "Notiziario di giovedì 26 novembre 2026",
+      "descrizione": "Le notizie del 26 novembre 2026: Femminicidio nel Pistoiese, uccide la compagna di 24 anni e poi si lancia dal viadotto. È lo stesso da cui fu gettata Lorena Isceri; Anziana di 83 anni morta in un incendio a casa: vicino arrestato per omicidio; Mattarella all’Anci: “Non esistono due Italie, una...",
       "filename": "notiziario-2026-11-26.mp3",
-      "descrizione_breve": "26 novembre 2026 - Femminicidio nel Pistoiese, Anziana di 83 anni morta, Mattarella all'Anci, Meloni 'sul bilancio Ue siamo, GTA VI.",
-      "durata_secondi": 545.09127,
-      "dimensione": 8722433,
-      "modalita": "llm",
+      "descrizione_breve": "26 novembre 2026 - Femminicidio nel Pistoiese, Anziana di 83 anni morta, Mattarella all'Anci, Perché l'Europa è allo sbando, Il dibattito che agita la Silicon.",
+      "durata_secondi": 725.46551,
+      "dimensione": 11608441,
+      "modalita": "fallback",
       "categorie": [
         "italia",
         "mondo",
@@ -21,7 +21,7 @@
       "voce_label": "Kore - femminile, calda (Google Chirp 3 HD)",
       "velocita": 1.1,
       "tts_motore": "google",
-      "pubblicato": "2026-11-26T11:31:56.212337+00:00",
+      "pubblicato": "2026-11-26T11:41:44.802948+00:00",
       "guid": "notiziario-2026-11-26"
     },
     {

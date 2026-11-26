@@ -5,7 +5,7 @@
     <link>https://jakephobia.github.io/notiziario/</link>
     <description>Le notizie del giorno scelte da Jacopo, lette in italiano. Un riassunto quotidiano delle notizie italiane e internazionali.</description>
     <language>it-it</language>
-    <lastBuildDate>Thu, 26 Nov 2026 11:31:56 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 26 Nov 2026 11:41:44 +0000</lastBuildDate>
     <itunes:author>Notiziario</itunes:author>
     <itunes:explicit>false</itunes:explicit>
     <itunes:summary>Le notizie del giorno scelte da Jacopo, lette in italiano. Un riassunto quotidiano delle notizie italiane e internazionali.</itunes:summary>
@@ -16,22 +16,22 @@
     </image>
     <itunes:image href="https://jakephobia.github.io/notiziario/copertina.png" />
     <notiziario:categorie>Italia, Mondo, Tecnologia, Scienza e salute, Ambiente, Buone notizie</notiziario:categorie>
-    <notiziario:modalita>llm</notiziario:modalita>
+    <notiziario:modalita>fallback</notiziario:modalita>
     <notiziario:voce>it-IT-Chirp3-HD-Kore</notiziario:voce>
     <notiziario:voce_label>Kore - femminile, calda (Google Chirp 3 HD)</notiziario:voce_label>
     <notiziario:velocita>1.1</notiziario:velocita>
     <notiziario:tts_motore>google</notiziario:tts_motore>
     <item>
-      <title>Notiziario radiofonico del 26 novembre 2026</title>
-      <description>26 novembre 2026 - Femminicidio nel Pistoiese, Anziana di 83 anni morta, Mattarella all'Anci, Meloni 'sul bilancio Ue siamo, GTA VI.</description>
-      <pubDate>Thu, 26 Nov 2026 11:31:56 +0000</pubDate>
+      <title>Notiziario di giovedì 26 novembre 2026</title>
+      <description>26 novembre 2026 - Femminicidio nel Pistoiese, Anziana di 83 anni morta, Mattarella all'Anci, Perché l'Europa è allo sbando, Il dibattito che agita la Silicon.</description>
+      <pubDate>Thu, 26 Nov 2026 11:41:44 +0000</pubDate>
       <guid isPermaLink="false">notiziario-2026-11-26</guid>
-      <enclosure url="https://github.com/jakephobia/notiziario/releases/download/episodio-2026-11-26/notiziario-2026-11-26.mp3" length="8722433" type="audio/mpeg" />
-      <itunes:duration>00:09:05</itunes:duration>
-      <itunes:summary>26 novembre 2026 - Femminicidio nel Pistoiese, Anziana di 83 anni morta, Mattarella all'Anci, Meloni 'sul bilancio Ue siamo, GTA VI.</itunes:summary>
+      <enclosure url="https://github.com/jakephobia/notiziario/releases/download/episodio-2026-11-26/notiziario-2026-11-26.mp3" length="11608441" type="audio/mpeg" />
+      <itunes:duration>00:12:05</itunes:duration>
+      <itunes:summary>26 novembre 2026 - Femminicidio nel Pistoiese, Anziana di 83 anni morta, Mattarella all'Anci, Perché l'Europa è allo sbando, Il dibattito che agita la Silicon.</itunes:summary>
       <itunes:explicit>false</itunes:explicit>
       <itunes:image href="https://jakephobia.github.io/notiziario/copertina.png" />
-      <notiziario:modalita>llm</notiziario:modalita>
+      <notiziario:modalita>fallback</notiziario:modalita>
       <notiziario:voce>it-IT-Chirp3-HD-Kore</notiziario:voce>
       <notiziario:voce_label>Kore - femminile, calda (Google Chirp 3 HD)</notiziario:voce_label>
       <notiziario:velocita>1.1</notiziario:velocita>
