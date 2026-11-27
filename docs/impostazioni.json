@@ -532,7 +532,7 @@
     },
     {
       "nome": "China Labour Bulletin (CLB)",
-      "url": "https://clb.org.hk/rss.xml",
+      "url": "https://clb.org.hk/en/feed.xml",
       "categoria": "da-assegnare",
       "attivo": false
     },
@@ -592,7 +592,7 @@
     },
     {
       "nome": "Brasil de Fato",
-      "url": "https://www.brasildefato.com.br/rss2.xml",
+      "url": "https://www.brasildefato.com.br/feed/",
       "categoria": "da-assegnare",
       "attivo": false
     },

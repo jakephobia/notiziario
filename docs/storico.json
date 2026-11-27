@@ -3,11 +3,11 @@
     {
       "data": "2026-11-27",
       "titolo": "Notiziario del 27 novembre 2026",
-      "descrizione": "Il notiziario odierno approfondisce le riflessioni sull'identità europea nel conflitto ucraino, il nuovo film dedicato alla storia della Maserati e le recenti tensioni legislative in Italia riguardanti la riforma della caccia.",
+      "descrizione": "Il notiziario di oggi analizza la storica sentenza della Corte internazionale di giustizia sul caso dei Rohingya, il tragico attacco in Kuwait costato la vita a due tecnici italiani, lo stallo sui fondi europei e le aperture democratiche in Venezuela, oltre a buone notizie per l'accesso alle cure.",
       "filename": "notiziario-2026-11-27.mp3",
-      "descrizione_breve": "27 novembre 2026 - Cosa vuol dire essere europei nell'epoca, Al Pacino e Hopkins nel film, La disinformazione sull'Ucraina e il metodo, Rheinmetall AG, Android scende al 74 delle vendite.",
-      "durata_secondi": 825.86229,
-      "dimensione": 13215076,
+      "descrizione_breve": "27 novembre 2026 - Genocidio dei rohingya, La disinformazione sull'Ucraina e il metodo, Un genocidio, Quarto sigilli al parco costruito, Il bilancio spacca l'Europa ma Costa.",
+      "durata_secondi": 1318.89898,
+      "dimensione": 21103638,
       "modalita": "llm",
       "categorie": [
         "italia",
@@ -23,7 +23,7 @@
       "voce_label": "Kore - femminile, calda (Google Chirp 3 HD)",
       "velocita": 1.1,
       "tts_motore": "google",
-      "pubblicato": "2026-11-27T06:45:05.236350+00:00",
+      "pubblicato": "2026-11-27T07:02:47.416784+00:00",
       "guid": "notiziario-2026-11-27"
     },
     {

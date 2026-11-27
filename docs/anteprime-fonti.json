@@ -1,5 +1,5 @@
 {
-  "generato": "2026-11-27T06:45:05+00:00",
+  "generato": "2026-11-27T07:02:47+00:00",
   "fonti": {
     "https://www.ansa.it/sito/notizie/topnews/topnews_rss.xml": {
       "nome": "ANSA",
@@ -134,25 +134,149 @@
       "nome": "Repubblica",
       "url": "https://www.repubblica.it/rss/homepage/rss2.0.xml",
       "attivo": true,
-      "articoli": []
+      "articoli": [
+        {
+          "titolo": "Pierpaolo Spollon: “Sono stato un figlio perfetto, oggi sono un papà che fallisce”",
+          "sommario": "Il successo di “Doc” con la chiusura della quarta stagione, e di “Chiaroscuro”, in cima alla top ten di Netflix. L’attore, il rapporto con il pubblico, con la famiglia, con la mamma.",
+          "link": "https://www.repubblica.it/spettacoli/tv-radio/2026/11/27/news/pierpaolo_spollon_chiaroscuro_netflix_doc-425753005/",
+          "pubblicato": "2026-11-27T04:00:00+00:00"
+        },
+        {
+          "titolo": "“Ionela come mia figlia Lorena, un delitto copia incolla: è un orrore senza fine”",
+          "sommario": "Parla Franco Isceri, padre della donna uccisa lo scorso 3 settembre: “Sono rimasto senza parole, siamo una società malata”",
+          "link": "https://firenze.repubblica.it/cronaca/2026/11/27/news/isceri_franco_lorena_femminicidio_ionela_miruna_girneata_viadotto_a1_barberino_firenze-425753674/",
+          "pubblicato": "2026-11-27T03:30:00+00:00"
+        },
+        {
+          "titolo": "“Insieme dall’adolescenza” l’incredulità delle famiglie",
+          "sommario": "Si conoscevano dalle medie, la convivenza precoce quando lei aveva 17 anni durante il Covid. “Lui era molto schivo”",
+          "link": "https://firenze.repubblica.it/cronaca/2026/11/27/news/uccide_compagna_ponte_buggianese_viadotto-425753561/",
+          "pubblicato": "2026-11-27T02:00:00+00:00"
+        },
+        {
+          "titolo": "Quel rituale dopo il femminicidio, uccide la compagna e poi si lancia dallo stesso ponte di Lorena",
+          "sommario": "Pistoia, Andrea Nardini ha chiamato il 112 per denunciare la morte di Ionela Miruna Girneata nella loro casa, Poi ha percorso 70 chilometri per raggiungere il viadotto del caso Isceri, ha incendiato l’auto e si è dato fuoco buttandosi nel vuoto.",
+          "link": "https://firenze.repubblica.it/cronaca/2026/11/27/news/femminicidio_ponte_buggianese_viadotto_lorena-425753636/",
+          "pubblicato": "2026-11-27T02:00:00+00:00"
+        },
+        {
+          "titolo": "Esercito, pasdaran e alleati regionali: i possibili responsabili nel Golfo in fiamme",
+          "sommario": "Lo stallo non ferma i missili: la Repubblica islamica cerca di rompere l’assedio navale Usa ma la sua leadership non è compatta",
+          "link": "https://www.repubblica.it/esteri/2026/11/27/news/esercito_pasdaran_alleati_regionali_possibili_responsabili_nel_golfo_in_fiamme-425753275/",
+          "pubblicato": "2026-11-27T00:00:00+00:00"
+        }
+      ]
     },
     "https://www.repubblica.it/rss/politica/rss2.0.xml": {
       "nome": "Repubblica",
       "url": "https://www.repubblica.it/rss/politica/rss2.0.xml",
       "attivo": true,
-      "articoli": []
+      "articoli": [
+        {
+          "titolo": "Campo largo, l’ora dei leader per sciogliere i nodi Kiev e fisco",
+          "sommario": "Schlein: “Faremo sintesi” Conte: “Discussioni senza drammi”. Renzi: “Decidiamo anche a chi vanno tagliate le imposte”",
+          "link": "https://www.repubblica.it/politica/2026/11/27/news/campo_largo_leader_per_sciogliere_nodi_kiev_fisco-425753580/?rss",
+          "pubblicato": "2026-11-27T00:00:00+00:00"
+        },
+        {
+          "titolo": "Taruffi: “Ai gazebo porteremo un programma unitario e vincolante, siamo pronti a sfidare la destra”",
+          "sommario": "Il responsabile organizzazione del Pd: “Siamo nei tempi, cambia poco chiudere il 30 novembre o l’1 dicembre”",
+          "link": "https://www.repubblica.it/politica/2026/11/27/news/taruffi_gazebo_programma_unitario_vincolante_intervista-425753585/?rss",
+          "pubblicato": "2026-11-27T00:00:00+00:00"
+        },
+        {
+          "titolo": "Contorno, vita da invisibile a Nepi. La moglie: timori per nostro figlio",
+          "sommario": "Nel paese del Viterbese finora nessuno si era accorto della presenza dell’ex pentito. “Noi lasciati soli. Ora sanno anche dove viviamo”",
+          "link": "https://www.repubblica.it/politica/2026/11/27/news/contorno_vita_da_invisibile_nepi_moglie_timori_figlio-425753595/?rss",
+          "pubblicato": "2026-11-27T00:00:00+00:00"
+        },
+        {
+          "titolo": "De Gennaro, il testamento morale e quelle domande rimaste senza risposta",
+          "sommario": "Le otto pagine ritrovate non svelano i misteri che ancora avvolgono una stagione cruciale della lotta alla mafia e i suoi protagonisti",
+          "link": "https://www.repubblica.it/politica/2026/11/27/news/testamento_morale_de_gennaro_domande_senza_risposta-425753601/?rss",
+          "pubblicato": "2026-11-27T00:00:00+00:00"
+        },
+        {
+          "titolo": "De Gennaro accusa nelle lettere: “Mai chiesto niente per me”. I familiari: ora pubblicatele",
+          "sommario": "L’ex capo della polizia ammette errori e chiama in causa uomini delle istituzioni. L’hard disk trovato nella villa sarà esaminato insieme alle chiavette Usb",
+          "link": "https://www.repubblica.it/politica/2026/11/27/news/de_gennaro_accusa_lettere_familiari_pubblicatele-425753616/?rss",
+          "pubblicato": "2026-11-27T00:00:00+00:00"
+        }
+      ]
     },
     "https://www.repubblica.it/rss/cronaca/rss2.0.xml": {
       "nome": "Repubblica",
       "url": "https://www.repubblica.it/rss/cronaca/rss2.0.xml",
       "attivo": true,
-      "articoli": []
+      "articoli": [
+        {
+          "titolo": "Tecnici italiani morti in Kuwait, la rabbia dei colleghi: “Noi in guerra senza protezioni”",
+          "sommario": "Scatta lo sciopero. L’azienda ai sindacati: “Tutte le squadre verranno ritirate”",
+          "link": "https://www.repubblica.it/cronaca/2026/11/27/news/tecnici_italiani_morti_in_kuwait_sciopero_colleghi-425753753/?rss",
+          "pubblicato": "2026-11-27T02:46:59+00:00"
+        },
+        {
+          "titolo": "Il mistero dei libri usati: “Comprati in blocco per addestrare l’IA”",
+          "sommario": "La canadese Zoom Books sta raccogliendo centinaia di volumi italiani in un capannone vicino a Milano. Un rivenditore: “Dal catalogo online compravano uno o due testi al giorno, di colpo ho triplicato le vendite”",
+          "link": "https://milano.repubblica.it/cronaca/2026/11/27/news/mistero_libri_usati_comprati_addestramento_ia-425753366/?rss",
+          "pubblicato": "2026-11-27T00:00:00+00:00"
+        },
+        {
+          "titolo": "Trump, l’ultima frontiera del conflitto d’interessi: affari sui centri dell’Ice",
+          "sommario": "Prima di lanciare la sua crociata anti immigrati, il presidente avrebbe investito in due società che gestiscono carceri",
+          "link": "https://www.repubblica.it/cronaca/2026/11/27/news/trump_conflitto_interessi_affari_centri_ice-425753534/?rss",
+          "pubblicato": "2026-11-27T00:00:00+00:00"
+        },
+        {
+          "titolo": "Previsioni meteo, weekend con venti freddi orientali e neve in Appennino",
+          "sommario": "Poi gelate e temperature sotto la media del periodo",
+          "link": "https://www.repubblica.it/cronaca/2026/11/27/news/previsioni_meteo_weekend_venti_freddi_orientali_neve_appennino-425753467/?rss",
+          "pubblicato": "2026-11-26T23:01:00+00:00"
+        },
+        {
+          "titolo": "Ghali in cattedra al Righi: “Quante bugie dai politici sulle seconde generazioni”",
+          "sommario": "Il trapper, che sarà a Sanremo, invitato dagli studenti. La preside: “Un aiuto ai ragazzi dopo i lutti per Giovanni e Alberto”",
+          "link": "https://bologna.repubblica.it/cronaca/2026/11/26/news/ghali_in_cattedra_al_righi_bologna_seconde_generazioni_palestina-425753082/?rss",
+          "pubblicato": "2026-11-26T19:18:43+00:00"
+        }
+      ]
     },
     "https://www.repubblica.it/rss/esteri/rss2.0.xml": {
       "nome": "Repubblica",
       "url": "https://www.repubblica.it/rss/esteri/rss2.0.xml",
       "attivo": true,
-      "articoli": []
+      "articoli": [
+        {
+          "titolo": "Francesca Albanese bloccata in aeroporto, Costa Rica le nega il visto: “Legami terroristici”",
+          "sommario": "La relatrice Onu avrebbe dovuto ricevere una laurea honoris causa: “Vergogna, ecco il volto dell’impero”",
+          "link": "https://www.repubblica.it/esteri/2026/11/27/news/francesca_albanese_costa_rica_bloccata_legami_terroristici-425753818/?rss",
+          "pubblicato": "2026-11-27T06:15:00+00:00"
+        },
+        {
+          "titolo": "In sette anni taglio da 22 miliardi, l’ira di Meloni: “Io così non firmo”",
+          "sommario": "“Siamo in alto mare, ci chiedono di dare di più per ricevere di meno”. I timori della premier in vista delle elezioni",
+          "link": "https://www.repubblica.it/esteri/2026/11/27/news/consiglio_europeo_bilancio_in_sette_anni_taglio_da_22_miliardi_ira_di_meloni_cosi_non_firmo-425753511/?rss",
+          "pubblicato": "2026-11-27T00:00:54+00:00"
+        },
+        {
+          "titolo": "Attacco con i droni in Kuwait: morti due tecnici italiani. Tajani accusa, l’Iran nega",
+          "sommario": "Erano dipendenti di Rheinmetall impegnati nella manutenzione di un radar. I velivoli prodotti a Teheran, che offre una commissione d’inchiesta congiunta",
+          "link": "https://www.repubblica.it/esteri/2026/11/27/news/attacco_droni_kuwait_morti_due_tecnici_italiani_tajani_accusa_iran_nega-425753609/?rss",
+          "pubblicato": "2026-11-27T00:00:00+00:00"
+        },
+        {
+          "titolo": "A Francoforte sbarca De Cos, il grande mediatore tra falchi e colombe",
+          "sommario": "L’ex Banco de España a Madrid è considerato un “duro” ma piace a tutti i partiti, così come a nord e sud Europa",
+          "link": "https://www.repubblica.it/esteri/2026/11/27/news/francoforte_bce_sbarca_de_cos_grande_mediatore_tra_falchi_e_colombe-425753550/?rss",
+          "pubblicato": "2026-11-27T00:00:00+00:00"
+        },
+        {
+          "titolo": "Accordo tra i leader sulla Bce: la guida allo spagnolo De Cos. Stallo su bilancio e Ucraina",
+          "sommario": "Cade il veto del governo olandese e i capi di Stato e di governo a Bruxelles trovano l’intesa sul dopo Lagarde. Litigi invece sul budget Ue 2028-2034 tra frugali e “coesionisti”. Fermo anche il prestito da 45 miliardi per Kiev",
+          "link": "https://www.repubblica.it/esteri/2026/11/27/news/consiglio_europeo_accordo_tra_leader_sulla_bce_la_guida_allo_spagnolo_de_cos_stallo_bilancio_e_ucraina-425753425/?rss",
+          "pubblicato": "2026-11-27T00:00:00+00:00"
+        }
+      ]
     },
     "https://www.repubblica.it/rss/economia/rss2.0.xml": {
       "nome": "Repubblica",
@@ -170,31 +294,88 @@
       "nome": "Repubblica",
       "url": "https://www.repubblica.it/rss/tecnologia/rss2.0.xml",
       "attivo": true,
-      "articoli": []
+      "articoli": [
+        {
+          "titolo": "Mentre negli Usa vietano i giocattoli IA, l'Europa non ha ancora regole chiare",
+          "sommario": "La governatrice di New York ha firmato una legge che vieta di produrre e vendere giocattoli progettati per instaurare legami emotivi con i bambini fino a 12 anni.",
+          "link": "https://www.repubblica.it/tecnologia/2026/11/26/news/new_york_vieta_giocattoli_chatbot_ia-425752516/?rss",
+          "pubblicato": "2026-11-26T16:05:14+00:00"
+        },
+        {
+          "titolo": "BookCity Milano, Stefano Accorsi porta in scena l’intelligenza artificiale",
+          "sommario": "A BookCity Milano due appuntamenti di Planetaria, il progetto ideato da Stefano Accorsi e Filippo Gentili che include dibattito e spettacolo teatrale",
+          "link": "https://www.repubblica.it/tecnologia/2026/11/26/news/bookcity_milano_stefano_accorsi_dibattito_ia-425752561/?rss",
+          "pubblicato": "2026-11-26T16:03:02+00:00"
+        },
+        {
+          "titolo": "Comunicare fiducia nell’era dell’IA, a Milano il Premio Nazionale Comunicazione Costruttiva",
+          "sommario": "A Milano il 30 novembre la quarta edizione del Premio Nazionale Comunicazione Costruttiva, dedicata al tema della fiducia. La Fondazione Pensiero Solido premierà dieci personalità del mondo dell’innovazione, dell’informazione e della cultura.",
+          "link": "https://www.repubblica.it/tecnologia/2026/11/26/news/milano_premio_nazionale_comunicazione_costruttiva-425752233/?rss",
+          "pubblicato": "2026-11-26T14:18:33+00:00"
+        },
+        {
+          "titolo": "Lotteria scontrini, l'ideatore: “Dietro ogni scontrino ci sono sanità e scuola”",
+          "sommario": "Per rilanciare la Lotteria degli scontrini, il governo pensa alla riscossione anonima dei premi fino a 5mila euro. Un’ipotesi che solleva dubbi sulla sicurezza informatica e sulla prevenzione delle frodi.",
+          "link": "https://www.repubblica.it/tecnologia/2026/11/26/news/lotteria_scontrini_ideatore_lotta_evasione_fiscale-425752143/?rss",
+          "pubblicato": "2026-11-26T13:55:43+00:00"
+        },
+        {
+          "titolo": "SkyECC, l’occasione persa dal Tribunale di Catanzaro",
+          "sommario": "In un caso basato su prove ricavate da un network di messaggistica, il Tribunale di Catanzaro tutela il diritto di difesa senza affrontare il problema della validazione scientifica delle risultanze investigative informatiche.",
+          "link": "https://www.repubblica.it/tecnologia/2026/11/26/news/skyecc_l_occasione_persa_dal_tribunale_di_catanzaro-425751948/?rss",
+          "pubblicato": "2026-11-26T12:09:33+00:00"
+        }
+      ]
     },
     "https://www.repubblica.it/rss/ambiente/rss2.0.xml": {
       "nome": "Repubblica",
       "url": "https://www.repubblica.it/rss/ambiente/rss2.0.xml",
       "attivo": true,
-      "articoli": []
+      "articoli": [
+        {
+          "titolo": "Falchi pellegrini alla conquista del Regno Unito: i rapaci si spostano per il clima",
+          "sommario": "Uno studioso ha cercato di capire come potrebbero reagire i rapaci con la crisi climatica. Ma non ci sono trend chiari, ogni specie farà storia a parte",
+          "link": "https://www.repubblica.it/green-and-blue/2026/11/26/news/falchi_pellegrini_alla_conquista_del_regno_unito_i_rapaci_si_spostano_per_il_clima-425752607/?rss",
+          "pubblicato": "2026-11-26T16:07:19+00:00"
+        }
+      ]
     },
     "https://www.repubblica.it/rss/salute/rss2.0.xml": {
       "nome": "Repubblica",
       "url": "https://www.repubblica.it/rss/salute/rss2.0.xml",
       "attivo": true,
-      "articoli": []
+      "articoli": [
+        {
+          "titolo": "Oltre le statine, perché cercare nuove opzioni contro il colesterolo",
+          "sommario": "Il mancato raggiungimento dei target di cura e il timore legato ai farmaci esistenti spingono a trovare nuove strategie di trattamento",
+          "link": "https://www.repubblica.it/salute/2026/11/26/news/oltre-statine-controllo-colesterolo-nuove-opzioni-425752608/?rss",
+          "pubblicato": "2026-11-26T16:07:24+00:00"
+        },
+        {
+          "titolo": "Un’altra donna uccisa vicino a dove morì Lorena Isceri, la difficoltà di raccontare i femminicidi",
+          "sommario": "A Ponte Buggianese un ventiquattrenne è stata uccisa dal compagno, che si è poi tolto la vita nello stesso luogo legato alla morte di Lorena Isceri",
+          "link": "https://www.repubblica.it/salute/2026/11/26/news/difficolta_di_raccontare_i_femminicidi-425752149/?rss",
+          "pubblicato": "2026-11-26T13:36:57+00:00"
+        },
+        {
+          "titolo": "Tumore al seno, una nuova terapia ormonale riduce il rischio di recidiva",
+          "sommario": "Giredestrant, medicinale orale che attacca e degrada i recettori ormonali, ha dimostrato di ridurre del 30% il rischio relativo che la malattia si ripresenti rispetto alle cure standard",
+          "link": "https://www.repubblica.it/salute/dossier/labrevolution/2026/11/26/news/tumore_seno_fda_approva_terapia_ormonale_recidiva-425751770/?rss",
+          "pubblicato": "2026-11-26T11:15:51+00:00"
+        },
+        {
+          "titolo": "Il tumore alla prostata di Andy Taylor dei Duran Duran, cos’è e come fare prevenzione",
+          "sommario": "Il chitarrista è deceduto a 65 anni otto anni dopo la diagnosi di un tumore della prostata già metastatico. Cosa fare per prevenire questa patologia",
+          "link": "https://www.repubblica.it/salute/2026/11/26/news/tumore_prostata_andy_taylor_duran_duran_prevenzione-425751494/?rss",
+          "pubblicato": "2026-11-26T09:49:28+00:00"
+        }
+      ]
     },
     "https://www.ilpost.it/italia/feed/": {
       "nome": "Il Post",
       "url": "https://www.ilpost.it/italia/feed/",
       "attivo": true,
       "articoli": [
-        {
-          "titolo": "Un attacco iraniano ha ucciso due italiani in Kuwait",
-          "sommario": "Erano tecnici dell'azienda di armi Rheinmetall e sono stati coinvolti in un'esplosione mentre lavoravano",
-          "link": "https://www.ilpost.it/2026/11/26/kuwait-droni-italiani-uccisi/",
-          "pubblicato": "2026-11-26T14:06:55+00:00"
-        },
         {
           "titolo": "Il “decreto scuola” è legge, nonostante le divisioni nella maggioranza",
           "sommario": "Il parlamento ha approvato le discusse norme sugli sconti ai libri scolastici digitali, ma vuole già cambiarle, e quelle sugli studenti stranieri",
@@ -227,6 +408,12 @@
           "pubblicato": "2026-11-26T14:14:40+00:00"
         },
         {
+          "titolo": "Un attacco iraniano ha ucciso due italiani in Kuwait",
+          "sommario": "Erano tecnici dell'azienda di armi Rheinmetall e sono stati coinvolti in un'esplosione mentre lavoravano",
+          "link": "https://www.ilpost.it/2026/11/26/kuwait-droni-italiani-uccisi/",
+          "pubblicato": "2026-11-26T14:06:55+00:00"
+        },
+        {
           "titolo": "Il partito di Puigdemont sperava nel suo rientro per rimontare",
           "sommario": "Avrebbe potuto aiutare a riguadagnare consensi per le elezioni del 29 novembre, ma lui ha detto che tornerà solo a dicembre",
           "link": "https://www.ilpost.it/2026/11/26/crisi-partito-puigdemont-senza-di-lui-elezioni/",
@@ -237,12 +424,6 @@
           "sommario": "",
           "link": "https://www.ilpost.it/2026/11/26/nave-cisterna-gasolio-affondata-ibiza/",
           "pubblicato": "2026-11-26T09:48:19+00:00"
-        },
-        {
-          "titolo": "C’è una seconda puntata dell’inchiesta sulle frasi antisemite attribuite a Jordan Bardella",
-          "sommario": "“Le Monde” ha pubblicato nuovi messaggi del 2013, con tirate contro le banche e la finanza",
-          "link": "https://www.ilpost.it/2026/11/26/nuova-inchiesta-fras-antisemite-bardella/",
-          "pubblicato": "2026-11-26T07:38:54+00:00"
         }
       ]
     },
@@ -363,6 +544,12 @@
       "attivo": true,
       "articoli": [
         {
+          "titolo": "Il bilancio spacca l’Europa ma Costa insiste: «Serve un’intesa a dicembre»",
+          "sommario": "I paesi si dividono tra chi, come la Germania, vuole un bilancio esile, concentrato sulle priorità più recenti, e chi invece vorrebbe un bilancio più generoso, attento alle poste più tradizionali, come l’Italia",
+          "link": "https://www.ilsole24ore.com/art/il-bilancio-spacca-l-europa-ma-costa-insiste-serve-un-intesa-dicembre-AJbRxPUC",
+          "pubblicato": "2026-11-27T06:47:29+00:00"
+        },
+        {
           "titolo": "Casa, Italia tra i Paesi più sostenibili: le famiglie spendono il 14% del reddito, la media Ue è al 19%",
           "sommario": "Ma tra chi paga un affitto a prezzi di mercato più di uno su cinque spende oltre il 40% delle entrate, e quattro giovani su dieci vivono in case sovraffollate",
           "link": "https://www.ilsole24ore.com/art/casa-italia-i-paesi-piu-sostenibili-famiglie-spendono-14percento-reddito-media-ue-e-19percento-AJCW18TC",
@@ -385,12 +572,6 @@
           "sommario": "Secondo il quotidiano britannico Financial Times, Nvidia ha chiesto ai partner produttivi di sospendere le spedizioni di server verso Malaysia, Singapore, Thailandia e Indonesia. Nel frattempo gli Stati Uniti stanno.",
           "link": "https://www.ilsole24ore.com/art/nvidia-interrompe-spedizioni-chip-quattro-paesi-asiatici-AJJ11BTC",
           "pubblicato": "2026-11-26T08:40:36+00:00"
-        },
-        {
-          "titolo": "Spagna, Sanchez propone una Patrimoniale sopra i 100milioni di € annui",
-          "sommario": "Una mossa inaspettata, a pochi giorni dalle elezioni politiche: il primo ministro spagnolo Pedro Sanchez, candidato del Psoe (il partito socialista) ha proposto una nuova imposta sui patrimoni superiori ai.",
-          "link": "https://www.ilsole24ore.com/art/spagna-sanchez-propone-patrimoniale-sopra-100milioni-annui-AJXb9eQC",
-          "pubblicato": "2026-11-26T07:55:03+00:00"
         }
       ]
     },
@@ -468,6 +649,18 @@
       "attivo": true,
       "articoli": [
         {
+          "titolo": "Windows 11, la barra laterale potrà nascondersi in automatico",
+          "sommario": "C'è un malfunzionamento che riguarda la barra delle applicazioni di Windows 11, che una volta spostata a sinistra o a destra resta visibile anche quando non la state usando.",
+          "link": "https://www.hdblog.it/microsoft/articoli/n678456/windows-11-barra-app-scomparsa-automatica/",
+          "pubblicato": "2026-11-27T05:45:00+00:00"
+        },
+        {
+          "titolo": "Sony BRAVIA 7 II True RGB: nuovo ribasso e minimo Amazon. Altri 225 di sconto in poche ore",
+          "sommario": "Sony BRAVIA 7 II True RGB da 55 pollici scende a 1.574,25€ per il Black Friday Amazon 2026, raggiungendo un nuovo minimo storico. E già questa sarebbe una notizia interessante, considerando che soltanto pochi giorni fa lo stesso televisore veniva proposto a 1.",
+          "link": "https://www.hdblog.it/tv/offerte/n678477/sony-bravia-7-ii-true-rgb-gta-6-black-friday-amazo/",
+          "pubblicato": "2026-11-27T05:40:00+00:00"
+        },
+        {
           "titolo": "Android scende al 74% delle vendite, iPhone al 21% nel trimestre",
           "sommario": "Android era a bordo di 74 smartphone su cento venduti nel mondo tra luglio e settembre 2026, ma nello stesso trimestre di un anno prima erano 79.",
           "link": "https://www.hdblog.it/smartphone/articoli/n678452/android-ios-harmonyos-vendite-quote-q3-2026/",
@@ -484,18 +677,6 @@
           "sommario": "Il Black Friday Amazon 2026 è finalmente arrivato e, dopo settimane di promozioni anticipate, è il momento di scoprire le offerte più interessanti dedicate alla sicurezza domestica.",
           "link": "https://www.hdblog.it/amazon/offerte/n678311/black-friday-amazon-2026-offerte-ring-blink-offert/",
           "pubblicato": "2026-11-26T22:05:00+00:00"
-        },
-        {
-          "titolo": "Robot aspirapolvere al Black Friday Amazon 2026: le offerte scelte da HDblog",
-          "sommario": "Il Black Friday Amazon 2026 è finalmente arrivato e per chi sta pensando di acquistare un robot aspirapolvere questo è uno dei momenti più interessanti per confrontare i prezzi.",
-          "link": "https://www.hdblog.it/amazon/offerte/n678409/robot-aspirapolvere-black-friday-amazon-offerte/",
-          "pubblicato": "2026-11-26T22:00:00+00:00"
-        },
-        {
-          "titolo": "Black Friday 2026: tutte le offerte e sconti in tempo reale | Live",
-          "sommario": "Nonostante il Black Friday Amazon sia già partito dal 19 novembre, dalla mezzanotte partirà la giornata più importante, ossia il vero e proprio Black Friday! Su HDblog abbiamo appena riattivato la nostra Live offerte aggiornata in tempo reale.",
-          "link": "https://www.hdblog.it/amazon/offerte/n676463/black-friday-amazon-2026-offerte-sconti-live/",
-          "pubblicato": "2026-11-26T20:30:00+00:00"
         }
       ]
     },
@@ -579,34 +760,34 @@
       "attivo": true,
       "articoli": [
         {
-          "titolo": "Ti ricordi… Victor Obinna, il nigeriano che sembrava predestinato: il Chievo, l’Inter di Mou e quella notte magica contro lo United",
-          "sommario": "Gomiti alti e marcare bene l’uomo, che la posta in palio è grossa. Sembra il mantra di un grande stopper, invece quell’addestramento sarà cruciale per un futuro attaccante.",
-          "link": "https://www.ilfattoquotidiano.it/2026/11/27/ti-ricordi-victor-obinna-chievo-inter-mourinho-united-carriera-storia/8584819/",
-          "pubblicato": "2026-11-27T05:55:09+00:00"
+          "titolo": "I Comuni non assumono i vincitori del loro concorso, la strigliata del ministero: “Tenete fede agli impegni o rischiate le cause”",
+          "sommario": "La lettera, che risale ai primi di novembre, è di sole due pagine ma i toni sono perentori.",
+          "link": "https://www.ilfattoquotidiano.it/2026/11/27/concorso-funzionari-comuni-assunzioni-lettera-ministero-rischio-cause/8584792/",
+          "pubblicato": "2026-11-27T06:53:16+00:00"
         },
         {
-          "titolo": "A Baton Rouge i droni Amazon volano 30 volte l’ora",
-          "sommario": "A Baton Rouge, in Louisiana, dal centro logistico di Amazon decollano circa 30 droni all’ora. Consegnano pacchi anche di 2 kg nel raggio di 12 chilometri. Molti residenti hanno sporto reclamo. “È come vivere sotto un cavalcavia”, dice Marcia LeCompte.",
-          "link": "https://www.ilfattoquotidiano.it/2026/11/27/droni-amazon-baton-rouge-proteste-satira-luttazzi/8584860/",
-          "pubblicato": "2026-11-27T05:49:34+00:00"
+          "titolo": "Quarto, sigilli al parco costruito dal consigliere comunale di Napoli ‘trasformista’ Domenico Brescia. Era appena approdato in Fdi",
+          "sommario": "C’è un consigliere comunale di Napoli che fino a faceva notizia per il suo trasformismo politico, e da oggi anche per una grana edilizia di non poco conto, il sequestro di alcuni immobili di un parco residenziale a Quarto, riconducibile alla sua galassia.",
+          "link": "https://www.ilfattoquotidiano.it/2026/11/27/quarto-sigilli-al-parco-costruito-dal-consigliere-comunale-di-napoli-trasformista-domenico-brescia-era-appena-approdato-in-fdi/8584841/",
+          "pubblicato": "2026-11-27T06:53:04+00:00"
         },
         {
-          "titolo": "Attacco in Kuwait, chi erano i due italiani uccisi dai droni: il “veterano” della Rheinmetall e il tifoso della Roma",
-          "sommario": "Avevano 65 e 36 anni Antonio Saccoccio ed Emanuele Lo Russo, i due lavoratori italiani morti nell’esplosione avvenuta in Kuwait in seguito a un attacco con droni.",
-          "link": "https://www.ilfattoquotidiano.it/2026/11/26/attacco-droni-kuwait-italiani-morti-notizie-2/8585050/",
-          "pubblicato": "2026-11-26T20:11:53+00:00"
+          "titolo": "La Lombardia colma un vuoto: dopo anni di battaglie anche i cittadini dell’Ue indigenti potranno ricevere le cure dal sistema sanitario",
+          "sommario": "Dopo anni di battaglie legali, anche le cittadine e i cittadini dell’Unione europea privi di diritto al soggiorno e indigenti che vivono in Lombardia possono accedere, tramite il Servizio sanitario, alle cure urgenti, essenziali e continuative.",
+          "link": "https://www.ilfattoquotidiano.it/2026/11/27/codice-eni-lombardia-cittadini-ue-notizie/8584882/",
+          "pubblicato": "2026-11-27T06:52:52+00:00"
         },
         {
-          "titolo": "Il buco flat tax, regalo da 4 miliardi agli autonomi più benestanti",
-          "sommario": "La flat tax al 15% sul lavoro autonomo costa allo Stato, già oggi, 4 miliardi di minori incassi fiscali e provoca disparità di tassazione a favore delle partite Iva che, rispetto a un subordinato con lo stesso reddito, pagano fino a 18mila euro in meno.",
-          "link": "https://www.ilfattoquotidiano.it/2026/11/26/il-buco-flat-tax-regalo-da-4-miliardi-agli-autonomi-piu-benestanti/8584993/",
-          "pubblicato": "2026-11-26T19:14:12+00:00"
+          "titolo": "Violenza sulle donne, in Sicilia centri senza fondi: “Stanziato un milione di euro per i convegni mentre i rifugi rischiano di chiudere”",
+          "sommario": "“Quest’anno abbiamo speso migliaia di euro in visite mediche. Come facciamo? Ritardiamo il nostro stipendio, aspettiamo e con noi aspettano, medici, farmacie, ma anche supermercati, botteghe”.",
+          "link": "https://www.ilfattoquotidiano.it/2026/11/27/centri-antiviolenza-sicilia-fondi-notizie/8584908/",
+          "pubblicato": "2026-11-27T06:52:42+00:00"
         },
         {
-          "titolo": "Caso Emanuela Orlandi, ‘Chi l’ha visto?’ svela il nome dietro la voce del telefonista “Mario”: “È l’ex agente del Sisde Claudio Martufi”. Nessuna conferma ufficiale",
-          "sommario": "È stato un post diffuso sui canali social della trasmissione Chi l’ha visto?",
-          "link": "https://www.ilfattoquotidiano.it/2026/11/26/caso-emanuela-orlandi-chi-lha-visto-svela-il-nome-dietro-la-voce-del-telefonista-mario-e-lex-agente-del-sisde-claudio-martufi/8584785/",
-          "pubblicato": "2026-11-26T19:06:16+00:00"
+          "titolo": "Ecco l’eredità dei Giochi invernali sui territori: il Veneto stanzia 4,5 milioni per le spese di gestione della pista da bob",
+          "sommario": "La pista da bob di Cortina è un’idrovora di risorse pubbliche. Quello che molti temevano – e su cui i lettori de Ilfattoquottidiano.it sono stati informati da anni – si è puntualmente verificato.",
+          "link": "https://www.ilfattoquotidiano.it/2026/11/27/pista-da-bob-cortina-giochi-spese-gestione-soldi-pubblici-veneto/8585001/",
+          "pubblicato": "2026-11-27T06:52:31+00:00"
         }
       ]
     },
@@ -714,12 +895,6 @@
           "sommario": "La scorsa settimana, durante il suo intervento al Campus Einaudi dell'Università di Torino, davanti a mille studenti, nel parlare dell’invasione russa in Ucraina, di guerra e di pace, lo storico Alessandro Barbero ha riproposto alcuni filoni della.",
           "link": "https://www.valigiablu.it/barbero-disinformazione-russia-ucraina-guerra/",
           "pubblicato": "2026-11-26T12:03:35+00:00"
-        },
-        {
-          "titolo": "Mar Nero, Baltico, Libia: l’escalation sui mari è russa, non ucraina",
-          "sommario": "Ma davvero l’Ucraina ha portato la guerra nel Mediterraneo, come alcuni politici, media e una certa propaganda stanno dicendo in questi giorni?",
-          "link": "https://www.valigiablu.it/navi-russe-libia-baltico-mar-nero-escalation/",
-          "pubblicato": "2026-11-26T06:51:09+00:00"
         }
       ]
     },
@@ -952,6 +1127,12 @@
       "attivo": true,
       "articoli": [
         {
+          "titolo": "Trump: \"Ho chiesto a Putin lo stop degli attacchi all'Europa\"",
+          "sommario": "AGI - Donald Trump ha chiesto a Vladimir Putin di “cessare ogni aggressione militare” contro i territori europei, nella speranza di arrivare rapidamente a un accordo per porre fine alla guerra in Ucraina.",
+          "link": "https://www.agi.it/estero/news/2026-11-27/trump-putin-ucraina-europa-40209801/",
+          "pubblicato": "2026-11-27T06:40:14+00:00"
+        },
+        {
           "titolo": "Nulla di fatto sul bilancio della Ue. Meloni: \"Siamo lontani anni luce da una soluzione\"",
           "sommario": "AGI - Nulla di fatto a Bruxelles, dove i leader Ue si sono riuniti in un Consiglio europeo straordinario sul prossimo bilancio pluriennale 2028-2034.",
           "link": "https://www.agi.it/estero/news/2026-11-27/bilancio-ue-meloni-40209462/",
@@ -974,12 +1155,6 @@
           "sommario": "AGI - Cannoni antiaerei e missili a corto raggio per proteggere singole installazioni, Patriot per la difesa a più lunga distanza e n uovi sistemi Nasams per la fascia intermedia. La difesa aerea del Kuwait si articola su più livelli.",
           "link": "https://www.agi.it/estero/news/2026-11-26/kuwait-iran-italiani-rheinmetall-40205321/",
           "pubblicato": "2026-11-26T17:22:23+00:00"
-        },
-        {
-          "titolo": "Petroliera capovolta a Ibiza, chiazza oleosa di quasi 5 km in mare: \"Serbatoi intatti\"",
-          "sommario": "AGI - Una chiazza oleosa e iridescente, compatibile con la presenza di gasolio, è stata rilevata nel tratto di mare tra Valencia e Ibiza dove si è capovolta la Med Emre, la nave mercantile che trasportava 7mila tonnellate di gasolio e nel cui naufragio un.",
-          "link": "https://www.agi.it/estero/news/2026-11-26/petroliera-affondata-ibiza-40196563/",
-          "pubblicato": "2026-11-26T15:29:18+00:00"
         }
       ]
     },
@@ -1131,7 +1306,38 @@
       "nome": "The Guardian",
       "url": "https://www.theguardian.com/world/rss",
       "attivo": true,
-      "articoli": []
+      "articoli": [
+        {
+          "titolo": "Mad about mara: the DIY dance movement helping young Nigerians escape the daily grind",
+          "sommario": "What started as one artist’s response to being cut out of a music video has exploded, becoming a driving force in Nigeria’s cultural landscape As a student in the central Nigerian city of Ilorin, Lawal Habeeb Kola loved staying in his hostel room to produce.",
+          "link": "https://www.theguardian.com/world/2026/nov/27/mad-about-mara-the-diy-dance-movement-helping-young-nigerians-escape-the-daily-grind",
+          "pubblicato": "2026-11-27T06:00:56+00:00"
+        },
+        {
+          "titolo": "Up to 1.4m UK workers risk missing out on zero-hours shake-up, say unions",
+          "sommario": "Andy Burnham is warned against calls from bosses to water down employment rights legislation Andy Burnham is being warned that 1.4 million workers will be at risk of being stuck in insecure jobs if a forthcoming ban on zero-hours contracts is watered down.",
+          "link": "https://www.theguardian.com/uk-news/2026/nov/27/up-to-1point4-million-uk-workers-risk-missing-out-zero-hours-shake-up",
+          "pubblicato": "2026-11-27T06:00:55+00:00"
+        },
+        {
+          "titolo": "Erin Patterson launches high court appeal bid over mushroom murder convictions",
+          "sommario": "Patterson, 52, seeks leave to appeal to Australia’s highest court over deaths of estranged family members after fatal beef wellington lunch Get our breaking news email, free app or daily news podcast Erin Patterson has applied to the high court seeking leave.",
+          "link": "https://www.theguardian.com/australia-news/2026/nov/27/erin-patterson-launches-high-court-appeal-over-mushroom-convictions-ntwnfb",
+          "pubblicato": "2026-11-27T05:31:38+00:00"
+        },
+        {
+          "titolo": "Alan Jones defence opens and closes in space of a few hours as indecent assault trial draws to a close",
+          "sommario": "Former broadcaster, 85, has pleaded not guilty to 21 counts of sexual touching and indecent assault Get our breaking news email, free app or daily news podcast Alan Jones’s defence in his indecent assault and sexual touching trial has lasted only a few hours.",
+          "link": "https://www.theguardian.com/australia-news/2026/nov/27/alan-jones-trial-defence-open-and-close-ntwnfb",
+          "pubblicato": "2026-11-27T05:02:40+00:00"
+        },
+        {
+          "titolo": "Race hate exploded in this Spanish town last year. Now its residents are bracing for more",
+          "sommario": "Torre-Pacheco’s diverse communities are fearful that the far-right Vox party will enter government after Sunday’s election Sitting on a park bench, taking in the sunny day, Naima reflected on all that had seemingly changed since she moved to Spain three.",
+          "link": "https://www.theguardian.com/world/2026/nov/27/spain-migrants-election-vox-far-right-europe",
+          "pubblicato": "2026-11-27T05:00:55+00:00"
+        }
+      ]
     },
     "https://www.aljazeera.com/xml/rss/all.xml": {
       "nome": "Al Jazeera",
@@ -1337,7 +1543,38 @@
       "nome": "The Guardian US",
       "url": "https://www.theguardian.com/us-news/rss",
       "attivo": true,
-      "articoli": []
+      "articoli": [
+        {
+          "titolo": "Bills, Eagles and Bears pull off last-gasp wins in trio of Thanksgiving thrillers",
+          "sommario": "Bass hits from 57 yards at the gun to lift Buffalo Elliott’s 59-yarder caps Eagles’ 21-point comeback Bears take NFC North lead on Odunze’s late catch Tyler Bass hit a 57-yard field goal as time expired to give the Buffalo Bills a 13-10 victory over the.",
+          "link": "https://www.theguardian.com/sport/2026/nov/26/nfl-roundup-thanksgiving-scores-bears-lions-eagles-cowboys-chiefs-bills",
+          "pubblicato": "2026-11-27T01:50:28+00:00"
+        },
+        {
+          "titolo": "Steelers owner backs Mike McCarthy and attacks Aaron Rodgers’s ‘insubordination’",
+          "sommario": "Art Rooney II has ‘100% confidence’ in head coach Insists QB’s outbursts could not be tolerated The Pittsburgh Steelers owner and president, Art Rooney II, has provided his full support to head coach, Mike McCarthy, in his stunning fallout with Aaron Rodgers.",
+          "link": "https://www.theguardian.com/sport/2026/nov/26/steelers-owner-gives-backing-to-mike-mccarthy-in-row-with-aaron-rodgers",
+          "pubblicato": "2026-11-26T22:04:52+00:00"
+        },
+        {
+          "titolo": "Fifa staff asked to attend interviews as Infantino sell-off scheme investigated",
+          "sommario": "Democrats to examine Fifa Forward Enterprise scandal Infantino could be subpoenaed to give evidence A number of past and present Fifa employees have received letters requesting they attend interviews for a congressional investigation into the global governing.",
+          "link": "https://www.theguardian.com/football/2026/nov/26/fifa-gianni-infantino-sell-off-scheme-investigated",
+          "pubblicato": "2026-11-26T21:11:24+00:00"
+        },
+        {
+          "titolo": "Campbell Wright becomes first American to win World Cup biathlon event",
+          "sommario": "Wright delivers ‘best performance’ in Kontiolahti, Finland 24-year-old was actually born in New Zealand Campbell Wright made history on Thursday by becoming the first American to win a World Cup biathlon event.",
+          "link": "https://www.theguardian.com/sport/2026/nov/26/campbell-wright-becomes-first-american-to-win-world-cup-biathlon-event",
+          "pubblicato": "2026-11-26T20:08:36+00:00"
+        },
+        {
+          "titolo": "Can Elon Musk really put AI datacentres in space? - The Latest",
+          "sommario": "The Trump administration has approved Elon Musk’s plan to create datacentres in space. US federal regulators have authorised the launch of one million Starmind orbital satellites, which are built by Musk’s SpaceX, to process data in space.",
+          "link": "https://www.theguardian.com/news/video/2026/nov/26/can-elon-musk-really-put-ai-datacentres-in-space-the-latest",
+          "pubblicato": "2026-11-26T18:34:17+00:00"
+        }
+      ]
     },
     "https://www.propublica.org/feeds/propublica/main": {
       "nome": "ProPublica",
@@ -1349,7 +1586,14 @@
       "nome": "Democracy Now",
       "url": "https://www.democracynow.org/democracynow.rss",
       "attivo": true,
-      "articoli": []
+      "articoli": [
+        {
+          "titolo": "\"I'm Not Going to Give Up\": Leonard Peltier on Indigenous Rights, His Half-Century in Prison & Coming Home",
+          "sommario": "In September 2025, Democracy Now! host Amy Goodman sat down with longtime political prisoner and Indigenous activist Leonard Peltier for his first extended television and radio broadcast interview since his release to home confinement in February 2025.",
+          "link": "http://www.democracynow.org/2026/11/26/leonard_peltier_speaks_out_after_release",
+          "pubblicato": "2026-11-26T13:01:49+00:00"
+        }
+      ]
     },
     "https://zeteo.com/feed": {
       "nome": "Zeteo",
@@ -1413,9 +1657,9 @@
         }
       ]
     },
-    "https://clb.org.hk/rss.xml": {
+    "https://clb.org.hk/en/feed.xml": {
       "nome": "China Labour Bulletin (CLB)",
-      "url": "https://clb.org.hk/rss.xml",
+      "url": "https://clb.org.hk/en/feed.xml",
       "attivo": false,
       "articoli": []
     },
@@ -1473,9 +1717,9 @@
       "attivo": false,
       "articoli": []
     },
-    "https://www.brasildefato.com.br/rss2.xml": {
+    "https://www.brasildefato.com.br/feed/": {
       "nome": "Brasil de Fato",
-      "url": "https://www.brasildefato.com.br/rss2.xml",
+      "url": "https://www.brasildefato.com.br/feed/",
       "attivo": false,
       "articoli": []
     },
@@ -1494,6 +1738,24 @@
     "https://operamundi.uol.com.br/feed/": {
       "nome": "Opera Mundi",
       "url": "https://operamundi.uol.com.br/feed/",
+      "attivo": false,
+      "articoli": []
+    },
+    "https://www.adnkronos.com/RSS_PrimaPagina.xml": {
+      "nome": "AdnKronos",
+      "url": "https://www.adnkronos.com/RSS_PrimaPagina.xml",
+      "attivo": false,
+      "articoli": []
+    },
+    "https://www.rainews.it/rss.xml": {
+      "nome": "RaiNews",
+      "url": "https://www.rainews.it/rss.xml",
+      "attivo": false,
+      "articoli": []
+    },
+    "https://www.galileonet.it/feed/": {
+      "nome": "Galileo",
+      "url": "https://www.galileonet.it/feed/",
       "attivo": false,
       "articoli": []
     }
