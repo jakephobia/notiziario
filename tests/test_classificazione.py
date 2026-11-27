@@ -201,6 +201,20 @@ def test_guerra_maggiore_puo_arrivare_a_cinque():
     assert notiziabilita_cluster(cluster) == 5
 
 
+def test_film_trailer_promozionale_non_e_copertina():
+    cluster = _cluster(
+        'Al Pacino e Hopkins nel film "Maserati: I fratelli": il nuovo trailer',
+        "Il filmato promozionale racconta la storia del marchio. La vicenda "
+        "inizia durante la Prima guerra mondiale, quando Alfieri Maserati "
+        "fondo l'officina insieme ai fratelli.",
+        categoria="tecnologia",
+        fonte="HDblog",
+    )
+    categorie = categorie_cluster(cluster)
+    assert "promozione" in categorie
+    assert notiziabilita_cluster(cluster) == 1
+
+
 def test_cultura_non_promozionale_resta_bassa():
     cluster = _cluster(
         "Il nuovo museo apre a Napoli",

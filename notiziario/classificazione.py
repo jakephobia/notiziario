@@ -278,7 +278,8 @@ _PROMO_FORTI = re.compile(
     r"presentazione del volume|in edicola|abbonati|abbonamento|abbonamenti|"
     r"iscriviti|test drive|gadget|concorso(?!\s+di\s+colpa)|recensione|"
     r"recensioni|prova su strada|nuovo numero della rivista|"
-    r"nuovo numero del mensile)\b"
+    r"nuovo numero del mensile|trailer|filmato promozionale|"
+    r"film biografico|al cinema|esce al cinema|nuovo film|pellicola)\b"
 )
 # Segnali ambigui: servono due indizi oppure un contesto promozionale.
 _PROMO_DEBOLI = re.compile(
@@ -382,6 +383,11 @@ _LOCALE = re.compile(
     r"\b(?:quartiere|quartieri|municipio|municipi|consiglio comunale|"
     r"pro loco|festa patronale|parrocchia|parrocchie)\b"
 )
+_STORICO = re.compile(
+    r"\b(?:prima guerra mondiale|seconda guerra mondiale|guerra fredda|"
+    r"nel 1914|nel 1918|nel 1939|nel 1945|storia del marchio|"
+    r"storia della famiglia|film biografico|film storico)\b"
+)
 
 _BASE_3 = {
     "italia",
@@ -409,7 +415,10 @@ def _calcola_notiziabilita(contesto: _Contesto, categorie: set[str]) -> int:
     else:
         punteggio = 2
 
-    for segnale in _SIGNAL_GROUPS:
+    storico = bool(_STORICO.search(contesto.testo_norm))
+    for indice, segnale in enumerate(_SIGNAL_GROUPS):
+        if indice == 0 and storico:
+            continue
         if segnale.search(contesto.testo_norm):
             punteggio += 1
     if _STATISTICHE.search(contesto.testo_norm) and _GLOBALE.search(
@@ -424,7 +433,7 @@ def _calcola_notiziabilita(contesto: _Contesto, categorie: set[str]) -> int:
     ):
         punteggio += 1
 
-    eccezionale = bool(_ECCEZIONALE.search(contesto.testo_norm))
+    eccezionale = bool(_ECCEZIONALE.search(contesto.testo_norm)) and not storico
     if eccezionale:
         risultato = 5
     elif punteggio >= 4:

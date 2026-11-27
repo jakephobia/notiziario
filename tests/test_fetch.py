@@ -462,6 +462,21 @@ def test_scarica_rifiuta_feed_oltre_10mb(monkeypatch):
         fetch._scarica("https://esempio.test/feed", timeout=15, retry=0)
 
 
+def test_scarica_usa_fallback_curl_su_403(monkeypatch):
+    from notiziario.sicurezza import FetchHttpError
+
+    def bloccato(*args, **kwargs):
+        raise FetchHttpError(403, "https://esempio.test/feed")
+
+    monkeypatch.setattr(fetch, "fetch_con_limite", bloccato)
+    monkeypatch.setattr(
+        fetch, "_scarica_curl", lambda url, timeout: b"<rss><channel/></rss>"
+    )
+    assert fetch._scarica("https://esempio.test/feed", timeout=15, retry=0) == (
+        b"<rss><channel/></rss>"
+    )
+
+
 def test_risultato_fetch_conta_senza_novita_come_ok():
     from notiziario.fetch import EsitoFeed, RisultatoFetch
 

@@ -17,7 +17,12 @@ import requests
 
 from .categorie import normalizza_testo, trova_categoria
 from .config import Fonte
-from .sicurezza import FetchHttpError, UrlRifiutato, fetch_con_limite
+from .sicurezza import (
+    FetchHttpError,
+    UrlRifiutato,
+    fetch_con_limite,
+    valida_url_pubblica,
+)
 from .tempo import ROMA
 from .testi import (
     categoria_da_url as categoria_da_url_articolo,
@@ -217,6 +222,30 @@ def normalizza_url(url: str) -> str:
     )
 
 
+def _scarica_curl(url: str, timeout: int) -> bytes | None:
+    """Fallback con TLS browser-like per feed pubblici che rispondono 403."""
+    try:
+        from curl_cffi import requests as curl_requests
+    except ImportError:  # dipendenza opzionale, ma presente in requirements
+        return None
+    try:
+        valida_url_pubblica(url)
+        risposta = curl_requests.get(
+            url,
+            impersonate="chrome",
+            timeout=timeout,
+            headers=HEADERS,
+            allow_redirects=True,
+        )
+        valida_url_pubblica(risposta.url)
+        contenuto = risposta.content
+        if risposta.status_code < 400 and len(contenuto) <= MAX_FEED_BYTES:
+            return contenuto
+    except Exception:
+        return None
+    return None
+
+
 def _scarica(
     url: str,
     timeout: int,
@@ -236,6 +265,10 @@ def _scarica(
             )
             return contenuto
         except FetchHttpError as exc:
+            if exc.status in {401, 403, 406, 429}:
+                contenuto = _scarica_curl(url, timeout)
+                if contenuto is not None:
+                    return contenuto
             if exc.status >= 500 and tentativo < retry:
                 ultimo_errore = exc
                 time.sleep(1.2 * (tentativo + 1))
@@ -245,6 +278,10 @@ def _scarica(
             raise FetchError(f"errore URL non pubblico: {exc}") from exc
         except requests.RequestException as exc:
             ultimo_errore = exc
+            if isinstance(exc, requests.exceptions.SSLError):
+                contenuto = _scarica_curl(url, timeout)
+                if contenuto is not None:
+                    return contenuto
             if isinstance(
                 exc,
                 (

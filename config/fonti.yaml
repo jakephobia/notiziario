@@ -354,10 +354,10 @@ fonti:
     categoria: "buone-notizie"
 
   - nome: "China Labour Bulletin (CLB)"
-    url: "https://clb.org.hk/rss.xml"
+    url: "https://clb.org.hk/en/feed.xml"
     categoria: "da-assegnare"
     attivo: false
-    controllo: "da-verificare"
+    controllo: "ok"
 
   - nome: "Lausan Collective"
     url: "https://lausancollective.com/feed/"
@@ -381,13 +381,13 @@ fonti:
     url: "https://www.publico.es/rss/"
     categoria: "da-assegnare"
     attivo: false
-    controllo: "da-verificare"
+    controllo: "feed-non-disponibile"
 
   - nome: "El Salto"
     url: "https://www.elsaltodiario.com/feeds/rss"
     categoria: "da-assegnare"
     attivo: false
-    controllo: "da-verificare"
+    controllo: "feed-non-disponibile"
 
   - nome: "La Jornada (Edizione)"
     url: "https://www.jornada.com.mx/rss/edicion.xml"
@@ -405,7 +405,7 @@ fonti:
     url: "https://www.sinembargo.mx/feed"
     categoria: "da-assegnare"
     attivo: false
-    controllo: "da-verificare"
+    controllo: "bloccato-da-cloudflare"
 
   - nome: "Pie de Página"
     url: "https://piedepagina.mx/feed/"
@@ -414,10 +414,10 @@ fonti:
     controllo: "da-verificare"
 
   - nome: "Brasil de Fato"
-    url: "https://www.brasildefato.com.br/rss2.xml"
+    url: "https://www.brasildefato.com.br/feed/"
     categoria: "da-assegnare"
     attivo: false
-    controllo: "da-verificare"
+    controllo: "ok"
 
   - nome: "CartaCapital"
     url: "https://www.cartacapital.com.br/feed/"
@@ -447,7 +447,7 @@ fonti:
     url: "https://www.rainews.it/rss.xml"
     categoria: "da-assegnare"
     attivo: false
-    controllo: "da-verificare"
+    controllo: "feed-non-disponibile"
 
   - nome: "Galileo"
     url: "https://www.galileonet.it/feed/"
