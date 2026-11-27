@@ -2,22 +2,22 @@
   "categorie_attive": [
     "italia",
     "mondo",
-    "cronaca",
-    "approfondimento",
     "tecnologia",
     "scienza-salute",
     "ambiente",
-    "buone-notizie"
+    "buone-notizie",
+    "cronaca",
+    "approfondimento"
   ],
   "categorie_label": [
     "Italia",
     "Mondo",
-    "Cronaca",
-    "Approfondimento",
     "Tecnologia",
     "Scienza e salute",
     "Ambiente",
-    "Buone notizie"
+    "Buone notizie",
+    "Cronaca",
+    "Approfondimento"
   ],
   "incipit_template": "Ciao, [NOME UTENTE]! Ecco le tue notizie del giorno. Oggi è il [DATA].",
   "incipit_risolto": "Ciao, Jacopo! Ecco le tue notizie del giorno. Oggi è il 26 novembre.",

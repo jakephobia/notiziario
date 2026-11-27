@@ -61,12 +61,12 @@
   "categorie_default": [
     "italia",
     "mondo",
-    "cronaca",
-    "approfondimento",
     "tecnologia",
     "scienza-salute",
     "ambiente",
-    "buone-notizie"
+    "buone-notizie",
+    "cronaca",
+    "approfondimento"
   ],
   "incipit": {
     "file": "config/incipit.txt"
