@@ -1,6 +1,32 @@
 {
   "episodi": [
     {
+      "data": "2026-11-27",
+      "titolo": "Notiziario di venerdì 27 novembre 2026",
+      "descrizione": "Le notizie del 27 novembre 2026: Cosa vuol dire essere europei nell’epoca della barbarie; La disinformazione sull’Ucraina e il metodo Barbero; Rheinmetall AG, chi l'ha creata e che cosa produce.",
+      "filename": "notiziario-2026-11-27.mp3",
+      "descrizione_breve": "27 novembre 2026 - Cosa vuol dire essere europei nell'epoca, La disinformazione sull'Ucraina e il metodo, Rheinmetall AG, Sedici eurodeputati chiedono alla Commissione, Autogol della destra in Ue.",
+      "durata_secondi": 508.187256,
+      "dimensione": 8132274,
+      "modalita": "fallback",
+      "categorie": [
+        "italia",
+        "mondo",
+        "tecnologia",
+        "scienza-salute",
+        "ambiente",
+        "buone-notizie",
+        "cronaca",
+        "approfondimento"
+      ],
+      "voce": "it-IT-Chirp3-HD-Kore",
+      "voce_label": "Kore - femminile, calda (Google Chirp 3 HD)",
+      "velocita": 1.1,
+      "tts_motore": "google",
+      "pubblicato": "2026-11-27T06:10:42.058729+00:00",
+      "guid": "notiziario-2026-11-27"
+    },
+    {
       "data": "2026-11-26",
       "titolo": "Notiziario del 26 novembre 2026",
       "descrizione": "Le notizie principali di giovedì 26 novembre 2026, con approfondimenti sulla politica europea, le nuove regolamentazioni sull'intelligenza artificiale, le tensioni internazionali e gli sviluppi scientifici.",
