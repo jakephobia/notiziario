@@ -348,7 +348,6 @@ fonti:
     url: "https://www.buonenotizie.it/feed/"
     categoria: "buone-notizie"
     attivo: false
-    attivo: false
 
   - nome: "Italia Che Cambia"
     url: "https://www.italiachecambia.org/feed/"
@@ -434,6 +433,24 @@ fonti:
 
   - nome: "Opera Mundi"
     url: "https://operamundi.uol.com.br/feed/"
+    categoria: "da-assegnare"
+    attivo: false
+    controllo: "da-verificare"
+
+  - nome: "AdnKronos"
+    url: "https://www.adnkronos.com/RSS_PrimaPagina.xml"
+    categoria: "da-assegnare"
+    attivo: false
+    controllo: "da-verificare"
+
+  - nome: "RaiNews"
+    url: "https://www.rainews.it/rss.xml"
+    categoria: "da-assegnare"
+    attivo: false
+    controllo: "da-verificare"
+
+  - nome: "Galileo"
+    url: "https://www.galileonet.it/feed/"
     categoria: "da-assegnare"
     attivo: false
     controllo: "da-verificare"

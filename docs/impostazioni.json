@@ -33,7 +33,7 @@
   "nome_utente": "Jacopo",
   "suono": "ding",
   "outro": "Queste erano le notizie di oggi. A domani con i principali eventi della giornata!",
-  "fonti_totali": 96,
+  "fonti_totali": 99,
   "fonti_attive": 62,
   "issue_url": "https://github.com/jakephobia/notiziario/issues/1",
   "repo_url": "https://github.com/jakephobia/notiziario",
@@ -611,6 +611,24 @@
     {
       "nome": "Opera Mundi",
       "url": "https://operamundi.uol.com.br/feed/",
+      "categoria": "da-assegnare",
+      "attivo": false
+    },
+    {
+      "nome": "AdnKronos",
+      "url": "https://www.adnkronos.com/RSS_PrimaPagina.xml",
+      "categoria": "da-assegnare",
+      "attivo": false
+    },
+    {
+      "nome": "RaiNews",
+      "url": "https://www.rainews.it/rss.xml",
+      "categoria": "da-assegnare",
+      "attivo": false
+    },
+    {
+      "nome": "Galileo",
+      "url": "https://www.galileonet.it/feed/",
       "categoria": "da-assegnare",
       "attivo": false
     }
