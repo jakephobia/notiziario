@@ -45,7 +45,13 @@ DEFAULT_SETTINGS: dict[str, Any] = {
     "outro": {"file": "config/outro.txt"},
     "silenzio_iniziale_ms": 1000,
     "tts_chunk_max_caratteri": 4500,
-    "llm_modello_riserva": "gemini-3.1-flash-lite",
+    "llm_modelli_riserva": [
+        "gemini-3.8-flash",
+        "gemini-3.6-flash",
+        "gemini-3-flash",
+        "gemini-2.5-flash",
+    ],
+    "llm_modello_riserva": "gemini-3.8-flash",
     "llm_modello_traduzione": "gemini-3.1-flash-lite",
     "preset": {
         "svelto": {
@@ -163,7 +169,7 @@ DEFAULT_SETTINGS: dict[str, Any] = {
         },
     },
     "llm": {
-        "modello": "gemini-2.5-flash",
+        "modello": "gemini-3.1-flash-lite",
         "temperatura": 0.6,
         "endpoint": (
             "https://generativelanguage.googleapis.com/v1beta/models/"
@@ -173,7 +179,7 @@ DEFAULT_SETTINGS: dict[str, Any] = {
         "max_output_tokens": 16384,
     },
     "llm_revisione": {
-        "modello": "gemini-2.5-flash",
+        "modello": "gemini-3.8-flash",
         "temperatura": 0.15,
         "max_output_tokens": 16384,
     },
@@ -346,9 +352,36 @@ def valida_impostazioni(impostazioni: dict[str, Any]) -> None:
         raise ConfigError(
             "tts_chunk_max_caratteri deve essere un intero tra 500 e 20000."
         )
+    llm = impostazioni.get("llm", {})
+    if not isinstance(llm, dict):
+        raise ConfigError("llm deve essere un oggetto.")
+    modello_llm = llm.get("modello")
+    if not isinstance(modello_llm, str) or not modello_llm.strip():
+        raise ConfigError("llm.modello deve essere una stringa non vuota.")
     riserva = impostazioni.get("llm_modello_riserva")
     if not isinstance(riserva, str):
         raise ConfigError("llm_modello_riserva deve essere una stringa.")
+    riserve = impostazioni.get("llm_modelli_riserva")
+    if not isinstance(riserve, list) or not riserve:
+        raise ConfigError(
+            "'llm_modelli_riserva' deve essere una lista non vuota di modelli."
+        )
+    nomi_riserve: set[str] = set()
+    for voce in riserve:
+        if not isinstance(voce, str):
+            raise ConfigError(
+                "Ogni voce di 'llm_modelli_riserva' deve essere una stringa."
+            )
+        nome = voce.strip()
+        if not nome:
+            raise ConfigError(
+                "'llm_modelli_riserva' non può contenere stringhe vuote."
+            )
+        if nome in nomi_riserve:
+            raise ConfigError(
+                f"Modello duplicato in 'llm_modelli_riserva': '{nome}'."
+            )
+        nomi_riserve.add(nome)
     traduzione_modello = impostazioni.get("llm_modello_traduzione")
     if not isinstance(traduzione_modello, str) or not traduzione_modello.strip():
         raise ConfigError(

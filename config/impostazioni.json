@@ -11,7 +11,13 @@
   },
   "silenzio_iniziale_ms": 1000,
   "tts_chunk_max_caratteri": 4500,
-  "llm_modello_riserva": "gemini-3.1-flash-lite",
+  "llm_modelli_riserva": [
+    "gemini-3.8-flash",
+    "gemini-3.6-flash",
+    "gemini-3-flash",
+    "gemini-2.5-flash"
+  ],
+  "llm_modello_riserva": "gemini-3.8-flash",
   "llm_modello_traduzione": "gemini-3.1-flash-lite",
   "preset": {
     "svelto": {
@@ -159,14 +165,14 @@
     }
   },
   "llm": {
-    "modello": "gemini-2.5-flash",
+    "modello": "gemini-3.1-flash-lite",
     "temperatura": 0.6,
     "endpoint": "https://generativelanguage.googleapis.com/v1beta/models/{modello}:generateContent",
     "timeout": 60,
     "max_output_tokens": 16384
   },
   "llm_revisione": {
-    "modello": "gemini-2.5-flash",
+    "modello": "gemini-3.8-flash",
     "temperatura": 0.15,
     "max_output_tokens": 16384
   },

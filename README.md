@@ -721,19 +721,24 @@ $env:GEMINI_API_KEY = [Environment]::GetEnvironmentVariable('GEMINI_API_KEY','Us
 La chiave si carica dal registro utente e non viene mai scritta su file.
 
 Se il test risponde, lancia il notiziario normalmente. Il modello predefinito è
-`gemini-2.5-flash`, configurabile in `config/impostazioni.json`. La chiamata usa
-l'endpoint REST `generativelanguage.googleapis.com` con `requests`, senza SDK
+`gemini-3.1-flash-lite`, configurabile in `config/impostazioni.json`. La chiamata
+usa l'endpoint REST `generativelanguage.googleapis.com` con `requests`, senza SDK
 pesanti. La chiave non va mai scritta nel repository o nei file di configurazione.
 
-La riserva testo è `llm_modello_riserva`, oggi `gemini-3.1-flash-lite`: viene
-usata **solo** dopo un errore/429 del primario, mai a rotazione. Se anche la
-riserva è troppo corta rispetto al materiale arricchito, si passa al fallback
+La catena testo è `llm_modelli_riserva` (`gemini-3.8-flash`, `gemini-3.6-flash`,
+`gemini-3-flash`, `gemini-2.5-flash`), con `llm_modello_riserva` legacy pari a
+`gemini-3.8-flash`: il primario ha due tentativi, poi ogni riserva viene provata
+una sola volta, nell'ordine, senza ripetizioni. La revisione usa
+`gemini-3.8-flash` e, come riserva, la stessa catena. Se anche l'ultima riserva è
+troppo corta rispetto al materiale arricchito, si passa al fallback
 deterministico e lo stato riporta modello e motivo.
 
 Il free tier può avere limiti di quota. Il programma scrive il messaggio esatto
 (per esempio `HTTP 429: quota exceeded`) nel log e usa il fallback, senza
 bloccare l'episodio. `--test-modelli` elenca i modelli visibili e fa una sola
-chiamata minima per candidato testo/TTS, con pausa:
+chiamata minima per candidato testo; i modelli TTS Gemini vengono testati solo
+con `tts_motore=gemini`, mentre con `google` o `edge` il comando registra
+`TTS Gemini non testato: motore google/edge`.
 
 ```powershell
 .\.venv\Scripts\python.exe main.py --test-modelli

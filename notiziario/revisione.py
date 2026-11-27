@@ -16,7 +16,7 @@ from typing import Any
 from .testi import conta_parole, rimuovi_pubblicita
 
 
-MODELLO_REVISIONE_DEFAULT = "gemini-2.5-flash"
+MODELLO_REVISIONE_DEFAULT = "gemini-3.8-flash"
 TEMPERATURA_REVISIONE_DEFAULT = 0.15
 MAX_OUTPUT_TOKENS_REVISIONE_DEFAULT = 16384
 
@@ -172,6 +172,20 @@ def _config_revisione(
     except (TypeError, ValueError):
         massimo = MAX_OUTPUT_TOKENS_REVISIONE_DEFAULT
     return modello, temperatura, massimo
+
+
+def _catena_revisione(
+    impostazioni: dict[str, Any],
+) -> tuple[list[str], float, int]:
+    """Modello di revisione configurato, poi tutta la catena di riserva."""
+    from .copione import modelli_llm
+
+    modello, temperatura, massimo = _config_revisione(impostazioni)
+    modelli = [modello]
+    for nome in modelli_llm(impostazioni):
+        if nome and nome not in modelli:
+            modelli.append(nome)
+    return modelli, temperatura, massimo
 
 
 def _chiudi(testo: str) -> str:
@@ -476,22 +490,16 @@ def _esegui_revisione(
     str | None,
     str,
 ]:
-    """Prova il modello di revisione e poi la riserva.
+    """Prova il modello di revisione e poi tutta la catena di riserva.
 
     Restituisce ``(mappa, chiusura, scartate, modello, motivo)``. ``mappa`` è
     ``None`` se nessun modello ha prodotto una revisione valida. Ogni modello
     ha fino a due tentativi quando la risposta non contiene JSON valido.
     """
-    modello, temperatura, massimo = _config_revisione(impostazioni)
-    riserva = ""
-    if isinstance(impostazioni, dict):
-        riserva = str(impostazioni.get("llm_modello_riserva", "") or "").strip()
-    modelli = [modello]
-    if riserva and riserva != modello:
-        modelli.append(riserva)
+    modelli, temperatura, massimo = _catena_revisione(impostazioni)
     prompt = _prompt_revisione(notizie, chiusura)
     ultimo_motivo = "nessun modello disponibile"
-    for nome in modelli:
+    for indice, nome in enumerate(modelli):
         for tentativo in range(2):
             prompt_uso = prompt if tentativo == 0 else prompt + _ISTRUZIONE_JSON
             try:
@@ -513,6 +521,11 @@ def _esegui_revisione(
                     nome,
                     ultimo_motivo,
                 )
+                if indice < len(modelli) - 1:
+                    logger.warning(
+                        "Revisione copione: provo il modello successivo %s.",
+                        modelli[indice + 1],
+                    )
                 break
             try:
                 dati = _estrai_json(risposta)
@@ -535,6 +548,11 @@ def _esegui_revisione(
                     ultimo_motivo,
                     estratto,
                 )
+                if indice < len(modelli) - 1:
+                    logger.warning(
+                        "Revisione copione: provo il modello successivo %s.",
+                        modelli[indice + 1],
+                    )
                 break
             if not isinstance(dati, dict):
                 ultimo_motivo = "la risposta non è un oggetto JSON"
@@ -543,6 +561,11 @@ def _esegui_revisione(
                     nome,
                     ultimo_motivo,
                 )
+                if indice < len(modelli) - 1:
+                    logger.warning(
+                        "Revisione copione: provo il modello successivo %s.",
+                        modelli[indice + 1],
+                    )
                 break
             try:
                 mappa, nuova_chiusura, scartate = _valida_revisione(
@@ -555,6 +578,11 @@ def _esegui_revisione(
                     nome,
                     ultimo_motivo,
                 )
+                if indice < len(modelli) - 1:
+                    logger.warning(
+                        "Revisione copione: provo il modello successivo %s.",
+                        modelli[indice + 1],
+                    )
                 break
             if scartate:
                 logger.warning(

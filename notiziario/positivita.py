@@ -9,7 +9,7 @@ import re
 from dataclasses import dataclass
 
 from .clustering import Cluster
-from .copione import LlmError, _chiama_gemini, _estrai_json, _redigi
+from .copione import LlmError, _chiama_gemini, _estrai_json, _redigi, modelli_llm
 from .categorie import label_categoria
 from .testi import e_promozionale
 
@@ -232,14 +232,10 @@ def filtra_buone_notizie(
             scartate_poco_rilevanti=poco_rilevanti,
         )
     try:
-        primario = str(impostazioni["llm"]["modello"])
-        riserva = str(impostazioni.get("llm_modello_riserva", "")).strip()
-        modelli = [primario]
-        if riserva and riserva != primario:
-            modelli.append(riserva)
+        modelli = modelli_llm(impostazioni)
         risposta = None
         ultimo_errore: Exception | None = None
-        for modello in modelli:
+        for indice, modello in enumerate(modelli):
             try:
                 risposta = _chiama_gemini(
                     _prompt(pool),
@@ -257,6 +253,11 @@ def filtra_buone_notizie(
                     modello,
                     _redigi(exc),
                 )
+                if indice < len(modelli) - 1:
+                    logger.warning(
+                        "Filtro positività: provo il modello successivo %s.",
+                        modelli[indice + 1],
+                    )
         if risposta is None:
             raise ultimo_errore or LlmError("nessun modello disponibile")
         dati = _estrai_json(risposta)

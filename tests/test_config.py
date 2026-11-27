@@ -37,7 +37,14 @@ def test_impostazioni_reali_valide():
     assert impostazioni["tts_google"]["endpoint"].startswith("https://")
     assert impostazioni["voce"]["google"]["nome"] == "it-IT-Chirp3-HD-Kore"
     assert impostazioni["voce"]["google"]["voci"]["Leda"] == "it-IT-Chirp3-HD-Leda"
-    assert impostazioni["llm_modello_riserva"]
+    assert impostazioni["llm"]["modello"] == "gemini-3.1-flash-lite"
+    assert impostazioni["llm_modelli_riserva"] == [
+        "gemini-3.8-flash",
+        "gemini-3.6-flash",
+        "gemini-3-flash",
+        "gemini-2.5-flash",
+    ]
+    assert impostazioni["llm_modello_riserva"] == "gemini-3.8-flash"
     assert impostazioni["llm_modello_traduzione"] == "gemini-3.1-flash-lite"
     assert impostazioni["voce"]["edge"]["nome"] == "it-IT-IsabellaNeural"
     assert {v["nome"] for v in impostazioni["voce"]["voci"]} == {
@@ -141,12 +148,13 @@ def test_preset_e_intervalli_coerenti():
 def test_llm_revisione_valido_e_protetto():
     impostazioni = carica_impostazioni()
     revisione = impostazioni["llm_revisione"]
-    assert revisione["modello"] == "gemini-2.5-flash"
+    assert revisione["modello"] == "gemini-3.8-flash"
     assert revisione["temperatura"] == 0.15
     assert revisione["max_output_tokens"] == 16384
     # Le chiavi storiche della traduzione non sono state toccate.
     assert impostazioni["llm_modello_traduzione"] == "gemini-3.1-flash-lite"
-    assert impostazioni["llm_modello_riserva"] == "gemini-3.1-flash-lite"
+    assert impostazioni["llm_modello_riserva"] == "gemini-3.8-flash"
+    assert impostazioni["llm_modelli_riserva"][0] == "gemini-3.8-flash"
 
     for chiave, valore in (
         ("modello", ""),
@@ -160,3 +168,20 @@ def test_llm_revisione_valido_e_protetto():
         rotto["llm_revisione"][chiave] = valore
         with pytest.raises(ConfigError):
             valida_impostazioni(rotto)
+
+
+@pytest.mark.parametrize(
+    "valore",
+    [
+        [],
+        ["gemini-3.8-flash", "gemini-3.8-flash"],
+        ["gemini-3.8-flash", 3],
+        ["gemini-3.8-flash", "   "],
+        "gemini-3.8-flash",
+    ],
+)
+def test_llm_modelli_riserva_validati(valore):
+    rotto = copy.deepcopy(carica_impostazioni())
+    rotto["llm_modelli_riserva"] = valore
+    with pytest.raises(ConfigError):
+        valida_impostazioni(rotto)

@@ -27,6 +27,7 @@ from notiziario.copione import (
     blocchi_per_tts,
     genera_copione,
     migliora_completezza,
+    modelli_llm,
     prepara_materiale,
     prova_llm,
 )
@@ -95,6 +96,16 @@ def selezioni_finte():
         NotiziaSelezionata(italia, False, 2, 100),
         NotiziaSelezionata(economia, False, 3, 100),
     ]
+
+
+def test_modelli_llm_deduplica_e_ignora_vuoti():
+    impostazioni = {
+        "llm": {"modello": "primario"},
+        "llm_modelli_riserva": ["riserva", "", "primario", "riserva"],
+        "llm_modello_riserva": "legacy",
+    }
+    assert modelli_llm(impostazioni) == ["primario", "riserva", "legacy"]
+    assert modelli_llm({}) == []
 
 
 def test_prepara_materiale():
@@ -225,19 +236,23 @@ def test_rimuove_saluto_llm_nonostante_il_prompt():
 def test_llm_json_non_valido_poi_fallback(monkeypatch):
     monkeypatch.setenv("GEMINI_API_KEY", "chiave-di-prova")
     chiamate = {"n": 0}
+    impostazioni = carica_impostazioni()
 
     def finta_chiamata(prompt, system, impostazioni, api_key, logger, modello=None):
+        if "Copione da rivedere:" in prompt:
+            raise RuntimeError("revisione fuori dal test")
         chiamate["n"] += 1
         return "Questa non è una risposta JSON"
 
     monkeypatch.setattr(modulo_copione, "_chiama_gemini", finta_chiamata)
     copione = genera_copione(
         selezioni_finte(),
-        carica_impostazioni(),
+        impostazioni,
         datetime(2026, 11, 22, 7, 0),
         logger=LOGGER,
     )
-    assert chiamate["n"] == 3
+    # Due tentativi del primario e una chiamata per ogni riserva.
+    assert chiamate["n"] == len(modelli_llm(impostazioni)) + 1
     assert copione["modalita"] == "fallback"
     assert "JSON" in (copione["motivo_fallback"] or "")
 
@@ -339,6 +354,79 @@ def test_modello_riserva_usato_solo_dopo_errore(monkeypatch):
     # Le prime tre chiamate sono i due tentativi del modello primario e la
     # riserva; eventuali chiamate successive appartengono al layer di revisione.
     assert chiamate[:3] == [primario, primario, riserva]
+
+
+def _impostazioni_catena(riserve: list[str]) -> dict:
+    impostazioni = copy.deepcopy(carica_impostazioni())
+    impostazioni["llm"]["modello"] = "modello-primario"
+    impostazioni["llm_modelli_riserva"] = list(riserve)
+    impostazioni["llm_modello_riserva"] = riserve[0] if riserve else ""
+    return impostazioni
+
+
+def test_genera_copione_passa_alla_seconda_riserva(monkeypatch):
+    monkeypatch.setenv("GEMINI_API_KEY", "chiave-di-prova")
+    impostazioni = _impostazioni_catena(
+        ["riserva-1", "riserva-2", "riserva-3"]
+    )
+    chiamate: list[str | None] = []
+    testo = " ".join(
+        ["Il governo ha approvato il piano per la scuola."] * 10
+    )
+
+    def finto(prompt, system, impostazioni, api_key, logger, modello=None, **kwargs):
+        if "Copione da rivedere:" in prompt:
+            raise RuntimeError("revisione fuori dal test")
+        chiamate.append(modello)
+        if modello in {"modello-primario", "riserva-1"}:
+            raise modulo_copione.LlmError("HTTP 429 quota")
+        return _risposta_copione(testo)
+
+    monkeypatch.setattr(modulo_copione, "_chiama_gemini", finto)
+    copione = genera_copione(
+        selezioni_finte(),
+        impostazioni,
+        datetime(2026, 11, 22, 7, 0),
+        logger=LOGGER,
+    )
+
+    assert chiamate == [
+        "modello-primario",
+        "modello-primario",
+        "riserva-1",
+        "riserva-2",
+    ]
+    assert copione["modalita"] == "llm"
+    assert copione["modello_usato"] == "riserva-2"
+
+
+def test_genera_copione_non_supera_i_modelli_configurati(monkeypatch):
+    monkeypatch.setenv("GEMINI_API_KEY", "chiave-di-prova")
+    impostazioni = _impostazioni_catena(["riserva-1", "riserva-2"])
+    chiamate: list[str | None] = []
+
+    def finto(prompt, system, impostazioni, api_key, logger, modello=None, **kwargs):
+        if "Copione da rivedere:" in prompt:
+            raise RuntimeError("revisione fuori dal test")
+        chiamate.append(modello)
+        raise modulo_copione.LlmError("HTTP 429 quota")
+
+    monkeypatch.setattr(modulo_copione, "_chiama_gemini", finto)
+    copione = genera_copione(
+        selezioni_finte(),
+        impostazioni,
+        datetime(2026, 11, 22, 7, 0),
+        logger=LOGGER,
+    )
+
+    assert chiamate == [
+        "modello-primario",
+        "modello-primario",
+        "riserva-1",
+        "riserva-2",
+    ]
+    assert len(chiamate) == len(set(chiamate)) + 1
+    assert copione["modalita"] == "fallback"
 
 
 def test_quota_429_poi_fallback(monkeypatch):

@@ -99,6 +99,32 @@ def test_ai_puo_aggiungere_generalista_positiva(monkeypatch):
     assert not any("Tragedia" in t for t in titoli)
 
 
+def test_ai_usa_la_catena_di_riserva(monkeypatch):
+    monkeypatch.setenv("GEMINI_API_KEY", "chiave-di-prova")
+    import notiziario.positivita as modulo
+
+    modelli: list[str | None] = []
+
+    def finta(prompt, system, impostazioni, api_key, logger, modello=None, **kwargs):
+        modelli.append(modello)
+        if modello != "gemini-3.6-flash":
+            raise RuntimeError("quota")
+        return '{"positive": [0, 1]}'
+
+    monkeypatch.setattr(modulo, "_chiama_gemini", finta)
+    esito = filtra_buone_notizie(
+        candidati(),
+        ["italia", "scienza-salute", "buone-notizie"],
+        carica_impostazioni(),
+    )
+    assert modelli == [
+        "gemini-3.1-flash-lite",
+        "gemini-3.8-flash",
+        "gemini-3.6-flash",
+    ]
+    assert esito.usato_ai is True
+
+
 def test_ai_errore_torna_ai_dedicati(monkeypatch):
     monkeypatch.setenv("GEMINI_API_KEY", "chiave-di-prova")
     import notiziario.positivita as modulo

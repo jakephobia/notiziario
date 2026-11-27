@@ -45,6 +45,31 @@ class LlmError(Exception):
     """Errore della chiamata al modello: si passa al fallback."""
 
 
+class _CopioneInInglese(LlmError):
+    """Il modello ha risposto con frasi inglesi: si prova il successivo."""
+
+
+def modelli_llm(impostazioni: dict[str, Any]) -> list[str]:
+    """Catena testo: primario, riserve configurate e riserva legacy.
+
+    I nomi sono deduplicati e le voci vuote vengono ignorate. Il primo nome è
+    il modello primario; i successivi sono le riserve nell'ordine di preferenza.
+    """
+    primario = str(
+        (impostazioni.get("llm") or {}).get("modello", "")
+    ).strip()
+    riserve = impostazioni.get("llm_modelli_riserva")
+    if not isinstance(riserve, list):
+        riserve = []
+    legacy = str(impostazioni.get("llm_modello_riserva", "") or "").strip()
+    catena: list[str] = []
+    for voce in [primario, *riserve, legacy]:
+        nome = str(voce or "").strip()
+        if nome and nome not in catena:
+            catena.append(nome)
+    return catena
+
+
 def _redigi(messaggio: Any) -> str:
     testo = str(messaggio or "")
     testo = re.sub(r"(key=)[^&\s]+", r"\1***", testo, flags=re.IGNORECASE)
@@ -1841,6 +1866,54 @@ def _genera_fallback(
     )
 
 
+def _genera_con_modello(
+    modello: str,
+    prompt: str,
+    selezioni: list[NotiziaSelezionata],
+    impostazioni: dict[str, Any],
+    data_riferimento: datetime,
+    budget: int,
+    target: int,
+    materiale: list[dict[str, Any]],
+    chiave: str,
+    logger: logging.Logger,
+    usa_llm: bool,
+    motivo_modello: str,
+) -> dict[str, Any]:
+    """Un tentativo completo con un modello: chiamata, validazione, revisione."""
+    risposta = _chiama_gemini(
+        prompt,
+        _system_prompt(),
+        impostazioni,
+        chiave,
+        logger,
+        modello=modello,
+    )
+    dati = _estrai_json(risposta)
+    _valida_risposta_llm(dati, budget)
+    copione = _finalizza_llm(
+        dati,
+        selezioni,
+        data_riferimento,
+        target_parole=target,
+        modello_usato=modello,
+        motivo_modello=motivo_modello,
+        impostazioni=impostazioni,
+    )
+    copione = _arricchisci_senza_fallire(
+        copione, selezioni, materiale, logger
+    )
+    if _frasi_con_inglese(copione["testo"]):
+        raise _CopioneInInglese("copione con frasi inglesi evidenti")
+    if not _lunghezza_ai_adeguata(copione, selezioni, target):
+        raise LlmError(
+            "copione AI troppo corto rispetto al materiale arricchito"
+        )
+    return _rifinisci_senza_fallire(
+        copione, impostazioni, logger, usa_llm=usa_llm
+    )
+
+
 def genera_copione(
     selezioni: list[NotiziaSelezionata],
     impostazioni: dict[str, Any],
@@ -1848,7 +1921,7 @@ def genera_copione(
     logger: logging.Logger | None = None,
     usa_llm: bool = True,
 ) -> dict[str, Any]:
-    """Prova Gemini; se manca la chiave o qualcosa non va, usa il fallback."""
+    """Prova la catena Gemini; se manca la chiave o fallisce, usa il fallback."""
     logger = logger or logging.getLogger("notiziario")
     if not selezioni:
         raise ValueError("Nessuna notizia selezionata per il copione.")
@@ -1863,39 +1936,53 @@ def genera_copione(
         materiale = prepara_materiale(selezioni)
         prompt, budget = _prompt_utente(materiale, data_riferimento, impostazioni)
         target = sum(s.parole_target for s in selezioni) + 15
-        modello_primario = str(impostazioni["llm"]["modello"])
-        modello_riserva = str(impostazioni.get("llm_modello_riserva", "")).strip()
-        for tentativo in (1, 2):
-            try:
-                logger.info(
-                    "Copione: chiamo Gemini (%s), tentativo %d.",
-                    modello_primario,
-                    tentativo,
-                )
-                risposta = _chiama_gemini(
-                    prompt,
-                    _system_prompt(),
-                    impostazioni,
-                    chiave,
-                    logger,
-                    modello=modello_primario,
-                )
-                dati = _estrai_json(risposta)
-                _valida_risposta_llm(dati, budget)
-                copione = _finalizza_llm(
-                    dati,
-                    selezioni,
-                    data_riferimento,
-                    target_parole=target,
-                    modello_usato=modello_primario,
-                    motivo_modello="primario",
-                    impostazioni=impostazioni,
-                )
-                copione = _arricchisci_senza_fallire(
-                    copione, selezioni, materiale, logger
-                )
-                frasi_inglesi = _frasi_con_inglese(copione["testo"])
-                if frasi_inglesi:
+        modelli = modelli_llm(impostazioni)
+        if not modelli:
+            motivo = "nessun modello LLM configurato"
+            logger.warning("Copione: %s.", motivo)
+        else:
+            modello_primario = modelli[0]
+            riserve = modelli[1:]
+            motivi: list[str] = []
+            for tentativo in (1, 2):
+                try:
+                    logger.info(
+                        "Copione: chiamo Gemini (%s), tentativo %d.",
+                        modello_primario,
+                        tentativo,
+                    )
+                    copione = _genera_con_modello(
+                        modello_primario,
+                        prompt,
+                        selezioni,
+                        impostazioni,
+                        data_riferimento,
+                        budget,
+                        target,
+                        materiale,
+                        chiave,
+                        logger,
+                        usa_llm,
+                        "primario",
+                    )
+                    logger.info(
+                        "Copione generato con Gemini (%s): %d parole "
+                        "(target %d, divario %d).",
+                        modello_primario,
+                        conta_parole(copione["testo"]),
+                        copione["target_parole"],
+                        copione["divario_parole"],
+                    )
+                    return copione
+                except _CopioneInInglese as exc:
+                    motivo_primario = f"{modello_primario}: {_redigi(exc)}"
+                    motivi.append(motivo_primario)
+                    logger.warning(
+                        "Copione: %s tentativo %d non riuscito: %s",
+                        modello_primario,
+                        tentativo,
+                        motivo_primario,
+                    )
                     if tentativo == 1:
                         prompt = (
                             prompt
@@ -1903,96 +1990,101 @@ def genera_copione(
                             "contiene frasi inglesi: traduci titoli e citazioni e non "
                             "lasciare parole inglesi nel copione."
                         )
-                        raise LlmError("copione con frasi inglesi evidenti")
-                    raise LlmError("copione ancora con frasi inglesi evidenti")
-                if not _lunghezza_ai_adeguata(copione, selezioni, target):
-                    raise LlmError(
-                        "copione AI troppo corto rispetto al materiale arricchito"
+                except LlmError as exc:
+                    motivo_primario = f"{modello_primario}: {_redigi(exc)}"
+                    motivi.append(motivo_primario)
+                    logger.warning(
+                        "Copione: %s tentativo %d non riuscito: %s",
+                        modello_primario,
+                        tentativo,
+                        motivo_primario,
                     )
-                copione = _rifinisci_senza_fallire(
-                    copione, impostazioni, logger, usa_llm=usa_llm
-                )
-                logger.info(
-                    "Copione generato con Gemini: %d parole (target %d, divario %d).",
-                    conta_parole(copione["testo"]),
-                    copione["target_parole"],
-                    copione["divario_parole"],
-                )
-                return copione
-            except LlmError as exc:
-                motivo = _redigi(exc)
-                logger.warning(
-                    "Gemini tentativo %d non riuscito: %s", tentativo, motivo
-                )
-                if tentativo == 1:
-                    prompt = (
-                        prompt
-                        + "\n\nATTENZIONE: la risposta precedente non era un JSON "
-                        "valido o non rispettava lo schema. Rispondi solo con JSON "
-                        "valido e completo, senza testo fuori dal JSON."
-                    )
-            except Exception as exc:  # pragma: no cover - difesa finale
-                motivo = _redigi(f"errore imprevisto ({type(exc).__name__})")
-                logger.warning("Gemini tentativo %d non riuscito: %s", tentativo, motivo)
-        if modello_riserva and modello_riserva != modello_primario:
-            try:
-                logger.warning(
-                    "Modello primario non disponibile: provo la riserva %s una volta.",
-                    modello_riserva,
-                )
-                risposta = _chiama_gemini(
-                    prompt,
-                    _system_prompt(),
-                    impostazioni,
-                    chiave,
-                    logger,
-                    modello=modello_riserva,
-                )
-                dati = _estrai_json(risposta)
-                _valida_risposta_llm(dati, budget)
-                copione = _finalizza_llm(
-                    dati,
-                    selezioni,
-                    data_riferimento,
-                    target_parole=target,
-                    modello_usato=modello_riserva,
-                    motivo_modello="riserva dopo errore primario",
-                    impostazioni=impostazioni,
-                )
-                copione = _arricchisci_senza_fallire(
-                    copione, selezioni, materiale, logger
-                )
-                frasi_inglesi = _frasi_con_inglese(copione["testo"])
-                if frasi_inglesi:
                     if tentativo == 1:
                         prompt = (
                             prompt
-                            + "\n\nRISCRIVI TUTTO IN ITALIANO. La risposta precedente "
-                            "contiene frasi inglesi: traduci titoli e citazioni e non "
-                            "lasciare parole inglesi nel copione."
+                            + "\n\nATTENZIONE: la risposta precedente non era un JSON "
+                            "valido o non rispettava lo schema. Rispondi solo con JSON "
+                            "valido e completo, senza testo fuori dal JSON."
                         )
-                        raise LlmError("copione con frasi inglesi evidenti")
-                    raise LlmError("copione ancora con frasi inglesi evidenti")
-                if not _lunghezza_ai_adeguata(copione, selezioni, target):
-                    raise LlmError(
-                        "copione AI troppo corto rispetto al materiale arricchito"
+                except Exception as exc:  # pragma: no cover - difesa finale
+                    motivo_primario = (
+                        f"{modello_primario}: errore imprevisto "
+                        f"({type(exc).__name__})"
                     )
-                copione = _rifinisci_senza_fallire(
-                    copione, impostazioni, logger, usa_llm=usa_llm
+                    motivi.append(motivo_primario)
+                    logger.warning(
+                        "Copione: %s tentativo %d non riuscito: %s",
+                        modello_primario,
+                        tentativo,
+                        motivo_primario,
+                    )
+            logger.warning(
+                "Copione: primario %s non disponibile (%s); provo %d modelli "
+                "di riserva.",
+                modello_primario,
+                motivi[-1] if motivi else "errore sconosciuto",
+                len(riserve),
+            )
+            for indice, modello in enumerate(riserve, start=1):
+                logger.warning(
+                    "Copione: provo la riserva %s (%d/%d) dopo %s.",
+                    modello,
+                    indice,
+                    len(riserve),
+                    motivi[-1] if motivi else "errore primario",
                 )
-                logger.info(
-                    "Copione generato con modello di riserva %s: %d parole.",
-                    modello_riserva,
-                    conta_parole(copione["testo"]),
-                )
-                return copione
-            except LlmError as exc:
-                motivo_riserva = _redigi(exc)
-                motivo = f"{motivo}; riserva: {motivo_riserva}"
-                logger.warning("Modello di riserva non riuscito: %s", motivo_riserva)
-            except Exception as exc:  # pragma: no cover
-                motivo = f"{motivo}; riserva: {type(exc).__name__}"
-        logger.warning("Passo al copione di fallback deterministico.")
+                try:
+                    copione = _genera_con_modello(
+                        modello,
+                        prompt,
+                        selezioni,
+                        impostazioni,
+                        data_riferimento,
+                        budget,
+                        target,
+                        materiale,
+                        chiave,
+                        logger,
+                        usa_llm,
+                        "riserva dopo errore primario",
+                    )
+                    logger.info(
+                        "Copione generato con modello di riserva %s: %d parole.",
+                        modello,
+                        conta_parole(copione["testo"]),
+                    )
+                    return copione
+                except _CopioneInInglese as exc:
+                    motivo_riserva = f"{modello}: {_redigi(exc)}"
+                    motivi.append(motivo_riserva)
+                    logger.warning(
+                        "Copione: riserva %s non riuscita: %s; passo al "
+                        "modello successivo.",
+                        modello,
+                        motivo_riserva,
+                    )
+                except LlmError as exc:
+                    motivo_riserva = f"{modello}: {_redigi(exc)}"
+                    motivi.append(motivo_riserva)
+                    logger.warning(
+                        "Copione: riserva %s non riuscita: %s; passo al "
+                        "modello successivo.",
+                        modello,
+                        motivo_riserva,
+                    )
+                except Exception as exc:  # pragma: no cover - difesa finale
+                    motivo_riserva = (
+                        f"{modello}: errore imprevisto ({type(exc).__name__})"
+                    )
+                    motivi.append(motivo_riserva)
+                    logger.warning(
+                        "Copione: riserva %s non riuscita: %s; passo al "
+                        "modello successivo.",
+                        modello,
+                        motivo_riserva,
+                    )
+            motivo = "; ".join(motivi) if motivi else motivo
+            logger.warning("Passo al copione di fallback deterministico.")
 
     copione = _genera_fallback(
         selezioni,

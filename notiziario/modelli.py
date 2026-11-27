@@ -9,7 +9,7 @@ from typing import Any
 
 import requests
 
-from .copione import _redigi
+from .copione import _redigi, modelli_llm
 
 
 BASE = "https://generativelanguage.googleapis.com/v1beta"
@@ -44,21 +44,10 @@ def elenca_modelli(chiave: str, timeout: int = 30) -> dict[str, list[str]]:
 def _candidati(
     disponibili: dict[str, list[str]], impostazioni: dict[str, Any]
 ) -> tuple[list[str], list[str]]:
-    primario = str(impostazioni["llm"]["modello"])
-    riserva = str(impostazioni.get("llm_modello_riserva", "")).strip()
-    testo_preferiti = [
-        primario,
-        riserva,
-        "gemini-2.5-flash",
-        "gemini-2.5-flash-lite",
-        "gemini-3-flash-preview",
-        "gemini-3.1-flash-lite",
-    ]
-    testo: list[str] = []
-    for nome in testo_preferiti:
-        if nome and nome not in testo:
-            testo.append(nome)
-    testo = testo[:4]
+    testo = modelli_llm(impostazioni)[:4]
+    motore = str(impostazioni.get("tts_motore", "")).strip().casefold()
+    if motore != "gemini":
+        return testo, []
     tts_preferiti = [
         "gemini-2.5-flash-preview-tts",
         "gemini-2.5-pro-preview-tts",
@@ -183,12 +172,18 @@ def test_modelli(
         righe.append(("testo", modello, esito, f"{latenza:.2f}s", dettaglio))
         if pausa > 0:
             time.sleep(pausa)
-    for modello in tts:
-        stato, latenza, dettaglio = _prova_tts(modello, chiave, timeout)
-        esito = "ok" if stato == 200 else (f"HTTP {stato}" if stato else "errore")
-        righe.append(("tts", modello, esito, f"{latenza:.2f}s", dettaglio))
-        if pausa > 0:
-            time.sleep(pausa)
+    motore = str(impostazioni.get("tts_motore", "")).strip().casefold()
+    if motore == "gemini":
+        for modello in tts:
+            stato, latenza, dettaglio = _prova_tts(modello, chiave, timeout)
+            esito = "ok" if stato == 200 else (f"HTTP {stato}" if stato else "errore")
+            righe.append(("tts", modello, esito, f"{latenza:.2f}s", dettaglio))
+            if pausa > 0:
+                time.sleep(pausa)
+    else:
+        messaggio = f"TTS Gemini non testato: motore {motore or 'sconosciuto'}."
+        logger.info(messaggio)
+        print(messaggio)
 
     print(f"\n{'TIPO':6} {'MODELLO':34} {'ESITO':16} {'LATENZA':9} DETTAGLIO")
     for tipo, modello, esito, latenza, dettaglio in righe:

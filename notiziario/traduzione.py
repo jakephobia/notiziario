@@ -8,7 +8,12 @@ import os
 from dataclasses import replace
 from typing import Any
 
-from .copione import _chiama_gemini, _contiene_stopword_inglese, _estrai_json
+from .copione import (
+    _chiama_gemini,
+    _contiene_stopword_inglese,
+    _estrai_json,
+    modelli_llm,
+)
 from .selezione import NotiziaSelezionata
 from .testi import deduplica_paragrafi
 
@@ -122,12 +127,11 @@ def traduci_selezioni(
         str(impostazioni.get("llm_modello_traduzione", "")).strip()
         or "gemini-3.1-flash-lite"
     )
-    modello_primario = str(
-        impostazioni.get("llm", {}).get("modello", "")
-    ).strip()
-    modelli = [modello_traduzione]
-    if modello_primario and modello_primario != modello_traduzione:
-        modelli.append(modello_primario)
+    modelli: list[str] = []
+    for nome in [modello_traduzione, *modelli_llm(impostazioni)]:
+        nome = str(nome or "").strip()
+        if nome and nome not in modelli:
+            modelli.append(nome)
 
     mappa: dict[int, tuple[str, str]] = {}
     for indice, modello in enumerate(modelli, start=1):
@@ -152,7 +156,7 @@ def traduci_selezioni(
             )
             if indice < len(modelli):
                 logger.info(
-                    "Provo la pre-traduzione con il modello primario %s.",
+                    "Provo la pre-traduzione con il modello successivo %s.",
                     modelli[indice],
                 )
     if not mappa:

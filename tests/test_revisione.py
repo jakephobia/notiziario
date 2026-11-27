@@ -452,6 +452,52 @@ def test_rifinisci_copione_prova_la_riserva(monkeypatch):
     assert risultato["revisione"]["modello"] == "gemini-riserva"
 
 
+def test_rifinisci_copione_prova_tutta_la_catena_di_riserva(monkeypatch):
+    monkeypatch.setenv("GEMINI_API_KEY", "chiave-di-prova")
+    impostazioni = {
+        "llm": {"modello": "gemini-3.1-flash-lite"},
+        "llm_modelli_riserva": [
+            "gemini-3.8-flash",
+            "gemini-3.6-flash",
+            "gemini-3-flash",
+            "gemini-2.5-flash",
+        ],
+        "llm_modello_riserva": "gemini-3.8-flash",
+        "llm_revisione": {
+            "modello": "gemini-3.8-flash",
+            "temperatura": 0.15,
+            "max_output_tokens": 16384,
+        },
+    }
+    modelli: list[str] = []
+    falliti = {
+        "gemini-3.8-flash",
+        "gemini-3.1-flash-lite",
+        "gemini-3.6-flash",
+    }
+
+    def finta(prompt, system, impostazioni, api_key, logger, *, modello=None, **kwargs):
+        modelli.append(modello)
+        if modello in falliti:
+            raise modulo_copione.LlmError("HTTP 429 quota")
+        return risposta_valida()
+
+    monkeypatch.setattr(modulo_revisione, "_chiama_gemini", finta)
+    risultato = rifinisci_copione(
+        copione_da_rivedere(), impostazioni, LOGGER
+    )
+
+    assert modelli == [
+        "gemini-3.8-flash",
+        "gemini-3.1-flash-lite",
+        "gemini-3.6-flash",
+        "gemini-3-flash",
+    ]
+    assert len(modelli) == len(set(modelli))
+    assert risultato["revisione"]["applicata"] is True
+    assert risultato["revisione"]["modello"] == "gemini-3-flash"
+
+
 def test_rifinisci_copione_non_solleva_se_tutti_i_modelli_falliscono(monkeypatch):
     monkeypatch.setenv("GEMINI_API_KEY", "chiave-di-prova")
 
