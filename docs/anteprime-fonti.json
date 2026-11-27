@@ -1,5 +1,5 @@
 {
-  "generato": "2026-11-27T06:10:42+00:00",
+  "generato": "2026-11-27T06:45:05+00:00",
   "fonti": {
     "https://www.ansa.it/sito/notizie/topnews/topnews_rss.xml": {
       "nome": "ANSA",
@@ -134,149 +134,25 @@
       "nome": "Repubblica",
       "url": "https://www.repubblica.it/rss/homepage/rss2.0.xml",
       "attivo": true,
-      "articoli": [
-        {
-          "titolo": "Pierpaolo Spollon: “Sono stato un figlio perfetto, oggi sono un papà che fallisce”",
-          "sommario": "Il successo di “Doc” con la chiusura della quarta stagione, e di “Chiaroscuro”, in cima alla top ten di Netflix. L’attore, il rapporto con il pubblico, con la famiglia, con la mamma.",
-          "link": "https://www.repubblica.it/spettacoli/tv-radio/2026/11/27/news/pierpaolo_spollon_chiaroscuro_netflix_doc-425753005/",
-          "pubblicato": "2026-11-27T04:00:00+00:00"
-        },
-        {
-          "titolo": "“Ionela come mia figlia Lorena, un delitto copia incolla: è un orrore senza fine”",
-          "sommario": "Parla Franco Isceri, padre della donna uccisa lo scorso 3 settembre: “Sono rimasto senza parole, siamo una società malata”",
-          "link": "https://firenze.repubblica.it/cronaca/2026/11/27/news/isceri_franco_lorena_femminicidio_ionela_miruna_girneata_viadotto_a1_barberino_firenze-425753674/",
-          "pubblicato": "2026-11-27T03:30:00+00:00"
-        },
-        {
-          "titolo": "“Insieme dall’adolescenza” l’incredulità delle famiglie",
-          "sommario": "Si conoscevano dalle medie, la convivenza precoce quando lei aveva 17 anni durante il Covid. “Lui era molto schivo”",
-          "link": "https://firenze.repubblica.it/cronaca/2026/11/27/news/uccide_compagna_ponte_buggianese_viadotto-425753561/",
-          "pubblicato": "2026-11-27T02:00:00+00:00"
-        },
-        {
-          "titolo": "Quel rituale dopo il femminicidio, uccide la compagna e poi si lancia dallo stesso ponte di Lorena",
-          "sommario": "Pistoia, Andrea Nardini ha chiamato il 112 per denunciare la morte di Ionela Miruna Girneata nella loro casa, Poi ha percorso 70 chilometri per raggiungere il viadotto del caso Isceri, ha incendiato l’auto e si è dato fuoco buttandosi nel vuoto.",
-          "link": "https://firenze.repubblica.it/cronaca/2026/11/27/news/femminicidio_ponte_buggianese_viadotto_lorena-425753636/",
-          "pubblicato": "2026-11-27T02:00:00+00:00"
-        },
-        {
-          "titolo": "Delitto Yara Gambirasio, la nuova vita di Bossetti tra poesia e fabbrica: “Finirà come Garlasco”",
-          "sommario": "L’ex muratore di Mapello condannato all’ergastolo può uscire dal carcere di Bollate per lavorare: “Ma vorrei farlo da innocente”. Ed è diventato nonno",
-          "link": "https://milano.repubblica.it/cronaca/2026/11/27/news/massimo_bossetti_lavoro_fuori_carcere_yara_gambirasio-425753285/",
-          "pubblicato": "2026-11-27T00:00:00+00:00"
-        }
-      ]
+      "articoli": []
     },
     "https://www.repubblica.it/rss/politica/rss2.0.xml": {
       "nome": "Repubblica",
       "url": "https://www.repubblica.it/rss/politica/rss2.0.xml",
       "attivo": true,
-      "articoli": [
-        {
-          "titolo": "Campo largo, l’ora dei leader per sciogliere i nodi Kiev e fisco",
-          "sommario": "Schlein: “Faremo sintesi” Conte: “Discussioni senza drammi”. Renzi: “Decidiamo anche a chi vanno tagliate le imposte”",
-          "link": "https://www.repubblica.it/politica/2026/11/27/news/campo_largo_leader_per_sciogliere_nodi_kiev_fisco-425753580/?rss",
-          "pubblicato": "2026-11-27T00:00:00+00:00"
-        },
-        {
-          "titolo": "Taruffi: “Ai gazebo porteremo un programma unitario e vincolante, siamo pronti a sfidare la destra”",
-          "sommario": "Il responsabile organizzazione del Pd: “Siamo nei tempi, cambia poco chiudere il 30 novembre o l’1 dicembre”",
-          "link": "https://www.repubblica.it/politica/2026/11/27/news/taruffi_gazebo_programma_unitario_vincolante_intervista-425753585/?rss",
-          "pubblicato": "2026-11-27T00:00:00+00:00"
-        },
-        {
-          "titolo": "Contorno, vita da invisibile a Nepi. La moglie: timori per nostro figlio",
-          "sommario": "Nel paese del Viterbese finora nessuno si era accorto della presenza dell’ex pentito. “Noi lasciati soli. Ora sanno anche dove viviamo”",
-          "link": "https://www.repubblica.it/politica/2026/11/27/news/contorno_vita_da_invisibile_nepi_moglie_timori_figlio-425753595/?rss",
-          "pubblicato": "2026-11-27T00:00:00+00:00"
-        },
-        {
-          "titolo": "De Gennaro, il testamento morale e quelle domande rimaste senza risposta",
-          "sommario": "Le otto pagine ritrovate non svelano i misteri che ancora avvolgono una stagione cruciale della lotta alla mafia e i suoi protagonisti",
-          "link": "https://www.repubblica.it/politica/2026/11/27/news/testamento_morale_de_gennaro_domande_senza_risposta-425753601/?rss",
-          "pubblicato": "2026-11-27T00:00:00+00:00"
-        },
-        {
-          "titolo": "De Gennaro accusa nelle lettere: “Mai chiesto niente per me”. I familiari: ora pubblicatele",
-          "sommario": "L’ex capo della polizia ammette errori e chiama in causa uomini delle istituzioni. L’hard disk trovato nella villa sarà esaminato insieme alle chiavette Usb",
-          "link": "https://www.repubblica.it/politica/2026/11/27/news/de_gennaro_accusa_lettere_familiari_pubblicatele-425753616/?rss",
-          "pubblicato": "2026-11-27T00:00:00+00:00"
-        }
-      ]
+      "articoli": []
     },
     "https://www.repubblica.it/rss/cronaca/rss2.0.xml": {
       "nome": "Repubblica",
       "url": "https://www.repubblica.it/rss/cronaca/rss2.0.xml",
       "attivo": true,
-      "articoli": [
-        {
-          "titolo": "Tecnici italiani morti in Kuwait, la rabbia dei colleghi: “Noi in guerra senza protezioni”",
-          "sommario": "Scatta lo sciopero. L’azienda ai sindacati: “Tutte le squadre verranno ritirate”",
-          "link": "https://www.repubblica.it/cronaca/2026/11/27/news/tecnici_italiani_morti_in_kuwait_sciopero_colleghi-425753753/?rss",
-          "pubblicato": "2026-11-27T02:46:59+00:00"
-        },
-        {
-          "titolo": "Il mistero dei libri usati: “Comprati in blocco per addestrare l’IA”",
-          "sommario": "La canadese Zoom Books sta raccogliendo centinaia di volumi italiani in un capannone vicino a Milano. Un rivenditore: “Dal catalogo online compravano uno o due testi al giorno, di colpo ho triplicato le vendite”",
-          "link": "https://milano.repubblica.it/cronaca/2026/11/27/news/mistero_libri_usati_comprati_addestramento_ia-425753366/?rss",
-          "pubblicato": "2026-11-27T00:00:00+00:00"
-        },
-        {
-          "titolo": "Trump, l’ultima frontiera del conflitto d’interessi: affari sui centri dell’Ice",
-          "sommario": "Prima di lanciare la sua crociata anti immigrati, il presidente avrebbe investito in due società che gestiscono carceri",
-          "link": "https://www.repubblica.it/cronaca/2026/11/27/news/trump_conflitto_interessi_affari_centri_ice-425753534/?rss",
-          "pubblicato": "2026-11-27T00:00:00+00:00"
-        },
-        {
-          "titolo": "Previsioni meteo, weekend con venti freddi orientali e neve in Appennino",
-          "sommario": "Poi gelate e temperature sotto la media del periodo",
-          "link": "https://www.repubblica.it/cronaca/2026/11/27/news/previsioni_meteo_weekend_venti_freddi_orientali_neve_appennino-425753467/?rss",
-          "pubblicato": "2026-11-26T23:01:00+00:00"
-        },
-        {
-          "titolo": "Ghali in cattedra al Righi: “Quante bugie dai politici sulle seconde generazioni”",
-          "sommario": "Il trapper, che sarà a Sanremo, invitato dagli studenti. La preside: “Un aiuto ai ragazzi dopo i lutti per Giovanni e Alberto”",
-          "link": "https://bologna.repubblica.it/cronaca/2026/11/26/news/ghali_in_cattedra_al_righi_bologna_seconde_generazioni_palestina-425753082/?rss",
-          "pubblicato": "2026-11-26T19:18:43+00:00"
-        }
-      ]
+      "articoli": []
     },
     "https://www.repubblica.it/rss/esteri/rss2.0.xml": {
       "nome": "Repubblica",
       "url": "https://www.repubblica.it/rss/esteri/rss2.0.xml",
       "attivo": true,
-      "articoli": [
-        {
-          "titolo": "Francesca Albanese bloccata in aeroporto, Costa Rica le nega il visto: “Legami terroristici”",
-          "sommario": "La relatrice Onu avrebbe dovuto ricevere una laurea honoris causa: “Vergogna, ecco il volto dell’impero”",
-          "link": "https://www.repubblica.it/esteri/2026/11/27/news/francesca_albanese_costa_rica_bloccata_legami_terroristici-425753818/?rss",
-          "pubblicato": "2026-11-27T05:19:29+00:00"
-        },
-        {
-          "titolo": "In sette anni taglio da 22 miliardi, l’ira di Meloni: “Io così non firmo”",
-          "sommario": "“Siamo in alto mare, ci chiedono di dare di più per ricevere di meno”. I timori della premier in vista delle elezioni",
-          "link": "https://www.repubblica.it/esteri/2026/11/27/news/consiglio_europeo_bilancio_in_sette_anni_taglio_da_22_miliardi_ira_di_meloni_cosi_non_firmo-425753511/?rss",
-          "pubblicato": "2026-11-27T00:00:54+00:00"
-        },
-        {
-          "titolo": "Attacco con i droni in Kuwait: morti due tecnici italiani. Tajani accusa, l’Iran nega",
-          "sommario": "Erano dipendenti di Rheinmetall impegnati nella manutenzione di un radar. I velivoli prodotti a Teheran, che offre una commissione d’inchiesta congiunta",
-          "link": "https://www.repubblica.it/esteri/2026/11/27/news/attacco_droni_kuwait_morti_due_tecnici_italiani_tajani_accusa_iran_nega-425753609/?rss",
-          "pubblicato": "2026-11-27T00:00:00+00:00"
-        },
-        {
-          "titolo": "A Francoforte sbarca De Cos, il grande mediatore tra falchi e colombe",
-          "sommario": "L’ex Banco de España a Madrid è considerato un “duro” ma piace a tutti i partiti, così come a nord e sud Europa",
-          "link": "https://www.repubblica.it/esteri/2026/11/27/news/francoforte_bce_sbarca_de_cos_grande_mediatore_tra_falchi_e_colombe-425753550/?rss",
-          "pubblicato": "2026-11-27T00:00:00+00:00"
-        },
-        {
-          "titolo": "Accordo tra i leader sulla Bce: la guida allo spagnolo De Cos. Stallo su bilancio e Ucraina",
-          "sommario": "Cade il veto del governo olandese e i capi di Stato e di governo a Bruxelles trovano l’intesa sul dopo Lagarde. Litigi invece sul budget Ue 2028-2034 tra frugali e “coesionisti”. Fermo anche il prestito da 45 miliardi per Kiev",
-          "link": "https://www.repubblica.it/esteri/2026/11/27/news/consiglio_europeo_accordo_tra_leader_sulla_bce_la_guida_allo_spagnolo_de_cos_stallo_bilancio_e_ucraina-425753425/?rss",
-          "pubblicato": "2026-11-27T00:00:00+00:00"
-        }
-      ]
+      "articoli": []
     },
     "https://www.repubblica.it/rss/economia/rss2.0.xml": {
       "nome": "Repubblica",
@@ -294,82 +170,19 @@
       "nome": "Repubblica",
       "url": "https://www.repubblica.it/rss/tecnologia/rss2.0.xml",
       "attivo": true,
-      "articoli": [
-        {
-          "titolo": "Mentre negli Usa vietano i giocattoli IA, l'Europa non ha ancora regole chiare",
-          "sommario": "La governatrice di New York ha firmato una legge che vieta di produrre e vendere giocattoli progettati per instaurare legami emotivi con i bambini fino a 12 anni.",
-          "link": "https://www.repubblica.it/tecnologia/2026/11/26/news/new_york_vieta_giocattoli_chatbot_ia-425752516/?rss",
-          "pubblicato": "2026-11-26T16:05:14+00:00"
-        },
-        {
-          "titolo": "BookCity Milano, Stefano Accorsi porta in scena l’intelligenza artificiale",
-          "sommario": "A BookCity Milano due appuntamenti di Planetaria, il progetto ideato da Stefano Accorsi e Filippo Gentili che include dibattito e spettacolo teatrale",
-          "link": "https://www.repubblica.it/tecnologia/2026/11/26/news/bookcity_milano_stefano_accorsi_dibattito_ia-425752561/?rss",
-          "pubblicato": "2026-11-26T16:03:02+00:00"
-        },
-        {
-          "titolo": "Comunicare fiducia nell’era dell’IA, a Milano il Premio Nazionale Comunicazione Costruttiva",
-          "sommario": "A Milano il 30 novembre la quarta edizione del Premio Nazionale Comunicazione Costruttiva, dedicata al tema della fiducia. La Fondazione Pensiero Solido premierà dieci personalità del mondo dell’innovazione, dell’informazione e della cultura.",
-          "link": "https://www.repubblica.it/tecnologia/2026/11/26/news/milano_premio_nazionale_comunicazione_costruttiva-425752233/?rss",
-          "pubblicato": "2026-11-26T14:18:33+00:00"
-        },
-        {
-          "titolo": "Lotteria scontrini, l'ideatore: “Dietro ogni scontrino ci sono sanità e scuola”",
-          "sommario": "Per rilanciare la Lotteria degli scontrini, il governo pensa alla riscossione anonima dei premi fino a 5mila euro. Un’ipotesi che solleva dubbi sulla sicurezza informatica e sulla prevenzione delle frodi.",
-          "link": "https://www.repubblica.it/tecnologia/2026/11/26/news/lotteria_scontrini_ideatore_lotta_evasione_fiscale-425752143/?rss",
-          "pubblicato": "2026-11-26T13:55:43+00:00"
-        },
-        {
-          "titolo": "SkyECC, l’occasione persa dal Tribunale di Catanzaro",
-          "sommario": "In un caso basato su prove ricavate da un network di messaggistica, il Tribunale di Catanzaro tutela il diritto di difesa senza affrontare il problema della validazione scientifica delle risultanze investigative informatiche.",
-          "link": "https://www.repubblica.it/tecnologia/2026/11/26/news/skyecc_l_occasione_persa_dal_tribunale_di_catanzaro-425751948/?rss",
-          "pubblicato": "2026-11-26T12:09:33+00:00"
-        }
-      ]
+      "articoli": []
     },
     "https://www.repubblica.it/rss/ambiente/rss2.0.xml": {
       "nome": "Repubblica",
       "url": "https://www.repubblica.it/rss/ambiente/rss2.0.xml",
       "attivo": true,
-      "articoli": [
-        {
-          "titolo": "Falchi pellegrini alla conquista del Regno Unito: i rapaci si spostano per il clima",
-          "sommario": "Uno studioso ha cercato di capire come potrebbero reagire i rapaci con la crisi climatica. Ma non ci sono trend chiari, ogni specie farà storia a parte",
-          "link": "https://www.repubblica.it/green-and-blue/2026/11/26/news/falchi_pellegrini_alla_conquista_del_regno_unito_i_rapaci_si_spostano_per_il_clima-425752607/?rss",
-          "pubblicato": "2026-11-26T16:07:19+00:00"
-        }
-      ]
+      "articoli": []
     },
     "https://www.repubblica.it/rss/salute/rss2.0.xml": {
       "nome": "Repubblica",
       "url": "https://www.repubblica.it/rss/salute/rss2.0.xml",
       "attivo": true,
-      "articoli": [
-        {
-          "titolo": "Oltre le statine, perché cercare nuove opzioni contro il colesterolo",
-          "sommario": "Il mancato raggiungimento dei target di cura e il timore legato ai farmaci esistenti spingono a trovare nuove strategie di trattamento",
-          "link": "https://www.repubblica.it/salute/2026/11/26/news/oltre-statine-controllo-colesterolo-nuove-opzioni-425752608/?rss",
-          "pubblicato": "2026-11-26T16:07:24+00:00"
-        },
-        {
-          "titolo": "Un’altra donna uccisa vicino a dove morì Lorena Isceri, la difficoltà di raccontare i femminicidi",
-          "sommario": "A Ponte Buggianese un ventiquattrenne è stata uccisa dal compagno, che si è poi tolto la vita nello stesso luogo legato alla morte di Lorena Isceri",
-          "link": "https://www.repubblica.it/salute/2026/11/26/news/difficolta_di_raccontare_i_femminicidi-425752149/?rss",
-          "pubblicato": "2026-11-26T13:36:57+00:00"
-        },
-        {
-          "titolo": "Tumore al seno, una nuova terapia ormonale riduce il rischio di recidiva",
-          "sommario": "Giredestrant, medicinale orale che attacca e degrada i recettori ormonali, ha dimostrato di ridurre del 30% il rischio relativo che la malattia si ripresenti rispetto alle cure standard",
-          "link": "https://www.repubblica.it/salute/dossier/labrevolution/2026/11/26/news/tumore_seno_fda_approva_terapia_ormonale_recidiva-425751770/?rss",
-          "pubblicato": "2026-11-26T11:15:51+00:00"
-        },
-        {
-          "titolo": "Il tumore alla prostata di Andy Taylor dei Duran Duran, cos’è e come fare prevenzione",
-          "sommario": "Il chitarrista è deceduto a 65 anni otto anni dopo la diagnosi di un tumore della prostata già metastatico. Cosa fare per prevenire questa patologia",
-          "link": "https://www.repubblica.it/salute/2026/11/26/news/tumore_prostata_andy_taylor_duran_duran_prevenzione-425751494/?rss",
-          "pubblicato": "2026-11-26T09:49:28+00:00"
-        }
-      ]
+      "articoli": []
     },
     "https://www.ilpost.it/italia/feed/": {
       "nome": "Il Post",
@@ -393,12 +206,6 @@
           "sommario": "",
           "link": "https://www.ilpost.it/2026/11/26/femminicidio-pistoia-viadotto/",
           "pubblicato": "2026-11-26T12:33:24+00:00"
-        },
-        {
-          "titolo": "Il testo della lettera di Gianni De Gennaro",
-          "sommario": "In cui si difende dalle accuse senza fare grandi rivelazioni: l'ha pubblicato il Corriere della Sera",
-          "link": "https://www.ilpost.it/2026/11/26/de-gennaro-lettera/",
-          "pubblicato": "2026-11-26T06:33:34+00:00"
         }
       ]
     },
@@ -559,7 +366,7 @@
           "titolo": "Casa, Italia tra i Paesi più sostenibili: le famiglie spendono il 14% del reddito, la media Ue è al 19%",
           "sommario": "Ma tra chi paga un affitto a prezzi di mercato più di uno su cinque spende oltre il 40% delle entrate, e quattro giovani su dieci vivono in case sovraffollate",
           "link": "https://www.ilsole24ore.com/art/casa-italia-i-paesi-piu-sostenibili-famiglie-spendono-14percento-reddito-media-ue-e-19percento-AJCW18TC",
-          "pubblicato": "2026-11-27T06:05:59+00:00"
+          "pubblicato": "2026-11-27T06:09:52+00:00"
         },
         {
           "titolo": "Temu adegua le sue pratiche commerciali alle norme Ue: stop a sconti ingannevoli e recensioni false",
@@ -661,6 +468,12 @@
       "attivo": true,
       "articoli": [
         {
+          "titolo": "Android scende al 74% delle vendite, iPhone al 21% nel trimestre",
+          "sommario": "Android era a bordo di 74 smartphone su cento venduti nel mondo tra luglio e settembre 2026, ma nello stesso trimestre di un anno prima erano 79.",
+          "link": "https://www.hdblog.it/smartphone/articoli/n678452/android-ios-harmonyos-vendite-quote-q3-2026/",
+          "pubblicato": "2026-11-27T05:35:00+00:00"
+        },
+        {
           "titolo": "Black Friday Amazon 2026: le Smart TV da mettere in lista",
           "sommario": "Il Black Friday Amazon 2026 è finalmente iniziato e, se avete intenzione di cambiare televisore, conviene dare un'occhiata alle offerte prima di decidere quanto spendere.",
           "link": "https://www.hdblog.it/tv/offerte/n678468/black-friday-amazon-2026-migliori-smart-tv-offerta/",
@@ -683,12 +496,6 @@
           "sommario": "Nonostante il Black Friday Amazon sia già partito dal 19 novembre, dalla mezzanotte partirà la giornata più importante, ossia il vero e proprio Black Friday! Su HDblog abbiamo appena riattivato la nostra Live offerte aggiornata in tempo reale.",
           "link": "https://www.hdblog.it/amazon/offerte/n676463/black-friday-amazon-2026-offerte-sconti-live/",
           "pubblicato": "2026-11-26T20:30:00+00:00"
-        },
-        {
-          "titolo": "Abbiamo provato il computer NVIDIA del futuro: piccolo, IA on-device e consuma poco | Video",
-          "sommario": "Nel mondo dei notebook il potenziale di Windows on ARM lo avevamo intravisto già da qualche anno. Con gli Snapdragon X Elite si capiva che la direzione era quella giusta: autonomia, silenzio e scocche sottili.",
-          "link": "https://www.hdblog.it/hardware/recensioni/n677834/recensione-minipc-rtx-spark-nvidia-asus-proart/",
-          "pubblicato": "2026-11-26T19:01:00+00:00"
         }
       ]
     },
@@ -809,6 +616,12 @@
       "attivo": true,
       "articoli": [
         {
+          "titolo": "De Gennaro, il testo integrale dell’ultima lettera",
+          "sommario": "Il Corriere della Sera pubblica il testo integrale dell'ex capo della polizia L'articolo De Gennaro, il testo integrale dell’ultima lettera proviene da Open.",
+          "link": "https://www.open.online/2026/11/27/gianni-de-gennaro-ultima-lettera-testo-integrale/",
+          "pubblicato": "2026-11-27T06:28:56+00:00"
+        },
+        {
           "titolo": "A 15 anni sperona l’auto dei carabinieri e scappa: «Ho imparato su GTA6»",
           "sommario": "Gli è stata contestata l'infrazione prevista al Codice della Strada per la fuga ad alta velocità e la condotta di guida pericolosa L'articolo A 15 anni sperona l’auto dei carabinieri e scappa: «Ho imparato su GTA6» proviene da Open.",
           "link": "https://www.open.online/2026/11/27/torino-15-anni-carabinieri-gta6/",
@@ -831,12 +644,6 @@
           "sommario": "I pm indagano sull'evoluzione del rapporto dello Squalo con Giovanni Falcone prima di Capaci. E sulle otto pen drive trovate in casa di una collaboratrice. Le ultime parole sull'inchiesta agli avvocati e al figlio prima del suicidio.",
           "link": "https://www.open.online/2026/11/27/gianni-de-gennaro-lettera-errori-ordini-pizzini/",
           "pubblicato": "2026-11-27T04:15:00+00:00"
-        },
-        {
-          "titolo": "I ladri in casa della giudice, lei arriva e trova il caos: l’ultimo colpo nella villa di una magistrata leccese",
-          "sommario": "Prima della giudice era stato colpito il centrocampista del Lecce, Lassana Coulibaly, e poi un'anziana che si è vista sparire gioielli per un valore di 200mila euro.",
-          "link": "https://www.open.online/2026/11/26/lecce-magistrata-ladri-villa/",
-          "pubblicato": "2026-11-26T22:53:52+00:00"
         }
       ]
     },
@@ -1305,38 +1112,7 @@
       "nome": "Eunews",
       "url": "https://www.eunews.it/feed/",
       "attivo": true,
-      "articoli": [
-        {
-          "titolo": "Sedici eurodeputati chiedono alla Commissione di congelare l’ingresso sul mercato di nuovi prodotti di nicotina",
-          "sommario": "Bruxelles – Sedici eurodeputati chiedono alla Commissione europea di congelare l’ingresso sul mercato UE di nuovi prodotti a base di nicotina fino a quando non sarà introdotto un quadro normativo adeguato.",
-          "link": "https://www.eunews.it/2026/11/26/sedici-eurodeputati-chiedono-alla-commissione-di-congelare-lingresso-sul-mercato-di-nuovi-prodotti-di-nicotina/",
-          "pubblicato": "2026-11-26T19:02:45+00:00"
-        },
-        {
-          "titolo": "La Commissione UE dice sì all’acquisizione del gruppo IVS da parte di Lavazza",
-          "sommario": "Bruxelles – La Commissione europea oggi (26 novembre) ha approvato – ai sensi del regolamento UE sulle concentrazioni – l’acquisizione del controllo esclusivo del Gruppo IVS S.A. con sede a Lussemburgo da parte di Luigi Lavazza S.p.A. (Italia).",
-          "link": "https://www.eunews.it/2026/11/26/la-commissione-ue-dice-si-allacquisizione-del-gruppo-ivs-da-parte-di-lavazza/",
-          "pubblicato": "2026-11-26T18:27:27+00:00"
-        },
-        {
-          "titolo": "Temu accetta di adeguarsi alle norme UE e prende l’impegno a tutelare i consumatori",
-          "sommario": "Bruxelles – Sconti fittizi, recensioni false, tecniche di vendita sotto pressione, informazioni mancanti o fuorvianti. Sono tutte pratiche di vendita della piattaforma di e-commerce cinese Temu che violano le norme comunitarie.",
-          "link": "https://www.eunews.it/2026/11/26/temu-accetta-di-adeguarsi-alle-norme-ue-e-prende-limpegno-a-tutelare-i-consumatori/",
-          "pubblicato": "2026-11-26T18:15:19+00:00"
-        },
-        {
-          "titolo": "Unione dei risparmi, euro digitale e attenzione alla spesa: l’Eurosummit ripete la via da seguire",
-          "sommario": "Bruxelles – Tra i capi di Stato e di governo c’è “d eterminazione collettiva a realizzare l’Unione dei risparmi e degli investimenti, in modo deciso e rapido”, e l’invito a tenere i conti pubblici sotto controllo. La dichiarazione dell’Eurosummit è tutta qui.",
-          "link": "https://www.eunews.it/2026/11/26/unione-dei-risparmi-euro-digitale-e-attenzione-alla-spesa-leurosummit-ripete-la-via-da-seguire/",
-          "pubblicato": "2026-11-26T17:52:35+00:00"
-        },
-        {
-          "titolo": "Tariffe di rete: principio di sussidiarietà e indipendenza delle autorità di regolazione dell’energia",
-          "sommario": "La Commissione ha proposto di modificare l’articolo 18 del regolamento 2019/943 sulle tariffe di rete e il dialogo tra le istituzioni è avviato.",
-          "link": "https://www.eunews.it/2026/11/26/tariffe-di-rete-principio-di-sussidiarieta-e-indipendenza-delle-autorita-di-regolazione-dellenergia/",
-          "pubblicato": "2026-11-26T16:30:21+00:00"
-        }
-      ]
+      "articoli": []
     },
     "https://voxeurop.eu/it/feed/": {
       "nome": "Voxeurop",
@@ -1363,6 +1139,18 @@
       "attivo": true,
       "articoli": [
         {
+          "titolo": "India’s Pant plays for New Zealand side under false name ‘Stan Stan’",
+          "sommario": "Rishabh Pant plays for Open House Swingers in New Zealand on eve of second Test as India wicketkeeper uses false name.",
+          "link": "https://www.aljazeera.com/sports/2026/11/27/indias-pant-plays-for-new-zealand-side-under-false-name-stan-stan?traffic_source=rss",
+          "pubblicato": "2026-11-27T06:00:39+00:00"
+        },
+        {
+          "titolo": "Spain’s 2026 election explained in maps and charts",
+          "sommario": "Spaniards vote on November 29 in a snap general election. Here is how the system works, the parties and the key issues.",
+          "link": "https://www.aljazeera.com/news/2026/11/27/spains-2026-election-explained-in-maps-and-charts?traffic_source=rss",
+          "pubblicato": "2026-11-27T05:57:37+00:00"
+        },
+        {
           "titolo": "Israel uses south Lebanon Christian villages to try to divide and conquer",
           "sommario": "Israel is trying to fragment Lebanon by separating its Christian residents in south Lebanon from the rest.",
           "link": "https://www.aljazeera.com/features/2026/11/27/israel-uses-christian-villages-in-southern-lebanon-to-divide-and-conquer?traffic_source=rss",
@@ -1379,18 +1167,6 @@
           "sommario": "Estonia is set to close its land border crossings to Russia by December 1.",
           "link": "https://www.aljazeera.com/video/newsfeed/2026/11/27/estonia-closing-land-borders-with-russia-to-keep-out-spies?traffic_source=rss",
           "pubblicato": "2026-11-27T04:46:15+00:00"
-        },
-        {
-          "titolo": "Thanksgiving storms leave nearly a million without power across the US",
-          "sommario": "Severe weather across the US causes outages and flight delays as families and friends gather for the annual holiday.",
-          "link": "https://www.aljazeera.com/news/2026/11/27/thanksgiving-storms-leave-nearly-a-million-without-power-across-the-us?traffic_source=rss",
-          "pubblicato": "2026-11-27T04:34:43+00:00"
-        },
-        {
-          "titolo": "At least 13 Niger soldiers killed in Sanam armed attack",
-          "sommario": "It remains unclear who carried out the attack on Niger's National Guard in Tillaberi, near the Mali border.",
-          "link": "https://www.aljazeera.com/news/2026/11/27/at-least-13-niger-soldiers-killed-in-sanam-armed-attack?traffic_source=rss",
-          "pubblicato": "2026-11-27T04:06:52+00:00"
         }
       ]
     },
@@ -1573,14 +1349,7 @@
       "nome": "Democracy Now",
       "url": "https://www.democracynow.org/democracynow.rss",
       "attivo": true,
-      "articoli": [
-        {
-          "titolo": "\"I'm Not Going to Give Up\": Leonard Peltier on Indigenous Rights, His Half-Century in Prison & Coming Home",
-          "sommario": "In September 2025, Democracy Now! host Amy Goodman sat down with longtime political prisoner and Indigenous activist Leonard Peltier for his first extended television and radio broadcast interview since his release to home confinement in February 2025.",
-          "link": "http://www.democracynow.org/2026/11/26/leonard_peltier_speaks_out_after_release",
-          "pubblicato": "2026-11-26T13:01:49+00:00"
-        }
-      ]
+      "articoli": []
     },
     "https://zeteo.com/feed": {
       "nome": "Zeteo",
@@ -1613,6 +1382,18 @@
       "attivo": true,
       "articoli": [
         {
+          "titolo": "Scogliera d’Armisi, la battaglia per salvarla diventa un manifesto – INMR Sicilia 30",
+          "sommario": "#Scogliere d’Armisi Manifesto di Catania.",
+          "link": "https://www.italiachecambia.org/podcast/scogliera-darmisi-catania/",
+          "pubblicato": "2026-11-27T06:30:00+00:00"
+        },
+        {
+          "titolo": "Dal salvare il mondo al cambiarlo: Daniel Tarozzi racconta “L’istinto della cura”",
+          "sommario": "Fotosintesi, simbiosi tra microrganismi, estinzioni di massa avvenute milioni di anni fa. A prima vista sono eventi remoti, che poco possono insegnarci sulla vita di oggi. «Abbiamo ben altri problemi a cui pensare», direbbe l’uomo della strada.",
+          "link": "https://www.italiachecambia.org/2026/11/daniel-tarozzi-istinto-della-cura/",
+          "pubblicato": "2026-11-27T06:18:07+00:00"
+        },
+        {
           "titolo": "Caccia, la Commissione Ue della Camera chiede di rivedere i tre pilastri della riforma",
           "sommario": "Alla vigilia dell’ arrivo in Aula della riforma della caccia, la Commissione Politiche dell’Unione europea della Camera ha espresso sul testo un parere favorevole con osservazioni. Le osservazioni però toccano alcuni dei punti più contestati del provvedimento.",
           "link": "https://www.italiachecambia.org/news/ddl-caccia-commissione-ue/",
@@ -1629,18 +1410,6 @@
           "sommario": "Riconoscere l’autonomia economica come presupposto essenziale di libertà e protezione.",
           "link": "https://www.italiachecambia.org/news/banca-etica-donne-violenza/",
           "pubblicato": "2026-11-26T10:51:31+00:00"
-        },
-        {
-          "titolo": "In Ruanda il progetto di un circuito di Formula 1 vuole cancellare un ospedale per bambini",
-          "sommario": "Il Centro Santa Maria è una struttura sanitaria e riabilitativa che si trova in Ruanda, un paese dell’Africa centrale caratterizzato da condizioni socio-sanitarie molto precarie: un bambino su dieci non raggiunge il primo anno di vita, patologie come malaria.",
-          "link": "https://www.italiachecambia.org/news/ruanda-progetto-circuito-formula-1/",
-          "pubblicato": "2026-11-26T10:16:14+00:00"
-        },
-        {
-          "titolo": "Riapre lo storico Teatro Manfroce per un progetto di rigenerazione culturale e sociale",
-          "sommario": "Quando Massimo Barilla gli ha proposto di partecipare alla gestione del Teatro Manfroce, Nicola Cosenza pensava di aver chiuso con il teatro.",
-          "link": "https://www.italiachecambia.org/2026/11/riapre-lo-storico-teatro-manfroce/",
-          "pubblicato": "2026-11-26T07:25:28+00:00"
         }
       ]
     },
