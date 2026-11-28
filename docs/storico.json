@@ -1,6 +1,32 @@
 {
   "episodi": [
     {
+      "data": "2026-11-28",
+      "titolo": "Notiziario del 28 novembre 2026",
+      "descrizione": "Il notiziario odierno riporta la storica sentenza della Corte internazionale di giustizia sul Myanmar, il fermo della relatrice Onu Francesca Albanese in Costa Rica, le elezioni in Spagna, le tensioni tra governo e magistratura in Italia e un segnale di speranza dal villaggio di Neve Shalom.",
+      "filename": "notiziario-2026-11-28.mp3",
+      "descrizione_breve": "28 novembre 2026 - Il genocidio di Myanmar, Francesca Albanese fermata in Costa Rica, Legge elettorale, Iván Redondo, GTA 6 tiene i 40 FPS.",
+      "durata_secondi": 1312.31907,
+      "dimensione": 20998312,
+      "modalita": "llm",
+      "categorie": [
+        "italia",
+        "mondo",
+        "tecnologia",
+        "scienza-salute",
+        "ambiente",
+        "buone-notizie",
+        "cronaca",
+        "approfondimento"
+      ],
+      "voce": "it-IT-Chirp3-HD-Kore",
+      "voce_label": "Kore - femminile, calda (Google Chirp 3 HD)",
+      "velocita": 1.1,
+      "tts_motore": "google",
+      "pubblicato": "2026-11-28T06:15:47.141664+00:00",
+      "guid": "notiziario-2026-11-28"
+    },
+    {
       "data": "2026-11-27",
       "titolo": "Notiziario del 27 novembre 2026",
       "descrizione": "Il notiziario di oggi analizza la storica sentenza della Corte internazionale di giustizia sul caso dei Rohingya, il tragico attacco in Kuwait costato la vita a due tecnici italiani, lo stallo sui fondi europei e le aperture democratiche in Venezuela, oltre a buone notizie per l'accesso alle cure.",

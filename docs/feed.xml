@@ -5,7 +5,7 @@
     <link>https://jakephobia.github.io/notiziario/</link>
     <description>Le notizie del giorno scelte da Jacopo, lette in italiano. Un riassunto quotidiano delle notizie italiane e internazionali.</description>
     <language>it-it</language>
-    <lastBuildDate>Fri, 27 Nov 2026 07:02:47 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 28 Nov 2026 06:15:47 +0000</lastBuildDate>
     <itunes:author>Notiziario</itunes:author>
     <itunes:explicit>false</itunes:explicit>
     <itunes:summary>Le notizie del giorno scelte da Jacopo, lette in italiano. Un riassunto quotidiano delle notizie italiane e internazionali.</itunes:summary>
@@ -21,6 +21,22 @@
     <notiziario:voce_label>Kore - femminile, calda (Google Chirp 3 HD)</notiziario:voce_label>
     <notiziario:velocita>1.1</notiziario:velocita>
     <notiziario:tts_motore>google</notiziario:tts_motore>
+    <item>
+      <title>Notiziario del 28 novembre 2026</title>
+      <description>28 novembre 2026 - Il genocidio di Myanmar, Francesca Albanese fermata in Costa Rica, Legge elettorale, Iván Redondo, GTA 6 tiene i 40 FPS.</description>
+      <pubDate>Sat, 28 Nov 2026 06:15:47 +0000</pubDate>
+      <guid isPermaLink="false">notiziario-2026-11-28</guid>
+      <enclosure url="https://github.com/jakephobia/notiziario/releases/download/episodio-2026-11-28/notiziario-2026-11-28.mp3" length="20998312" type="audio/mpeg" />
+      <itunes:duration>00:21:52</itunes:duration>
+      <itunes:summary>28 novembre 2026 - Il genocidio di Myanmar, Francesca Albanese fermata in Costa Rica, Legge elettorale, Iván Redondo, GTA 6 tiene i 40 FPS.</itunes:summary>
+      <itunes:explicit>false</itunes:explicit>
+      <itunes:image href="https://jakephobia.github.io/notiziario/copertina.png" />
+      <notiziario:modalita>llm</notiziario:modalita>
+      <notiziario:voce>it-IT-Chirp3-HD-Kore</notiziario:voce>
+      <notiziario:voce_label>Kore - femminile, calda (Google Chirp 3 HD)</notiziario:voce_label>
+      <notiziario:velocita>1.1</notiziario:velocita>
+      <notiziario:tts_motore>google</notiziario:tts_motore>
+    </item>
     <item>
       <title>Notiziario del 27 novembre 2026</title>
       <description>27 novembre 2026 - Genocidio dei rohingya, La disinformazione sull'Ucraina e il metodo, Un genocidio, Quarto sigilli al parco costruito, Il bilancio spacca l'Europa ma Costa.</description>

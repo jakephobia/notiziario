@@ -1,116 +1,23 @@
 {
-  "generato": "2026-11-27T07:02:47+00:00",
+  "generato": "2026-11-28T06:15:47+00:00",
   "fonti": {
     "https://www.ansa.it/sito/notizie/topnews/topnews_rss.xml": {
       "nome": "ANSA",
       "url": "https://www.ansa.it/sito/notizie/topnews/topnews_rss.xml",
       "attivo": true,
-      "articoli": [
-        {
-          "titolo": "Il Costa Rica respinge Francesca Albanese, relatrice Onu per i territori palestinesi",
-          "sommario": "La replica: \"Conosci il vero volto di una autorità quando dai fastidio\". Plaude Israele",
-          "link": "https://www.ansa.it/sito/notizie/topnews/2026/11/27/il-costa-rica-respinge-francesca-albanese-relatrice-onu-per-i-territori-palestinesi_a0141ef9-3859-4dc0-9239-7546d2798330.html",
-          "pubblicato": "2026-11-27T05:11:34+00:00"
-        },
-        {
-          "titolo": "Spagna, Sanchez e Colau in tandem credono nella rimonta sul consorzio Feijoo e Abascal",
-          "sommario": "Nell'ultimo duello tv i 2 candidati progressisti hanno incalzato le destre, poco compatte",
-          "link": "https://www.ansa.it/sito/notizie/topnews/2026/11/27/spagna-sanchez-e-colau-in-tandem-credono-nella-rimonta-sul-consorzio-feijoo_60e7f406-a9ee-4d7f-826d-1d807e68413e.html",
-          "pubblicato": "2026-11-27T02:19:56+00:00"
-        },
-        {
-          "titolo": "Il bilancio spacca l'Europa ma Costa insiste: 'Serve un'intesa a dicembre'",
-          "sommario": "La forte irritazione di Meloni, scettica sui finanziamenti automatici per Kiev",
-          "link": "https://www.ansa.it/sito/notizie/topnews/2026/11/27/il-bilancio-spacca-leuropa-ma-costa-insiste-serve-unintesa-a-dicembre_8efd2071-60cc-4a6d-9da5-9029afc0c108.html",
-          "pubblicato": "2026-11-27T00:51:55+00:00"
-        },
-        {
-          "titolo": "Borsa: Tokyo, apertura in aumento (+0,39%)",
-          "sommario": "Tecnologia in accelerazione, yen stabile su dollaro ed euro",
-          "link": "https://www.ansa.it/sito/notizie/topnews/2026/11/27/borsa-tokyo-apertura-in-aumento-039_3434dbd9-3b84-4da7-adec-893c9fe27c01.html",
-          "pubblicato": "2026-11-27T00:10:10+00:00"
-        },
-        {
-          "titolo": "Venezuela, Onu chiede indipendenza e criteri di merito per nuovi giudici Corte suprema",
-          "sommario": "La relatrice Satterthwaite denuncia selezione che favorisce le carriere legate al potere",
-          "link": "https://www.ansa.it/sito/notizie/topnews/2026/11/27/venezuela-onu-chiede-indipendenza-e-criteri-di-merito-per-nuovi-giudici-corte_2942c2d9-e6bb-429c-9734-9bc56c2cdc2e.html",
-          "pubblicato": "2026-11-27T00:08:01+00:00"
-        }
-      ]
+      "articoli": []
     },
     "https://www.ansa.it/sito/notizie/cronaca/cronaca_rss.xml": {
       "nome": "ANSA",
       "url": "https://www.ansa.it/sito/notizie/cronaca/cronaca_rss.xml",
       "attivo": true,
-      "articoli": [
-        {
-          "titolo": "Uomo ucciso dal figlio a Trieste",
-          "sommario": "Omicidio avvenuto in nottata. Indaga la Polizia",
-          "link": "https://www.ansa.it/sito/notizie/cronaca/2026/11/27/uomo-ucciso-dal-figlio-a-trieste_8b12408b-d7e6-47bd-9e9f-35373956c183.html",
-          "pubblicato": "2026-11-27T05:59:55+00:00"
-        },
-        {
-          "titolo": "De Gennaro: 'Non ho tradito, un condannato a morte non mente'",
-          "sommario": "La famiglia: 'La lettera integrale sia pubblica'. Mattarella ai funerali. Verso un coordinamento fra le procure",
-          "link": "https://www.ansa.it/sito/notizie/cronaca/2026/11/26/la-lettera-di-de-gennaro-sul-corriere-io-condannato-a-morte_8d506c3b-6d62-4d78-a4a7-2c6bed64af4a.html",
-          "pubblicato": "2026-11-26T20:48:12+00:00"
-        },
-        {
-          "titolo": "Il telefonista di Emanuela Orlandi sarebbe un ex 007",
-          "sommario": "'Chi l'ha visto': è l'ex Sisde Martufi. La famiglia Gregori chiede una perizia fonica",
-          "link": "https://www.ansa.it/sito/notizie/cronaca/2026/11/26/chi-lha-visto-e-di-un-ex-007-la-voce-del-telefonista-di-emanuela-orlandi_a12a4e85-6eb9-4eac-bada-c410e3a9955c.html",
-          "pubblicato": "2026-11-26T20:05:19+00:00"
-        },
-        {
-          "titolo": "Saccoccio e Lo Russo, chi erano i due tecnici morti in Kuwait",
-          "sommario": "Il giovane e il veterano, entrambi originari del Lazio ed esperti del sistema Skyguard",
-          "link": "https://www.ansa.it/sito/notizie/cronaca/2026/11/26/saccoccio-e-lo-russo-chi-erano-i-due-tecnici-morti-in-kuwait_25cdff06-f763-4a56-840c-5983e2295a1e.html",
-          "pubblicato": "2026-11-26T19:24:36+00:00"
-        },
-        {
-          "titolo": "Kuwait, vedova Beci 'il pensiero alle famiglie, dopo 23 anni aspetto Marco'",
-          "sommario": "Carla perse il marito a Nassiryia, 'mi crollò il mondo. Ho fatto da scudo ai figli\"",
-          "link": "https://www.ansa.it/sito/notizie/cronaca/2026/11/26/kuwait-vedova-beci-il-pensiero-alle-famiglie-dopo-23-anni-aspetto-marco_064157e3-7a2e-47a9-bd32-33ca891bf2aa.html",
-          "pubblicato": "2026-11-26T19:21:54+00:00"
-        }
-      ]
+      "articoli": []
     },
     "https://www.ansa.it/sito/notizie/mondo/mondo_rss.xml": {
       "nome": "ANSA",
       "url": "https://www.ansa.it/sito/notizie/mondo/mondo_rss.xml",
       "attivo": true,
-      "articoli": [
-        {
-          "titolo": "Il Costa Rica respinge Francesca Albanese, relatrice Onu per i territori palestinesi",
-          "sommario": "La replica: \"Conosci il vero volto di una autorità quando dai fastidio\". Plaude Israele",
-          "link": "https://www.ansa.it/sito/notizie/mondo/americalatina/2026/11/27/il-costa-rica-respinge-francesca-albanese-relatrice-onu-per-i-territori-palestinesi_bb76923b-c963-4301-8acb-f81e27351088.html",
-          "pubblicato": "2026-11-27T05:20:24+00:00"
-        },
-        {
-          "titolo": "Il Costa Rica respinge Francesca Albanese, relatrice Onu per i territori palestinesi",
-          "sommario": "La replica: \"Conosci il vero volto di una autorità quando dai fastidio\". Plaude Israele",
-          "link": "https://www.ansa.it/sito/notizie/mondo/mediooriente/2026/11/27/il-costa-rica-respinge-francesca-albanese-relatrice-onu-per-i-territori-palestinesi_baecc3c6-0d6c-475b-a591-6163bf0d7f10.html",
-          "pubblicato": "2026-11-27T05:11:53+00:00"
-        },
-        {
-          "titolo": "Spagna, Sanchez e Colau in tandem credono nella rimonta sul consorzio Feijoo e Abascal",
-          "sommario": "Nell'ultimo duello tv i 2 candidati progressisti hanno incalzato le destre, poco compatte",
-          "link": "https://www.ansa.it/sito/notizie/mondo/europa/2026/11/27/spagna-sanchez-e-colau-in-tandem-credono-nella-rimonta-sul-consorzio-feijoo_7b6a7c02-6ce8-42fb-9b04-7bb567b887dd.html",
-          "pubblicato": "2026-11-27T02:20:45+00:00"
-        },
-        {
-          "titolo": "El Salvador, Bukele auspica di rifondare il Paese sugli ideali degli Usa",
-          "sommario": "Messaggio su X per il Giorno del Ringraziamento, elogio ai principi fondanti",
-          "link": "https://www.ansa.it/sito/notizie/mondo/americalatina/2026/11/27/el-salvador-bukele-auspica-di-rifondare-il-paese-sugli-ideali-degli-usa_a2611aa9-6c99-4561-8a18-329cf0190598.html",
-          "pubblicato": "2026-11-27T01:17:34+00:00"
-        },
-        {
-          "titolo": "La Dante Alighieri alla Fil di Guadalajara, in programma quattro eventi",
-          "sommario": "Incontri su didattica, arte e cultura digitale al Padiglione Italia",
-          "link": "https://www.ansa.it/sito/notizie/mondo/americalatina/2026/11/27/la-dante-alighieri-alla-fil-di-guadalajara-in-programma-quattro-eventi_d4d0f6bd-7452-4dd9-9fbf-43957cd36d4e.html",
-          "pubblicato": "2026-11-27T00:52:29+00:00"
-        }
-      ]
+      "articoli": []
     },
     "https://www.ansa.it/sito/notizie/economia/economia_rss.xml": {
       "nome": "ANSA",
@@ -134,149 +41,25 @@
       "nome": "Repubblica",
       "url": "https://www.repubblica.it/rss/homepage/rss2.0.xml",
       "attivo": true,
-      "articoli": [
-        {
-          "titolo": "Pierpaolo Spollon: “Sono stato un figlio perfetto, oggi sono un papà che fallisce”",
-          "sommario": "Il successo di “Doc” con la chiusura della quarta stagione, e di “Chiaroscuro”, in cima alla top ten di Netflix. L’attore, il rapporto con il pubblico, con la famiglia, con la mamma.",
-          "link": "https://www.repubblica.it/spettacoli/tv-radio/2026/11/27/news/pierpaolo_spollon_chiaroscuro_netflix_doc-425753005/",
-          "pubblicato": "2026-11-27T04:00:00+00:00"
-        },
-        {
-          "titolo": "“Ionela come mia figlia Lorena, un delitto copia incolla: è un orrore senza fine”",
-          "sommario": "Parla Franco Isceri, padre della donna uccisa lo scorso 3 settembre: “Sono rimasto senza parole, siamo una società malata”",
-          "link": "https://firenze.repubblica.it/cronaca/2026/11/27/news/isceri_franco_lorena_femminicidio_ionela_miruna_girneata_viadotto_a1_barberino_firenze-425753674/",
-          "pubblicato": "2026-11-27T03:30:00+00:00"
-        },
-        {
-          "titolo": "“Insieme dall’adolescenza” l’incredulità delle famiglie",
-          "sommario": "Si conoscevano dalle medie, la convivenza precoce quando lei aveva 17 anni durante il Covid. “Lui era molto schivo”",
-          "link": "https://firenze.repubblica.it/cronaca/2026/11/27/news/uccide_compagna_ponte_buggianese_viadotto-425753561/",
-          "pubblicato": "2026-11-27T02:00:00+00:00"
-        },
-        {
-          "titolo": "Quel rituale dopo il femminicidio, uccide la compagna e poi si lancia dallo stesso ponte di Lorena",
-          "sommario": "Pistoia, Andrea Nardini ha chiamato il 112 per denunciare la morte di Ionela Miruna Girneata nella loro casa, Poi ha percorso 70 chilometri per raggiungere il viadotto del caso Isceri, ha incendiato l’auto e si è dato fuoco buttandosi nel vuoto.",
-          "link": "https://firenze.repubblica.it/cronaca/2026/11/27/news/femminicidio_ponte_buggianese_viadotto_lorena-425753636/",
-          "pubblicato": "2026-11-27T02:00:00+00:00"
-        },
-        {
-          "titolo": "Esercito, pasdaran e alleati regionali: i possibili responsabili nel Golfo in fiamme",
-          "sommario": "Lo stallo non ferma i missili: la Repubblica islamica cerca di rompere l’assedio navale Usa ma la sua leadership non è compatta",
-          "link": "https://www.repubblica.it/esteri/2026/11/27/news/esercito_pasdaran_alleati_regionali_possibili_responsabili_nel_golfo_in_fiamme-425753275/",
-          "pubblicato": "2026-11-27T00:00:00+00:00"
-        }
-      ]
+      "articoli": []
     },
     "https://www.repubblica.it/rss/politica/rss2.0.xml": {
       "nome": "Repubblica",
       "url": "https://www.repubblica.it/rss/politica/rss2.0.xml",
       "attivo": true,
-      "articoli": [
-        {
-          "titolo": "Campo largo, l’ora dei leader per sciogliere i nodi Kiev e fisco",
-          "sommario": "Schlein: “Faremo sintesi” Conte: “Discussioni senza drammi”. Renzi: “Decidiamo anche a chi vanno tagliate le imposte”",
-          "link": "https://www.repubblica.it/politica/2026/11/27/news/campo_largo_leader_per_sciogliere_nodi_kiev_fisco-425753580/?rss",
-          "pubblicato": "2026-11-27T00:00:00+00:00"
-        },
-        {
-          "titolo": "Taruffi: “Ai gazebo porteremo un programma unitario e vincolante, siamo pronti a sfidare la destra”",
-          "sommario": "Il responsabile organizzazione del Pd: “Siamo nei tempi, cambia poco chiudere il 30 novembre o l’1 dicembre”",
-          "link": "https://www.repubblica.it/politica/2026/11/27/news/taruffi_gazebo_programma_unitario_vincolante_intervista-425753585/?rss",
-          "pubblicato": "2026-11-27T00:00:00+00:00"
-        },
-        {
-          "titolo": "Contorno, vita da invisibile a Nepi. La moglie: timori per nostro figlio",
-          "sommario": "Nel paese del Viterbese finora nessuno si era accorto della presenza dell’ex pentito. “Noi lasciati soli. Ora sanno anche dove viviamo”",
-          "link": "https://www.repubblica.it/politica/2026/11/27/news/contorno_vita_da_invisibile_nepi_moglie_timori_figlio-425753595/?rss",
-          "pubblicato": "2026-11-27T00:00:00+00:00"
-        },
-        {
-          "titolo": "De Gennaro, il testamento morale e quelle domande rimaste senza risposta",
-          "sommario": "Le otto pagine ritrovate non svelano i misteri che ancora avvolgono una stagione cruciale della lotta alla mafia e i suoi protagonisti",
-          "link": "https://www.repubblica.it/politica/2026/11/27/news/testamento_morale_de_gennaro_domande_senza_risposta-425753601/?rss",
-          "pubblicato": "2026-11-27T00:00:00+00:00"
-        },
-        {
-          "titolo": "De Gennaro accusa nelle lettere: “Mai chiesto niente per me”. I familiari: ora pubblicatele",
-          "sommario": "L’ex capo della polizia ammette errori e chiama in causa uomini delle istituzioni. L’hard disk trovato nella villa sarà esaminato insieme alle chiavette Usb",
-          "link": "https://www.repubblica.it/politica/2026/11/27/news/de_gennaro_accusa_lettere_familiari_pubblicatele-425753616/?rss",
-          "pubblicato": "2026-11-27T00:00:00+00:00"
-        }
-      ]
+      "articoli": []
     },
     "https://www.repubblica.it/rss/cronaca/rss2.0.xml": {
       "nome": "Repubblica",
       "url": "https://www.repubblica.it/rss/cronaca/rss2.0.xml",
       "attivo": true,
-      "articoli": [
-        {
-          "titolo": "Tecnici italiani morti in Kuwait, la rabbia dei colleghi: “Noi in guerra senza protezioni”",
-          "sommario": "Scatta lo sciopero. L’azienda ai sindacati: “Tutte le squadre verranno ritirate”",
-          "link": "https://www.repubblica.it/cronaca/2026/11/27/news/tecnici_italiani_morti_in_kuwait_sciopero_colleghi-425753753/?rss",
-          "pubblicato": "2026-11-27T02:46:59+00:00"
-        },
-        {
-          "titolo": "Il mistero dei libri usati: “Comprati in blocco per addestrare l’IA”",
-          "sommario": "La canadese Zoom Books sta raccogliendo centinaia di volumi italiani in un capannone vicino a Milano. Un rivenditore: “Dal catalogo online compravano uno o due testi al giorno, di colpo ho triplicato le vendite”",
-          "link": "https://milano.repubblica.it/cronaca/2026/11/27/news/mistero_libri_usati_comprati_addestramento_ia-425753366/?rss",
-          "pubblicato": "2026-11-27T00:00:00+00:00"
-        },
-        {
-          "titolo": "Trump, l’ultima frontiera del conflitto d’interessi: affari sui centri dell’Ice",
-          "sommario": "Prima di lanciare la sua crociata anti immigrati, il presidente avrebbe investito in due società che gestiscono carceri",
-          "link": "https://www.repubblica.it/cronaca/2026/11/27/news/trump_conflitto_interessi_affari_centri_ice-425753534/?rss",
-          "pubblicato": "2026-11-27T00:00:00+00:00"
-        },
-        {
-          "titolo": "Previsioni meteo, weekend con venti freddi orientali e neve in Appennino",
-          "sommario": "Poi gelate e temperature sotto la media del periodo",
-          "link": "https://www.repubblica.it/cronaca/2026/11/27/news/previsioni_meteo_weekend_venti_freddi_orientali_neve_appennino-425753467/?rss",
-          "pubblicato": "2026-11-26T23:01:00+00:00"
-        },
-        {
-          "titolo": "Ghali in cattedra al Righi: “Quante bugie dai politici sulle seconde generazioni”",
-          "sommario": "Il trapper, che sarà a Sanremo, invitato dagli studenti. La preside: “Un aiuto ai ragazzi dopo i lutti per Giovanni e Alberto”",
-          "link": "https://bologna.repubblica.it/cronaca/2026/11/26/news/ghali_in_cattedra_al_righi_bologna_seconde_generazioni_palestina-425753082/?rss",
-          "pubblicato": "2026-11-26T19:18:43+00:00"
-        }
-      ]
+      "articoli": []
     },
     "https://www.repubblica.it/rss/esteri/rss2.0.xml": {
       "nome": "Repubblica",
       "url": "https://www.repubblica.it/rss/esteri/rss2.0.xml",
       "attivo": true,
-      "articoli": [
-        {
-          "titolo": "Francesca Albanese bloccata in aeroporto, Costa Rica le nega il visto: “Legami terroristici”",
-          "sommario": "La relatrice Onu avrebbe dovuto ricevere una laurea honoris causa: “Vergogna, ecco il volto dell’impero”",
-          "link": "https://www.repubblica.it/esteri/2026/11/27/news/francesca_albanese_costa_rica_bloccata_legami_terroristici-425753818/?rss",
-          "pubblicato": "2026-11-27T06:15:00+00:00"
-        },
-        {
-          "titolo": "In sette anni taglio da 22 miliardi, l’ira di Meloni: “Io così non firmo”",
-          "sommario": "“Siamo in alto mare, ci chiedono di dare di più per ricevere di meno”. I timori della premier in vista delle elezioni",
-          "link": "https://www.repubblica.it/esteri/2026/11/27/news/consiglio_europeo_bilancio_in_sette_anni_taglio_da_22_miliardi_ira_di_meloni_cosi_non_firmo-425753511/?rss",
-          "pubblicato": "2026-11-27T00:00:54+00:00"
-        },
-        {
-          "titolo": "Attacco con i droni in Kuwait: morti due tecnici italiani. Tajani accusa, l’Iran nega",
-          "sommario": "Erano dipendenti di Rheinmetall impegnati nella manutenzione di un radar. I velivoli prodotti a Teheran, che offre una commissione d’inchiesta congiunta",
-          "link": "https://www.repubblica.it/esteri/2026/11/27/news/attacco_droni_kuwait_morti_due_tecnici_italiani_tajani_accusa_iran_nega-425753609/?rss",
-          "pubblicato": "2026-11-27T00:00:00+00:00"
-        },
-        {
-          "titolo": "A Francoforte sbarca De Cos, il grande mediatore tra falchi e colombe",
-          "sommario": "L’ex Banco de España a Madrid è considerato un “duro” ma piace a tutti i partiti, così come a nord e sud Europa",
-          "link": "https://www.repubblica.it/esteri/2026/11/27/news/francoforte_bce_sbarca_de_cos_grande_mediatore_tra_falchi_e_colombe-425753550/?rss",
-          "pubblicato": "2026-11-27T00:00:00+00:00"
-        },
-        {
-          "titolo": "Accordo tra i leader sulla Bce: la guida allo spagnolo De Cos. Stallo su bilancio e Ucraina",
-          "sommario": "Cade il veto del governo olandese e i capi di Stato e di governo a Bruxelles trovano l’intesa sul dopo Lagarde. Litigi invece sul budget Ue 2028-2034 tra frugali e “coesionisti”. Fermo anche il prestito da 45 miliardi per Kiev",
-          "link": "https://www.repubblica.it/esteri/2026/11/27/news/consiglio_europeo_accordo_tra_leader_sulla_bce_la_guida_allo_spagnolo_de_cos_stallo_bilancio_e_ucraina-425753425/?rss",
-          "pubblicato": "2026-11-27T00:00:00+00:00"
-        }
-      ]
+      "articoli": []
     },
     "https://www.repubblica.it/rss/economia/rss2.0.xml": {
       "nome": "Repubblica",
@@ -294,82 +77,19 @@
       "nome": "Repubblica",
       "url": "https://www.repubblica.it/rss/tecnologia/rss2.0.xml",
       "attivo": true,
-      "articoli": [
-        {
-          "titolo": "Mentre negli Usa vietano i giocattoli IA, l'Europa non ha ancora regole chiare",
-          "sommario": "La governatrice di New York ha firmato una legge che vieta di produrre e vendere giocattoli progettati per instaurare legami emotivi con i bambini fino a 12 anni.",
-          "link": "https://www.repubblica.it/tecnologia/2026/11/26/news/new_york_vieta_giocattoli_chatbot_ia-425752516/?rss",
-          "pubblicato": "2026-11-26T16:05:14+00:00"
-        },
-        {
-          "titolo": "BookCity Milano, Stefano Accorsi porta in scena l’intelligenza artificiale",
-          "sommario": "A BookCity Milano due appuntamenti di Planetaria, il progetto ideato da Stefano Accorsi e Filippo Gentili che include dibattito e spettacolo teatrale",
-          "link": "https://www.repubblica.it/tecnologia/2026/11/26/news/bookcity_milano_stefano_accorsi_dibattito_ia-425752561/?rss",
-          "pubblicato": "2026-11-26T16:03:02+00:00"
-        },
-        {
-          "titolo": "Comunicare fiducia nell’era dell’IA, a Milano il Premio Nazionale Comunicazione Costruttiva",
-          "sommario": "A Milano il 30 novembre la quarta edizione del Premio Nazionale Comunicazione Costruttiva, dedicata al tema della fiducia. La Fondazione Pensiero Solido premierà dieci personalità del mondo dell’innovazione, dell’informazione e della cultura.",
-          "link": "https://www.repubblica.it/tecnologia/2026/11/26/news/milano_premio_nazionale_comunicazione_costruttiva-425752233/?rss",
-          "pubblicato": "2026-11-26T14:18:33+00:00"
-        },
-        {
-          "titolo": "Lotteria scontrini, l'ideatore: “Dietro ogni scontrino ci sono sanità e scuola”",
-          "sommario": "Per rilanciare la Lotteria degli scontrini, il governo pensa alla riscossione anonima dei premi fino a 5mila euro. Un’ipotesi che solleva dubbi sulla sicurezza informatica e sulla prevenzione delle frodi.",
-          "link": "https://www.repubblica.it/tecnologia/2026/11/26/news/lotteria_scontrini_ideatore_lotta_evasione_fiscale-425752143/?rss",
-          "pubblicato": "2026-11-26T13:55:43+00:00"
-        },
-        {
-          "titolo": "SkyECC, l’occasione persa dal Tribunale di Catanzaro",
-          "sommario": "In un caso basato su prove ricavate da un network di messaggistica, il Tribunale di Catanzaro tutela il diritto di difesa senza affrontare il problema della validazione scientifica delle risultanze investigative informatiche.",
-          "link": "https://www.repubblica.it/tecnologia/2026/11/26/news/skyecc_l_occasione_persa_dal_tribunale_di_catanzaro-425751948/?rss",
-          "pubblicato": "2026-11-26T12:09:33+00:00"
-        }
-      ]
+      "articoli": []
     },
     "https://www.repubblica.it/rss/ambiente/rss2.0.xml": {
       "nome": "Repubblica",
       "url": "https://www.repubblica.it/rss/ambiente/rss2.0.xml",
       "attivo": true,
-      "articoli": [
-        {
-          "titolo": "Falchi pellegrini alla conquista del Regno Unito: i rapaci si spostano per il clima",
-          "sommario": "Uno studioso ha cercato di capire come potrebbero reagire i rapaci con la crisi climatica. Ma non ci sono trend chiari, ogni specie farà storia a parte",
-          "link": "https://www.repubblica.it/green-and-blue/2026/11/26/news/falchi_pellegrini_alla_conquista_del_regno_unito_i_rapaci_si_spostano_per_il_clima-425752607/?rss",
-          "pubblicato": "2026-11-26T16:07:19+00:00"
-        }
-      ]
+      "articoli": []
     },
     "https://www.repubblica.it/rss/salute/rss2.0.xml": {
       "nome": "Repubblica",
       "url": "https://www.repubblica.it/rss/salute/rss2.0.xml",
       "attivo": true,
-      "articoli": [
-        {
-          "titolo": "Oltre le statine, perché cercare nuove opzioni contro il colesterolo",
-          "sommario": "Il mancato raggiungimento dei target di cura e il timore legato ai farmaci esistenti spingono a trovare nuove strategie di trattamento",
-          "link": "https://www.repubblica.it/salute/2026/11/26/news/oltre-statine-controllo-colesterolo-nuove-opzioni-425752608/?rss",
-          "pubblicato": "2026-11-26T16:07:24+00:00"
-        },
-        {
-          "titolo": "Un’altra donna uccisa vicino a dove morì Lorena Isceri, la difficoltà di raccontare i femminicidi",
-          "sommario": "A Ponte Buggianese un ventiquattrenne è stata uccisa dal compagno, che si è poi tolto la vita nello stesso luogo legato alla morte di Lorena Isceri",
-          "link": "https://www.repubblica.it/salute/2026/11/26/news/difficolta_di_raccontare_i_femminicidi-425752149/?rss",
-          "pubblicato": "2026-11-26T13:36:57+00:00"
-        },
-        {
-          "titolo": "Tumore al seno, una nuova terapia ormonale riduce il rischio di recidiva",
-          "sommario": "Giredestrant, medicinale orale che attacca e degrada i recettori ormonali, ha dimostrato di ridurre del 30% il rischio relativo che la malattia si ripresenti rispetto alle cure standard",
-          "link": "https://www.repubblica.it/salute/dossier/labrevolution/2026/11/26/news/tumore_seno_fda_approva_terapia_ormonale_recidiva-425751770/?rss",
-          "pubblicato": "2026-11-26T11:15:51+00:00"
-        },
-        {
-          "titolo": "Il tumore alla prostata di Andy Taylor dei Duran Duran, cos’è e come fare prevenzione",
-          "sommario": "Il chitarrista è deceduto a 65 anni otto anni dopo la diagnosi di un tumore della prostata già metastatico. Cosa fare per prevenire questa patologia",
-          "link": "https://www.repubblica.it/salute/2026/11/26/news/tumore_prostata_andy_taylor_duran_duran_prevenzione-425751494/?rss",
-          "pubblicato": "2026-11-26T09:49:28+00:00"
-        }
-      ]
+      "articoli": []
     },
     "https://www.ilpost.it/italia/feed/": {
       "nome": "Il Post",
@@ -377,16 +97,34 @@
       "attivo": true,
       "articoli": [
         {
-          "titolo": "Il “decreto scuola” è legge, nonostante le divisioni nella maggioranza",
-          "sommario": "Il parlamento ha approvato le discusse norme sugli sconti ai libri scolastici digitali, ma vuole già cambiarle, e quelle sugli studenti stranieri",
-          "link": "https://www.ilpost.it/2026/11/26/decreto-scuola-legge-libri-digitali-ebook/",
-          "pubblicato": "2026-11-26T12:56:23+00:00"
+          "titolo": "Di chi è questa torre nel Lazio in cui ha vissuto Pasolini?",
+          "sommario": "Un attore che l'ha acquistata dagli eredi è in mezzo a una causa complicatissima, in cui c'entrano diritti di origine medievale e atti di più di un secolo fa",
+          "link": "https://www.ilpost.it/2026/11/27/causa-torre-pasolini-usi-civici-medioevali/",
+          "pubblicato": "2026-11-27T14:19:57+00:00"
         },
         {
-          "titolo": "In provincia di Pistoia una donna è stata uccisa: secondo la procura è stato il compagno, che poi si è ucciso lanciandosi da un viadotto",
+          "titolo": "Perché la nuova indagine sugli abusi sessuali nella Chiesa è diversa",
+          "sommario": "E perché ancora non basta",
+          "link": "https://www.ilpost.it/2026/11/27/rapporto-cei-abusi-sessuali-chiesa-studio-pilota-2026/",
+          "pubblicato": "2026-11-27T11:30:02+00:00"
+        },
+        {
+          "titolo": "La FIOM ha indetto per oggi uno sciopero nella sede di Roma di Rheinmetall per l’uccisione dei due tecnici italiani in Kuwait",
           "sommario": "",
-          "link": "https://www.ilpost.it/2026/11/26/femminicidio-pistoia-viadotto/",
-          "pubblicato": "2026-11-26T12:33:24+00:00"
+          "link": "https://www.ilpost.it/2026/11/27/fiom-cgil-sciopero-sede-roma-rheinmetall-morte-due-tecnici-italiani-kuwait/",
+          "pubblicato": "2026-11-27T09:15:11+00:00"
+        },
+        {
+          "titolo": "Ora sull’app IO si possono avere molti più documenti digitali",
+          "sommario": "E la patente può essere usata come documento d'identità, non solo per dimostrare l'abilitazione alla guida",
+          "link": "https://www.ilpost.it/2026/11/27/it-wallet-portafoglio-documenti-digitali-app-io-smartphone/",
+          "pubblicato": "2026-11-27T08:07:40+00:00"
+        },
+        {
+          "titolo": "Tanta neve in pochi giorni sull’arco alpino",
+          "sommario": "Dal Piemonte al Friuli con accumuli che hanno superato il mezzo metro, dopo anni di poca neve nel tardo autunno",
+          "link": "https://www.ilpost.it/2026/11/27/neve-alpi-fine-novembre/",
+          "pubblicato": "2026-11-27T07:45:08+00:00"
         }
       ]
     },
@@ -396,34 +134,34 @@
       "attivo": true,
       "articoli": [
         {
-          "titolo": "L’Unione Europea si sta preparando all’arrivo di Marine Le Pen",
-          "sommario": "Vari paesi vorrebbero approvare il prossimo bilancio e gli aiuti all'Ucraina prima della sua probabile vittoria alle presidenziali francesi",
-          "link": "https://www.ilpost.it/2026/11/26/marine-le-pen-unione-europea-elezioni-francesi/",
-          "pubblicato": "2026-11-26T15:29:05+00:00"
-        },
-        {
-          "titolo": "Nel Regno Unito l’immigrazione si è fortemente ridotta: il saldo migratorio è il più basso in 30 anni",
+          "titolo": "Ci sono ancora centinaia di migliaia di persone senza energia elettrica negli Stati Uniti, dopo le tempeste di giovedì",
           "sommario": "",
-          "link": "https://www.ilpost.it/2026/11/26/immigrazione-ridotta-regno-unito/",
-          "pubblicato": "2026-11-26T14:14:40+00:00"
+          "link": "https://www.ilpost.it/2026/11/27/stati-uniti-centinaia-migliaia-persone-senza-corrente/",
+          "pubblicato": "2026-11-27T16:10:37+00:00"
         },
         {
-          "titolo": "Un attacco iraniano ha ucciso due italiani in Kuwait",
-          "sommario": "Erano tecnici dell'azienda di armi Rheinmetall e sono stati coinvolti in un'esplosione mentre lavoravano",
-          "link": "https://www.ilpost.it/2026/11/26/kuwait-droni-italiani-uccisi/",
-          "pubblicato": "2026-11-26T14:06:55+00:00"
+          "titolo": "Pubblicare gli archivi di un regime comunista è complicato",
+          "sommario": "E se ne sta accorgendo il primo ministro ungherese Péter Magyar",
+          "link": "https://www.ilpost.it/2026/11/27/ungheria-informatori-pubblicazione-problemi/",
+          "pubblicato": "2026-11-27T14:53:40+00:00"
         },
         {
-          "titolo": "Il partito di Puigdemont sperava nel suo rientro per rimontare",
-          "sommario": "Avrebbe potuto aiutare a riguadagnare consensi per le elezioni del 29 novembre, ma lui ha detto che tornerà solo a dicembre",
-          "link": "https://www.ilpost.it/2026/11/26/crisi-partito-puigdemont-senza-di-lui-elezioni/",
-          "pubblicato": "2026-11-26T09:55:21+00:00"
+          "titolo": "È iniziato il processo contro la più nota jihadista francese",
+          "sommario": "Oggi Émilie König dice di essersi deradicalizzata, ma è stata una delle donne occidentali più importanti dello Stato Islamico",
+          "link": "https://www.ilpost.it/2026/11/27/processo-emilie-konig-isis-francia/",
+          "pubblicato": "2026-11-27T13:41:39+00:00"
         },
         {
-          "titolo": "Una nave cisterna carica di gasolio è affondata al largo di Ibiza: si teme una fuoriuscita",
+          "titolo": "Il parlamento argentino ha vietato alla Banca centrale di stampare moneta per finanziare le attività del governo",
           "sommario": "",
-          "link": "https://www.ilpost.it/2026/11/26/nave-cisterna-gasolio-affondata-ibiza/",
-          "pubblicato": "2026-11-26T09:48:19+00:00"
+          "link": "https://www.ilpost.it/2026/11/27/argentina-vieta-banca-centrale-stampare-moneta/",
+          "pubblicato": "2026-11-27T11:23:43+00:00"
+        },
+        {
+          "titolo": "Per Zelensky essere amici di Putin oggi è come esserlo stati di Hitler",
+          "sommario": "Ha detto che il presidente russo è «un aggressore e un assassino» e che è «strano» che Trump lo definisca un amico",
+          "link": "https://www.ilpost.it/2026/11/27/zelensky-hitler-seconda-guerra-mondiale-putin/",
+          "pubblicato": "2026-11-27T10:32:59+00:00"
         }
       ]
     },
@@ -437,20 +175,7 @@
       "nome": "Il Post",
       "url": "https://www.ilpost.it/tecnologia/feed/",
       "attivo": true,
-      "articoli": [
-        {
-          "titolo": "La quotazione di Anthropic ha reso ricche molte persone",
-          "sommario": "Molte nel senso di migliaia, ricche nel senso di milionarie",
-          "link": "https://www.ilpost.it/2026/11/26/quotazione-anthropic-milionari/",
-          "pubblicato": "2026-11-26T10:03:44+00:00"
-        },
-        {
-          "titolo": "Gli Stati Uniti hanno autorizzato SpaceX a lanciare fino a un milione di satelliti per portare data center nello Spazio",
-          "sommario": "",
-          "link": "https://www.ilpost.it/2026/11/26/space-x-data-center-nello-spazio-autorizzazione/",
-          "pubblicato": "2026-11-26T08:27:57+00:00"
-        }
-      ]
+      "articoli": []
     },
     "https://www.ilpost.it/scienza/feed/": {
       "nome": "Il Post",
@@ -464,34 +189,34 @@
       "attivo": true,
       "articoli": [
         {
-          "titolo": "La Biennale di arte di Venezia del 2028 sarà curata da Hoor al Qasimi",
-          "sommario": "",
-          "link": "https://www.ilpost.it/2026/11/26/hoor-al-qasimi-biennale-venezia-arte-2028/",
-          "pubblicato": "2026-11-26T16:46:36+00:00"
+          "titolo": "Il film di Quentin Tarantino e David Fincher",
+          "sommario": "“Le nuove disavventure di Cliff Booth” è uno spin off dell'ultimo film del primo ma è diretto dal secondo, che ha tutto un altro approccio",
+          "link": "https://www.ilpost.it/2026/11/27/tarantino-fincher-disavventure-cliff-booth/",
+          "pubblicato": "2026-11-27T15:31:38+00:00"
         },
         {
-          "titolo": "Il primo singolo dei Sex Pistols",
-          "sommario": "Cinquant'anni fa “Anarchy in the U.K.” diede origine al punk inglese e alla breve carriera di una band repellente e irresistibile",
-          "link": "https://www.ilpost.it/2026/11/26/anarchy-in-the-uk-50-anni/",
-          "pubblicato": "2026-11-26T15:17:50+00:00"
+          "titolo": "Celebripost",
+          "sommario": "Con Elizabeth Debicki, Colin Farrell, Keanu Reeves e Monica Bellucci",
+          "link": "https://www.ilpost.it/2026/11/27/celebripost-644/",
+          "pubblicato": "2026-11-27T13:32:29+00:00"
         },
         {
-          "titolo": "Cosa cambia se i grandi problemi matematici li risolve l’AI",
-          "sommario": "I successi annunciati da Anthropic e OpenAI hanno sollevato molte questioni, e c'è chi li ritiene più la fine che l’inizio di un’era",
-          "link": "https://www.ilpost.it/2026/11/26/problemi-matematica-intelligenza-artificiale/",
-          "pubblicato": "2026-11-26T13:38:12+00:00"
+          "titolo": "I festival musicali del 2027 hanno una cosa in comune",
+          "sommario": "Gli Angine de Poitrine, cioè il duo di rock strumentale diventato virale qualche mese fa, la cui fama non è stata un fenomeno passeggero",
+          "link": "https://www.ilpost.it/2026/11/27/festival-angine-de-poitrine-sono-ovunque/",
+          "pubblicato": "2026-11-27T13:26:46+00:00"
         },
         {
-          "titolo": "Cos’è e cosa non è “You Can See Everything”",
-          "sommario": "Uno dei film più discussi dell'anno racconta la storia di Elizabeth Holmes stando a metà tra il documentario e altre cose difficili da inquadrare",
-          "link": "https://www.ilpost.it/2026/11/26/you-can-see-everything-nathan-fielder-elizabeth-holmes/",
-          "pubblicato": "2026-11-26T11:10:07+00:00"
+          "titolo": "Perché pensiamo ancora ai videogiochi come a una cosa di nicchia",
+          "sommario": "Anche se è un settore che vale molto più di musica e cinema messi insieme, ha alcune caratteristiche che lo rendono un mondo a sé",
+          "link": "https://www.ilpost.it/2026/11/27/rilevanza-culturale-videogiochi/",
+          "pubblicato": "2026-11-27T11:16:21+00:00"
         },
         {
-          "titolo": "Londra e New York stanno provando a regolare i risciò per turisti",
-          "sommario": "Per evitare che facciano pagare tariffe esorbitanti, che disturbino con la musica e che creino disagi alla circolazione",
-          "link": "https://www.ilpost.it/2026/11/26/londra-new-york-riscio-turisti/",
-          "pubblicato": "2026-11-26T09:13:32+00:00"
+          "titolo": "Se tutto è Black Friday niente è Black Friday",
+          "sommario": "Gli sconti di novembre resi popolari da Amazon sono ogni anno più lunghi e spesso meno convenienti",
+          "link": "https://www.ilpost.it/2026/11/27/black-friday-estensione/",
+          "pubblicato": "2026-11-27T09:51:27+00:00"
         }
       ]
     },
@@ -507,34 +232,34 @@
       "attivo": true,
       "articoli": [
         {
-          "titolo": "Exit tax più soft, sgravi ai giovani neoassunti e meno tagli alle pensioni: le priorità dei partiti per la Manovra",
-          "sommario": "FdI riscrive l’imposta per chi lascia l’Italia e la flat tax per gli under 30, Forza Italia punta su pensioni, scuola e sanità, la Lega sull’Ires delle banche",
-          "link": "https://www.ilsole24ore.com/art/exit-tax-piu-soft-sgravi-giovani-neoassunti-e-meno-tagli-pensioni-priorita-partiti-la-manovra-AJqXrzTC",
-          "pubblicato": "2026-11-27T05:54:58+00:00"
+          "titolo": "Cybersicurezza finanziaria, siglata intesa tra Gdf e autorità di vigilanza per contrastare le minacce digitali",
+          "sommario": "Rafforzare la difesa del sistema economico-finanziario nazionale dalle minacce cyber. È l’obiettivo del protocollo d’intesa siglato da Guardia di finanza e autorità Dora in un momento in cui gli attacchi.",
+          "link": "https://www.ilsole24ore.com/art/cybersicurezza-finanziaria-siglata-intesa-gdf-e-autorita-vigilanza-contrastare-minacce-digitali-AJD6E9UC",
+          "pubblicato": "2026-11-27T19:08:59+00:00"
         },
         {
-          "titolo": "Pescara, fatture false per svuotare le casse del club: sequestri per 12,5 milioni di euro",
-          "sommario": "Fatture per operazioni mai avvenute, usate per coprire gli ammanchi di cassa. Attrezzature tecnologiche pagate a prezzi gonfiati, per ottenere bonus fiscali non spettanti. E sponsorizzazioni.",
-          "link": "https://www.ilsole24ore.com/art/pescara-fatture-false-svuotare-casse-club-sequestri-125-milioni-euro-AJHmGpTC",
-          "pubblicato": "2026-11-26T17:07:18+00:00"
+          "titolo": "Aeroporto di Fiumicino: inaugurata una nuova area interattiva per l’esplorazione aerospaziale",
+          "sommario": "È stata inaugurata oggi, all’aeroporto di Fiumicino, una nuova area interattiva dedicata all’esplorazione spaziale e aerospaziale, realizzata in occasione della nomina di Roma a Capitale Europea dello Spazio da Aeroporti.",
+          "link": "https://www.ilsole24ore.com/art/aeroporto-fiumicino-inaugurata-nuova-area-interattiva-l-esplorazione-aerospaziale-AJEf92UC",
+          "pubblicato": "2026-11-27T16:59:00+00:00"
         },
         {
-          "titolo": "Nasce Must solidale: al via il progetto che con bollette ed efficienza energetica sostiene il terzo settore",
-          "sommario": "Dalla bolletta alla solidarietà: con le utenze domestiche fino a 1.048 euro all’anno alle associazioni no profit, senza spendere un euro in più. Nasce Must Solidale,.",
-          "link": "https://www.ilsole24ore.com/art/nasce-must-solidale-via-progetto-che-bollette-ed-efficienza-energetica-sostiene-terzo-settore-AJbTTkTC",
-          "pubblicato": "2026-11-26T16:07:14+00:00"
+          "titolo": "Blue Med Academy Network a Civitavecchia: una rete per formare i giovani alle professioni del mare",
+          "sommario": "Il porto di Civitavecchia non è soltanto un’infrastruttura strategica per il territorio, ma può diventare il luogo in cui nascono nuove opportunità di lavoro per i giovani. È la visione.",
+          "link": "https://www.ilsole24ore.com/art/blue-med-academy-network-civitavecchia-rete-formare-giovani-professioni-mare-AJAfP0UC",
+          "pubblicato": "2026-11-27T16:30:17+00:00"
         },
         {
-          "titolo": "Flat tax a 100mila euro, Meloni all’attacco: la sinistra confonde fatturato e stipendio",
-          "sommario": "Il tema dell’aumento dell’aumento a 100mila euro della soglia del regime forfettario (Flat tax delle partite Iva) continua a infiammare il dibattito politico. A difendere la misura inserita nel Ddl.",
-          "link": "https://www.ilsole24ore.com/art/flat-tax-100mila-euro-meloni-all-attacco-sinistra-confonde-fatturato-e-stipendio-AJamrgGC",
-          "pubblicato": "2026-11-26T15:04:50+00:00"
+          "titolo": "Fluorsid Group cambia nome e diventa Mimeta Holding srl",
+          "sommario": "Fluorsid Group, holding del patron del Cagliari Tommaso Giulini cambia nome e diventa Mimeta Holding srl. Si tratta di un progetto che passa da una nuova governance con l’ingresso di.",
+          "link": "https://www.ilsole24ore.com/art/fluorsid-group-cambia-nome-e-diventa-mineta-holding-srl-AJKr9rUC",
+          "pubblicato": "2026-11-27T14:41:00+00:00"
         },
         {
-          "titolo": "L’onda dei “giovani vecchi”: i nati dopo il 2000 rischiano di invecchiare prima",
-          "sommario": "Dall’ansia alla depressione, passando per l’obesità. Sono solo alcune delle problematiche che potrebbero contribuire a fare dei ragazzi del nuovo millennio una generazione di “giovani vecchi”. Il rischio che chi.",
-          "link": "https://www.ilsole24ore.com/art/l-onda-giovani-vecchi-nati-il-2000-rischiano-invecchiare-prima-AJkapYTC",
-          "pubblicato": "2026-11-26T13:52:26+00:00"
+          "titolo": "Il Sole 24 Ore con Banca d’Italia e Cnel: dal 28 novembre la collana “Piccole imprese, scelte grandi”",
+          "sommario": "In occasione del Mese dell’Educazione Finanziaria, Il Sole 24 Ore rinnova il proprio impegno nella diffusione della cultura economica e finanziaria con un’iniziativa dedicata alle piccole e medie imprese, cuore.",
+          "link": "https://www.ilsole24ore.com/art/il-sole-24-ore-banca-d-italia-e-cnel-28-novembre-collana-piccole-imprese-scelte-grandi-AJTConUC",
+          "pubblicato": "2026-11-27T13:20:00+00:00"
         }
       ]
     },
@@ -544,34 +269,34 @@
       "attivo": true,
       "articoli": [
         {
-          "titolo": "Il bilancio spacca l’Europa ma Costa insiste: «Serve un’intesa a dicembre»",
-          "sommario": "I paesi si dividono tra chi, come la Germania, vuole un bilancio esile, concentrato sulle priorità più recenti, e chi invece vorrebbe un bilancio più generoso, attento alle poste più tradizionali, come l’Italia",
-          "link": "https://www.ilsole24ore.com/art/il-bilancio-spacca-l-europa-ma-costa-insiste-serve-un-intesa-dicembre-AJbRxPUC",
-          "pubblicato": "2026-11-27T06:47:29+00:00"
+          "titolo": "Francia in recessione tecnica per un soffio",
+          "sommario": "È recessione tecnica. Di strettissima misura. La correzione dei dati sul Pil francese, pubblicata oggi 27 novembre dall’Insee, ha rivelato che per due trimestri consecutivi l’attività economica del Paese si.",
+          "link": "https://www.ilsole24ore.com/art/francia-recessione-tecnica-un-soffio-AJeVvEVC",
+          "pubblicato": "2026-11-27T18:58:25+00:00"
         },
         {
-          "titolo": "Casa, Italia tra i Paesi più sostenibili: le famiglie spendono il 14% del reddito, la media Ue è al 19%",
-          "sommario": "Ma tra chi paga un affitto a prezzi di mercato più di uno su cinque spende oltre il 40% delle entrate, e quattro giovani su dieci vivono in case sovraffollate",
-          "link": "https://www.ilsole24ore.com/art/casa-italia-i-paesi-piu-sostenibili-famiglie-spendono-14percento-reddito-media-ue-e-19percento-AJCW18TC",
-          "pubblicato": "2026-11-27T06:09:52+00:00"
+          "titolo": "Spagna, l’allarme sui migranti spinge Popolari e ultradestra",
+          "sommario": "MADRID - La città, a tre giorni dal voto, ha il passo lento di chi aspetta una sentenza. Nel grande quartiere di Carabanchel, poco fuori dalla Almenda Central e dalle.",
+          "link": "https://www.ilsole24ore.com/art/spagna-l-allarme-migranti-spinge-popolari-e-ultradestra-AJnikfSC",
+          "pubblicato": "2026-11-27T16:40:52+00:00"
         },
         {
-          "titolo": "Temu adegua le sue pratiche commerciali alle norme Ue: stop a sconti ingannevoli e recensioni false",
-          "sommario": "Stop a falsi sconti, false recensioni, tecniche di vendita aggressive e giochi obbligatori per accedere alla piattaforma, più trasparenza sui prezzi e rimborsi entro 14 giorni: Temu si è impegnata.",
-          "link": "https://www.ilsole24ore.com/art/temu-adegua-sue-pratiche-commerciali-norme-ue-stop-sconti-ingannevoli-e-recensioni-false-AJvGuQTC",
-          "pubblicato": "2026-11-26T11:38:00+00:00"
+          "titolo": "Spagna, perché l’alleanza tra conservatori e ultradestra non fa più scandalo a 50 anni dalla fine del franchismo",
+          "sommario": "Quando domenica gli spagnoli si recheranno alle urne, il confronto sarà soprattutto tra due blocchi politici contrapposti. Da una parte il premier socialdemocratico Pedro Sánchez, che secondo i sondaggi avrebbe.",
+          "link": "https://www.ilsole24ore.com/art/spagna-perche-l-alleanza-conservatori-e-ultradestra-non-fa-piu-scandalo-50-anni-fine-franchismo-AJJ86hTC",
+          "pubblicato": "2026-11-27T16:18:36+00:00"
         },
         {
-          "titolo": "Musk: «Due azioni SpaceX per ogni bambino Usa»",
-          "sommario": "Elon Musk, l’uomo più ricco del mondo, si è impegnato a donare a ogni bambino degli Stati Uniti due azioni di SpaceX, l’azienda spaziale e di intelligenza artificiale che dirige,.",
-          "link": "https://www.ilsole24ore.com/art/musk-due-azioni-spacex-ogni-bambino-usa-AJVAYGTC",
-          "pubblicato": "2026-11-26T09:38:12+00:00"
+          "titolo": "Sánchez e il ripiegamento socialista in Europa: cosa si gioca la sinistra europea alle elezioni spagnole",
+          "sommario": "La possibile uscita di scena del premier ridisegnerebbe gli equilibri politici a Bruxelles, rafforzando il Partito popolare europeo. Immigrazione, difesa e politica estera hanno progressivamente isolato Madrid da diversi partner comunitari",
+          "link": "https://www.ilsole24ore.com/art/sanchez-e-ripiegamento-socialista-europa-cosa-si-gioca-sinistra-europea-elezioni-spagnole-AJ2j0gTC",
+          "pubblicato": "2026-11-27T15:14:00+00:00"
         },
         {
-          "titolo": "Nvidia interrompe le spedizioni di chip verso quattro Paesi asiatici",
-          "sommario": "Secondo il quotidiano britannico Financial Times, Nvidia ha chiesto ai partner produttivi di sospendere le spedizioni di server verso Malaysia, Singapore, Thailandia e Indonesia. Nel frattempo gli Stati Uniti stanno.",
-          "link": "https://www.ilsole24ore.com/art/nvidia-interrompe-spedizioni-chip-quattro-paesi-asiatici-AJJ11BTC",
-          "pubblicato": "2026-11-26T08:40:36+00:00"
+          "titolo": "Costa Rica nega accesso a Francesca Albanese",
+          "sommario": "Il Costa Rica ha respinto Francesca Albanese, relatrice speciale dell’Onu sulla situazione dei diritti umani nei territori palestinesi occupati. I servizi di immigrazione hanno giustificato la decisione citando un’«allerta internazionale».",
+          "link": "https://www.ilsole24ore.com/art/costa-rica-nega-accesso-francesca-albanese-AJrFkXUC",
+          "pubblicato": "2026-11-27T09:29:00+00:00"
         }
       ]
     },
@@ -587,22 +312,10 @@
       "attivo": true,
       "articoli": [
         {
-          "titolo": "Italia competitiva se si candida al collaudo dell’AI",
-          "sommario": "Sulla corsa ai modelli di frontiera, Maurizio Di Bartolomeo non si fa illusioni. «È finita la partita sulla rincorsa dei modelli, non è una partita che.",
-          "link": "https://www.ilsole24ore.com/art/italia-competitiva-se-si-candida-collaudo-dell-ai-AJ4T1wPC",
-          "pubblicato": "2026-11-26T15:10:07+00:00"
-        },
-        {
-          "titolo": "Sovranità digitale, la questione cruciale è l’accessibilità dei dati",
-          "sommario": "La sovranità dei dati non riguarda più solo il luogo in cui sono custoditi, ma chi può accedervi e deciderne l’uso. Questo cambiamento del paradigma emerge.",
-          "link": "https://www.ilsole24ore.com/art/sovranita-digitale-questione-cruciale-e-l-accessibilita-dati-AJzV8vPC",
-          "pubblicato": "2026-11-26T15:08:53+00:00"
-        },
-        {
-          "titolo": "Infrastrutture critiche, la resilienza si costruisce a più livelli",
-          "sommario": "Lo scenario attuale fatto di guerre e minacce ibride riporta al centro dell’attenzione il dibattito sulla qualità dell’ecosistema di sicurezza che protegge soggetti e ambienti vitali per il funzionamento di.",
-          "link": "https://www.ilsole24ore.com/art/infrastrutture-critiche-resilienza-si-costruisce-piu-livelli-AJEDFBRC",
-          "pubblicato": "2026-11-26T15:07:24+00:00"
+          "titolo": "Attacchi informatici e AI: cosa può salvarci davvero mentre aspettiamo le contromisure",
+          "sommario": "AImageddon”, “Bugmageddon” e “Vulnpocalypse” sono i termini con cui gli esperti di sicurezza stanno cercando di far comprendere alle aziende cosa sta accadendo a causa dell’uso intensivo dell’AI nella ricerca.",
+          "link": "https://www.ilsole24ore.com/art/attacchi-informatici-e-ai-cosa-puo-salvarci-davvero-mentre-aspettiamo-contromisure-AJ7AOASC",
+          "pubblicato": "2026-11-27T08:22:20+00:00"
         }
       ]
     },
@@ -618,28 +331,16 @@
       "attivo": true,
       "articoli": [
         {
-          "titolo": "Depressione circadiana: cos’è, cosa succede al corpo e perché servono cure su misura",
-          "sommario": "La farmacologia della depressione, integrata in un percorso di cura che preveda diversi approcci, ha consentito di fare passi da gigante nel trattamento di questa malattia. Ma purtroppo, in certi.",
-          "link": "https://www.ilsole24ore.com/art/depressione-circadiana-cos-e-cosa-succede-corpo-e-perche-servono-cure-misura-AJj5DoTC",
-          "pubblicato": "2026-11-26T17:54:04+00:00"
+          "titolo": "Tumore pancreas metastatico, da Regioni e Aifa l’impegno a portare daraxonrasib a tutti i malati",
+          "sommario": "Subito l’inserimento nel Fondo farmaci innovativi che mette a disposizione ancora un’ampia capienza di spesa, restando ogni anno in buona parte inutilizzato tanto che solo pochi giorni fa l’Associazione degli.",
+          "link": "https://www.ilsole24ore.com/art/tumore-pancreas-metastatico-regioni-e-aifa-l-impegno-portare-daraxonrasib-tutti-malati-AJvHivUC",
+          "pubblicato": "2026-11-27T16:00:00+00:00"
         },
         {
-          "titolo": "In Italia viviamo più a lungo ma la sanità ha sempre meno risorse",
-          "sommario": "L’Italia è prima nell’Ue per anni vissuti in buona salute, ma spende il 18% meno della media per abitante. Ha mortalità prevenibile tra le più basse, ma ha meno della.",
-          "link": "https://www.ilsole24ore.com/art/in-italia-viviamo-piu-lungo-ma-sanita-ha-sempre-meno-risorse-AJGCT9SC",
-          "pubblicato": "2026-11-26T09:06:41+00:00"
-        },
-        {
-          "titolo": "Sanità, dopo il Pnrr comincia il secondo tempo",
-          "sommario": "Il 29 luglio il ministro della Salute ha comunicato alla Camera che l’obiettivo concordato con l’Europa è stato raggiunto nei tempi: almeno 1.038 Case della Comunità operative. Il Pnrr ha.",
-          "link": "https://www.ilsole24ore.com/art/sanita-il-pnrr-comincia-secondo-tempo-AJMYDIRC",
-          "pubblicato": "2026-11-26T07:37:45+00:00"
-        },
-        {
-          "titolo": "Schillaci: «Più soldi a medici e infermieri» Le imprese: «Serve subito un segnale»",
-          "sommario": "La dote per la Sanità in manovra di bilancio - 2,4 miliardi più un miliardo ereditato dall'anno scorso - potrebbe crescere ancora: in ballo c'è fino a 1 miliardo da.",
-          "link": "https://www.ilsole24ore.com/art/schillaci-piu-soldi-medici-e-infermieri-imprese-serve-subito-segnale-AJOSRERC",
-          "pubblicato": "2026-11-26T07:28:42+00:00"
+          "titolo": "Life Sciences: Lombardia leader in Europa, prevenzione e ricerca per difendere il primato",
+          "sommario": "“La filiera Life Sciences della Lombardia non si limita a crescere ma cambia struttura sempre più trainata dal peso dell’industria: ogni euro di fatturato del Life Science ne attiva quasi.",
+          "link": "https://www.ilsole24ore.com/art/life-sciences-lombardia-leader-europa-prevenzione-e-ricerca-difendere-primato-AJg5HgUC",
+          "pubblicato": "2026-11-27T12:00:20+00:00"
         }
       ]
     },
@@ -649,34 +350,34 @@
       "attivo": true,
       "articoli": [
         {
-          "titolo": "Windows 11, la barra laterale potrà nascondersi in automatico",
-          "sommario": "C'è un malfunzionamento che riguarda la barra delle applicazioni di Windows 11, che una volta spostata a sinistra o a destra resta visibile anche quando non la state usando.",
-          "link": "https://www.hdblog.it/microsoft/articoli/n678456/windows-11-barra-app-scomparsa-automatica/",
-          "pubblicato": "2026-11-27T05:45:00+00:00"
+          "titolo": "All'asta l'ultimo sogno degli ingegneri Saab: una berlina da 490 CV mai prodotta in serie",
+          "sommario": "A Trollhättan si chiude un altro capitolo della storia automobilistica svedese. Dopo la vendita delle ultime Saab 9-3 rimaste all'interno dello stabilimento, adesso tocca alla NEVS Emily GT, una berlina elettrica che avrebbe meritato ben altro destino.",
+          "link": "https://www.hdmotori.it/nevs-emily-gt-saab-asta/",
+          "pubblicato": "2026-11-27T18:30:16+00:00"
         },
         {
-          "titolo": "Sony BRAVIA 7 II True RGB: nuovo ribasso e minimo Amazon. Altri 225 di sconto in poche ore",
-          "sommario": "Sony BRAVIA 7 II True RGB da 55 pollici scende a 1.574,25€ per il Black Friday Amazon 2026, raggiungendo un nuovo minimo storico. E già questa sarebbe una notizia interessante, considerando che soltanto pochi giorni fa lo stesso televisore veniva proposto a 1.",
-          "link": "https://www.hdblog.it/tv/offerte/n678477/sony-bravia-7-ii-true-rgb-gta-6-black-friday-amazo/",
-          "pubblicato": "2026-11-27T05:40:00+00:00"
+          "titolo": "Oppo inizia a rendere a pagamento i servizi AI: prime segnalazioni in India",
+          "sommario": "Pare che ci stiamo lentamente ma inesorabilmente avvicinando alla fase in cui i nodi dell’AI vengono al pettine, e i grandi produttori di smartphone iniziano a decidere che è ora di monetizzare, dopo aver presentato per anni la tecnologia integrata negli.",
+          "link": "https://www.hdblog.it/smartphone/articoli/n678622/oppo-coloros-17-oneplus-ai-pagamento/",
+          "pubblicato": "2026-11-27T17:55:00+00:00"
         },
         {
-          "titolo": "Android scende al 74% delle vendite, iPhone al 21% nel trimestre",
-          "sommario": "Android era a bordo di 74 smartphone su cento venduti nel mondo tra luglio e settembre 2026, ma nello stesso trimestre di un anno prima erano 79.",
-          "link": "https://www.hdblog.it/smartphone/articoli/n678452/android-ios-harmonyos-vendite-quote-q3-2026/",
-          "pubblicato": "2026-11-27T05:35:00+00:00"
+          "titolo": "Mozilla Firefox, la nuova interfaccia Nova sta per diventare obbligatoria",
+          "sommario": "Vi piace Nova, il nuovo design dell’interfaccia di Firefox introdotta negli scorsi mesi? No? Beh, peggio per voi, a quanto pare Mozilla si prepara a rimuovere la possibilità di disattivarla, rendendola di fatto obbligatoria o inevitabile.",
+          "link": "https://www.hdblog.it/windows/articoli/n678619/mozilla-firefox-nova-interfaccia-obbligatoria/",
+          "pubblicato": "2026-11-27T17:50:00+00:00"
         },
         {
-          "titolo": "Black Friday Amazon 2026: le Smart TV da mettere in lista",
-          "sommario": "Il Black Friday Amazon 2026 è finalmente iniziato e, se avete intenzione di cambiare televisore, conviene dare un'occhiata alle offerte prima di decidere quanto spendere.",
-          "link": "https://www.hdblog.it/tv/offerte/n678468/black-friday-amazon-2026-migliori-smart-tv-offerta/",
-          "pubblicato": "2026-11-26T22:20:00+00:00"
+          "titolo": "Pop! OS 26.04 LTS, arrivano desktop remoto e tavolette grafiche",
+          "sommario": "Pop!_OS 26.04 LTS è disponibile e porta nel desktop COSMIC il supporto per le tavolette grafiche, il desktop remoto e un modo più rapido per cambiare l’aspetto del sistema.",
+          "link": "https://www.hdblog.it/linux/articoli/n678457/pop-os-26-04-lts-cosmic-desktop-remoto-tavolette-grafiche/",
+          "pubblicato": "2026-11-27T17:40:00+00:00"
         },
         {
-          "titolo": "Sicurezza in casa: le offerte Ring e Blink del Black Friday Amazon 2026",
-          "sommario": "Il Black Friday Amazon 2026 è finalmente arrivato e, dopo settimane di promozioni anticipate, è il momento di scoprire le offerte più interessanti dedicate alla sicurezza domestica.",
-          "link": "https://www.hdblog.it/amazon/offerte/n678311/black-friday-amazon-2026-offerte-ring-blink-offert/",
-          "pubblicato": "2026-11-26T22:05:00+00:00"
+          "titolo": "Perovskite, una cucitura molecolare fa durare di più le celle solari",
+          "sommario": "Una cella solare in perovskite ha raggiunto il 27,04% di efficienza in laboratorio grazie a una rete di minuscoli legami che tengono insieme due dei suoi strati.",
+          "link": "https://www.hdblog.it/green/articoli/n678507/celle-solari-perovskite-cucitura-molecolare-durata/",
+          "pubblicato": "2026-11-27T17:20:00+00:00"
         }
       ]
     },
@@ -686,34 +387,34 @@
       "attivo": true,
       "articoli": [
         {
-          "titolo": "Luca Barbarossa: «Dobbiamo disarmare le menti. I ragazzi chiedono più istruzione ma nessuno risponde»",
-          "sommario": "Il cantautore e conduttore di Radio Due Social Club torna con un nuovo album Pepita e la rivoluzione dove c’è tutto il suo modo di fare musica: «Raccontare sentimenti privati come l'amore, ma con uno sguardo rivolto al mondo».",
-          "link": "https://www.editorialedomani.it/idee/cultura/luca-barbarossa-disarmare-menti-ragazzi-chiedono-istruzione-nessuno-risponde-ut92gxw0",
-          "pubblicato": "2026-11-27T06:00:00+00:00"
+          "titolo": "Iván Redondo: «Il voto in Spagna può aprire un nuovo ciclo in Europa»",
+          "sommario": "Parla l’ex capo di gabinetto di Pedro Sánchez: «È un voto globale, in gioco c’è una certa idea del Vecchio Continente. L’Italia? Attualmente gli orologi dei due paesi segnano tempi opposti»",
+          "link": "https://www.editorialedomani.it/politica/mondo/elezioni-spagna-pedro-sanchez-intervista-ex-capo-gabinetto-ivan-redondo-hyqtqxq3",
+          "pubblicato": "2026-11-28T06:00:00+00:00"
         },
         {
-          "titolo": "Il Libano ferito conta i mendicanti. E aspetta il caos",
-          "sommario": "Il «sistema bancario è fallito, i libanesi si sono trovati da un giorno all’altro con i conti bloccati, ci sono 80 miliardi di dollari che non si possono ritirare», spiega il deputato Marwan Hamadeh.",
-          "link": "https://www.editorialedomani.it/politica/mondo/il-libano-ferito-conta-i-mendicanti-e-aspetta-il-caos-wpd9gg50",
-          "pubblicato": "2026-11-27T06:00:00+00:00"
+          "titolo": "Il giallo Contorno. I dubbi dei pm sulla malattia del pentito",
+          "sommario": "Gli inquirenti nisseni sospettano che la «demenza senile» non sia reale. La procura non ha alcun certificato medico. Le pressioni per farlo tacere “Totuccio” indagato con De Gennaro è l’unico custode dei segreti del 1989",
+          "link": "https://www.editorialedomani.it/fatti/il-giallo-contorno-i-dubbi-dei-pm-sulla-malattia-del-pentito-vrgqg13f",
+          "pubblicato": "2026-11-28T06:00:00+00:00"
         },
         {
-          "titolo": "Falcone, Mattarella e De Gennaro. Quel tavolo sulla lotta alla mafia",
-          "sommario": "Il 12 giugno 1991, dieci mesi prima della strage di Capaci, i tre partecipano a un convegno a porte chiuse organizzato a Bologna dall’associazione creata da Beniamino Andreatta. Il tema è “Criminalità e finanza”.",
-          "link": "https://www.editorialedomani.it/politica/italia/falcone-mattarella-e-de-gennaro-quel-tavolo-sulla-lotta-alla-mafia-vv9bdfbs",
-          "pubblicato": "2026-11-27T06:00:00+00:00"
+          "titolo": "La pazienza delle cose, possiamo veramente permetterci di attendere?",
+          "sommario": "Viviamo in una società che ha progressivamente eliminato molti degli intervalli che separavano il desiderio dal suo soddisfacimento, senza chiedersi quali conseguenze avrebbe avuto questa conquista sul nostro modo di rapportarci al tempo e, soprattutto, a ciò.",
+          "link": "https://www.editorialedomani.it/idee/cultura/la-pazienza-delle-cose-possiamo-veramente-permetterci-di-attendere-onhynwum",
+          "pubblicato": "2026-11-28T06:00:00+00:00"
         },
         {
-          "titolo": "Berlusconi, l’amicizia con Letta e le talpe. Il j’accuse di De Gennaro non ferma i pm",
-          "sommario": "«Io condannato a morte, questo è il mio testamento morale», ha scritto il prefetto. La procura però prosegue nelle verifiche. I pubblici ministeri non hanno dubbi: «La fuga di notizie su Cancemi fu un favore a Berlusconi».",
-          "link": "https://www.editorialedomani.it/fatti/berlusconi-lamicizia-con-letta-e-le-talpe-il-jaccuse-di-de-gennaro-non-ferma-i-pm-au84f30k",
-          "pubblicato": "2026-11-27T06:00:00+00:00"
+          "titolo": "Delrio: «All’Italia manca una strategia: È fuori dai giochi»",
+          "sommario": "Parla il senatore del Pd: «Se non sapevamo, vuol dire che siamo irrilevanti. Se invece il nostro esecutivo sapeva del blitz deve venire in Aula a dirci la verità»",
+          "link": "https://www.editorialedomani.it/politica/mondo/ucraina-attacco-libia-bengasi-italia-drone-intervista-delrio-m4i2z65t",
+          "pubblicato": "2026-11-28T06:00:00+00:00"
         },
         {
-          "titolo": "Così il Lazio di Rocca blocca i fondi per gli orfani di femminicidio",
-          "sommario": "Su 600mila euro disponibili per il 2025, sono stati liquidati soltanto 32 contributi da 10mila euro, per un totale di 320mila euro. A pesare un iter amministrativo lento nella partenza e ristretto nei tempi di accesso.",
-          "link": "https://www.editorialedomani.it/politica/italia/lazio-rocca-blocca-fondi-orfani-femminicidio-psjyxy0y",
-          "pubblicato": "2026-11-27T06:00:00+00:00"
+          "titolo": "Marine Le Pen vuole diventare “sistema”. Ma è inseguita dagli scandali",
+          "sommario": "La leader dell’estrema destra francese continua i tentativi di normalizzare il partito, tra svolte sui matrimoni gay e riforme economiche ben poco sociali.",
+          "link": "https://www.editorialedomani.it/politica/europa/marine-le-pen-presidenziali-scandali-bardella-rn-francia-orhggmql",
+          "pubblicato": "2026-11-28T05:00:00+00:00"
         }
       ]
     },
@@ -723,34 +424,34 @@
       "attivo": true,
       "articoli": [
         {
-          "titolo": "Dl cortei, la proposta Delmastro imbarazza anche i meloniani",
-          "sommario": "«Invito i relatori a un’attenta valutazione del rispetto dei principi costituzionali».",
-          "link": "https://ilmanifesto.it/dl-cortei-la-proposta-delmastro-imbarazza-anche-i-meloniani",
-          "pubblicato": "2026-11-26T23:04:44+00:00"
+          "titolo": "Affinità e divergenze tra Rita Pavone e noi",
+          "sommario": "Si osservano con qualche turbamento le lettere su carta intestata del Partito Comunista Italiano a Luigi Nono, chiamato ora «compagno» ora «professore».",
+          "link": "https://ilmanifesto.it/affinita-e-divergenze-tra-rita-pavone-e-noi",
+          "pubblicato": "2026-11-27T23:08:30+00:00"
         },
         {
-          "titolo": "Leopoldina Fortunati, lo standard della normalità",
-          "sommario": "Leopoldina Fortunati è una sociologa e una figura di spicco del femminismo italiano di orientamento marxista. L’Arcano della riproduzione.",
-          "link": "https://ilmanifesto.it/leopoldina-fortunati-lo-standard-della-normalita",
-          "pubblicato": "2026-11-26T23:04:28+00:00"
+          "titolo": "Rossana Rossanda e Luigi Nono, dissonanze della Storia",
+          "sommario": "Il dialogo tra Luigi Nono e Rossana Rossanda è un confronto politico e umano tra due intellettuali centrali della cultura italiana del Novecento, incentrato su temi come l’impegno civile, il […] The post Rossana Rossanda e Luigi Nono, dissonanze della Storia.",
+          "link": "https://ilmanifesto.it/rossana-rossanda-e-luigi-nono-dissonanze-della-storia",
+          "pubblicato": "2026-11-27T23:08:07+00:00"
         },
         {
-          "titolo": "Rossetti, sociologa e docente: «La pagella è una questione di classe sociale, non di lingua»",
-          "sommario": "«La scuola si trova molto spesso priva di strumenti sufficienti a sostenere tutti gli studenti ma nel caso dei figli delle migrazioni si ha l’impressione che vengano lasciati soli, unici […] The post Rossetti, sociologa e docente: «La pagella è una questione.",
-          "link": "https://ilmanifesto.it/rossetti-sociologa-e-docente-la-pagella-e-una-questione-di-classe-sociale-non-di-lingua",
-          "pubblicato": "2026-11-26T23:04:07+00:00"
+          "titolo": "Eralp, Mamdani, il socialismo è pop",
+          "sommario": "«First we take Manhattan, then we take Berlin». E magari poi Milano.",
+          "link": "https://ilmanifesto.it/eralp-mamdani-il-socialismo-e-pop",
+          "pubblicato": "2026-11-27T23:07:18+00:00"
         },
         {
-          "titolo": "Il ddl caccia approda in aula con la tagliola. Contraria Fi",
-          "sommario": "La Camera discuterà oggi una proposta di legge che accontenta i 430mila cacciatori italiani e vede contrari il 70% dei cittadini. Dopo essere stato approvato il 23 giugno in Senato, […] The post Il ddl caccia approda in aula con la tagliola.",
-          "link": "https://ilmanifesto.it/il-ddl-caccia-approda-in-aula-con-la-tagliola-contraria-fi",
-          "pubblicato": "2026-11-26T23:03:54+00:00"
+          "titolo": "Seyla Benhabib, contro il fascismo la lotta non è finita",
+          "sommario": "Seyla Benhabib Allieva di Jurgen Habermas e nata a Istanbul, Seyla Benhabib è una delle principali esponenti della teoria critica – ha insegnato a Harvard e Yale e ora a […] The post Seyla Benhabib, contro il fascismo la lotta non è finita first appeared on.",
+          "link": "https://ilmanifesto.it/seyla-benhabib-contro-il-fascismo-la-lotta-non-e-finita",
+          "pubblicato": "2026-11-27T23:07:13+00:00"
         },
         {
-          "titolo": "Sergio Garavini, un comunista sempre dalla parte degli operai",
-          "sommario": "Si tiene oggi a Torino il primo dei due convegni, organizzati dalla Fondazione Di Vittorio rispettivamente con Cgil Piemonte e Cgil Roma e Lazio, a cento anni dalla nascita di […] The post Sergio Garavini, un comunista sempre dalla parte degli operai first.",
-          "link": "https://ilmanifesto.it/sergio-garavini-un-comunista-sempre-dalla-parte-degli-operai",
-          "pubblicato": "2026-11-26T23:03:54+00:00"
+          "titolo": "Welby e gli altri, venti anni di lotte per il diritto alla dolce morte",
+          "sommario": "«Ad aprirmi la porta, quella sera di vent’anni fa, fu Mina Welby, sua moglie, e in casa trovai ad attendermi Carla Welby, sua sorella, insieme a Marco Pannella e Marco […] The post Welby e gli altri, venti anni di lotte per il diritto alla dolce morte first.",
+          "link": "https://ilmanifesto.it/welby-e-gli-altri-venti-anni-di-lotte-per-il-diritto-alla-dolce-morte",
+          "pubblicato": "2026-11-27T23:06:04+00:00"
         }
       ]
     },
@@ -760,34 +461,34 @@
       "attivo": true,
       "articoli": [
         {
-          "titolo": "I Comuni non assumono i vincitori del loro concorso, la strigliata del ministero: “Tenete fede agli impegni o rischiate le cause”",
-          "sommario": "La lettera, che risale ai primi di novembre, è di sole due pagine ma i toni sono perentori.",
-          "link": "https://www.ilfattoquotidiano.it/2026/11/27/concorso-funzionari-comuni-assunzioni-lettera-ministero-rischio-cause/8584792/",
-          "pubblicato": "2026-11-27T06:53:16+00:00"
+          "titolo": "“Sono laureato in filosofia e in Germania lavoro come program manager all’università. Restare in Italia è quasi impossibile”",
+          "sommario": "A volte il problema non è trovare il lavoro giusto, ma scoprire che nel proprio Paese quel lavoro quasi non esiste. Marco Favaro, 36 anni, lo ha capito guardando gli annunci delle università italiane mentre provava a immaginare un rientro.",
+          "link": "https://www.ilfattoquotidiano.it/2026/11/28/cervelli-fuga-laureato-filosofia-lavoro-germania-restare-in-italia-impossibile/8585280/",
+          "pubblicato": "2026-11-28T06:00:32+00:00"
         },
         {
-          "titolo": "Quarto, sigilli al parco costruito dal consigliere comunale di Napoli ‘trasformista’ Domenico Brescia. Era appena approdato in Fdi",
-          "sommario": "C’è un consigliere comunale di Napoli che fino a faceva notizia per il suo trasformismo politico, e da oggi anche per una grana edilizia di non poco conto, il sequestro di alcuni immobili di un parco residenziale a Quarto, riconducibile alla sua galassia.",
-          "link": "https://www.ilfattoquotidiano.it/2026/11/27/quarto-sigilli-al-parco-costruito-dal-consigliere-comunale-di-napoli-trasformista-domenico-brescia-era-appena-approdato-in-fdi/8584841/",
-          "pubblicato": "2026-11-27T06:53:04+00:00"
+          "titolo": "E se Hitler fosse morto nel 1930? Le ‘profezie’ di Jared Diamond tentano di rispondere",
+          "sommario": "Il 13 marzo 1930 un camion sta viaggiando a grande velocità a Monaco di Baviera quando un’auto gli sbuca improvvisamente davanti a un incrocio. Il conducente del camion inchioda ma il rimorchio si infila nella fiancata della Mercedes distruggendola.",
+          "link": "https://www.ilfattoquotidiano.it/2026/11/28/jared-diamond-profitti-profeti-allenatori-e-re-recensione/8584504/",
+          "pubblicato": "2026-11-28T05:41:27+00:00"
         },
         {
-          "titolo": "La Lombardia colma un vuoto: dopo anni di battaglie anche i cittadini dell’Ue indigenti potranno ricevere le cure dal sistema sanitario",
-          "sommario": "Dopo anni di battaglie legali, anche le cittadine e i cittadini dell’Unione europea privi di diritto al soggiorno e indigenti che vivono in Lombardia possono accedere, tramite il Servizio sanitario, alle cure urgenti, essenziali e continuative.",
-          "link": "https://www.ilfattoquotidiano.it/2026/11/27/codice-eni-lombardia-cittadini-ue-notizie/8584882/",
-          "pubblicato": "2026-11-27T06:52:52+00:00"
+          "titolo": "Questa sorte di genti: un’opera scritta per il pubblico di oggi",
+          "sommario": "Finalmente ho trovato qualcuno che dice esattamente ciò che da anni provo, spesso invano, a raccontare nelle mie recensioni, talvolta suscitando equivoci o reazioni scomposte.",
+          "link": "https://www.ilfattoquotidiano.it/2026/11/28/questa-sorte-genti-opera-contemporanea-recensione/8585719/",
+          "pubblicato": "2026-11-28T05:41:24+00:00"
         },
         {
-          "titolo": "Violenza sulle donne, in Sicilia centri senza fondi: “Stanziato un milione di euro per i convegni mentre i rifugi rischiano di chiudere”",
-          "sommario": "“Quest’anno abbiamo speso migliaia di euro in visite mediche. Come facciamo? Ritardiamo il nostro stipendio, aspettiamo e con noi aspettano, medici, farmacie, ma anche supermercati, botteghe”.",
-          "link": "https://www.ilfattoquotidiano.it/2026/11/27/centri-antiviolenza-sicilia-fondi-notizie/8584908/",
-          "pubblicato": "2026-11-27T06:52:42+00:00"
+          "titolo": "Questo non è il piagnisteo di un boomer ma ditemi dove trovare un’edicola a Torino!",
+          "sommario": "Questo non è il solito piagnisteo sulla chiusura delle edicole. Poi certo, il cuore della questione è un’edicola che non c’è più. Così, improvvisamente.",
+          "link": "https://www.ilfattoquotidiano.it/2026/11/28/chiusura-edicole-torino-quotidiani-opinione/8585336/",
+          "pubblicato": "2026-11-28T05:36:03+00:00"
         },
         {
-          "titolo": "Ecco l’eredità dei Giochi invernali sui territori: il Veneto stanzia 4,5 milioni per le spese di gestione della pista da bob",
-          "sommario": "La pista da bob di Cortina è un’idrovora di risorse pubbliche. Quello che molti temevano – e su cui i lettori de Ilfattoquottidiano.it sono stati informati da anni – si è puntualmente verificato.",
-          "link": "https://www.ilfattoquotidiano.it/2026/11/27/pista-da-bob-cortina-giochi-spese-gestione-soldi-pubblici-veneto/8585001/",
-          "pubblicato": "2026-11-27T06:52:31+00:00"
+          "titolo": "“La preparazione non è mai un handicap. Prima di salire sul palco a X Factor salutavo nonno Matteo, la sua collana mi protegge. Ho una mamma manager, ma non lo dicevo in giro”: parla Teo Bok",
+          "sommario": "Eliminato in semifinale a “ X Factor 2026 ” contro Giacomo Calò, Teo Bok racconta a FqMagazine il significato della collanina che bacia nei momenti clou: era del nonno Matteo, da cui ha preso il nome e che non ha mai conosciuto.",
+          "link": "https://www.ilfattoquotidiano.it/2026/11/28/la-preparazione-non-e-mai-un-handicap-prima-di-salire-sul-palco-a-x-factor-salutavo-nonno-matteo-la-sua-collana-mi-protegge-parla-teo-bok/8586109/",
+          "pubblicato": "2026-11-28T05:30:54+00:00"
         }
       ]
     },
@@ -797,34 +498,34 @@
       "attivo": true,
       "articoli": [
         {
-          "titolo": "De Gennaro, il testo integrale dell’ultima lettera",
-          "sommario": "Il Corriere della Sera pubblica il testo integrale dell'ex capo della polizia L'articolo De Gennaro, il testo integrale dell’ultima lettera proviene da Open.",
-          "link": "https://www.open.online/2026/11/27/gianni-de-gennaro-ultima-lettera-testo-integrale/",
-          "pubblicato": "2026-11-27T06:28:56+00:00"
+          "titolo": "Orlandi, la Procura frena sul telefonista: «L’ex agente del Sisde? Non è così». E su Gregori la famiglia chiede: «Ispezionate il sotterraneo del bar»",
+          "sommario": "I magistrati romani smentiscono l'indiscrezione secondo cui gli accertamenti del RIS avrebbero attribuito all'ex agente Sisde Claudio Martufi la voce di «Mario».",
+          "link": "https://www.open.online/2026/11/28/orlandi-procura-frena-telefonista-007-gregori-richiesta-ispezione-bar/",
+          "pubblicato": "2026-11-28T05:56:57+00:00"
         },
         {
-          "titolo": "A 15 anni sperona l’auto dei carabinieri e scappa: «Ho imparato su GTA6»",
-          "sommario": "Gli è stata contestata l'infrazione prevista al Codice della Strada per la fuga ad alta velocità e la condotta di guida pericolosa L'articolo A 15 anni sperona l’auto dei carabinieri e scappa: «Ho imparato su GTA6» proviene da Open.",
-          "link": "https://www.open.online/2026/11/27/torino-15-anni-carabinieri-gta6/",
-          "pubblicato": "2026-11-27T06:05:57+00:00"
+          "titolo": "Inchiesta via d’Amelio, dopo il suicidio di De Gennaro tutti i riflettori su Contorno: i pm dubitano della sua demenza senile",
+          "sommario": "La Procura di Caltanissetta sospetta che la patologia dell'ex pentito — rimasto l'unico depositario dei segreti sull'arresto del 1989 — sia usata come scudo giudiziario.",
+          "link": "https://www.open.online/2026/11/28/inchiesta-via-damelio-salvatore-contorno-demenza-senile-de-gennaro/",
+          "pubblicato": "2026-11-28T05:37:59+00:00"
         },
         {
-          "titolo": "Angela Cipriano, la compagna di Francesco Schettino: «La Concordia? Non è l’unico colpevole»",
-          "sommario": "Oggi i due vivono «la quotidianità delle piccole cose. Sono contenta che abbia ottenuto la semilibertà, c’è stato un percorso rieducativo» L'articolo Angela Cipriano, la compagna di Francesco Schettino: «La Concordia? Non è l’unico colpevole» proviene da Open.",
-          "link": "https://www.open.online/2026/11/27/angela-cipriano-francesco-schettino-concordia/",
-          "pubblicato": "2026-11-27T05:38:29+00:00"
+          "titolo": "Francesca Albanese fermata in Costa Rica: «Mi hanno detto che se avessi voluto dormire c’era la cella di detenzione»",
+          "sommario": "In un'intervista rilasciata al Fatto Quotidiano, la relatrice speciale dell’Onu denuncia le condizioni del suo trattenimento allo scalo di San José, il tentativo di espulsione verso Parigi e le accuse legate al terrorismo L'articolo Francesca Albanese fermata.",
+          "link": "https://www.open.online/2026/11/28/francesca-albanese-costa-rica-trattamento-cella-detenzione/",
+          "pubblicato": "2026-11-28T05:17:15+00:00"
         },
         {
-          "titolo": "«Vi racconto chi era Gianni De Gennaro e perché quell’accusa gli ha ucciso l’anima»",
-          "sommario": "Pippo Giordano, ex ispettore della Dia che compare nelle carte dell'inchiesta dello Squalo, spiega a Open cosa disse su Contorno e perché non trova nulla di male nel mantenere i rapporti con i pentiti. Poi dice cosa pensa del suicidio del Superpoliziotto.",
-          "link": "https://www.open.online/2026/11/27/gianni-de-gennaro-accusa-pippo-giordano/",
-          "pubblicato": "2026-11-27T04:56:52+00:00"
+          "titolo": "De Gennaro, l’autopsia conferma il suicidio. La carezza ai cani prima di morire. Ai funerali grandi assenza tra i big della politica",
+          "sommario": "Gli esami medico-legali a Firenze escludono responsabilità di terzi, mentre dalle telecamere della tenuta di Fonteblanda emergono gli ultimi minuti dell'ex capo della Polizia.",
+          "link": "https://www.open.online/2026/11/28/de-gennaro-autopsia-suicidio-camera-ardente-funerali/",
+          "pubblicato": "2026-11-28T05:03:09+00:00"
         },
         {
-          "titolo": "De Gennaro, gli «errori», gli «ordini» e i pizzini: l’indagine sul depistaggio «è come Garlasco»",
-          "sommario": "I pm indagano sull'evoluzione del rapporto dello Squalo con Giovanni Falcone prima di Capaci. E sulle otto pen drive trovate in casa di una collaboratrice. Le ultime parole sull'inchiesta agli avvocati e al figlio prima del suicidio.",
-          "link": "https://www.open.online/2026/11/27/gianni-de-gennaro-lettera-errori-ordini-pizzini/",
-          "pubblicato": "2026-11-27T04:15:00+00:00"
+          "titolo": "Credeva di aver trovato una pepita d’oro, ma è un rarissimo meteorite di 4,6 miliardi di anni più antico della Terra",
+          "sommario": "Il meteorite, ribattezzato “meteorite di Maryborough”, misura circa 39 centimetri di lunghezza per 14 centimetri di larghezza e 14 di spessore e pesa 14 chili L'articolo Credeva di aver trovato una pepita d’oro, ma è un rarissimo meteorite di 4,6 miliardi di.",
+          "link": "https://www.open.online/2026/11/27/pepita-oro-rarissimo-meteorite-antico-terra/",
+          "pubblicato": "2026-11-27T22:51:18+00:00"
         }
       ]
     },
@@ -834,16 +535,16 @@
       "attivo": true,
       "articoli": [
         {
-          "titolo": "Polonia, né golpe né resistenza",
-          "sommario": "In queste settimane la Polonia vive uno scontro aperto ai vertici dello Stato.",
-          "link": "https://jacobinitalia.it/polonia-ne-golpe-ne-resistenza/",
-          "pubblicato": "2026-11-26T16:15:32+00:00"
+          "titolo": "Il genocidio di Myanmar",
+          "sommario": "Giovedì 19 novembre è stata una giornata storica per chi crede ancora nella giustizia internazionale: il Myanmar è stato riconosciuto responsabile di genocidio ed è la prima volta che la Corte internazionale di giustizia accerta la responsabilità di uno Stato.",
+          "link": "https://jacobinitalia.it/il-genocidio-di-myanmar/",
+          "pubblicato": "2026-11-27T15:04:17+00:00"
         },
         {
-          "titolo": "D’Alema, la piccola ambizione",
-          "sommario": "«Massimo D’Alema non era iscritto al Pci… ma alla Direzione nazionale del Pci».",
-          "link": "https://jacobinitalia.it/dalema-la-piccola-ambizione/",
-          "pubblicato": "2026-11-26T08:40:41+00:00"
+          "titolo": "Conflitto, convergenza e mutualismo",
+          "sommario": "Chi agisce sul terreno del conflitto tra capitale e lavoro deve oggi interrogarsi sugli spazi di azione disponibili.",
+          "link": "https://jacobinitalia.it/conflitto-convergenza-e-mutualismo/",
+          "pubblicato": "2026-11-27T09:54:30+00:00"
         }
       ]
     },
@@ -853,10 +554,10 @@
       "attivo": true,
       "articoli": [
         {
-          "titolo": "Sciopero contro le politiche dell’estrema destra, la Colombia torna in piazza",
-          "sommario": "Lo scorso 19 novembre centinaia di migliaia di persone sono scese in piazza in tutta la Colombia per il primo paro nacional, lo sciopero generale nazionale proclamato dai sindacati, convocato dalla Central Unitaria de Trabajadores (CUT), dal Comando Nacional.",
-          "link": "https://www.dinamopress.it/news/sciopero-contro-le-politiche-dellestrema-destra-la-colombia-torna-in-piazza/?utm_source=rss&utm_medium=rss&utm_campaign=sciopero-contro-le-politiche-dellestrema-destra-la-colombia-torna-in-piazza",
-          "pubblicato": "2026-11-26T12:09:21+00:00"
+          "titolo": "Dieci anni di Non Una di Meno",
+          "sommario": "Sabato 28 novembre 2026 si tiene la decima manifestazione nazionale convocata dal movimento transfemminista Non una di meno a Roma.",
+          "link": "https://www.dinamopress.it/news/dieci-anni-di-non-una-di-meno/?utm_source=rss&utm_medium=rss&utm_campaign=dieci-anni-di-non-una-di-meno",
+          "pubblicato": "2026-11-27T15:36:45+00:00"
         }
       ]
     },
@@ -866,16 +567,16 @@
       "attivo": true,
       "articoli": [
         {
-          "titolo": "Genocidio dei rohingya, la sentenza storica dell’Aia che può cambiare il processo contro Israele per Gaza",
-          "sommario": "La sentenza pronunciata dalla Corte internazionale di giustizia (Cig) dell’Aia il 19 novembre 2026 nel caso Gambia contro Myanmar segna un passaggio storico nel diritto internazionale: per la prima volta dalla sua istituzione, il principale organo giudiziario.",
-          "link": "https://left.it/2026/11/26/genocidio-dei-rohingya-la-sentenza-storica-dellaia-che-puo-cambiare-il-processo-contro-israele-per-gaza/",
-          "pubblicato": "2026-11-26T13:05:20+00:00"
+          "titolo": "La sinistra di fronte al bivio europeo",
+          "sommario": "L’Unione europea incontra da sempre l’ostilità americana.",
+          "link": "https://left.it/2026/11/27/la-sinistra-di-fronte-al-bivio-europeo/",
+          "pubblicato": "2026-11-27T14:50:22+00:00"
         },
         {
-          "titolo": "Luigi Tonino Campoli, schiacciato a 72 anni “in conformità con le normative”",
-          "sommario": "Luigi Tonino Campoli lavorava al tunnel che dovrà proteggere Genova dalle piene del Bisagno, e lunedì un concio di cemento da diverse tonnellate, uno dei blocchi che rivestono la galleria, gli è finito addosso mentre lo manovrava con il carroponte.",
-          "link": "https://left.it/2026/11/26/luigi-tonino-campoli-schiacciato-a-72-anni-in-conformita-con-le-normative/",
-          "pubblicato": "2026-11-26T09:12:16+00:00"
+          "titolo": "Tajani? Risponde ai due italiani uccisi da un drone in Kuwait con un invito alla “prudenza”",
+          "sommario": "Due italiani sono morti mercoledì mentre lavoravano in Kuwait. Per chi?",
+          "link": "https://left.it/2026/11/27/tajani-risponde-ai-due-italiani-uccisi-da-un-drone-in-kuwait-con-un-invito-alla-prudenza/",
+          "pubblicato": "2026-11-27T08:06:42+00:00"
         }
       ]
     },
@@ -885,16 +586,16 @@
       "attivo": true,
       "articoli": [
         {
-          "titolo": "Satelliti europei e droni ripetitori: così l’Ucraina fa a meno di Musk",
-          "sommario": "Come scrivevamo qualche settimana fa, lo sviluppo di sistemi di comunicazione satellitare europei alternativi a quelli forniti dalle aziende di Elon Musk è sempre più urgente.",
-          "link": "https://www.valigiablu.it/ucraina-satelliti-europei-starlink-musk/",
-          "pubblicato": "2026-11-26T16:00:00+00:00"
+          "titolo": "«Noi, cittadini palestinesi, abbiamo fermato il governo di sterminio di Israele»",
+          "sommario": "Abu Shehadeh si è ritirato dalla competizione il 2 ottobre, dopo che il presidente della Corte Suprema Yitzhak Amit aveva fatto intendere che la maggioranza dei giudici avrebbe avallato la decisione della Commissione elettorale centrale di escluderlo.",
+          "link": "https://www.valigiablu.it/israele-voto-cittadini-arabi-netanyau-eiseknkot/",
+          "pubblicato": "2026-11-27T15:04:01+00:00"
         },
         {
-          "titolo": "La disinformazione sull’Ucraina e il metodo Barbero",
-          "sommario": "La scorsa settimana, durante il suo intervento al Campus Einaudi dell'Università di Torino, davanti a mille studenti, nel parlare dell’invasione russa in Ucraina, di guerra e di pace, lo storico Alessandro Barbero ha riproposto alcuni filoni della.",
-          "link": "https://www.valigiablu.it/barbero-disinformazione-russia-ucraina-guerra/",
-          "pubblicato": "2026-11-26T12:03:35+00:00"
+          "titolo": "La Georgia dopo due anni di mobilitazione e di proteste per l’Europa e contro il governo filorusso",
+          "sommario": "Sono passati due anni dall’inizio delle proteste in Georgia.",
+          "link": "https://www.valigiablu.it/georgia-due-anni-proteste-sogno-georgiano-russia/",
+          "pubblicato": "2026-11-27T12:01:21+00:00"
         }
       ]
     },
@@ -904,22 +605,10 @@
       "attivo": true,
       "articoli": [
         {
-          "titolo": "Spyware: così una falsa app del Viminale prendeva di mira i richiedenti asilo",
-          "sommario": "Si presentava come un’applicazione del ministero dell’Interno che consentiva di ottenere comunicazioni ufficiali sul proprio status di rifugiato.",
-          "link": "https://www.irpimedia.eu/spyware-falsa-app-del-viminale-prendeva-di-mira-richiedenti-asilo/",
-          "pubblicato": "2026-11-27T04:00:00+00:00"
-        },
-        {
-          "titolo": "Migranti, i respingimenti non sono più automaticamente illegali",
-          "sommario": "La Grande Camera della Corte europea dei diritti dell’uomo (Cedu), l’ultimo grado di giudizio sui casi più complessi che riguardano la Convenzione europea dei diritti dell’uomo, ha emesso tre attese sentenze in merito ai respingimenti dei migranti provenienti.",
-          "link": "https://www.irpimedia.eu/migranti-i-respingimenti-non-sono-piu-automaticamente-illegali/",
-          "pubblicato": "2026-11-26T12:22:15+00:00"
-        },
-        {
-          "titolo": "IrpiMedia si rinnova: un nuovo sito e una campagna di comunicazione firmati Stormi Studio",
-          "sommario": "IrpiMedia, testata indipendente specializzata nel giornalismo investigativo, presenta il suo nuovo sito web e una campagna di comunicazione e posizionamento realizzata da Stormi Studio.",
-          "link": "https://www.irpimedia.eu/irpimedia-si-rinnova-nuovo-sito-campagna-di-comunicazione-con-stormi-studio/",
-          "pubblicato": "2026-11-26T11:26:22+00:00"
+          "titolo": "Da progetto di giornalismo a pratica artistica, Senza Segnale in mostra al Teatro Garibaldi di Palermo",
+          "sommario": "Cosa accade quando una comunità perde la possibilità di raccontarsi? In che modo il giornalismo e la ricerca artistica possono creare nuovi spazi di ascolto, condivisione della conoscenza e immaginazione collettiva?",
+          "link": "https://www.irpimedia.eu/senza-segnale-mostra-teatro-garibaldi-palermo/",
+          "pubblicato": "2026-11-27T15:14:53+00:00"
         }
       ]
     },
@@ -935,22 +624,16 @@
       "attivo": true,
       "articoli": [
         {
-          "titolo": "La scienza conta sempre meno nelle decisioni sulla caccia",
-          "sommario": "Il nuovo “ddl Caccia” è l’ultima tappa di un percorso iniziato quattro anni fa, che ha ridotto il peso delle valutazioni scientifiche e aumentato quello delle associazioni di categoria",
-          "link": "https://pagellapolitica.it/articoli/scienza-peso-decisioni-caccia",
-          "pubblicato": "2026-11-26T14:03:46+00:00"
+          "titolo": "Il campo largo sta cercando le parole per mettersi d’accordo",
+          "sommario": "Che si tratti di patrimoniale, reddito di cittadinanza o armi all’Ucraina, per trovare un compromesso il centrosinistra sta lavorando anche sul vocabolario",
+          "link": "https://pagellapolitica.it/articoli/campo-largo-parole-accordo",
+          "pubblicato": "2026-11-27T14:17:44+00:00"
         },
         {
-          "titolo": "Come il governo vuole ripristinare l’elezione dei presidenti di provincia",
-          "sommario": "Il Consiglio dei ministri ha dato il via libera alla riforma degli enti locali, che ora dovrà essere approvata dal Parlamento, con una spesa prevista di 10 milioni di euro",
-          "link": "https://pagellapolitica.it/articoli/riforma-elezione-presidenti-provincia",
-          "pubblicato": "2026-11-26T10:29:50+00:00"
-        },
-        {
-          "titolo": "Manca ancora un accordo sul bilancio europeo",
-          "sommario": "Il Consiglio propone 204 miliardi di tagli rispetto al piano della Commissione e una “digital tax” sulle big tech, ma restano divisioni sulla spesa dell’UE",
-          "link": "https://pagellapolitica.it/articoli/manca-accordo-bilancio-europeo",
-          "pubblicato": "2026-11-26T10:04:46+00:00"
+          "titolo": "Il governo vuole rinviare per la quarta volta la riforma dello spettacolo",
+          "sommario": "Approvata a luglio 2022, dovevano bastare nove mesi per attuarla, ma ora il ministro della Cultura Giuli ha proposto di rimandarla ancora",
+          "link": "https://pagellapolitica.it/articoli/governo-rinvia-riforma-spettacolo",
+          "pubblicato": "2026-11-27T08:40:27+00:00"
         }
       ]
     },
@@ -960,10 +643,16 @@
       "attivo": true,
       "articoli": [
         {
-          "titolo": "Un osservatorio sui libri di scuola. Il Governo vuole la censura",
-          "sommario": "Un ordine del giorno. E’ probabile che non andrà avanti, ma è un voto che lascia il segno ed è un segno che parla di censura, di liste di proscrizione, di modelli del passato, come i filmati e i video con il marchio dell’Istituto Luce.",
-          "link": "https://www.radiopopolare.it/un-osservatorio-sui-libri-di-scuola-il-governo-vuole-la-censura",
-          "pubblicato": "2026-11-26T17:45:38+00:00"
+          "titolo": "Spagna, ultimi comizi di Sanchez e Colau, sperando nella “remuntada”. Domenica il voto",
+          "sommario": "Una marea rossa ha riempito la scatola magica, il complesso sportivo dove si disputa l’Open di tennis di Madrid che può ospitare 13000 persone. Tutto esaurito per l’ultimo meeting di Pedro Sanchez.",
+          "link": "https://www.radiopopolare.it/spagna-ultimi-comizi-di-sanchez-e-colau-sperando-nella-remuntada-domenica-il-voto",
+          "pubblicato": "2026-11-27T17:54:17+00:00"
+        },
+        {
+          "titolo": "Aiuti e supporto alla popolazione ucraina stremata: arriva a Leopoli l’International Solidarity Convoy for Ukraine",
+          "sommario": "Dopo tre giorni e tappe a Monaco di Baviera, Vienna e Cracovia, il convoglio internazionale di solidarietà per l’Ucraina è giunto nel Paese.",
+          "link": "https://www.radiopopolare.it/aiuti-e-supporto-alla-popolazione-ucraina-stremata-arriva-a-leopoli-linternational-solidarity-convoy-for-ukraine",
+          "pubblicato": "2026-11-27T17:53:22+00:00"
         }
       ]
     },
@@ -973,28 +662,16 @@
       "attivo": true,
       "articoli": [
         {
-          "titolo": "Anna Scavuzzo si candida a Milano: \"Vorrei essere la prima sindaca del centrosinistra\"",
-          "sommario": "AGI - Anna Scavuzzo, vicesindaca di Milano, con deleghe pesanti come l'urbanistica, si presenta alla città da candidata alla poltrona più alta di Palazzo Marino.",
-          "link": "https://www.agi.it/politica/news/2026-11-26/milano-anna-scavuzzo-sindaca-40206396/",
-          "pubblicato": "2026-11-26T18:04:30+00:00"
+          "titolo": "Mattarella firma ColtivaItalia, ma avverte: su regole e sanzioni non possono decidere i privati",
+          "sommario": "AGI - Non può essere un'associazione o un'azienda a imporre sanzioni per chi viola una regola imposta dalla stessa azienda o associazione.",
+          "link": "https://www.agi.it/politica/news/2026-11-27/mattarella-firma-legge-coltivaitalia-40217246/",
+          "pubblicato": "2026-11-27T19:38:52+00:00"
         },
         {
-          "titolo": "Legge di bilancio, Meloni: “Grande convergenza nella maggioranza”. Nessun passo indietro s...",
-          "sommario": "AGI - Sul superbonus \"stiamo lavorando\", sul numero degli emendamenti \"abbiamo delle tempistiche da rispettare. C'è grande convergenza nella maggioranza\".",
-          "link": "https://www.agi.it/politica/news/2026-11-26/legge-di-bilancio-meloni-arretrati-magistrati-40200985/",
-          "pubblicato": "2026-11-26T13:13:21+00:00"
-        },
-        {
-          "titolo": "Meloni: \"Scioccata per il caso De Gennaro. Arrivare alla verità su via D'Amelio\". I funera...",
-          "sommario": "AGI - Il suicidio dell'ex capo della polizia Gianni De Gennaro \"è una questione che ha scioccato tutti e anche me\". Lo ha detto la presidente del Consiglio Giorgia Meloni, arrivando al Consiglio europeo a Bruxelles e rispondendo alle domande dei cronisti.",
-          "link": "https://www.agi.it/politica/news/2026-11-26/meloni-de-gennaro-tifoserie-funerali-40199987/",
-          "pubblicato": "2026-11-26T12:16:53+00:00"
-        },
-        {
-          "titolo": "Vannacci scende nei sondaggi, il Campo Largo resta avanti",
-          "sommario": "AGI - In un contesto che, per il resto, si presenta piuttosto stabile, la Supermedia di oggi contiene due piccole 'novità'.",
-          "link": "https://www.agi.it/politica/news/2026-11-26/supermedia-vannacci-campo-largo-40197995/",
-          "pubblicato": "2026-11-26T11:02:10+00:00"
+          "titolo": "Meloni sente Zelensky: \"No a iniziative che mettano a rischio la sicurezza dell'Italia\"",
+          "sommario": "AGI - La presidente del Consiglio, Giorgia Meloni, ha avuto oggi un colloquio telefonico con il presidente dell'Ucraina, Volodymyr Zelensky.",
+          "link": "https://www.agi.it/politica/news/2026-11-27/meloni-zelensky-40216363/",
+          "pubblicato": "2026-11-27T19:13:22+00:00"
         }
       ]
     },
@@ -1062,14 +739,7 @@
       "nome": "Agi",
       "url": "https://www.agi.it/cultura/rss.xml",
       "attivo": true,
-      "articoli": [
-        {
-          "titolo": "Pioggia e freddo possono erodere l'arenaria, allarme a Fano per la Basilica di Vitruvio",
-          "sommario": "AGI – Allarme rosso per la Basilica di Vitruvio a Fano: la pioggia e il freddo rischiano di sgretolare gli scavi di uno dei più straordinari ritrovamenti archeologici avvenuti in Italia negli ultimi anni, annunciato a gennaio quando furono identificati con.",
-          "link": "https://www.agi.it/cultura/news/2026-11-26/basilica-vitruvio-fano-allarme-40203048/",
-          "pubblicato": "2026-11-26T15:51:32+00:00"
-        }
-      ]
+      "articoli": []
     },
     "https://altreconomia.it/feed/": {
       "nome": "Altreconomia",
@@ -1077,16 +747,28 @@
       "attivo": true,
       "articoli": [
         {
-          "titolo": "Reportage da Khasab, il fronte silenzioso affacciato sullo Stretto di Hormuz",
-          "sommario": "Rashid (nome di fantasia) è un barcaiolo originario del Bangladesh che lavora per un’agenzia turistica di escursioni giornaliere in mare. Dal suo dhow guarda le piccole barche veloci che dal mare aperto si dirigono verso il porto.",
-          "link": "https://altreconomia.it/reportage-da-khasab-il-fronte-silenzioso-affacciato-sullo-stretto-di-hormuz/",
-          "pubblicato": "2026-11-26T12:53:52+00:00"
+          "titolo": "Dove ci porta Pablo Hernández de Cos, il designato presidente della Bce del dopo Lagarde",
+          "sommario": "La designazione dello spagnolo Pablo Hernández de Cos alla presidenza della Banca centrale europea (Bce), maturata attraverso l'intesa politica tra le cancellerie dell'Eurozona per raccogliere anticipatamente l'eredità di Christine Lagarde dal febbraio 2027.",
+          "link": "https://altreconomia.it/dove-ci-porta-pablo-hernandez-de-cos-il-designato-presidente-della-bce-del-dopo-lagarde/",
+          "pubblicato": "2026-11-27T16:19:41+00:00"
         },
         {
-          "titolo": "Reti solidali contro disuguaglianze e violenza di genere in Brasile. La voce di Flávia Cândido",
-          "sommario": "“Mãe de treis e originária da favela da Maré” (madre di tre figli e originaria della favela Maré ).",
-          "link": "https://altreconomia.it/reti-solidali-contro-disuguaglianze-e-violenza-di-genere-in-brasile-la-voce-di-flavia-candido/",
-          "pubblicato": "2026-11-26T10:39:42+00:00"
+          "titolo": "Quel mondo cooperativo impermeabile alla frustrazione di chi ci lavora. Dove eravate?",
+          "sommario": "Parafrasando l’incipit dell’ articolo di Flaviano Zandonai e Chiara Persico, c’è un aspetto “particolarmente evidente” nel “ Manuale di autodifesa dalle cooperative sociali” redatto dal collettivo Educatrici arrabbiate e rilanciato recentemente da.",
+          "link": "https://altreconomia.it/il-mondo-cooperativo-gira-intorno-al-problema-impermeabile-alla-frustrazione-di-chi-ci-lavora/",
+          "pubblicato": "2026-11-27T15:55:07+00:00"
+        },
+        {
+          "titolo": "Eurospin e la politica dei prezzi “imposti” alla rete di punti vendita in franchising",
+          "sommario": "Eurospin, uno dei principali operatori della Grande distribuzione organizzata (Gdo) e leader nel segmento di mercato dei discount, avrebbe adottato una politica sleale di prezzi di fatto imposti alla rete di punti vendita affiliati in franchising, impedendo.",
+          "link": "https://altreconomia.it/eurospin-e-la-politica-dei-prezzi-imposti-alla-rete-di-punti-vendita-in-franchising/",
+          "pubblicato": "2026-11-27T09:57:38+00:00"
+        },
+        {
+          "titolo": "Delle “celle container” non c’è traccia. Altro che “soluzione rapida” per le carceri sovraffollate",
+          "sommario": "I moduli prefabbricati che dovevano servire per un “rapido approvvigionamento di nuovi posti letto” nelle carceri italiane non saranno pronti prima di maggio 2027: almeno due anni dopo l’annuncio del ministero della Giustizia.",
+          "link": "https://altreconomia.it/delle-celle-container-non-ce-traccia-altro-che-soluzione-rapida-per-le-carceri-sovraffollate/",
+          "pubblicato": "2026-11-27T09:44:58+00:00"
         }
       ]
     },
@@ -1096,28 +778,16 @@
       "attivo": true,
       "articoli": [
         {
-          "titolo": "La stretta anti studenti del governo Meloni, l’ultima di una serie",
-          "sommario": "Sui media internazionali che discettano delle prossime elezioni in Spagna e Francia, il governo Meloni viene spesso rappresentato come la possibile prova che una vittoria di una coalizione che includa VOX a Madrid e una presidente Le Pen si potrebbero.",
-          "link": "https://sbilanciamoci.info/la-stretta-anti-studenti-del-governo-meloni-lultima-di-una-serie/",
-          "pubblicato": "2026-11-26T10:11:12+00:00"
+          "titolo": "Alla luce del sole",
+          "sommario": "Michele Nardelli tempo fa ha inaugurato alcune insolite iniziative (come il Viaggio nella solitudine della politica iniziato nel 2017) da cui è nato un laboratorio collettivo di scrittura (in epoca di narcisismo e individualismo, già questo è un merito).",
+          "link": "https://sbilanciamoci.info/alla-luce-del-sole/",
+          "pubblicato": "2026-11-27T19:52:41+00:00"
         },
         {
-          "titolo": "Impresa e Costituzione: la libertà d’impresa non coincide con la libertà del mercato",
-          "sommario": "La libertà dell’iniziativa economica privata è uno dei principi fondamentali della nostra Costituzione.",
-          "link": "https://sbilanciamoci.info/impresa-e-costituzione-la-liberta-dimpresa-non-coincide-con-la-liberta-del-mercato/",
-          "pubblicato": "2026-11-26T09:12:59+00:00"
-        },
-        {
-          "titolo": "Sergio Garavini, tra sindacato e politica",
-          "sommario": "Sergio Garavini è stato uno dei grandi dirigenti del movimento dei lavoratori italiano, dunque europeo, del Novecento.",
-          "link": "https://sbilanciamoci.info/sergio-garavini-tra-sindacato-e-politica/",
-          "pubblicato": "2026-11-26T08:57:57+00:00"
-        },
-        {
-          "titolo": "Così l’industria europea si converte al militare (e si lega a Israele e USA)",
-          "sommario": "Nel dossier “ The World Ahead 2027 ” appena pubblicato dal settimanale inglese “ The Economist ”, nella parte dedicata all’Europa, appare un breve articolo “ Ploughshares into swords” (da vomeri a spade), il cui titolo rovescia la profezia biblica di Isaia “.",
-          "link": "https://sbilanciamoci.info/cosi-lindustria-europea-si-converte-al-militare-e-si-lega-a-israele-e-usa/",
-          "pubblicato": "2026-11-26T07:55:28+00:00"
+          "titolo": "Controfinanziaria 2027: 125 proposte per una Legge di Bilancio diversa",
+          "sommario": "Mercoledì 2 dicembre 2026, alle ore 10.00, nella Sala Stampa della Camera dei Deputati, Sbilanciamoci! presenta il suo 27° Rapporto sulla Legge di Bilancio: la Controfinanziaria.",
+          "link": "https://sbilanciamoci.info/controfinanziaria-2027-125-proposte-per-una-legge-di-bilancio-diversa/",
+          "pubblicato": "2026-11-27T09:14:40+00:00"
         }
       ]
     },
@@ -1127,34 +797,34 @@
       "attivo": true,
       "articoli": [
         {
-          "titolo": "Trump: \"Ho chiesto a Putin lo stop degli attacchi all'Europa\"",
-          "sommario": "AGI - Donald Trump ha chiesto a Vladimir Putin di “cessare ogni aggressione militare” contro i territori europei, nella speranza di arrivare rapidamente a un accordo per porre fine alla guerra in Ucraina.",
-          "link": "https://www.agi.it/estero/news/2026-11-27/trump-putin-ucraina-europa-40209801/",
-          "pubblicato": "2026-11-27T06:40:14+00:00"
+          "titolo": "Come il voto della Catalogna peserà sul prossimo governo spagnolo",
+          "sommario": "AGI - Il dato elettorale che arriverà dalla Catalogna sarà una cartina di tornasole importante per capire come si svilupperà la prossima legislatura in Spagna.",
+          "link": "https://www.agi.it/estero/news/2026-11-28/elezioni-spagna-catalogna-40213919/",
+          "pubblicato": "2026-11-28T05:57:41+00:00"
         },
         {
-          "titolo": "Nulla di fatto sul bilancio della Ue. Meloni: \"Siamo lontani anni luce da una soluzione\"",
-          "sommario": "AGI - Nulla di fatto a Bruxelles, dove i leader Ue si sono riuniti in un Consiglio europeo straordinario sul prossimo bilancio pluriennale 2028-2034.",
-          "link": "https://www.agi.it/estero/news/2026-11-27/bilancio-ue-meloni-40209462/",
-          "pubblicato": "2026-11-27T06:02:10+00:00"
+          "titolo": "Chi è Abascal, il leader di estrema destra che col Pp vuole governare la Spagna",
+          "sommario": "AGI - Santiago Abascal ha passato quasi vent'anni nel Partito popolare. Domenica si presenta per la sesta volta alla guida di Vox, il partito di estrema destra con cui può diventare decisivo per riportare il Pp alla Moncloa.",
+          "link": "https://www.agi.it/estero/news/2026-11-27/spagna-voto-chi-e-abascal-pp-40213202/",
+          "pubblicato": "2026-11-28T04:43:00+00:00"
         },
         {
-          "titolo": "La corsa della Cina alle armi nucleari e il ruolo dell'IA",
-          "sommario": "AGI - “Una guerra nucleare non può essere vinta e non dovrà mai essere combattuta”.",
-          "link": "https://www.agi.it/estero/news/2026-11-26/arsenale-armi-nucleare-cina-40206428/",
-          "pubblicato": "2026-11-26T23:52:00+00:00"
+          "titolo": "Spagna al voto: Sanchez ci riprova, tutte le sfide che ha di fronte",
+          "sommario": "AGI - Pedro Sanchez ha anticipato le elezioni dopo la bocciatura di due decreti sulla casa. Ora chiede agli spagnoli di riportarlo alla Moncloa promettendo di destinare all'accesso all'abitazione risorse pari all'1% del Pil.",
+          "link": "https://www.agi.it/estero/news/2026-11-28/spagna-elezioni-sanchez-40212979/",
+          "pubblicato": "2026-11-28T04:02:00+00:00"
         },
         {
-          "titolo": "Attacco con drone in Kuwait, morti due tecnici italiani. Tajani: \"Fabbricato in Iran\"",
-          "sommario": "AGI - Il drone utilizzato nell'attacco che ha ucciso due tecnici italiani in Kuwait è stato fabbricato in Iran.",
-          "link": "https://www.agi.it/estero/news/2026-11-26/iran-kuwait-italiani-morti-40202166/",
-          "pubblicato": "2026-11-26T22:21:03+00:00"
+          "titolo": "La Spagna al voto: da Abalos alla moglie di Sanchez, gli scandali Psoe",
+          "sommario": "AGI - Al comizio che ha aperto la campagna socialista a Siviglia ha preso la parola anche Begona Gomez. La moglie di Pedro Sanchez, in attesa di un processo con giuria popolare, ha ringraziato chi le ha espresso solidarietà e ha chiesto il voto delle donne.",
+          "link": "https://www.agi.it/estero/news/2026-11-28/spagna-scandali-psoe-sanchez-40213923/",
+          "pubblicato": "2026-11-28T02:35:00+00:00"
         },
         {
-          "titolo": "Dallo Skyguard ai Patriot, come si difende il Kuwait",
-          "sommario": "AGI - Cannoni antiaerei e missili a corto raggio per proteggere singole installazioni, Patriot per la difesa a più lunga distanza e n uovi sistemi Nasams per la fascia intermedia. La difesa aerea del Kuwait si articola su più livelli.",
-          "link": "https://www.agi.it/estero/news/2026-11-26/kuwait-iran-italiani-rheinmetall-40205321/",
-          "pubblicato": "2026-11-26T17:22:23+00:00"
+          "titolo": "Ringraziamento nel caos negli Usa: tempesta, blackout e oltre 500 voli cancellati",
+          "sommario": "AGI - Centinaia di migliaia di americani sono rimasti senza energia elettrica, in seguito a una tempesta che, nel giorno del Ringraziamento, si è abbattuta sugli Stati Uniti orientali, causando un'insolita interruzione della celebre parata di Macy's a New.",
+          "link": "https://www.agi.it/estero/news/2026-11-27/usa-blackout-giorno-ringraziamento-40216370/",
+          "pubblicato": "2026-11-27T19:04:35+00:00"
         }
       ]
     },
@@ -1164,34 +834,34 @@
       "attivo": true,
       "articoli": [
         {
-          "titolo": "A Gaza anche l’ambiente è sotto attacco",
-          "sommario": "Più del 99 per cento di Gaza è contaminato da residui tossici, che avvelenano l’acqua, il terreno e l’aria Leggi",
-          "link": "https://www.internazionale.it/notizie/francesca-gnetti/2026/11/27/a-gaza-anche-l-ambiente-e-sotto-attacco",
-          "pubblicato": "2026-11-27T04:49:01+00:00"
+          "titolo": "Il paese più felice del mondo ha qualche problema",
+          "sommario": "La Finlandia affronta fallimenti, disoccupazione e una procedura europea per deficit eccessivo. Per risanare i conti pubblici il governo ha deciso di tagliare lo stato sociale, alimentando il malcontento Leggi",
+          "link": "https://www.internazionale.it/notizie/alessandro-lubello/2026/11/28/finlandia-conti-pubblici-stato-sociale",
+          "pubblicato": "2026-11-28T04:37:01+00:00"
         },
         {
-          "titolo": "Festa del ringraziamento in famiglia",
-          "sommario": "La mia futura suocera ha ascoltato per caso le porcherie che ci diciamo quando facciamo sesso. Ne è nato un equivoco che il mio fidanzato non ha voluto chiarire Leggi",
-          "link": "https://www.internazionale.it/savagelove/dan-savage/2026/11/27/festa-del-ringraziamento-in-famiglia",
-          "pubblicato": "2026-11-27T04:16:02+00:00"
+          "titolo": "La donna che vuole fermare i robot per le consegne a domicilio",
+          "sommario": "Carolyn Marvin è diventata una sorta di celebrità a Filadelfia dopo aver deciso di dare battaglia a queste macchine, che ormai sono ovunque sui marciapiedi della città statunitense Leggi",
+          "link": "https://www.internazionale.it/notizie/arwa-mahdawi/2026/11/28/robot-consegne-domicilio",
+          "pubblicato": "2026-11-28T04:35:01+00:00"
         },
         {
-          "titolo": "I film della settimana",
-          "sommario": "Da You can see everything di Nathan Fielder e Lance Oppenheim a Radio Praga. Le onde della libertà di Jiří Mádl. Le recensioni della stampa straniera Leggi",
-          "link": "https://www.internazionale.it/redirect/2026/11/26/you-can-see-everything-fielder-oppenheim-recensioni-film",
-          "pubblicato": "2026-11-26T16:04:24+00:00"
+          "titolo": "Guardare il calcio in tv è sempre più complicato e costoso",
+          "sommario": "Il sistema dei diritti di trasmissione dei campionati più seguiti è talmente frammentato che gli appassionati devono avere vari abbonamenti contemporaneamente Leggi",
+          "link": "https://www.internazionale.it/notizie/nathan-domon/2026/11/28/guardare-il-calcio-in-tv-e-sempre-piu-complicato-e-costoso",
+          "pubblicato": "2026-11-28T04:24:03+00:00"
         },
         {
-          "titolo": "In cammino con Patti Smith e i Soundwalk Collective",
-          "sommario": "La cantante statunitense ha presentato in anteprima la sua mostra a Milano insieme al musicista Stephan Crasneanscki Leggi",
-          "link": "https://www.internazionale.it/notizie/giovanni-ansaldo/2026/11/26/patti-smith-soundwalk-collective-milano",
-          "pubblicato": "2026-11-26T12:54:52+00:00"
+          "titolo": "Come proteggere l’arte europea dall’intelligenza artificiale",
+          "sommario": "Testi, immagini, canzoni e video alimentano i modelli di ia, senza che chi li ha creati ci guadagni nulla. L’Unione sta cercando di stabilire delle regole di tutela, ma non è facile trovare un accordo. Il video di Arte Leggi",
+          "link": "https://www.internazionale.it/video/2026/11/27/arte-intelligenza-artificiale-europa",
+          "pubblicato": "2026-11-27T15:30:23+00:00"
         },
         {
-          "titolo": "Se si spengono i satelliti",
-          "sommario": "Da quando è iniziata la guerra in Iran, le immagini satellitari a disposizione dei giornali sono sempre meno e di qualità peggiore Leggi",
-          "link": "https://www.internazionale.it/notizie/donata-columbro/2026/11/26/se-si-spengono-i-satelliti-columbro",
-          "pubblicato": "2026-11-26T11:05:56+00:00"
+          "titolo": "L’inverno alle porte",
+          "sommario": "La neve è tornata a imbiancare le Alpi. Nei prossimi giorni le temperature scenderanno in tutta l’Italia Leggi",
+          "link": "https://www.internazionale.it/notizie/federico-grazzini/2026/11/27/aria-d-inverno",
+          "pubblicato": "2026-11-27T15:08:27+00:00"
         }
       ]
     },
@@ -1201,34 +871,28 @@
       "attivo": true,
       "articoli": [
         {
-          "titolo": "A più di un anno dall’imposizione delle sanzioni, gli Stati Uniti raggiungono un accordo sui beni di Lukoil",
-          "sommario": "Un consorzio guidato dal miliardario statunitense e sostenitore finanziario di Trump, Todd Boehly, ha annunciato mercoledì 25 di aver concluso un accordo con la compagnia petrolifera russa Lukoil per l’acquisizione delle sue attività energetiche.",
-          "link": "https://legrandcontinent.eu/it/2026/11/27/a-piu-di-un-anno-dallimposizione-delle-sanzioni-gli-stati-uniti-raggiungono-un-accordo-sui-beni-di-lukoil/",
-          "pubblicato": "2026-11-27T05:32:25+00:00"
+          "titolo": "Conquistare dal basso: a Taiwan, la Cina incombe sulle elezioni locali",
+          "sommario": "Oggi, sabato 28 novembre, 20 milioni di elettori taiwanesi andranno alle urne per eleggere i propri sindaci, consiglieri comunali e magistrati di contea – per un totale di circa 11.000 cariche – in occasione delle elezioni locali, che costituiscono un.",
+          "link": "https://legrandcontinent.eu/it/2026/11/28/conquistare-dal-basso-a-taiwan-la-cina-incombe-sulle-elezioni-locali/",
+          "pubblicato": "2026-11-28T05:30:00+00:00"
         },
         {
-          "titolo": "L’Ucraina ha abbattuto per la prima volta un drone a reazione con un’arma laser",
-          "sommario": "Ieri, mercoledì 25 novembre, il consigliere del presidente ucraino Zelensky, Serhii Beskrestnov, ha annunciato che un sistema di difesa antiaerea laser «Blysk» ha distrutto per la prima volta un drone russo a reazione del tipo Geran in condizioni reali.",
-          "link": "https://legrandcontinent.eu/it/2026/11/26/lucraina-ha-abbattuto-per-la-prima-volta-un-drone-a-reazione-con-unarma-laser/",
-          "pubblicato": "2026-11-26T17:11:28+00:00"
+          "titolo": "Una sconfitta di Sánchez in Spagna lascerebbe solo due leader di sinistra nel Consiglio europeo",
+          "sommario": "Secondo i sondaggi, il primo ministro spagnolo Pedro Sánchez potrebbe perdere il potere al termine delle elezioni generali del 29 novembre.",
+          "link": "https://legrandcontinent.eu/it/2026/11/27/una-sconfitta-di-sanchez-in-spagna-lascerebbe-solo-due-leader-di-sinistra-nel-consiglio-europeo/",
+          "pubblicato": "2026-11-27T20:01:00+00:00"
         },
         {
-          "titolo": "SpaceX ottiene l’autorizzazione a lanciare un milione di data center in orbita entro il 2040",
-          "sommario": "Ieri, mercoledì 25 novembre, SpaceX ha ricevuto dalla Commissione federale delle comunicazioni (FCC) l’autorizzazione a lanciare nello spazio fino a un milione di satelliti per realizzare centri dati alimentati da energia solare destinati all’intelligenza.",
-          "link": "https://legrandcontinent.eu/it/2026/11/26/spacex-ottiene-lautorizzazione-a-lanciare-un-milione-di-data-center-in-orbita-entro-il-2040/",
-          "pubblicato": "2026-11-26T11:55:27+00:00"
+          "titolo": "L’Europa sta affrontando un’ondata di casi di spionaggio russo",
+          "sommario": "Dal 21 al 27 novembre alle ore 14:00, la rivista ha registrato 32 azioni ostili rivolte contro l’Europa, verificatesi di recente o rese pubbliche negli ultimi giorni.",
+          "link": "https://legrandcontinent.eu/it/2026/11/27/leuropa-sta-affrontando-unondata-di-casi-di-spionaggio-russo/",
+          "pubblicato": "2026-11-27T13:38:02+00:00"
         },
         {
-          "titolo": "Il dilemma di Singapore",
-          "sommario": "Scopri “Il Grand Continent ”. Idee e analisi che non si troverai altrove. Ma che presto vedrai ovunque.",
-          "link": "https://legrandcontinent.eu/it/2026/11/26/il-dilemma-di-singapore/",
-          "pubblicato": "2026-11-26T11:00:00+00:00"
-        },
-        {
-          "titolo": "La legge nascosta del capitalismo",
-          "sommario": "Scopri “Il Grand Continent ”. Idee e analisi che non si troverai altrove. Ma che presto vedrai ovunque.",
-          "link": "https://legrandcontinent.eu/it/2026/11/26/la-legge-nascosta-del-capitalismo/",
-          "pubblicato": "2026-11-26T09:07:44+00:00"
+          "titolo": "Che cos’è l’altruismo efficace?",
+          "sommario": "Scopri “Il Grand Continent ”. Idee e analisi che non troverai da nessun’altra parte. Ma che presto vedrai ovunque. Nella tua casella di posta a partire da 8 euro al mese Per molte persone, l’altruismo efficace rimane un concetto nebuloso.",
+          "link": "https://legrandcontinent.eu/it/2026/11/27/che-cose-laltruismo-efficace/",
+          "pubblicato": "2026-11-27T11:08:09+00:00"
         }
       ]
     },
@@ -1238,16 +902,22 @@
       "attivo": true,
       "articoli": [
         {
-          "titolo": "Trump propone nuovi dazi e altre notizie interessanti",
-          "sommario": "La rassegna geopolitica della giornata.",
-          "link": "https://www.limesonline.com/rubriche/il-mondo-oggi/usa-dazi-trump-russia-arabia-saudita-huthi-yemen-cina-cambogia-23391783/",
-          "pubblicato": "2026-11-26T10:47:00+00:00"
+          "titolo": "Vivere per strada a Nairobi",
+          "sommario": "La migrazione verso i paesi del Golfo, le contraddizioni economiche della Silicon Savannah e la condizione femminile: prima parte di un racconto di viaggio nel Kenya delle disuguaglianze per mettere in discussione il nostro modo di guardare e raccontare.",
+          "link": "https://www.limesonline.com/articoli/kenya-nairobi-africa-orientale-migrazione-golfo-arabico-23354160/",
+          "pubblicato": "2026-11-27T12:53:00+00:00"
         },
         {
-          "titolo": "La Spagna vota per decidere il proprio posto nel mondo",
-          "sommario": "Le difficoltà politiche interne hanno provocato la crisi di Sánchez. Una sconfitta del Psoe influenzerebbe le posizioni sui dossier Mediterraneo, Ucraina, Medio Oriente e Stati Uniti.",
-          "link": "https://www.limesonline.com/articoli/elezioni-spagna-2026-possibile-svolta-politica-equilibri-mediterraneo-23374894/",
-          "pubblicato": "2026-11-26T10:14:00+00:00"
+          "titolo": "Il mondo questa settimana: Huang torna in Nvidia, La Russia valuta la Bomba nello Spazio, Cina vs Australia nelle Salomone e l'Ucraina colpisce in Libia",
+          "sommario": "Il riassunto geopolitico degli ultimi sette giorni.",
+          "link": "https://www.limesonline.com/rubriche/il-mondo-oggi/nvidia-ritorno-huang-intelligenza-artificiale-russia-arma-nucleare-spazio-satellite-antisatellite-nato-isole-salomone-austra-23409170/",
+          "pubblicato": "2026-11-27T12:52:00+00:00"
+        },
+        {
+          "titolo": "Al fronte ucraino (2026)",
+          "sommario": "La carta inedita della settimana. Un'anticipazione dal prossimo numero di Limes.",
+          "link": "https://www.limesonline.com/carte/carta-inedita-della-settimana/al-fronte-ucraino-2026-23409593/",
+          "pubblicato": "2026-11-27T12:52:00+00:00"
         }
       ]
     },
@@ -1257,10 +927,10 @@
       "attivo": true,
       "articoli": [
         {
-          "titolo": "Indonesia, la presidenza di Prabowo si costruisce un nuovo vice presidente",
-          "sommario": "Lunedì 23 novembre Prabowo Subianto è salito a Senayan con una busta per la Majelis Permusyawaratan Rakyat (MPR, Assemblea consultiva del popolo).",
-          "link": "https://geopolitica.info/indonesia-prabowo-scelta-vicepresidente-equilibri-potere/",
-          "pubblicato": "2026-11-27T06:00:00+00:00"
+          "titolo": "Il Documento Programmatico Pluriennale della Difesa per il triennio 2026-2028",
+          "sommario": "Da pochi giorni la Difesa ha reso pubblico il Documento Programmatico Pluriennale (DPP) per il triennio 2026-2028, un documento particolarmente rilevante per capire la direzione che stanno prendendo le nostre Forze armate.",
+          "link": "https://geopolitica.info/dpp-difesa-italiana-2026-2028-programmi-investimenti/",
+          "pubblicato": "2026-11-27T11:24:44+00:00"
         }
       ]
     },
@@ -1276,10 +946,16 @@
       "attivo": true,
       "articoli": [
         {
-          "titolo": "BOSNIA: Dodik incorona premier il figlio Igor, la Republika Srpska diventa un affare di famiglia",
-          "sommario": "La dinastia Dodik mantiene il controllo: Milorad affida al figlio Igor il compito di formare il nuovo esecutivo della Republika Srpska L'articolo BOSNIA: Dodik incorona premier il figlio Igor, la Republika Srpska diventa un affare di famiglia sembra essere il.",
-          "link": "https://www.eastjournal.net/archives/150001",
-          "pubblicato": "2026-11-26T12:00:28+00:00"
+          "titolo": "GRECIA: La rivolta del Politecnico 53 anni dopo, un simbolo ancora vivo",
+          "sommario": "Perché, a oltre cinquant'anni di distanza, la rivolta del Politecnico continua a dividere e a unire la Grecia? In occasione del 53esimo anniversario, un'analisi di ciò che quella memoria significa oggi per studenti, sindacati e politica.",
+          "link": "https://www.eastjournal.net/archives/149927",
+          "pubblicato": "2026-11-27T16:00:43+00:00"
+        },
+        {
+          "titolo": "Ricordare Vukovar, 35 anni dopo: il Parlamento europeo e gli studenti serbi",
+          "sommario": "Il dibattito al Parlamento europeo sull'anniversario della distruzione di Vukovar suscita le proteste da parte del Movimento degli Studenti in Serbia, che contesta una narrazione di responsabilità collettiva per l'intero popolo serbo L'articolo Ricordare.",
+          "link": "https://www.eastjournal.net/archives/149995",
+          "pubblicato": "2026-11-27T14:32:59+00:00"
         }
       ]
     },
@@ -1293,14 +969,7 @@
       "nome": "Voxeurop",
       "url": "https://voxeurop.eu/it/feed/",
       "attivo": true,
-      "articoli": [
-        {
-          "titolo": "Il trasporto pubblico europeo diventa green, ma non abbastanza in fretta",
-          "sommario": "In Europa, le città stanno intensificando gli sforzi per rendere più ecologiche le flotte dei propri mezzi di trasporto pubblico.",
-          "link": "https://voxeurop.eu/it/trasporto-pubblico-elettrico-verde-europa-dati/",
-          "pubblicato": "2026-11-26T09:40:24+00:00"
-        }
-      ]
+      "articoli": []
     },
     "https://www.theguardian.com/world/rss": {
       "nome": "The Guardian",
@@ -1308,34 +977,34 @@
       "attivo": true,
       "articoli": [
         {
-          "titolo": "Mad about mara: the DIY dance movement helping young Nigerians escape the daily grind",
-          "sommario": "What started as one artist’s response to being cut out of a music video has exploded, becoming a driving force in Nigeria’s cultural landscape As a student in the central Nigerian city of Ilorin, Lawal Habeeb Kola loved staying in his hostel room to produce.",
-          "link": "https://www.theguardian.com/world/2026/nov/27/mad-about-mara-the-diy-dance-movement-helping-young-nigerians-escape-the-daily-grind",
-          "pubblicato": "2026-11-27T06:00:56+00:00"
+          "titolo": "Victorian election 2026 live updates: polls point to Coalition win over Labor in state election results – latest news",
+          "sommario": "Follow live updates today and results tonight as Labor’s Ben Carroll and Liberal leader Jess Wilson seek victory in Victoria’s state election Victorian election 2026 guide: what you need to know Confused about who to vote for?",
+          "link": "https://www.theguardian.com/australia-news/live/2026/nov/28/victorian-election-live-results-updates-premier-ben-carroll-jess-wilson-warren-pickering-2026-victoria-polls-votes-latest-news-ntwnfb",
+          "pubblicato": "2026-11-28T05:50:00+00:00"
         },
         {
-          "titolo": "Up to 1.4m UK workers risk missing out on zero-hours shake-up, say unions",
-          "sommario": "Andy Burnham is warned against calls from bosses to water down employment rights legislation Andy Burnham is being warned that 1.4 million workers will be at risk of being stuck in insecure jobs if a forthcoming ban on zero-hours contracts is watered down.",
-          "link": "https://www.theguardian.com/uk-news/2026/nov/27/up-to-1point4-million-uk-workers-risk-missing-out-zero-hours-shake-up",
-          "pubblicato": "2026-11-27T06:00:55+00:00"
+          "titolo": "La succession: France’s wealthiest family said to be battling over who will take over LVMH",
+          "sommario": "Bernard Arnault’s children – described as ‘modern-day French royals’ – are subject of rivalry rumours over who will succeed him They are France’s richest family, leading the world’s biggest luxury goods empire, dressed in matching Dior suits – a clan so.",
+          "link": "https://www.theguardian.com/business/2026/nov/28/french-succession-bernard-arnault-lvmh",
+          "pubblicato": "2026-11-28T05:00:30+00:00"
         },
         {
-          "titolo": "Erin Patterson launches high court appeal bid over mushroom murder convictions",
-          "sommario": "Patterson, 52, seeks leave to appeal to Australia’s highest court over deaths of estranged family members after fatal beef wellington lunch Get our breaking news email, free app or daily news podcast Erin Patterson has applied to the high court seeking leave.",
-          "link": "https://www.theguardian.com/australia-news/2026/nov/27/erin-patterson-launches-high-court-appeal-over-mushroom-convictions-ntwnfb",
-          "pubblicato": "2026-11-27T05:31:38+00:00"
+          "titolo": "Yuri and I used to play football together. Then I spotted his name among Russia’s war dead",
+          "sommario": "I had no idea he had gone to fight in Ukraine and without hacked data I would probably never have learned of his death One evening, after weeks spent counting Russia’s war dead, I began looking for names I might recognise.",
+          "link": "https://www.theguardian.com/world/2026/nov/28/yuri-football-together-russia-war-dead-ukraine",
+          "pubblicato": "2026-11-28T05:00:30+00:00"
         },
         {
-          "titolo": "Alan Jones defence opens and closes in space of a few hours as indecent assault trial draws to a close",
-          "sommario": "Former broadcaster, 85, has pleaded not guilty to 21 counts of sexual touching and indecent assault Get our breaking news email, free app or daily news podcast Alan Jones’s defence in his indecent assault and sexual touching trial has lasted only a few hours.",
-          "link": "https://www.theguardian.com/australia-news/2026/nov/27/alan-jones-trial-defence-open-and-close-ntwnfb",
-          "pubblicato": "2026-11-27T05:02:40+00:00"
+          "titolo": "Australia’s east coast deluged by storms as roads flood and damaging winds forecast for NSW and Victoria",
+          "sommario": "Severe weather and flood watch warnings are in place as a storm band moves from central Queensland through NSW to Victoria and Tasmania Get our breaking news email, free app or daily news podcast The final weekend of Australia’s wettest spring on record for.",
+          "link": "https://www.theguardian.com/australia-news/2026/nov/28/australias-east-coast-deluged-by-storms-as-roads-flood-and-damaging-winds-forecast-for-nsw-and-victoria",
+          "pubblicato": "2026-11-28T02:39:28+00:00"
         },
         {
-          "titolo": "Race hate exploded in this Spanish town last year. Now its residents are bracing for more",
-          "sommario": "Torre-Pacheco’s diverse communities are fearful that the far-right Vox party will enter government after Sunday’s election Sitting on a park bench, taking in the sunny day, Naima reflected on all that had seemingly changed since she moved to Spain three.",
-          "link": "https://www.theguardian.com/world/2026/nov/27/spain-migrants-election-vox-far-right-europe",
-          "pubblicato": "2026-11-27T05:00:55+00:00"
+          "titolo": "Purse found of woman, 24, swept from California beach three weeks ago",
+          "sommario": "Se Nah Park was overwhelmed by a wave at the notorious Panther Beach The purse of a 24-year-old who was swept into the ocean at a notorious California beach three weeks ago was found on Wednesday, as the west coast saw record high king tides.",
+          "link": "https://www.theguardian.com/us-news/2026/nov/27/purse-found-woman-california-beach-wave",
+          "pubblicato": "2026-11-27T23:43:00+00:00"
         }
       ]
     },
@@ -1345,34 +1014,34 @@
       "attivo": true,
       "articoli": [
         {
-          "titolo": "India’s Pant plays for New Zealand side under false name ‘Stan Stan’",
-          "sommario": "Rishabh Pant plays for Open House Swingers in New Zealand on eve of second Test as India wicketkeeper uses false name.",
-          "link": "https://www.aljazeera.com/sports/2026/11/27/indias-pant-plays-for-new-zealand-side-under-false-name-stan-stan?traffic_source=rss",
-          "pubblicato": "2026-11-27T06:00:39+00:00"
+          "titolo": "Behind India’s IIT dream: Student suicides and gaps in support",
+          "sommario": "Rishikesh Kumar made it to IIT, but died months later in a suspected suicide, reviving questions about student support.",
+          "link": "https://www.aljazeera.com/video/newsfeed/2026/11/28/behind-indias-iit-dream-student-suicides-and-gaps-in-support?traffic_source=rss",
+          "pubblicato": "2026-11-28T04:59:50+00:00"
         },
         {
-          "titolo": "Spain’s 2026 election explained in maps and charts",
-          "sommario": "Spaniards vote on November 29 in a snap general election. Here is how the system works, the parties and the key issues.",
-          "link": "https://www.aljazeera.com/news/2026/11/27/spains-2026-election-explained-in-maps-and-charts?traffic_source=rss",
-          "pubblicato": "2026-11-27T05:57:37+00:00"
+          "titolo": "El Nino-linked deluges flood cities in Peru, Ecuador",
+          "sommario": "Heavy rains affect 2,000 families in Peru's Piura and 47,000 people in Ecuador, where 34 deaths have been reported.",
+          "link": "https://www.aljazeera.com/news/2026/11/28/el-nino-linked-deluges-flood-cities-in-peru-ecuador?traffic_source=rss",
+          "pubblicato": "2026-11-28T04:57:32+00:00"
         },
         {
-          "titolo": "Israel uses south Lebanon Christian villages to try to divide and conquer",
-          "sommario": "Israel is trying to fragment Lebanon by separating its Christian residents in south Lebanon from the rest.",
-          "link": "https://www.aljazeera.com/features/2026/11/27/israel-uses-christian-villages-in-southern-lebanon-to-divide-and-conquer?traffic_source=rss",
-          "pubblicato": "2026-11-27T05:27:18+00:00"
+          "titolo": "UN chief frontrunner urged to speak out over Albanese detention",
+          "sommario": "Albanese's detention poses a test for Costa Rica's candidate, Rebeca Grynspan, who has led the UN's recent straw poll.",
+          "link": "https://www.aljazeera.com/news/2026/11/28/un-chief-frontrunner-urged-to-speak-out-over-albanese-detention-2?traffic_source=rss",
+          "pubblicato": "2026-11-28T04:46:16+00:00"
         },
         {
-          "titolo": "New Zealand’s Opportunity Party poised to become election kingmaker",
-          "sommario": "The newly-elected Opportunity party is now in a position to swing New Zealand’s next parliament to the left or right.",
-          "link": "https://www.aljazeera.com/video/newsfeed/2026/11/27/new-zealands-opportunity-party-poised-to-become-election-kingmaker?traffic_source=rss",
-          "pubblicato": "2026-11-27T04:59:53+00:00"
+          "titolo": "‘Last local militant’: India declares victory but Kashmir’s rebels adapt",
+          "sommario": "Analysts say that shifting tactics, names and geography challenge claims of win against Kashmir's separatist movement.",
+          "link": "https://www.aljazeera.com/news/2026/11/28/last-local-militant-india-declares-victory-but-kashmirs-rebels-adapt?traffic_source=rss",
+          "pubblicato": "2026-11-28T04:30:16+00:00"
         },
         {
-          "titolo": "Estonia closing land borders with Russia to keep out spies",
-          "sommario": "Estonia is set to close its land border crossings to Russia by December 1.",
-          "link": "https://www.aljazeera.com/video/newsfeed/2026/11/27/estonia-closing-land-borders-with-russia-to-keep-out-spies?traffic_source=rss",
-          "pubblicato": "2026-11-27T04:46:15+00:00"
+          "titolo": "The split-second teamwork behind an F1 pit stop",
+          "sommario": "Al Jazeera’s Joanna Gasiorowska stepped into the pit lane to find out just how hard it is to be in a F1 pit crew.",
+          "link": "https://www.aljazeera.com/video/newsfeed/2026/11/28/the-split-second-teamwork-behind-an-f1-pit-stop?traffic_source=rss",
+          "pubblicato": "2026-11-28T04:01:24+00:00"
         }
       ]
     },
@@ -1382,28 +1051,22 @@
       "attivo": true,
       "articoli": [
         {
-          "titolo": "The Top 10 Reasons to Be Thankful in 2026",
-          "sommario": "For the first time in a long while, global politics is looking up.",
-          "link": "https://foreignpolicy.com/2026/11/26/thanksgiving-trump-thankful-list/",
-          "pubblicato": "2026-11-26T15:02:44+00:00"
+          "titolo": "Big Tech Has Undermined Democracy. Here’s How to Reverse the Trend.",
+          "sommario": "The answer begins with restoring trust among citizens at the local level.",
+          "link": "https://foreignpolicy.com/2026/11/27/big-tech-ai-democracy-erosion-public-trust-institutions-donald-trump/",
+          "pubblicato": "2026-11-27T13:00:57+00:00"
         },
         {
-          "titolo": "The Chaos Theory of International Relations",
-          "sommario": "How multialignment explains a world with no rules.",
-          "link": "https://foreignpolicy.com/2026/11/26/the-chaos-theory-of-international-relations/",
-          "pubblicato": "2026-11-26T14:00:11+00:00"
+          "titolo": "FP’s Holiday Book List",
+          "sommario": "Our columnists and staff writers recommend their top reads for the end of the year.",
+          "link": "https://foreignpolicy.com/2026/11/27/holiday-reading-list-international-book-recommendations-fiction-nonfiction-2/",
+          "pubblicato": "2026-11-27T13:00:14+00:00"
         },
         {
-          "titolo": "Europe’s Economic Sovereignty Is All Talk and Little Action",
-          "sommario": "The continent’s reliance on the United States has surged despite all promises to diversify.",
-          "link": "https://foreignpolicy.com/2026/11/26/eu-europe-economic-security-sovereignty-derisking-decoupling-dependence-united-states-china/",
-          "pubblicato": "2026-11-26T12:33:15+00:00"
-        },
-        {
-          "titolo": "Pedro Sánchez’s Big Bet",
-          "sommario": "Spain’s prime minister presided over a housing crisis. Now it might help him win reelection.",
-          "link": "https://foreignpolicy.com/2026/11/26/spain-election-housing-crisis-sanchez-feijoo/",
-          "pubblicato": "2026-11-26T11:00:29+00:00"
+          "titolo": "Latin America’s ‘Orange Wave’ Is Not Spurning China",
+          "sommario": "It makes little economic sense for Trump’s right-wing allies to cut ties with Beijing.",
+          "link": "https://foreignpolicy.com/2026/11/27/latin-america-trump-china-right-wing-economics-orange-wave/",
+          "pubblicato": "2026-11-27T11:00:22+00:00"
         }
       ]
     },
@@ -1411,14 +1074,7 @@
       "nome": "Responsible Statecraft",
       "url": "https://responsiblestatecraft.org/feed/",
       "attivo": true,
-      "articoli": [
-        {
-          "titolo": "Isolating the Taliban has become a unhelpful virtue signaling exercise",
-          "sommario": "Before traveling to Afghanistan last month, I heard plenty of warnings about the potential dangers of my trip. I’d been there before as a congressional staffer, but this was my first time back under the new leadership.",
-          "link": "https://responsiblestatecraft.org/us-recognize-the-taliban/",
-          "pubblicato": "2026-11-27T05:05:03+00:00"
-        }
-      ]
+      "articoli": []
     },
     "https://www.dropsitenews.com/feed": {
       "nome": "Drop Site News",
@@ -1432,16 +1088,34 @@
       "attivo": true,
       "articoli": [
         {
-          "titolo": "Trump’s Sinking Ship",
-          "sommario": "Dario Castillejos Dragging his party down with him. The post Trump’s Sinking Ship appeared first on The Nation.",
-          "link": "https://www.thenation.com/article/politics/trumps-sinking-ship/",
-          "pubblicato": "2026-11-26T13:30:17+00:00"
+          "titolo": "Bathtime for Elon",
+          "sommario": "Steve Brodner Pocket pals. The post Bathtime for Elon appeared first on The Nation.",
+          "link": "https://www.thenation.com/article/politics/bathtime-for-elon/",
+          "pubblicato": "2026-11-27T16:56:17+00:00"
         },
         {
-          "titolo": "FDR’s Thanksgiving Proclamations Made the Moral Case for Taming Capitalism",
-          "sommario": "John Nichols When Abdul El-Sayed attacks the “corporate capture of our politics,” he recalls Roosevelt’s rejections of “greed and selfishness and striving for undue riches.” The post FDR’s Thanksgiving Proclamations Made the Moral Case for Taming Capitalism.",
-          "link": "https://www.thenation.com/article/politics/fdr-thanksgiving-capitalism-abdul-el-sayed/",
-          "pubblicato": "2026-11-26T10:00:00+00:00"
+          "titolo": "Stephen Miller’s Reign of Terror",
+          "sommario": "Peter Kuper Chief of chaos and cruelty. The post Stephen Miller’s Reign of Terror appeared first on The Nation.",
+          "link": "https://www.thenation.com/article/politics/stephen-millers-reign-of-terror/",
+          "pubblicato": "2026-11-27T13:30:32+00:00"
+        },
+        {
+          "titolo": "Finding Freedom When Your Body Becomes State Property",
+          "sommario": "Grace Coleman When you’re incarcerated, your name is replaced by a number, your self-worth stolen by a strip search. But serving time does not grant the state permission to deny your humanity.",
+          "link": "https://www.thenation.com/article/society/finding-freedom-body-state-property/",
+          "pubblicato": "2026-11-27T10:00:00+00:00"
+        },
+        {
+          "titolo": "Scotland’s Wealthiest University Is in Crisis",
+          "sommario": "Henry Fernandez The University of Edinburgh’s £140 million cuts threaten the institution’s intellectual life and Scottish identity. Students and staff are fighting back. The post Scotland’s Wealthiest University Is in Crisis appeared first on The Nation.",
+          "link": "https://www.thenation.com/article/world/scotland-edinburgh-university-austerity-celtic-scottish-studies-strike/",
+          "pubblicato": "2026-11-27T10:00:00+00:00"
+        },
+        {
+          "titolo": "Why Abolition Is Essential to Reproductive Justice",
+          "sommario": "Regina Mahone A landmark gathering brought together activists on the inside and outside of a women’s prison fighting for reproductive justice for everyone. The post Why Abolition Is Essential to Reproductive Justice appeared first on The Nation.",
+          "link": "https://www.thenation.com/article/society/reproductive-justice-prisons-abolition/",
+          "pubblicato": "2026-11-27T10:00:00+00:00"
         }
       ]
     },
@@ -1449,7 +1123,26 @@
       "nome": "The Intercept",
       "url": "https://theintercept.com/feed/?lang=en",
       "attivo": true,
-      "articoli": []
+      "articoli": [
+        {
+          "titolo": "Israeli Forces Arrest American Human Rights Worker Mel Duncan in the West Bank",
+          "sommario": "Israeli security forces acting in concert with local settler groups stormed onto an Israeli-operated charter bus and arrested American human rights worker Mel Duncan in the occupied West Bank on Friday, threatening deportation for a longtime peace activist.",
+          "link": "https://theintercept.com/2026/11/27/mel-duncan-west-bank-arrest-israel/",
+          "pubblicato": "2026-11-28T00:29:27+00:00"
+        },
+        {
+          "titolo": "How the Gaza Encampments Unleashed the Blue Tsunami and Helped Spark a Worldwide Movement",
+          "sommario": "Contagion is real. Measles has come roaring back in the U.S. because of the rise of public health skeptics and reckless government officials — chief among them Health Secretary Robert F. Kennedy Jr.",
+          "link": "https://theintercept.com/2026/11/27/midterms-columbia-palestine-student-protests/",
+          "pubblicato": "2026-11-27T13:00:00+00:00"
+        },
+        {
+          "titolo": "The Far Right Wants to Kill Wolves Whenever and However They Please",
+          "sommario": "The reintroduction of wolves to Yellowstone National Park in the 1990s is one of the most celebrated conservation comeback stories in history, thanks to the Endangered Species Act.",
+          "link": "https://theintercept.com/2026/11/27/yellowstone-wolf-hunt-montana/",
+          "pubblicato": "2026-11-27T11:00:00+00:00"
+        }
+      ]
     },
     "https://jacobin.com/feed": {
       "nome": "Jacobin",
@@ -1457,16 +1150,28 @@
       "attivo": true,
       "articoli": [
         {
-          "titolo": "GTA VI Takes Capitalism Seriously",
-          "sommario": "In the first twenty-odd hours of playing Grand Theft Auto VI, the long-awaited latest installment in developer Rockstar’s open-world simulations of contemporary America, I chased a hovercraft with a helicopter, raced Jet Skis around a superyacht, and shot my.",
-          "link": "https://jacobin.com/2026/11/gta-vi-gaming-satire-capitalism-class",
-          "pubblicato": "2026-11-26T14:00:00+00:00"
+          "titolo": "In Europe, Too, Amazon’s Warehouses Are a Dystopia",
+          "sommario": "When you see it, it’s hard to believe that nobody, at any point from planning to installation, raised a hand to say how tone-deaf it was.",
+          "link": "https://jacobin.com/2026/11/amazon-warehouses-europe-worker-surveillance",
+          "pubblicato": "2026-11-27T22:59:34+00:00"
         },
         {
-          "titolo": "The Socialist History Behind Thanksgiving’s Most Iconic Image",
-          "sommario": "An older woman, still wearing her apron from all her work in the kitchen, brings a large turkey to a table set with cranberry sauce and fruit and full of family, friends, and neighbors, who are smiling, talking, enjoying one another’s company.",
-          "link": "https://jacobin.com/2026/11/thanksgiving-fdr-rockwell-bulosan-socialism",
-          "pubblicato": "2026-11-26T13:45:37+00:00"
+          "titolo": "Chuck Schumer’s Former Aides Now Lobby for Corporate America",
+          "sommario": "One of the quirks of Sen. Chuck Schumer’s (D-NY) bid to lead the incoming Democratic Senate majority is that delivering the change voters demanded in November would mean facing off against a small army of his own former staff.",
+          "link": "https://jacobin.com/2026/11/chuck-schumer-staffers-lobbying-revolving-door",
+          "pubblicato": "2026-11-27T22:38:41+00:00"
+        },
+        {
+          "titolo": "The Left Needs a 21st-Century Popular Front Strategy",
+          "sommario": "In 2024, the most prominent democratic socialist in the United States, Rep. Alexandria Ocasio-Cortez, took the stage at the Democratic National Convention (DNC) in support of Kamala Harris’s candidacy.",
+          "link": "https://jacobin.com/2026/11/popular-front-coalition-socialists-communists-liberals",
+          "pubblicato": "2026-11-27T14:00:00+00:00"
+        },
+        {
+          "titolo": "In Spain, the Indignados’ Parties Are Dwindling Fast",
+          "sommario": "On September 23, Maricarmen Abascal was carried on a stretcher out of her apartment in the Retiro district of Madrid, where she’d been living since 1956. She was eighty-seven, disabled, and had limited mobility.",
+          "link": "https://jacobin.com/2026/11/spain-sanchez-housing-protests-left",
+          "pubblicato": "2026-11-27T13:45:03+00:00"
         }
       ]
     },
@@ -1476,10 +1181,10 @@
       "attivo": true,
       "articoli": [
         {
-          "titolo": "Cranberries With a Side of Solar",
-          "sommario": "This story was originally published by Canary Media and is reproduced here as part of the Climate Desk collaboration. It’s cranberry season in southeastern Massachusetts.",
-          "link": "https://www.motherjones.com/environment/2026/11/cranberries-cranberry-bogs-solar-energy-agrivoltaics-farming/",
-          "pubblicato": "2026-11-26T13:00:00+00:00"
+          "titolo": "The Books We Loved Most in 2026",
+          "sommario": "By Stacy Kranitz Nonfiction More than just a photobook, Stacy Kranitz’s latest work shows her pushing further into the role of historian, offering a rich visual history of the mountainous areas of Kentucky, Ohio, Tennessee, and West Virginia—Appalachia.",
+          "link": "https://www.motherjones.com/media/2026/11/best-books-2026-michael-lewis-douglas-stewart-emma-cline-min-jin-lee-meg-wolitzer/",
+          "pubblicato": "2026-11-27T12:00:00+00:00"
         }
       ]
     },
@@ -1489,34 +1194,16 @@
       "attivo": true,
       "articoli": [
         {
-          "titolo": "How to Bat Down Your Uncle Frank’s Stupid MAGA Thanksgiving Arguments",
-          "sommario": "Well, it’s Thanksgiving again, which, in addition to all the usual excess, brings for some of you the now-decade-old tradition of having to sit there and endure your MAGA uncle bleating on about immigrants and wokery and Sleepy Joe.",
-          "link": "https://newrepublic.com/article/218383/stupid-maga-thanksgiving-arguments-come-prepared",
-          "pubblicato": "2026-11-26T11:00:00+00:00"
+          "titolo": "The U.N. Climate Talks Were a Disaster. But There’s a Silver Lining.",
+          "sommario": "“ Breakdown.” “ Collapse.” “ Failure.” Those were some of the words that media coverage used to describe last week’s COP31 U.N. climate summit in Antalya, Turkey.",
+          "link": "https://newrepublic.com/article/218367/cop31-un-climate-talks-petrostates-silver-lining",
+          "pubblicato": "2026-11-27T11:00:00+00:00"
         },
         {
-          "titolo": "Water Bear",
-          "sommario": "",
-          "link": "https://newrepublic.com/article/217990/water-bear",
-          "pubblicato": "2026-11-26T11:00:00+00:00"
-        },
-        {
-          "titolo": "They Voted to Get Rid of Flock Cameras. Now Comes the Hard Part.",
-          "sommario": "In mid-August, dozens gathered outside of Wilmington, North Carolina’s New Hanover County Courthouse to protest the more than three dozen Flock Safety Automated License Plate Reader cameras that had been installed in their communities the previous year.",
-          "link": "https://newrepublic.com/article/217929/flock-cameras-contracts-surveillance-communities-revolt",
-          "pubblicato": "2026-11-26T11:00:00+00:00"
-        },
-        {
-          "titolo": "Harry Truman, 1946",
-          "sommario": "My guess is, it’s a flower, Truman said to the living and the dead and those of us some year to come. And only for the bad guys, this test we’ll do, bombing the bungalow out of Bikini— Science! Following the same star that put Washington and Teddy R.",
-          "link": "https://newrepublic.com/article/217815/harry-truman-1946",
-          "pubblicato": "2026-11-26T11:00:00+00:00"
-        },
-        {
-          "titolo": "Could Democrats Lock Up Elon Musk? It’s Not as Crazy as It Sounds.",
-          "sommario": "Imagine, for a minute, Elon Musk.",
-          "link": "https://newrepublic.com/series/83/democrats-elon-musk-congress-contempt",
-          "pubblicato": "2026-11-26T11:00:00+00:00"
+          "titolo": "John Berger’s Radical Appreciation of Art",
+          "sommario": "Beloved prolific writers take a long time to catch up with; their legacies form slowly, through waves of collected works, citations, and reissues.",
+          "link": "https://newrepublic.com/article/217825/john-berger-radical-appreciation-art",
+          "pubblicato": "2026-11-27T11:00:00+00:00"
         }
       ]
     },
@@ -1532,10 +1219,10 @@
       "attivo": true,
       "articoli": [
         {
-          "titolo": "Cenk Uygur goes all in on Ro Khanna for 2028",
-          "sommario": "Ro Khanna hasn't launched a 2028 bid yet, but he already has a pioneer of the populist left in his corner.",
-          "link": "https://www.politico.com/news/2026/11/26/cenk-uygur-goes-all-in-on-ro-khanna-for-2028-01184321",
-          "pubblicato": "2026-11-27T00:00:00+00:00"
+          "titolo": "The nation’s cartoonists on the week in politics",
+          "sommario": "Every week political cartoonists throughout the country and across the political spectrum apply their ink-stained skills to capture the foibles, memes, hypocrisies and other head-slapping events in the world of politics.",
+          "link": "https://www.politico.com/gallery/2026/11/27/the-nations-cartoonists-on-the-week-in-politics-01184228",
+          "pubblicato": "2026-11-27T10:00:00+00:00"
         }
       ]
     },
@@ -1545,34 +1232,34 @@
       "attivo": true,
       "articoli": [
         {
-          "titolo": "Bills, Eagles and Bears pull off last-gasp wins in trio of Thanksgiving thrillers",
-          "sommario": "Bass hits from 57 yards at the gun to lift Buffalo Elliott’s 59-yarder caps Eagles’ 21-point comeback Bears take NFC North lead on Odunze’s late catch Tyler Bass hit a 57-yard field goal as time expired to give the Buffalo Bills a 13-10 victory over the.",
-          "link": "https://www.theguardian.com/sport/2026/nov/26/nfl-roundup-thanksgiving-scores-bears-lions-eagles-cowboys-chiefs-bills",
-          "pubblicato": "2026-11-27T01:50:28+00:00"
+          "titolo": "USWNT seal Women’s World Cup qualification with 8-0 win over El Salvador",
+          "sommario": "US goes up 7-0 over El Salvador by half-time Win secures spot at 2027 World Cup and 2028 Olympics The United States’ place at a Women’s World Cup is treated as a foregone conclusion, but Friday’s all-or-nothing qualifier against El Salvador gave some reason.",
+          "link": "https://www.theguardian.com/football/2026/nov/27/uswnt-el-salvador-womens-world-cup-qualifier",
+          "pubblicato": "2026-11-28T04:14:42+00:00"
         },
         {
-          "titolo": "Steelers owner backs Mike McCarthy and attacks Aaron Rodgers’s ‘insubordination’",
-          "sommario": "Art Rooney II has ‘100% confidence’ in head coach Insists QB’s outbursts could not be tolerated The Pittsburgh Steelers owner and president, Art Rooney II, has provided his full support to head coach, Mike McCarthy, in his stunning fallout with Aaron Rodgers.",
-          "link": "https://www.theguardian.com/sport/2026/nov/26/steelers-owner-gives-backing-to-mike-mccarthy-in-row-with-aaron-rodgers",
-          "pubblicato": "2026-11-26T22:04:52+00:00"
+          "titolo": "Columbus Crew eliminate Messi and Inter Miami from MLS playoffs with stoppage-time strike",
+          "sommario": "Santiago Rodríguez strikes in stoppage time to seal win Inter Miami fail to defend 2025 MLS Cup title. Messi retired internationally earlier this year Inter Miami’s quest to defend their MLS Cup title is over.",
+          "link": "https://www.theguardian.com/football/2026/nov/27/inter-miami-columbus-crew-mls-playoffs-lionel-messi",
+          "pubblicato": "2026-11-28T03:53:14+00:00"
         },
         {
-          "titolo": "Fifa staff asked to attend interviews as Infantino sell-off scheme investigated",
-          "sommario": "Democrats to examine Fifa Forward Enterprise scandal Infantino could be subpoenaed to give evidence A number of past and present Fifa employees have received letters requesting they attend interviews for a congressional investigation into the global governing.",
-          "link": "https://www.theguardian.com/football/2026/nov/26/fifa-gianni-infantino-sell-off-scheme-investigated",
-          "pubblicato": "2026-11-26T21:11:24+00:00"
+          "titolo": "Aaron Rodgers texts into Amazon broadcast to defend himself as Steelers beat Broncos",
+          "sommario": "Denver Broncos 5-27 Pittsburgh Steelers Quarterback was released after blasting own coach At the end of a chaotic week that saw Aaron Rodgers’ highly public departure from Pittsburgh thanks to a rift with head coach Mike McCarthy – a turn of events that.",
+          "link": "https://www.theguardian.com/sport/2026/nov/27/aaron-rodgers-texts-into-amazon-broadcast-to-defend-himself-as-steelers-beat-broncos",
+          "pubblicato": "2026-11-28T02:01:05+00:00"
         },
         {
-          "titolo": "Campbell Wright becomes first American to win World Cup biathlon event",
-          "sommario": "Wright delivers ‘best performance’ in Kontiolahti, Finland 24-year-old was actually born in New Zealand Campbell Wright made history on Thursday by becoming the first American to win a World Cup biathlon event.",
-          "link": "https://www.theguardian.com/sport/2026/nov/26/campbell-wright-becomes-first-american-to-win-world-cup-biathlon-event",
-          "pubblicato": "2026-11-26T20:08:36+00:00"
+          "titolo": "The explosion of extreme wealth is the major problem of our time | Bernie Sanders",
+          "sommario": "At this pivotal moment in American history, let us move forward together to take on and defeat a powerful, greedy and corrupt ruling class We are at a pivotal moment in history.",
+          "link": "https://www.theguardian.com/commentisfree/2026/nov/27/the-explosion-of-extreme-wealth-is-the-major-problem-of-our-time",
+          "pubblicato": "2026-11-27T22:10:08+00:00"
         },
         {
-          "titolo": "Can Elon Musk really put AI datacentres in space? - The Latest",
-          "sommario": "The Trump administration has approved Elon Musk’s plan to create datacentres in space. US federal regulators have authorised the launch of one million Starmind orbital satellites, which are built by Musk’s SpaceX, to process data in space.",
-          "link": "https://www.theguardian.com/news/video/2026/nov/26/can-elon-musk-really-put-ai-datacentres-in-space-the-latest",
-          "pubblicato": "2026-11-26T18:34:17+00:00"
+          "titolo": "Jerry Jones hits out at Cowboys’ ‘damning setbacks’ after latest meltdown",
+          "sommario": "Owner still backs head coach after 39-38 loss to Eagles Brian Schottenheimer has overseen record skid at home Falcons rule out five players for game at Minnesota Jerry Jones has backed Dallas Cowboys head coach Brian Schottenheimer after another meltdown in a.",
+          "link": "https://www.theguardian.com/sport/2026/nov/27/dallas-cowboys-jerry-jones-brian-schottenheimer",
+          "pubblicato": "2026-11-27T20:32:15+00:00"
         }
       ]
     },
@@ -1586,14 +1273,7 @@
       "nome": "Democracy Now",
       "url": "https://www.democracynow.org/democracynow.rss",
       "attivo": true,
-      "articoli": [
-        {
-          "titolo": "\"I'm Not Going to Give Up\": Leonard Peltier on Indigenous Rights, His Half-Century in Prison & Coming Home",
-          "sommario": "In September 2025, Democracy Now! host Amy Goodman sat down with longtime political prisoner and Indigenous activist Leonard Peltier for his first extended television and radio broadcast interview since his release to home confinement in February 2025.",
-          "link": "http://www.democracynow.org/2026/11/26/leonard_peltier_speaks_out_after_release",
-          "pubblicato": "2026-11-26T13:01:49+00:00"
-        }
-      ]
+      "articoli": []
     },
     "https://zeteo.com/feed": {
       "nome": "Zeteo",
@@ -1601,16 +1281,10 @@
       "attivo": true,
       "articoli": [
         {
-          "titolo": "Mehdi and Owen on Their Russell Brand Interviews",
-          "sommario": "Editor’s note: ‘ Two Outspoken ’ is moving exclusively to Zeteo UK going forward. If you’d like to get Zeteo UK content alongside Zeteo’s award-winning coverage, take advantage of our bundle option as a paid subscriber.",
-          "link": "https://zeteo.com/p/mehdi-and-owen-on-their-russell-brand",
-          "pubblicato": "2026-11-26T19:01:41+00:00"
-        },
-        {
-          "titolo": "5 Things You Didn’t Know About Thanksgiving",
-          "sommario": "Confetti is fired into the air at the start of the Macy’s Thanksgiving Day Parade in New York City on Nov. 28, 2024. Photo by Gary Hershorn/Getty Images You think you may know Thanksgiving: turkeys, pumpkin pies, and a nap in front of the football game on TV.",
-          "link": "https://zeteo.com/p/5-things-you-didnt-know-about-thanksgiving",
-          "pubblicato": "2026-11-26T15:01:18+00:00"
+          "titolo": "‘Wired to Steal’: How Neuroscience Can Explain Zionism and Settler Colonialism",
+          "sommario": "What does the brain tell us about settler colonialism?",
+          "link": "https://zeteo.com/p/wired-to-steal-how-neuroscience-can",
+          "pubblicato": "2026-11-27T16:03:05+00:00"
         }
       ]
     },
@@ -1626,34 +1300,22 @@
       "attivo": true,
       "articoli": [
         {
-          "titolo": "Scogliera d’Armisi, la battaglia per salvarla diventa un manifesto – INMR Sicilia 30",
-          "sommario": "#Scogliere d’Armisi Manifesto di Catania.",
-          "link": "https://www.italiachecambia.org/podcast/scogliera-darmisi-catania/",
-          "pubblicato": "2026-11-27T06:30:00+00:00"
+          "titolo": "Nel villaggio dove convivono israeliani e palestinesi si è tenuto il primo incontro internazionale dal 7 ottobre",
+          "sommario": "Si chiama Wahat al-Salam Neve Shalom ed è una comunità intenzionale che ospita famiglie ebree e palestinesi, tutte di cittadinanza israeliana, che hanno scelto di abitare e far studiare i propri figli insieme, dando vita a un modello concreto di coesistenza.",
+          "link": "https://www.italiachecambia.org/news/convivono-israeliani-palestinesi/",
+          "pubblicato": "2026-11-27T09:27:53+00:00"
+        },
+        {
+          "titolo": "Ddl Caccia, il parere che smonta la riforma – 27/11/2026",
+          "sommario": "Guardalo ora #DDLCaccia Italia che Cambia – Caccia, la Commissione Ue della Camera chiede di rivedere i tre pilastri della riforma Il Fatto Quotidiano – Ddl caccia, l’Ue boccia la riforma della destra ma il governo Meloni nasconde la lettera: “Conflitti con.",
+          "link": "https://www.italiachecambia.org/podcast/ddl-caccia-parere-smonta-riforma/",
+          "pubblicato": "2026-11-27T07:25:55+00:00"
         },
         {
           "titolo": "Dal salvare il mondo al cambiarlo: Daniel Tarozzi racconta “L’istinto della cura”",
           "sommario": "Fotosintesi, simbiosi tra microrganismi, estinzioni di massa avvenute milioni di anni fa. A prima vista sono eventi remoti, che poco possono insegnarci sulla vita di oggi. «Abbiamo ben altri problemi a cui pensare», direbbe l’uomo della strada.",
           "link": "https://www.italiachecambia.org/2026/11/daniel-tarozzi-istinto-della-cura/",
           "pubblicato": "2026-11-27T06:18:07+00:00"
-        },
-        {
-          "titolo": "Caccia, la Commissione Ue della Camera chiede di rivedere i tre pilastri della riforma",
-          "sommario": "Alla vigilia dell’ arrivo in Aula della riforma della caccia, la Commissione Politiche dell’Unione europea della Camera ha espresso sul testo un parere favorevole con osservazioni. Le osservazioni però toccano alcuni dei punti più contestati del provvedimento.",
-          "link": "https://www.italiachecambia.org/news/ddl-caccia-commissione-ue/",
-          "pubblicato": "2026-11-26T16:55:52+00:00"
-        },
-        {
-          "titolo": "“La Terra chiamò”: il 5 dicembre a Roma una piazza per il clima che da voce alle soluzioni",
-          "sommario": "Sabato 5 dicembre, dalle 12.30 al tramonto, Piazza del Popolo a Roma ospita La Terra chiamò, la manifestazione nazionale per il clima.",
-          "link": "https://www.italiachecambia.org/news/la-terra-chiamo/",
-          "pubblicato": "2026-11-26T14:23:40+00:00"
-        },
-        {
-          "titolo": "Banca Etica propone un pacchetto di strumenti finanziari per donne vittime di violenza",
-          "sommario": "Riconoscere l’autonomia economica come presupposto essenziale di libertà e protezione.",
-          "link": "https://www.italiachecambia.org/news/banca-etica-donne-violenza/",
-          "pubblicato": "2026-11-26T10:51:31+00:00"
         }
       ]
     },
